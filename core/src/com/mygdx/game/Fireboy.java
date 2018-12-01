@@ -7,7 +7,7 @@ package com.mygdx.game;
 
 /**
  *
- * @author emily
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Fireboy {
     
