@@ -81,8 +81,8 @@ public class Gem {
      * @return
      */
     public boolean collision(Character c) {
-        if (c.type.equals(typeAllowed)) {
-            return gem.overlaps(c.getBounds);
+        if (c.getType().equals(typeAllowed)) {
+            return gem.overlaps(c.getBounds());
         }
         return false;
     }

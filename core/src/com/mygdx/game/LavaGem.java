@@ -11,7 +11,7 @@ package com.mygdx.game;
  */
 public class FireGem extends Gem{
     /**
-     * initalizes firegem as subclass of gem with "fireboy" as char allowed
+     * initalizes fire gem as subclass of gem with "fireboy" as char allowed
      * @param x the x coordinate
      * @param y the y coordinate
      * @param width the width
@@ -19,6 +19,5 @@ public class FireGem extends Gem{
      */
     public FireGem(float x, float y, int width, int height) {
         super(x, y, width, height, "FireBoy");
-    }
-    
+    } 
 }

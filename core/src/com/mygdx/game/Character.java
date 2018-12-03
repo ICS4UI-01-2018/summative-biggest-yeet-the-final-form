@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -42,13 +43,13 @@ public class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public void gravity() {
-        this.y = this.y + this.velocity;
-        
-        if (this.y ) {
-            
-        }
-    }
+//    public void gravity() {
+//        this.y = this.y + this.velocity;
+//        
+//        if (this.y ) {
+//            
+//        }
+//    }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -153,5 +154,8 @@ public class Character {
      */
     public String getType() {
         return this.type;
+    }
+        public void draw (ShapeRenderer shapeBatch){
+        shapeBatch.rect(character.x, character.y, character.width,character.height); 
     }
 }
