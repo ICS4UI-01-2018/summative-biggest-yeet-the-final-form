@@ -1,6 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -9,86 +13,51 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class MyGdxGame extends ApplicationAdapter {
-
+/**
+ *
+ * @author camet2651
+ */
+public class MyGdxGame {
+    
     private SpriteBatch batch;
-    private Paddle player1;
-    private Paddle player2;
-    private Ball ball;
+    private Character player1;
     private OrthographicCamera cam;
     private ShapeRenderer shapeBatch;
     private FitViewport viewport;
     private Texture ballPic;
 
-    @Override
     public void create() {
         batch = new SpriteBatch();
         shapeBatch = new ShapeRenderer();
-        ballPic = new Texture ("ottweighinmar29.jpg");
-        cam = new OrthographicCamera(800, 600);
+        player1 = new Character("null", 250, 25);
+       cam = new OrthographicCamera(800, 600);
         viewport = new FitViewport(800,600,cam);
         viewport.apply();
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Paddle(10, 250, 25, 100, 5);
-        player2 = new Paddle(765, 250, 25, 100, 5);
-        ball = new Ball(390, 290, 20, 20, 10);
     }
 
-    @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            player1.moveUp();
+            player1.jump();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            player1.moveDown();
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player2.moveUp();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player2.moveDown();
-        }
-        if (ball.getTop() > 600 || ball.getBottom() < 0) {
-            ball.bounceY();
-        }
-        if (ball.getLeft() < 0 || ball.getRight() > 800) {
-            ball.bounceX();
-        }
-        ball.move();
-        if (ball.collidesWith(player1)){
-            ball.bounceX();
-        }else if (ball.collidesWith(player2)){
-            ball.bounceX();
-        }
-        
+            
         shapeBatch.setProjectionMatrix(cam.combined);
-        shapeBatch.begin(ShapeType.Filled);
-        shapeBatch.setColor(Color.CHARTREUSE);
+        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.SLATE);
         player1.draw(shapeBatch);
-        player2.draw(shapeBatch);        
-        shapeBatch.end();        
-        batch.setProjectionMatrix(cam.combined);
-        batch.begin();
-        batch.draw(ballPic, ball.getLeft(), ball.getBottom(),20,20);
-        batch.end();
-    
+        shapeBatch.end();          
     }
 
-    @Override
     public void dispose() {
         batch.dispose();
     }
     
-    @Override
     public void resize (int width, int height){
         viewport.update(width, height);
     }
