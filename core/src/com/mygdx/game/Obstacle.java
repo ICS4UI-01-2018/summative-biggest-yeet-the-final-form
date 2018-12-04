@@ -34,13 +34,13 @@ public class Obstacle {
     }
 
     /**
-     * 
-     * @param x
+     * check if obstacle overlaps with a character
+     * @param c
      * @return 
      */
-//    public boolean Collision(Character c) {
-//        return obstacle.overlaps(c.g);
-//    }
+    public boolean Collision(Character c) {
+        return obstacle.overlaps(c.getBounds());
+    }
 
     /**
      * checks x coordinate

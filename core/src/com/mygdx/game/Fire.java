@@ -9,54 +9,52 @@ import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
- * @author emily
+ * @author powea5594
  */
-public class Water extends Obstacle { 
-    private Rectangle water; 
+public class Fire extends Obstacle {
+    
+    private Rectangle fire; 
     
     /**
-     * initialize water data
-     * @param width width of the water
-     * @param height height of the water
+     * initialize fire data
+     * @param width width of the fire
+     * @param height height of the fire
      * @param x x coordinate
      * @param y y coordinate
      */
-    public Water (int width, int height, float x, float y){
+    public Fire (int width, int height, float x, float y){
          super (width, height, x, y);
         
     }
     
-    public boolean Collision(Fireboy f) {
-        return water.overlaps(f.());
-    }
+    
     
     /**
      * checks x coordinate
-     * @return the x coordinate of the water
+     * @return the x coordinate of the fire
      */
     @Override
     public float getX() {
-        return water.x;
+        return fire.x;
     }
 
     /**
      * checks y coordinate
-     * @return the y coordinate of the water
+     * @return the y coordinate of the fire
      */
     @Override
     public float getY() {
-        return water.y;
+        return fire.y;
     }
 
     /**
-     * checks where the water is
-     * @return the water
+     * checks where the fire is
+     * @return the fire
      */
     @Override
     public Rectangle getBounds() {
-        return water;
+        return fire;
     }
-   
     
-        
+    
 }
