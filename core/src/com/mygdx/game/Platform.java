@@ -26,8 +26,12 @@ public class Platform {
     public Platform(float x, float y, int width, int height) {
         shape = new Rectangle(x, y, width, height);
     }
-
-    //Gets the X-coordinate of the platform
+    
+    /**
+     * Gets the x-coordinate of the platform.
+     * 
+     * @return a float representing the x-coordinate of the platform.
+     */
     public float getX() {
         return this.x;
     }
