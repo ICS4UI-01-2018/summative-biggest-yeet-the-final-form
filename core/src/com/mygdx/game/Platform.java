@@ -15,21 +15,28 @@ import com.badlogic.gdx.math.Rectangle;
 public class Platform {
 
     //Creates a Rectangle that can be used to create platforms
-    private Rectangle shape;
+    private Rectangle platform;
     //Create integers for the platform to function
     private int height;
     private int width;
     private float x;
     private float y;
 
-    //Constructor for the platform
+    /**
+     * Creates a platform using the x, y, width, and height
+     *
+     * @param x an integer representing the x-coordinate of the platform
+     * @param y an integer representing the y-coordinate of the platform
+     * @param width an integer representing the width of the platform
+     * @param height an integer representing the height of the platform
+     */
     public Platform(float x, float y, int width, int height) {
-        shape = new Rectangle(x, y, width, height);
+        this.platform = new Rectangle(x, y, width, height);
     }
-    
+
     /**
      * Gets the x-coordinate of the platform.
-     * 
+     *
      * @return a float representing the x-coordinate of the platform.
      */
     public float getX() {
@@ -43,13 +50,15 @@ public class Platform {
 
     //Detects player collision with the platform
     public boolean collision(Character c) {
-        return shape.overlaps(c.getBounds());
+        while (c.getY() + c.getHeight() == platform.y) {
+            c.falling();
+        }
+        return true;
     }
 
     //Allows the platforms to be drawn onto the map
     public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(shape.x, shape.y, shape.width, shape.height);
+        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 
 }
-
