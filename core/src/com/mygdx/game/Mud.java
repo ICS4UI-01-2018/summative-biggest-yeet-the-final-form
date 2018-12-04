@@ -5,10 +5,16 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.Rectangle;
+
 /**
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Mud {
-    
+public class Mud extends Obstacle {
+
+    public Mud(int width, int height, float x, float y) {
+        super(width, height, x, y);
+    }
+
 }
