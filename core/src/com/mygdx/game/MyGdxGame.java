@@ -10,6 +10,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     SpriteBatch batch;
     Texture img;
+    private Character character;
 
     @Override
     public void create() {
