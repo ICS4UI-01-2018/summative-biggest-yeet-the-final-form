@@ -13,8 +13,26 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Mud extends Obstacle {
 
+    private Rectangle mud;
+
     public Mud(int width, int height, float x, float y) {
         super(width, height, x, y);
+    }
+
+    public float getX() {
+        return super.getX();
+    }
+
+    public float getY() {
+        return super.getY();
+    }
+
+    public Rectangle getBounds() {
+        return mud;
+    }
+
+    {
+
     }
 
 }
