@@ -31,7 +31,7 @@ public class Platform {
      * @param height an integer representing the height of the platform
      */
     public Platform(float x, float y, int width, int height) {
-        platform = new Rectangle(x, y, width, height);
+        this.platform = new Rectangle(x, y, width, height);
     }
 
     /**
@@ -50,7 +50,10 @@ public class Platform {
 
     //Detects player collision with the platform
     public boolean collision(Character c) {
-        return platform.overlaps(c.getBounds());
+        while (c.getY() + c.getHeight() == platform.y) {
+            c.falling();
+        }
+        return true;
     }
 
     //Allows the platforms to be drawn onto the map

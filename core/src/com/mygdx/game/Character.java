@@ -44,8 +44,8 @@ public class Character {
 
     public void gravity() {
         this.y = this.y + this.velocity;
-        
-        if (this.y ) {
+
+        while () {
             
         }
     }
@@ -76,7 +76,7 @@ public class Character {
 
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-        
+
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;
@@ -154,4 +154,34 @@ public class Character {
     public String getType() {
         return this.type;
     }
+
+    /**
+     * Returns the height of the character
+     *
+     * @return an integer representing the height of the character
+     */
+    public int getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Returns the width of the character
+     *
+     * @return an integer representing the width of the character
+     */
+    public int getWidth() {
+        return this.width;
+    }
+    
+    /**
+     * Returns that the character is falling
+     */
+    public void falling() {
+        if (this.isFalling) {
+            this.isFalling = false;
+        } else {
+            this.isFalling = true;
+        }
+    }
+
 }
