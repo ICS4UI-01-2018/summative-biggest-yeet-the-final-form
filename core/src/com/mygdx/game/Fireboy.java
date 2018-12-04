@@ -5,12 +5,14 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Fireboy extends Character {
-
+    
     /**
      * Creates a Fireboy using it's x and y position on the screen.
      *
@@ -21,4 +23,5 @@ public class Fireboy extends Character {
     public Fireboy(String type, float x, float y) {
         super("fireboy", x, y);
     }
+
 }

@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -182,6 +183,10 @@ public class Character {
         } else {
             this.isFalling = true;
         }
+    }
+    
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
 }

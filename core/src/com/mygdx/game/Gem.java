@@ -77,7 +77,7 @@ public class Gem {
 
     /**
      *returns whether or not the gem is being collected
-     * @param c the charachter touching it
+     * @param c the character touching it
      * @return
      */
     public boolean collision(Character c) {
