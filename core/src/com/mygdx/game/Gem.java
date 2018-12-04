@@ -82,7 +82,7 @@ public class Gem {
      */
     public boolean collision(Character c) {
         if (c.type.equals(typeAllowed)) {
-            return gem.overlaps(c.getBounds);
+            return gem.overlaps(c.getBounds());
         }
         return false;
     }

@@ -43,11 +43,11 @@ public class Character {
     }
 
     public void gravity() {
+        
+        while ()
         this.y = this.y + this.velocity;
         
-        if (this.y ) {
-            
-        }
+        
     }
 
     /**

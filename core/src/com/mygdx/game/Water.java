@@ -26,8 +26,14 @@ public class Water extends Obstacle {
         
     }
     
+    /**
+     * check if the fire boy is in the water
+     * @param f the fire boy
+     * @return if the fire boy is in the water or not
+     */
     public boolean Collision(Fireboy f) {
-        return water.overlaps(f.());
+        return water.overlaps(f.getBounds());
+      
     }
     
     /**

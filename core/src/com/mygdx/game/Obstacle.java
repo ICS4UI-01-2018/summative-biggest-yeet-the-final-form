@@ -35,8 +35,8 @@ public class Obstacle {
 
     /**
      * check if obstacle overlaps with a character
-     * @param c
-     * @return 
+     * @param c the character
+     * @return if the character is touching the obstacle
      */
     public boolean Collision(Character c) {
         return obstacle.overlaps(c.getBounds());

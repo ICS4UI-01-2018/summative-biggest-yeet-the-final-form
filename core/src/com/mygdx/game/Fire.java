@@ -27,7 +27,15 @@ public class Fire extends Obstacle {
         
     }
     
-    
+    /**
+     * check if the water girl is in the fire
+     * @param f the water girl 
+     * @return if the water girl is in the fire or not
+     */
+    public boolean Collision(Watergirl w) {
+        return fire.overlaps(w.getBounds());
+      
+    }
     
     /**
      * checks x coordinate
