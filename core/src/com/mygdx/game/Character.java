@@ -187,6 +187,10 @@ public class Character {
         }
     }
     
+    /**
+     * allows the characters to be drawn 
+     * @param shapeBatch draws characters 
+     */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
     }

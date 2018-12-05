@@ -5,10 +5,20 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Door {
+    
+    /**
+     * allows the doors to be drawn
+     * @param shapeBatch draws the doors
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(character.x, character.y, character.width, character.height);
+    }
     
 }

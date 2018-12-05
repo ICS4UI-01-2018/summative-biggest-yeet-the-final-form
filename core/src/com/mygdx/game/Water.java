@@ -62,6 +62,8 @@ public class Water extends Obstacle {
     public Rectangle getBounds() {
         return water;
     }
+    
+    
    
     
         

@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -64,6 +65,14 @@ public class Obstacle {
      */
     public Rectangle getBounds() {
         return obstacle;
+    }
+    
+    /**
+     * allows the obstacles to be drawn
+     * @param shapeBatch draws the obstacles 
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 
 }
