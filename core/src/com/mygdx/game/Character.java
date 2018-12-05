@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -40,11 +41,13 @@ public class Character {
     }
 
     public void gravity() {
-//        this.y = this.y + this.velocity;
-//        
-//        if (this.y ) {
-//            
-//        }
+        
+        while ()
+        this.y = this.y + this.velocity;
+
+        while () {
+            
+        }
     }
 
     /**
@@ -142,4 +145,38 @@ public class Character {
     public Rectangle getBounds() {
         return this.character;
     }
+
+    /**
+     * Returns the height of the character
+     *
+     * @return an integer representing the height of the character
+     */
+    public int getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Returns the width of the character
+     *
+     * @return an integer representing the width of the character
+     */
+    public int getWidth() {
+        return this.width;
+    }
+    
+    /**
+     * Returns that the character is falling
+     */
+    public void falling() {
+        if (this.isFalling) {
+            this.isFalling = false;
+        } else {
+            this.isFalling = true;
+        }
+    }
+    
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(character.x, character.y, character.width, character.height);
+    }
+
 }
