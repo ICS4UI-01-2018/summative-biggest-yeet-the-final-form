@@ -42,17 +42,16 @@ public abstract class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    /**
-     *
-     */
-    public void gravity() {
+    public void gravity(Platform p) {
+        
+        
+        this.y = this.y + this.velocity;
 
-        while () {
-            this.y = this.y + this.velocity;
+        while (this.y != p.getY()) {
+            switchFalling();
         }
-
-        while () {
-
+        if (this.isFalling){
+            this.y--;
         }
     }
 
@@ -62,9 +61,9 @@ public abstract class Character {
      */
     public void moveLeft() {
         // do not let the Character move off of the left-side of the screen
-        if (this.x > 16) {
+        if (character.x > 16) {
             // make the Character move towards the left of the screen
-            this.x = this.x - this.speed;
+            character.x = character.x - this.speed;
         }
     }
 
@@ -74,9 +73,9 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (this.x < 656) {
+        if (character.x < 656) {
             // make the Character move towards the right of the screen
-            this.x = this.x + this.speed;
+            character.x = character.x + this.speed;
         }
     }
 
@@ -177,7 +176,7 @@ public abstract class Character {
      * Sets the Character to fall if it's not falling, and to not fall if it's
      * falling.
      */
-    public void falling() {
+    public void switchFalling() {
         if (this.isFalling) {
             this.isFalling = false;
         } else {
