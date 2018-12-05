@@ -81,10 +81,10 @@ public class Gem {
      * @return
      */
     public boolean collision(Character c) {
-        if (c.type.equals(typeAllowed)) {
-            return gem.overlaps(c.getBounds());
-        }
-        return false;
+//        if (c.type.equals(typeAllowed)) {
+//            return gem.overlaps(c.getBounds());
+//        }
+    return false;
     }
 
     /**

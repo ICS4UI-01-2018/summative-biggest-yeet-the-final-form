@@ -40,13 +40,16 @@ public abstract class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public void gravity() {
+    public void gravity(Platform p) {
         
-        while ()
+        
         this.y = this.y + this.velocity;
 
-        while () {
-            
+        while (this.y != p.getY()) {
+            switchFalling();
+        }
+        if (this.isFalling){
+            this.y--;
         }
     }
 
@@ -167,7 +170,7 @@ public abstract class Character {
     /**
      * Returns that the character is falling
      */
-    public void falling() {
+    public void switchFalling() {
         if (this.isFalling) {
             this.isFalling = false;
         } else {
