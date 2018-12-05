@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates a Character to use in a game of Fireboy and Watergirl. Allows for the
+ * creation of either of Fireboy or a Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
@@ -40,13 +42,17 @@ public abstract class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
+    /**
+     *
+     */
     public void gravity() {
-        
-        while ()
-        this.y = this.y + this.velocity;
 
         while () {
-            
+            this.y = this.y + this.velocity;
+        }
+
+        while () {
+
         }
     }
 
@@ -74,6 +80,9 @@ public abstract class Character {
         }
     }
 
+    /**
+     * Allows the Character to jump.
+     */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
 
@@ -163,9 +172,10 @@ public abstract class Character {
     public float getWidth() {
         return this.width;
     }
-    
+
     /**
-     * Returns that the character is falling
+     * Sets the Character to fall if it's not falling, and to not fall if it's
+     * falling.
      */
     public void falling() {
         if (this.isFalling) {
@@ -174,7 +184,13 @@ public abstract class Character {
             this.isFalling = true;
         }
     }
-    
+
+    /**
+     * Draws the Character on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Character on the
+     * screen
+     */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
     }

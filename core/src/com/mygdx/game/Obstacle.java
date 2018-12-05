@@ -11,30 +11,35 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Obstacle {
+public abstract class Obstacle {
 
-    private Rectangle obstacle;
+    Rectangle obstacle;
     private int width;
     private int height;
     private float x;
     private float y;
 
     /**
-     * initialize obstacle data
+     * Initializes an Obstacle using it's width and height, and it's x and y
+     * coordinates on the screen.
+     *
      * @param width width of the obstacle
      * @param height height of the obstacle
      * @param x the x position of the obstacle
      * @param y the y position of the obstacle
      */
-    public Obstacle(int width, int height, float x, float y) {
-        this.width = width;
-        this.height = height;
+    public Obstacle(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
+
+        this.obstacle = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**
      * check if obstacle overlaps with a character
+     *
      * @param c the character
      * @return if the character is touching the obstacle
      */
@@ -44,6 +49,7 @@ public class Obstacle {
 
     /**
      * checks x coordinate
+     *
      * @return the x coordinate of the obstacle
      */
     public float getX() {
@@ -52,6 +58,7 @@ public class Obstacle {
 
     /**
      * checks y coordinate
+     *
      * @return the y coordinate of the obstacle
      */
     public float getY() {
@@ -60,6 +67,7 @@ public class Obstacle {
 
     /**
      * checks where the obstacle is
+     *
      * @return the obstacle
      */
     public Rectangle getBounds() {

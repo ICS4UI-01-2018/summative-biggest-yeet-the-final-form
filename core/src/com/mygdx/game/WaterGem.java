@@ -6,19 +6,32 @@
 package com.mygdx.game;
 
 /**
+ * Creates a WaterGem as a subclass of Gem to use in a game of Fireboy and
+ * Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class WaterGem extends Gem{
+public class WaterGem extends Gem {
+
     /**
-     * initalizes watergem as subclass of gem with "watergirl" as char allowed
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param width the width
-     * @param height the height
+     * Initializes WaterGem as subclass of Gem using the x and y coordinates of
+     * the WaterGem.
+     *
+     * @param x a float representing the x coordinate of the WaterGem
+     * @param y a float representing the y coordinate of the WaterGem
      */
-    public WaterGem(float x, float y, int width, int height) {
-        super(x, y, width, height, "WaterGirl");
+    public WaterGem(float x, float y) {
+        super(x, y);
     }
-    
+
+    /**
+     * Determines if the Watergirl collected the WaterGem.
+     *
+     * @param watergirl a Watergirl in the game
+     * @return a boolean representing if the Watergirl collected the WaterGem
+     */
+    public boolean collision(Watergirl watergirl) {
+        // determines whether if the Watergirl has collected the WaterGem
+        return super.gem.overlaps(watergirl.getBounds());
+    }
 }
