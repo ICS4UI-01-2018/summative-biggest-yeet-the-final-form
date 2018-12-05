@@ -59,9 +59,9 @@ public abstract class Character {
      */
     public void moveLeft() {
         // do not let the Character move off of the left-side of the screen
-        if (this.x > 16) {
+        if (character.x > 16) {
             // make the Character move towards the left of the screen
-            this.x = this.x - this.speed;
+            character.x = character.x - this.speed;
         }
     }
 
@@ -71,9 +71,9 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (this.x < 656) {
+        if (character.x < 656) {
             // make the Character move towards the right of the screen
-            this.x = this.x + this.speed;
+            character.x = character.x + this.speed;
         }
     }
 
