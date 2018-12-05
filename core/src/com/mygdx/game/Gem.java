@@ -76,18 +76,6 @@ public class Gem {
     }
 
     /**
-     *returns whether or not the gem is being collected
-     * @param c the character touching it
-     * @return
-     */
-    public boolean collision(Character c) {
-        if (c.type.equals(typeAllowed)) {
-            return gem.overlaps(c.getBounds());
-        }
-        return false;
-    }
-
-    /**
      * checks whether the gem has been collected
      *
      * @return if the gem is collected
