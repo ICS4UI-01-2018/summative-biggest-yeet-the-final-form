@@ -156,6 +156,15 @@ public class Character {
     }
 
     /**
+     * Returns the height of the character
+     *
+     * @return an integer representing the height of the character
+     */
+    public int getHeight() {
+        return this.height;
+    }
+
+    /**
      * Returns the width of the character
      *
      * @return an integer representing the width of the character
