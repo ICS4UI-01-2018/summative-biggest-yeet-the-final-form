@@ -14,9 +14,8 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Character {
 
-    private String type;
-    private int height, width, gemsCollected;
-    private float x, y, speed, velocity, gravity;
+    private int gemsCollected;
+    private float x, y, speed, velocity, gravity, height, width;
     private boolean isFalling, isDead, jump;
     private Rectangle character;
 
@@ -24,12 +23,10 @@ public class Character {
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
      *
-     * @param type a String representing if it's a Fireboy or a Watergirl
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(String type, float x, float y) {
-        type = this.type;
+    public Character(float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
@@ -150,12 +147,12 @@ public class Character {
     }
 
     /**
-     * Returns whether the Character is a Fireboy or a Watergirl.
+     * Returns the height of the character
      *
-     * @return a String representing what type of Character the Character is
+     * @return an integer representing the height of the character
      */
-    public String getType() {
-        return this.type;
+    public int getHeight() {
+        return this.height;
     }
 
     /**

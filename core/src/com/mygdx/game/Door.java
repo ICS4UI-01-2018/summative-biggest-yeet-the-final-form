@@ -6,19 +6,74 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Door {
-    
+public abstract class Door {
+
+    private int height, width;
+    private float x, y;
+    Rectangle door;
+
     /**
-     * allows the doors to be drawn
-     * @param shapeBatch draws the doors
+     * Create a Character using the Character-type allowed through the door, and
+     * the x and y position of the Door.
+     *
+     * @param x a float representing the x position of the Door
+     * @param y a float representing the y position of the Door
      */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(character.x, character.y, character.width, character.height);
+    public Door(float x, float y) {
+        this.x = x;
+        this.y = y;
+        this.width = 32;
+        this.height = 40;
+        this.door = new Rectangle(this.x, this.y, this.width, this.height);
     }
     
+    /**
+     * Returns the x position of the Door.
+     * 
+     * @return a float representing the x position of the Door 
+     */
+    public float getX() {
+        return this.x;
+    }
+    
+    /**
+     * Returns the y position of the Door.
+     * 
+     * @return a float representing the y position of the Door
+     */
+    public float getY() {
+        return this.y;
+    }
+    
+    /**
+     * Returns the Door's height.
+     * 
+     * @return an integer representing the Door's height
+     */
+    public int getHeight() {
+        return this.height;
+    }
+    
+    /**
+     * Returns the Door's width.
+     * 
+     * @return an integer representing the Door's width
+     */
+    public int getWidth() {
+        return this.width;
+    }     
+    
+    /**
+     * Draws the Door.
+     * @param shapeBatch a ShapeRenderer which will draw the Door
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(door.x, door.y, door.width, door.height);
+    }
 }
