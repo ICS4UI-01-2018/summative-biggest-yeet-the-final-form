@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Character {
+public abstract class Character {
 
     private int gemsCollected;
     private float x, y, speed, velocity, gravity, height, width;
@@ -40,15 +40,11 @@ public class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public void gravity() {
-        
-        while ()
-        this.y = this.y + this.velocity;
-
-        while () {
-            
-        }
-    }
+//    public boolean gravity() {
+//        
+//       
+//         
+//    }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -151,16 +147,7 @@ public class Character {
      *
      * @return an integer representing the height of the character
      */
-    public int getHeight() {
-        return this.height;
-    }
-
-    /**
-     * Returns the height of the character
-     *
-     * @return an integer representing the height of the character
-     */
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
     }
 
@@ -169,7 +156,7 @@ public class Character {
      *
      * @return an integer representing the width of the character
      */
-    public int getWidth() {
+    public float getWidth() {
         return this.width;
     }
     

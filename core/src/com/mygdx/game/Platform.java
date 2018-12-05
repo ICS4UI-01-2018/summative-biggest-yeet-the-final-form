@@ -21,6 +21,7 @@ public class Platform {
     private int width;
     private float x;
     private float y;
+    private boolean gravity;
 
     /**
      * Creates a platform using the x, y, width, and height
@@ -50,8 +51,8 @@ public class Platform {
 
     //Detects player collision with the platform
     public boolean collision(Character c) {
-        while (c.getY() + c.getHeight() == platform.y) {
-            c.falling();
+        while (c.getY() + c.getHeight() != platform.y) {
+         
         }
         return true;
     }
