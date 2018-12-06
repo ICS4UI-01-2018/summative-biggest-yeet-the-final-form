@@ -14,29 +14,36 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class MyGdxGame extends ApplicationAdapter {
 
     SpriteBatch batch;
+    private ShapeRenderer shapeBatch;
     Texture img;
     private Fireboy fireboy;
     private Watergirl watergirl;
+    private Platform test;
     private OrthographicCamera cam;
     private FitViewport viewport;
-    private ShapeRenderer shapeBatch;
+    
+   
+    
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         shapeBatch = new ShapeRenderer();
-
-        cam = new OrthographicCamera(672, 544);
+        
+        cam = new OrthographicCamera();
         viewport = new FitViewport(672, 544, cam);
         viewport.apply();
-
+        
+        
         cam.position.x = 336;
         cam.position.y = 272;
         cam.update();
-
-        fireboy = new Fireboy(30, 30);
-        watergirl = new Watergirl(20, 20);
-
+        
+        this.fireboy = new Fireboy(32,32);
+        this.watergirl = new Watergirl(32,112);
+        this.test = new Platform (50,10,30,24);
+        
+        
     }
 
     @Override
@@ -44,31 +51,26 @@ public class MyGdxGame extends ApplicationAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            watergirl.moveRight();
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
+            fireboy.jump();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            watergirl.moveLeft();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            watergirl.jump();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            fireboy.moveLeft();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             fireboy.moveRight();
         }
-
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            fireboy.moveLeft();
+        }
+        
+        batch.begin();
         shapeBatch.setProjectionMatrix(cam.combined);
-        shapeBatch.begin(ShapeRenderer.ShapeType.Line);
-
-        shapeBatch.setColor(Color.RED);
+        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        shapeBatch.setColor(Color.FOREST);
         fireboy.draw(shapeBatch);
-        watergirl.draw(shapeBatch);
-
+        test.draw(shapeBatch);
         shapeBatch.end();
+        batch.end();
+        batch.setProjectionMatrix(cam.combined);
         
     }
 

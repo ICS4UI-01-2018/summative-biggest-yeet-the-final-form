@@ -51,8 +51,8 @@ public class Platform {
 
     //Detects player collision with the platform
     public boolean collision(Character c) {
-        while (c.getY() + c.getHeight() != platform.y) {
-         
+        while (c.getY() + c.getHeight() == platform.y) {
+            c.switchFalling();
         }
         return true;
     }

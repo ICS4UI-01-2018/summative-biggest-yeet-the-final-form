@@ -8,61 +8,36 @@ package com.mygdx.game;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates Fire as a subclass of Obstacle to use in a game of Fireboy and
+ * Watergirl. Allows for the creation of a pool of fire which will kill a
+ * Watergirl.
  *
- * @author powea5594
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Fire extends Obstacle {
-    
-    private Rectangle fire; 
-    
+
     /**
-     * initialize fire data
-     * @param width width of the fire
-     * @param height height of the fire
-     * @param x x coordinate
-     * @param y y coordinate
+     * Initializes a Fire using it's x and y coordinates on the screen, and it's
+     * width and height.
+     *
+     * @param x a float representing the Fire's x coordinate on the screen
+     * @param y a float representing the Fire's y coordinate on the screen
+     * @param width an integer representing the width of the Fire
+     * @param height an integer representing the height of the Fire
      */
-    public Fire (int width, int height, float x, float y){
-         super (width, height, x, y);
-        
-    }
-    
-    /**
-     * check if the water girl is in the fire
-     * @param f the water girl 
-     * @return if the water girl is in the fire or not
-     */
-    public boolean Collision(Watergirl w) {
-        return fire.overlaps(w.getBounds());
-      
-    }
-    
-    /**
-     * checks x coordinate
-     * @return the x coordinate of the fire
-     */
-    @Override
-    public float getX() {
-        return fire.x;
+    public Fire(float x, float y, int width, int height) {
+        super(x, y, width, height);
     }
 
     /**
-     * checks y coordinate
-     * @return the y coordinate of the fire
+     * Determines whether if a Watergirl has fallen into the Fire.
+     *
+     * @param watergirl a Watergirl used in a game of Fireboy and Watergirl
+     * @return a boolean representing whether if the Watergirl has fallen into
+     * the Fire or not
      */
-    @Override
-    public float getY() {
-        return fire.y;
+    public boolean Collision(Watergirl watergirl) {
+        // determine whether if a Watergirl has fallen into the Fire
+        return super.obstacle.overlaps(watergirl.getBounds());
     }
-
-    /**
-     * checks where the fire is
-     * @return the fire
-     */
-    @Override
-    public Rectangle getBounds() {
-        return fire;
-    }
-    
-    
 }

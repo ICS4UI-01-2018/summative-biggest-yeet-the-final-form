@@ -22,7 +22,7 @@ public class Water extends Obstacle {
      * @param y y coordinate
      */
     public Water (int width, int height, float x, float y){
-         super (width, height, x, y);
+         super (x, y, width, height);
         
     }
     

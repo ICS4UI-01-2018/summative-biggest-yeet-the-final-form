@@ -6,8 +6,10 @@
 package com.mygdx.game;
 
 /**
+ * Creates a FireDoor as a subclass of Door to use in the Fireboy and Watergirl
+ * game.
  *
- * @author emily
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class FireDoor extends Door {
 
@@ -23,16 +25,14 @@ public class FireDoor extends Door {
     }
 
     /**
-     * Determines whether 
-     * @param fireboy
-     * @return 
+     * Determines whether the Fireboy is standing in front of the FireDoor.
+     *
+     * @param fireboy the Fireboy in the game
+     * @return a boolean representing whether if the Fireboy is standing in
+     * front of the Firedoor
      */
     public boolean collision(Fireboy fireboy) {
-        // check if the Fireboy collides with the FireDoor
-        if (super.door.overlaps(fireboy.getBounds())) {
-            return true;
-        } else {
-            return false;
-        }
+        // determines whether if a Fireboy is standing in front of the FireDoor
+        return super.door.overlaps(fireboy.getBounds());
     }
 }

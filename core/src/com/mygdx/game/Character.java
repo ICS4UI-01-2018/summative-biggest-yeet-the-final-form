@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates a Character to use in a game of Fireboy and Watergirl. Allows for the
+ * creation of either of Fireboy or a Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
@@ -40,11 +42,18 @@ public abstract class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-//    public boolean gravity() {
-//        
-//       
-//         
-//    }
+    public void gravity(Platform p) {
+        
+        
+        this.y = this.y + this.velocity;
+
+        while (this.y != p.getY()) {
+            switchFalling();
+        }
+        if (this.isFalling){
+            this.y--;
+        }
+    }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -52,9 +61,9 @@ public abstract class Character {
      */
     public void moveLeft() {
         // do not let the Character move off of the left-side of the screen
-        if (this.x > 16) {
+        if (character.x > 16) {
             // make the Character move towards the left of the screen
-            this.x = this.x - this.speed;
+            character.x = character.x - this.speed;
         }
     }
 
@@ -64,15 +73,18 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (this.x < 656) {
+        if (character.x < 656) {
             // make the Character move towards the right of the screen
-            this.x = this.x + this.speed;
+            character.x = character.x + this.speed;
         }
     }
 
+    /**
+     * Allows the Character to jump.
+     */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-
+character.y += this.velocity;
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;
@@ -159,21 +171,24 @@ public abstract class Character {
     public float getWidth() {
         return this.width;
     }
-    
+
     /**
-     * Returns that the character is falling
+     * Sets the Character to fall if it's not falling, and to not fall if it's
+     * falling.
      */
-    public void falling() {
+    public void switchFalling() {
         if (this.isFalling) {
             this.isFalling = false;
         } else {
             this.isFalling = true;
         }
     }
-    
+
     /**
-     * allows the characters to be drawn 
-     * @param shapeBatch draws characters 
+     * Draws the Character on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Character on the
+     * screen
      */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(character.x, character.y, character.width, character.height);

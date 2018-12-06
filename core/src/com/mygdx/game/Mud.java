@@ -16,7 +16,7 @@ public class Mud extends Obstacle {
     private Rectangle mud;
 
     public Mud(int width, int height, float x, float y) {
-        super(width, height, x, y);
+        super(x, y, width, height);
     }
 
     public float getX() {
