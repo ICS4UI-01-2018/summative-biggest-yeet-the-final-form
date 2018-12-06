@@ -18,22 +18,24 @@ public class MyGdxGame extends ApplicationAdapter {
     private Fireboy fireboy;
     private Watergirl watergirl;
     private Platform test;
-    private OrthographicCamera cam;
+    private OrthographicCamera camera;
     private FitViewport viewport;
+    private ShapeRenderer shapeBatch;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
         // intialize the SpriteBatch and the ShapeRenderer
-       SpriteBatch batch = new SpriteBatch();
-      ShapeRenderer shapeBatch = new ShapeRenderer();
+        batch = new SpriteBatch();
+        shapeBatch = new ShapeRenderer();
         
         // initialize the camera and the viewport
-        OrthographicCamera camera = new OrthographicCamera();
+        this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, camera);
         this.viewport.apply();
-        this.cam.position.x = 336;
-        this.cam.position.y = 272;
-        this.cam.update();
+        this.camera.position.x = 336;
+        this.camera.position.y = 272;
+        this.camera.update();
         
         // initialize the Characters
         this.fireboy = new Fireboy(32,32);
@@ -74,8 +76,8 @@ public class MyGdxGame extends ApplicationAdapter {
         }
         
         // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePositions();
-        watergirl.updatePositions();
+        fireboy.updatePostions();
+        watergirl.updatePostions();
         
         batch.begin();
         shapeBatch.setProjectionMatrix(camera.combined);

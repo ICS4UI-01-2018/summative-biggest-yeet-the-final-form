@@ -21,6 +21,11 @@ public abstract class Character {
     private boolean isFalling, isDead, jump;
     private Rectangle character;
 
+    int GRAVITY = 10;
+    int TERMINAL_VELOCITY = 300;
+    int vertical_speed = 0;
+    int vertical_position;
+
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
@@ -37,29 +42,42 @@ public abstract class Character {
         this.isDead = false;
         this.velocity = 0;
         this.gravity = 1;
-
+        this.x = x;
+        this.y = y;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     public void gravity(Platform p) {
-        while (this.y != p.getY()) {
-            switchFalling();
-        }
-        if (this.isFalling) {
-            this.y--;
-        }
-    }
+//        this.isFalling = true;
+//        while (this.y != p.getY()) {
+//            System.out.println("he");
+//            switchFalling();
+//        }
+//        if (this.isFalling) {
+//            character.y++;
+//        }
 
+this.vertical_speed = this.vertical_speed + GRAVITY;
+        if (this.vertical_speed > TERMINAL_VELOCITY)
+        {
+            this.vertical_speed = TERMINAL_VELOCITY;
+        }
+        this.vertical_position = this.vertical_position - this.vertical_speed;
+    }
+    
+public void falling (){
+    this.y -= vertical_speed;
+}
     /**
      * Allows the Character to move towards the left-side of the screen without
      * it going off of the screen.
      */
     public void moveLeft() {
         // do not let the Character move off of the left-side of the screen
-        if (character.x > 16) {
+        if (this.x > 16) {
             // make the Character move towards the left of the screen
-            character.x = character.x - this.speed;
+            this.x = this.x - this.speed;
         }
     }
 
@@ -69,9 +87,9 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (character.x < 584) {
+        if (this.x < 584) {
             // make the Character move towards the right of the screen
-            character.x = character.x + this.speed;
+            this.x = this.x + this.speed;
         }
     }
 
@@ -80,12 +98,13 @@ public abstract class Character {
      */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-character.y += this.velocity;
+        this.y += this.velocity;
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;
             this.isFalling = true;
         }
+
     }
 
     /**
@@ -195,7 +214,14 @@ character.y += this.velocity;
      * Character class.
      */
     public void updatePostions() {
-        this.x = this.character.x;
-        this.y = this.character.y;
-    }  
+        this.character.x = this.x;
+       this.character.y = this.y ;
+       
+    }
+
+    /**
+     * Returns the width of the character
+     *
+     * @return an integer representing the width of the character
+     */
 }
