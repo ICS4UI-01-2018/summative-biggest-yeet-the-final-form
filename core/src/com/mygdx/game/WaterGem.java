@@ -7,7 +7,7 @@ package com.mygdx.game;
 
 /**
  * Creates a WaterGem as a subclass of Gem to use in a game of Fireboy and
- * Watergirl.
+ * Watergirl. Only the Watergirl can collect WaterGems.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */

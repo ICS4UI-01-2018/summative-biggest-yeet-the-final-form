@@ -5,9 +5,11 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates an Obstacle to use in a game of Fireboy and Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
@@ -23,10 +25,10 @@ public abstract class Obstacle {
      * Initializes an Obstacle using it's width and height, and it's x and y
      * coordinates on the screen.
      *
-     * @param width width of the obstacle
-     * @param height height of the obstacle
-     * @param x the x position of the obstacle
-     * @param y the y position of the obstacle
+     * @param x a float representing the x position of the Obstacle
+     * @param y a float representing the y position of the Obstacle
+     * @param width an integer representing the width of the Obstacle
+     * @param height an integer representing the height of the Obstacle
      */
     public Obstacle(float x, float y, int width, int height) {
         this.x = x;
@@ -38,40 +40,68 @@ public abstract class Obstacle {
     }
 
     /**
-     * check if obstacle overlaps with a character
+     * Returns whether or not the Obstacle collides with a Character.
      *
-     * @param c the character
-     * @return if the character is touching the obstacle
+     * @param character a Character that's being played in a game of Fireboy and
+     * Watergirl
+     * @return a boolean representing whether the Obstacle has collided with a
+     * Character
      */
-    public boolean Collision(Character c) {
-        return obstacle.overlaps(c.getBounds());
+    public boolean Collision(Character character) {
+        return obstacle.overlaps(character.getBounds());
     }
 
     /**
-     * checks x coordinate
+     * Returns the x coordinate of the Obstacle.
      *
-     * @return the x coordinate of the obstacle
+     * @return a float representing the x coordinate of an Obstacle
      */
     public float getX() {
-        return obstacle.x;
+        return this.x;
     }
 
     /**
-     * checks y coordinate
+     * Returns the y coordinate of the Obstacle.
      *
-     * @return the y coordinate of the obstacle
+     * @return a float representing the y coordinate of an Obstacle
      */
     public float getY() {
-        return obstacle.y;
+        return this.y;
     }
 
     /**
-     * checks where the obstacle is
+     * Returns the Rectangle that represents the Obstacle.
      *
-     * @return the obstacle
+     * @return a Rectangle that represents the Obstacle
      */
     public Rectangle getBounds() {
         return obstacle;
     }
 
+    /**
+     * Draws the Obstacle on the screen.
+     *
+     * @param shapeBatch a ShapeRenderer which draws the Obstacle on the screen
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(obstacle.x, obstacle.height, obstacle.width, obstacle.height);
+    }
+
+    /**
+     * Returns the width of the Obstacle.
+     *
+     * @return an integer representing the width of the Obstacle
+     */
+    public int getWidth() {
+        return this.width;
+    }
+
+    /**
+     * Returns the height of the Obstacle
+     *
+     * @return an integer representing the height of the Obstacle
+     */
+    public int getHeight() {
+        return this.height;
+    }
 }

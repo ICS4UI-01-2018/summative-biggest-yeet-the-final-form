@@ -5,8 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 /**
  * Creates a Fireboy as a subclass of Character to use in a game of Fireboy and
  * Watergirl.
@@ -24,5 +22,4 @@ public class Fireboy extends Character {
     public Fireboy(float x, float y) {
         super(x, y);
     }
-
 }
