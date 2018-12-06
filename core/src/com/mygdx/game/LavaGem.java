@@ -18,6 +18,6 @@ public class FireGem extends Gem{
      * @param height the height
      */
     public FireGem(float x, float y, int width, int height) {
-        super(x, y, width, height, "FireBoy");
+        super(x, y);
     } 
 }

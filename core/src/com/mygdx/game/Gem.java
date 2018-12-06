@@ -5,95 +5,87 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates a Gem to use in a game of Fireboy and Watergirl.
  *
- * @author emily
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Gem {
+public abstract class Gem {
 
-    private float x;
-    private float y;
-    private int width;
-    private int height;
-    private String typeAllowed;
+    private float x, y;
+    private int width, height;
     private boolean collected;
-    private Rectangle gem;
+    Rectangle gem;
 
     /**
-     * Initalizes gem as a rectangle
+     * Initializes a Gem using the x and y coordinates of it on the screen.
      *
-     * @param x the x coordinate of the gem
-     * @param y the y coordinate of the gem
-     * @param width the width of the gem
-     * @param height the height of the gem
-     * @param typeAllowed the character allowed to collect the gem
+     * @param x a float representing the x coordinate of the Gem
+     * @param y a float representing the y coordinate of the Gem
      */
-    public Gem(float x, float y, int width, int height, String typeAllowed) {
+    public Gem(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        this.gem = new Rectangle(x, y, width, height);
-        this.typeAllowed = typeAllowed;
+        this.width = 16;
+        this.height = 16;
         this.collected = false;
+        this.gem = new Rectangle(x, y, this.width, this.height);
     }
 
     /**
-     * return x coordinate or gem
+     * Returns the x coordinate of the Gem.
      *
-     * @return x coordinate
+     * @return a float representing the Gem's x position on the screen
      */
     public float getX() {
         return this.x;
     }
 
     /**
-     * return y coordinate or gem
+     * Returns the y coordinate of the Gem.
      *
-     * @return y coordinate
+     * @return a float representing the Gem's y position on the screen
      */
     public float getY() {
         return this.y;
     }
 
     /**
-     * return width coordinate or gem
+     * Returns the width of the Gem.
      *
-     * @return width
+     * @return a float representing the width of the Gem.
      */
     public float getWidth() {
         return this.width;
     }
 
     /**
-     * return height of gem
-     * @return height coordinate
+     * Returns the height of the Gem.
+     *
+     * @return a float representing the height of the Gem.
      */
     public float getHeight() {
         return this.height;
     }
 
     /**
-     *returns whether or not the gem is being collected
-     * @param c the charachter touching it
-     * @return
-     */
-    public boolean collision(Character c) {
-        if (c.getType().equals(typeAllowed)) {
-            return gem.overlaps(c.getBounds());
-        }
-        return false;
-    }
-
-    /**
-     * checks whether the gem has been collected
+     * Returns whether if the Gem has been collected yet.
      *
-     * @return if the gem is collected
+     * @return a boolean representing whether if the Gem has been collected yet
      */
     public boolean isCollected() {
         return this.collected;
     }
 
+    /**
+     * Draws the Gem on the screen.
+     *
+     * @param shapeBatch a ShapeRenderer that will draw the Gem on the screen
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
+    }
 }

@@ -9,14 +9,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates a Character to use in a game of Fireboy and Watergirl. Allows for the
+ * creation of either of Fireboy or a Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Character {
+public abstract class Character {
 
-    private String type;
-    private int height, width, gemsCollected;
-    private float x, y, speed, velocity, gravity;
+    private int gemsCollected;
+    private float x, y, speed, velocity, gravity, height, width;
     private boolean isFalling, isDead, jump;
     private Rectangle character;
 
@@ -24,12 +25,10 @@ public class Character {
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
      *
-     * @param type a String representing if it's a Fireboy or a Watergirl
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(String type, float x, float y) {
-        type = this.type;
+    public Character(float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
@@ -43,13 +42,14 @@ public class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-//    public void gravity() {
-//        this.y = this.y + this.velocity;
-//        
-//        if (this.y ) {
-//            
-//        }
-//    }
+    public void gravity(Platform p) {
+        while (this.y != p.getY()) {
+            switchFalling();
+        }
+        if (this.isFalling) {
+            this.y--;
+        }
+    }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -57,9 +57,9 @@ public class Character {
      */
     public void moveLeft() {
         // do not let the Character move off of the left-side of the screen
-        if (this.x > 16) {
+        if (character.x > 16) {
             // make the Character move towards the left of the screen
-            this.x = this.x - this.speed;
+            character.x = character.x - this.speed;
         }
     }
 
@@ -69,15 +69,18 @@ public class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (this.x < 656) {
+        if (character.x < 584) {
             // make the Character move towards the right of the screen
-            this.x = this.x + this.speed;
+            character.x = character.x + this.speed;
         }
     }
 
+    /**
+     * Allows the Character to jump.
+     */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-        
+character.y += this.velocity;
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;
@@ -148,14 +151,51 @@ public class Character {
     }
 
     /**
-     * Returns whether the Character is a Fireboy or a Watergirl.
+     * Returns the height of the character
      *
-     * @return a String representing what type of Character the Character is
+     * @return an integer representing the height of the character
      */
-    public String getType() {
-        return this.type;
+    public float getHeight() {
+        return this.height;
     }
-        public void draw (ShapeRenderer shapeBatch){
-        shapeBatch.rect(character.x, character.y, character.width,character.height); 
+
+    /**
+     * Returns the width of the character
+     *
+     * @return an integer representing the width of the character
+     */
+    public float getWidth() {
+        return this.width;
     }
+
+    /**
+     * Sets the Character to fall if it's not falling, and to not fall if it's
+     * falling.
+     */
+    public void switchFalling() {
+        if (this.isFalling) {
+            this.isFalling = false;
+        } else {
+            this.isFalling = true;
+        }
+    }
+
+    /**
+     * Draws the Character on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Character on the
+     * screen
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(character.x, character.y, character.width, character.height);
+    }
+
+    /**
+     * Stores the current position of the Character on the screen into the
+     * Character class.
+     */
+    public void updatePostions() {
+        this.x = this.character.x;
+        this.y = this.character.y;
+    }  
 }
