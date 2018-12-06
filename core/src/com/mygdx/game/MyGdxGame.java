@@ -84,6 +84,7 @@ public class MyGdxGame extends ApplicationAdapter {
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.FOREST);
         fireboy.draw(shapeBatch);
+        watergirl.draw(shapeBatch);
         test.draw(shapeBatch);
         shapeBatch.end();
         batch.end();

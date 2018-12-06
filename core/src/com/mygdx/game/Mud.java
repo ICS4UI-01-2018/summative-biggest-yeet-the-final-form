@@ -13,7 +13,6 @@ package com.mygdx.game;
  */
 public class Mud extends Obstacle {
 
-    private Rectangle mud;
 
     public Mud(int width, int height, float x, float y) {
         super(x, y, width, height);
