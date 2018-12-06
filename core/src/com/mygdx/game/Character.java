@@ -37,7 +37,9 @@ public abstract class Character {
         this.isDead = false;
         this.velocity = 0;
         this.gravity = 1;
-
+        this.x = x;
+        this.y = y;
+        
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
