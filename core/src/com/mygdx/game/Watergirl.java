@@ -9,6 +9,16 @@ package com.mygdx.game;
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Watergirl {
-    
+public class Watergirl extends Character {
+
+    /**
+     * Creates a Watergirl using it's x and y position on the screen.
+     *
+     * @param type a String representing that it's a Watergirl
+     * @param x an integer representing it's x position on the screen
+     * @param y an integer representing it's y position on the screen
+     */
+    public Watergirl(String type, float x, float y) {
+        super("watergirl", x, y);
+    }
 }
