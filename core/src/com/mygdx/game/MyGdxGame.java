@@ -18,8 +18,10 @@ public class MyGdxGame extends ApplicationAdapter {
     private Fireboy fireboy;
     private Watergirl watergirl;
     private Platform test;
-    private OrthographicCamera cam;
+    private OrthographicCamera camera;
     private FitViewport viewport;
+    private ShapeRenderer shapeBatch;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
@@ -74,8 +76,8 @@ public class MyGdxGame extends ApplicationAdapter {
         }
         
         // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePositions();
-        watergirl.updatePositions();
+        fireboy.updatePostions();
+        watergirl.updatePostions();
         
         batch.begin();
         shapeBatch.setProjectionMatrix(camera.combined);
