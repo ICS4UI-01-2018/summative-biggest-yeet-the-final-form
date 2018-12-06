@@ -13,16 +13,9 @@ package com.mygdx.game;
  */
 public class Mud extends Obstacle {
 
-    /**
-     * Initializes Mud as a subclass of Obstacle using the x and y coordinates,
-     * and it's width and height.
-     *
-     * @param x a float representing the x coordinate of the Obstacle
-     * @param y a float representing the y coordinate of the Obstacle
-     * @param width an integer representing the width of the Obstacle
-     * @param height an integer representing the height of the Obstacle
-     */
-    public Mud(float x, float y, int width, int height) {
+    private Rectangle mud;
+
+    public Mud(int width, int height, float x, float y) {
         super(x, y, width, height);
     }
 

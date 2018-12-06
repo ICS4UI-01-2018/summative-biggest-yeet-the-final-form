@@ -22,8 +22,28 @@ public class Water extends Obstacle {
      * @param width an integer representing the width of the Water
      * @param height an integer representing the height of the Water
      */
-    public Water(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    public Water (int width, int height, float x, float y){
+         super (x, y, width, height);
+        
+    }
+    
+    /**
+     * check if the fire boy is in the water
+     * @param f the fire boy
+     * @return if the fire boy is in the water or not
+     */
+    public boolean Collision(Fireboy f) {
+        return water.overlaps(f.getBounds());
+      
+    }
+    
+    /**
+     * checks x coordinate
+     * @return the x coordinate of the water
+     */
+    @Override
+    public float getX() {
+        return water.x;
     }
 
     /**
