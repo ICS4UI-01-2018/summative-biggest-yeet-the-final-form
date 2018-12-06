@@ -6,8 +6,10 @@
 package com.mygdx.game;
 
 /**
+ * Creates a WaterDoor as a subclass of Door in a game of Fireboy and Watergirl.
+ * The WaterDoor allows the Watergirl access to get to the next level.
  *
- * @author emily
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class WaterDoor extends Door {
 
@@ -23,7 +25,8 @@ public class WaterDoor extends Door {
     }
 
     /**
-     * Determines whether the Watergirl is standing in front of the Waterdoor.
+     * Determines whether if the Watergirl is standing in front of the
+     * Waterdoor.
      *
      * @param watergirl a Watergirl which represents the Watergirl on the screen
      * @return a boolean representing whether the Watergirl is in front of the
@@ -31,6 +34,6 @@ public class WaterDoor extends Door {
      */
     public boolean collision(Watergirl watergirl) {
         // check if the Watergirl is standing in front of the WaterDoor
-        return super.door.overlaps(watergirl.getBounds());   
+        return super.door.overlaps(watergirl.getBounds());
     }
 }

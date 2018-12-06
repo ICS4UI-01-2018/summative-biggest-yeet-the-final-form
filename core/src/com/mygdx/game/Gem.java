@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -77,5 +78,14 @@ public abstract class Gem {
      */
     public boolean isCollected() {
         return this.collected;
+    }
+
+    /**
+     * Draws the Gem on the screen.
+     *
+     * @param shapeBatch a ShapeRenderer that will draw the Gem on the screen
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
     }
 }

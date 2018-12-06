@@ -43,14 +43,10 @@ public abstract class Character {
     }
 
     public void gravity(Platform p) {
-        
-        
-        this.y = this.y + this.velocity;
-
         while (this.y != p.getY()) {
             switchFalling();
         }
-        if (this.isFalling){
+        if (this.isFalling) {
             this.y--;
         }
     }
@@ -73,7 +69,7 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (character.x < 656) {
+        if (character.x < 584) {
             // make the Character move towards the right of the screen
             character.x = character.x + this.speed;
         }
@@ -194,4 +190,12 @@ character.y += this.velocity;
         shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
+    /**
+     * Stores the current position of the Character on the screen into the
+     * Character class.
+     */
+    public void updatePostions() {
+        this.x = this.character.x;
+        this.y = this.character.y;
+    }
 }

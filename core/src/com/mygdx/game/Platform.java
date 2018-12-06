@@ -36,30 +36,43 @@ public class Platform {
     }
 
     /**
-     * Gets the x-coordinate of the platform.
+     * Gets the x-coordinate of the Platform
      *
-     * @return a float representing the x-coordinate of the platform.
+     * @return a float representing the x-coordinate of the Platform
      */
     public float getX() {
         return this.x;
     }
 
-    //Gets the Y-coordinate of the platform
+    /**
+     * Returns the y-coordinate of the Platform
+     *
+     * @return a float representing the y-coordinate of the Platform
+     */
     public float getY() {
         return this.y;
     }
 
-    //Detects player collision with the platform
-    public boolean collision(Character c) {
-        while (c.getY() + c.getHeight() == platform.y) {
-            c.switchFalling();
+    /**
+     * Determines whether if the Character is on the Platform
+     *
+     * @param character a Character in the game
+     * @return a boolean representing whether if the Character is on the
+     * Platform
+     */
+    public boolean collision(Character character) {
+        while (character.getY() + character.getHeight() == this.y) {
+            character.switchFalling();
         }
         return true;
     }
 
-    //Allows the platforms to be drawn onto the map
+    /**
+     * Draws the Platform on the screen
+     *
+     * @param shapeBatch a ShapeRenderer that will draw the Platform on the screenF
+     */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
-
 }
