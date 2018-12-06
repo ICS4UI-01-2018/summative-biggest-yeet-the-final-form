@@ -51,6 +51,9 @@ public class MyGdxGame extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             watergirl.moveLeft();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            watergirl.jump();
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             fireboy.moveLeft();
         }
