@@ -78,13 +78,6 @@ public abstract class Obstacle {
         return obstacle;
     }
     
-    /**
-     * allows the obstacles to be drawn
-     * @param shapeBatch draws the obstacles 
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-    }
 
     /**
      * Draws the Obstacle on the screen.
@@ -101,7 +94,7 @@ public abstract class Obstacle {
      * @return an integer representing the width of the Obstacle
      */
     public int getWidth() {
-        return this.width;
+        return this.width;  
     }
 
     /**

@@ -198,4 +198,8 @@ character.y += this.velocity;
         this.x = this.character.x;
         this.y = this.character.y;
     }
+    
+    public void Move(){
+        this.x = this.x + 10;
+    }
 }

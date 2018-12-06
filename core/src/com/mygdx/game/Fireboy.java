@@ -22,4 +22,5 @@ public class Fireboy extends Character {
     public Fireboy(float x, float y) {
         super(x, y);
     }
+    
 }

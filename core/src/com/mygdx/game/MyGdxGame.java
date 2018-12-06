@@ -22,6 +22,8 @@ public class MyGdxGame extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    private Water water;
+    private Fire fire;
 
     @Override
     public void create() {
@@ -41,6 +43,10 @@ public class MyGdxGame extends ApplicationAdapter {
         this.fireboy = new Fireboy(32,32);
         this.watergirl = new Watergirl(32,112);
         this.test = new Platform (50,10,30,24);
+        
+        //initialize the obstacles
+        this.fire = new Fire (40, 40 , 50, 50);
+        this.water = new Water ( 60, 60, 60, 60);
         
         
     }
@@ -76,6 +82,10 @@ public class MyGdxGame extends ApplicationAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             watergirl.moveLeft();
         }
+        if (water.Collision(fireboy)){
+            fireboy.Move();
+        }
+       
         
         // constantly update the x and y positions of the Fireboy and the Watergirl
         fireboy.updatePostions();
@@ -86,7 +96,9 @@ public class MyGdxGame extends ApplicationAdapter {
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.FOREST);
         fireboy.draw(shapeBatch);
-        test.draw(shapeBatch);
+        watergirl.draw(shapeBatch);
+        shapeBatch.setColor(Color.BLUE);
+        water.draw(shapeBatch);
         shapeBatch.end();
         batch.end();
         batch.setProjectionMatrix(camera.combined);
