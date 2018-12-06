@@ -84,7 +84,7 @@ public abstract class Character {
      */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-
+character.y += this.velocity;
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;

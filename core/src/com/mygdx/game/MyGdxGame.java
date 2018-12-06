@@ -18,6 +18,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Texture img;
     private Fireboy fireboy;
     private Watergirl watergirl;
+    private Platform test;
     private OrthographicCamera cam;
     private FitViewport viewport;
     
@@ -40,6 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
         
         this.fireboy = new Fireboy(32,32);
         this.watergirl = new Watergirl(32,112);
+        this.test = new Platform (50,10,30,24);
         
         
     }
@@ -49,13 +51,13 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             fireboy.jump();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             fireboy.moveRight();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             fireboy.moveLeft();
         }
         
@@ -64,6 +66,7 @@ public class MyGdxGame extends ApplicationAdapter {
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.FOREST);
         fireboy.draw(shapeBatch);
+        test.draw(shapeBatch);
         shapeBatch.end();
         batch.end();
         batch.setProjectionMatrix(cam.combined);
