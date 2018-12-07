@@ -18,10 +18,10 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Character {
 
     private int gemsCollected, maxYSpeed;
-    private float x, y, speed, gravity,ySpeed, height, width;
+    private float x, y, speed, gravity, ySpeed, height, width;
     private boolean isFalling, isDead, jump, isColliding;
     private Rectangle character;
-  
+
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
@@ -48,7 +48,8 @@ public abstract class Character {
     }
 
     /**
-     * allows character to fall if not on ground
+     * Gives the Character gravity throughout the game.
+     *
      * @param p platform that will be hit (may need to be removed)
      */
     public void falling(Platform p) {//not acclerating --> fix
@@ -90,15 +91,15 @@ public abstract class Character {
     }
 
     /**
-     * Allows the Character to jump.
-     * needs to be fixed so that character returns to top of platform when done
+     * Allows the Character to jump. needs to be fixed so that character returns
+     * to top of platform when done
      */
     public void jump() {
-        if (this.isColliding){      
-        this.y += 40;
-        this.jump = true;
-        this.isFalling = true;
-        }    
+        if (this.isColliding) {
+            this.y += 40;
+            this.jump = true;
+            this.isFalling = true;
+        }
 //        // make sure the Character is on the ground before jumping
 //        if (this.isFalling) {
 //            this.ySpeed = 0;
@@ -106,7 +107,7 @@ public abstract class Character {
 //        }else{
 //            this.jump = false;
 //        }
-        
+
 //       
 //          this.ySpeed += gravity;
 //        this.y += 40;
@@ -114,9 +115,7 @@ public abstract class Character {
 //        if (this.jump && !this.isFalling) {
 //            //this.velocity = -15;
 //            this.isFalling = true;
-        
     }
-    
 
     /**
      * Returns the x position of the Character.
@@ -207,8 +206,8 @@ public abstract class Character {
         this.isFalling = b;
 
     }
-    
-    public void setCollistion (boolean b){
+
+    public void setCollistion(boolean b) {
         this.isColliding = b;
     }
 
@@ -222,13 +221,19 @@ public abstract class Character {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
- 
-        /**
-         * Stores the current position of the Character on the screen into the
-         * Character class.
-         */
+    /**
+     * Stores the current position of the Character on the screen into the
+     * Character class.
+     */
     public void updatePostions() {
         this.character.x = this.x;
         this.character.y = this.y;
+    }
+
+    /**
+     * Sets the Character to be dead.
+     */
+    public void died() {
+        this.isDead = true;
     }
 }

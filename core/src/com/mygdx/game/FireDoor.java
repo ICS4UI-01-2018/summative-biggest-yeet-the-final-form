@@ -32,7 +32,6 @@ public class FireDoor extends Door {
      * front of the Firedoor
      */
     public boolean collision(Fireboy fireboy) {
-        // determines whether if a Fireboy is standing in front of the FireDoor
         return super.door.overlaps(fireboy.getBounds());
     }
 }

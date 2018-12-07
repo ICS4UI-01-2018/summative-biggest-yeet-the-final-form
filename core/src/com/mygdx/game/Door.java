@@ -33,6 +33,7 @@ public abstract class Door {
         this.y = y;
         this.width = 32;
         this.height = 40;
+        
         this.door = new Rectangle(this.x, this.y, this.width, this.height);
     }
 

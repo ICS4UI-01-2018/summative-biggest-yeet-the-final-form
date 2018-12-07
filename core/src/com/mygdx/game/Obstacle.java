@@ -47,8 +47,8 @@ public abstract class Obstacle {
      * @return a boolean representing whether the Obstacle has collided with a
      * Character
      */
-    public boolean Collision(Character character) {
-        return obstacle.overlaps(character.getBounds());
+    public boolean collision(Character character) {
+        return this.obstacle.overlaps(character.getBounds());
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class Obstacle {
      * @param shapeBatch a ShapeRenderer which draws the Obstacle on the screen
      */
     public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(obstacle.x, obstacle.height, obstacle.width, obstacle.height);
+        shapeBatch.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 
     /**
