@@ -84,7 +84,7 @@ public abstract class Obstacle {
      * @param shapeBatch a ShapeRenderer which draws the Obstacle on the screen
      */
     public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(obstacle.x, obstacle.height, obstacle.width, obstacle.height);
+        shapeBatch.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 
     /**
