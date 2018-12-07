@@ -119,12 +119,9 @@ public class MyGdxGame extends ApplicationAdapter {
         // constantly update the x and y positions of the Fireboy and the Watergirl
         fireboy.updatePostions();
         watergirl.updatePostions();
-        for (int i = 0; i < platforms.length; i++) {
-            this.platforms[i].collision(fireboy);
-            fireboy.falling(this.platforms[i]);
-        }
         
-        
+          this.platforms[0].collision(fireboy);
+        fireboy.falling(this.platforms[0]);
         this.platforms[0].collision(watergirl);
         watergirl.falling(this.platforms[0]);
         // Fireboy keyboard listeners
