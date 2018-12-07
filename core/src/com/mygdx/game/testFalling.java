@@ -70,11 +70,8 @@ Platform[] z;
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //need to find a way to check if landed after each 'fall' 
-      
-                                           current.collision(fireboy);
-            fireboy.falling(current);
-
-        
+        current.collision(fireboy);
+        fireboy.falling(current);
         // Fireboy keyboard listeners
         // make the Fireboy jump      
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {

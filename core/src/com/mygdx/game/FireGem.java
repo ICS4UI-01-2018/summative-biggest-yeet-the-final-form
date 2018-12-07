@@ -17,7 +17,18 @@ public class FireGem extends Gem{
      * @param width the width
      * @param height the height
      */
-    public FireGem(float x, float y, int width, int height) {
+    public FireGem(float x, float y) {
         super(x, y);
-    } 
+    }
+
+    /**
+     * Determines whether a Fireboy has collected the FireGem.
+     *
+     * @param fireboy a Fireboy used in a game of Fireboy and Watergirl
+     * @return a boolean representing whether if a Fireboy has collected a
+     * FireGem yet
+     */
+    public boolean collision(Fireboy fireboy) {
+        return super.gem.overlaps(fireboy.getBounds());
+    }
 }

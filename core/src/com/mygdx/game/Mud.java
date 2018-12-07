@@ -15,10 +15,6 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Mud extends Obstacle {
 
-    public Mud(int width, int height, float x, float y) {
-        super(x, y, width, height);
-    }
-
     /**
      * Initializes Mud as a subclass of Obstacle using the Mud's x and y
      * coordinates, and it's width and height.
