@@ -64,7 +64,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Fireboy keyboard listeners
@@ -82,17 +82,17 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         // Watergirl keyboard listeners
-        // make the Watergirl jump
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            watergirl.jump();
+        // make the Watergirl move left
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            watergirl.moveLeft();
         }
         // make the Watergirl move right
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             watergirl.moveRight();
         }
-        // make the Waterfirl move left
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            watergirl.moveLeft();
+        // make the Watergirl jump
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            watergirl.jump();
         }
 
         // constantly update the x and y positions of the Fireboy and the Watergirl
@@ -144,5 +144,16 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+    }
+
+    /**
+     * Resizes the screen so that the game doesn't look distorted.
+     *
+     * @param width an integer representing the width of the original screen
+     * @param height an integer representing the height of the original screen
+     */
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 }
