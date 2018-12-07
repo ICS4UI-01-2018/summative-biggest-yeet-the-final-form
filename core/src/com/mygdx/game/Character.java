@@ -84,7 +84,7 @@ public abstract class Character {
      */
     public void moveRight() {
         // do not let the Character move off of the right-side of the screen
-        if (this.x < 584) {
+        if (this.x < 632) {
             // make the Character move towards the right of the screen
             this.x = this.x + this.speed;
         }
