@@ -200,4 +200,11 @@ character.y += this.velocity;
         this.x = this.character.x;
         this.y = this.character.y;
     }
+    
+    /**
+     * Sets the Character to be dead.
+     */
+    public void died() {
+        this.isDead = true;
+    }
 }

@@ -24,6 +24,10 @@ public class MyGdxGame extends ApplicationAdapter {
     private Fire fire;
     private Mud mud;
 
+    // arrays to store all of the Gems
+    private FireGem[] fireGems;
+    private WaterGem[] waterGems;
+
     private OrthographicCamera camera;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
@@ -35,9 +39,6 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeBatch = new ShapeRenderer();
 
-        // initialize the Platform array
-        this.platforms = new Platform[31];
-
         // initialize the camera and the viewport
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, camera);
@@ -46,11 +47,8 @@ public class MyGdxGame extends ApplicationAdapter {
         this.camera.position.y = 272;
         this.camera.update();
 
-        // initialize the Characters
-        this.fireboy = new Fireboy(32, 32);
-        this.watergirl = new Watergirl(32, 112);
-
         // initialize the Platforms
+        this.platforms = new Platform[31];
         this.platforms[0] = new Platform(0, 0, 336, 32);
         this.platforms[1] = new Platform(0, 32, 16, 512);
         this.platforms[2] = new Platform(336, 0, 64, 16);
@@ -76,20 +74,43 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[22] = new Platform(336, 336, 144, 64);
         this.platforms[23] = new Platform(480, 320, 32, 48);
         this.platforms[24] = new Platform(512, 320, 64, 32);
-
+        this.platforms[25] = new Platform(272, 432, 384, 32);
+        this.platforms[26] = new Platform(464, 464, 64, 16);
+        this.platforms[27] = new Platform(176, 400, 96, 64);
+        this.platforms[28] = new Platform(128, 448, 48, 16);
         this.platforms[29] = new Platform(16, 528, 640, 16);
         this.platforms[30] = new Platform(288, 512, 96, 32);
+
+        // initialize the Characters
+        this.fireboy = new Fireboy(32, 32);
+        this.watergirl = new Watergirl(32, 112);
 
         // create the Obstacles
         this.fire = new Fire(336, 16, 64, 16);
         this.water = new Water(432, 16, 64, 16);
         this.mud = new Mud(416, 160, 64, 16);
+
+        // initialize the Gems
+        this.fireGems = new FireGem[4];
+        this.fireGems[0] = new FireGem(360, 64);
+        this.fireGems[1] = new FireGem(112, 304);
+        this.fireGems[2] = new FireGem(144, 480);
+        this.fireGems[3] = new FireGem(304, 480);
+        this.waterGems = new WaterGem[4];
+        this.waterGems[0] = new WaterGem(440, 64);
+        this.waterGems[1] = new WaterGem(352, 272);
+        this.waterGems[2] = new WaterGem(32, 432);
+        this.waterGems[3] = new WaterGem(352, 480);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // constantly update the x and y positions of the Fireboy and the Watergirl
+        fireboy.updatePostions();
+        watergirl.updatePostions();
 
         // Fireboy keyboard listeners
         // make the Fireboy move left
@@ -119,35 +140,64 @@ public class MyGdxGame extends ApplicationAdapter {
             watergirl.jump();
         }
 
-        // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePostions();
-        watergirl.updatePostions();
+        // allow the Fireboy to collect the FireGems
+        for (int i = 0; i < this.fireGems.length; i++) {
+            // determine if the Fireboy has collected the FireGem
+            if (this.fireGems[i].collision(this.fireboy)) {
+                // don't draw the FireGem on the screen
+                this.fireGems[i].collected();
+                // add to the Fireboy's FireGem count
+                this.fireboy.addGem();
+            }
+        }
+
+        // allow the Watergirl to collect the WaterGems
+        for (int i = 0; i < this.waterGems.length; i++) {
+            // determine if the Watergirl has collected the WaterGem
+            if (waterGems[i].collision(this.watergirl)) {
+                // don't draw the WaterGem on the screen
+                this.waterGems[i].collected();
+                // add to the Watergirl's WaterGem count
+                this.watergirl.addGem();
+            }
+        }
+
+        // allow the Fireboy to die when it comes into contact with Mud or Water
+        if (this.mud.collision(this.fireboy) || this.mud.collision(this.fireboy)) {
+            // set the Fireboy to be dead
+            this.fireboy.died();
+        }
+
+        // allow the Watergirl to die when it comes into contact with Mud or Fire
+        if (this.mud.collision(this.watergirl) || this.mud.collision(this.watergirl)) {
+            // set the Watergirl to be dead
+            this.watergirl.died();
+        }
 
         // start drawing
         batch.begin();
         shapeBatch.setProjectionMatrix(camera.combined);
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
-        // change background colour
+        // set the background colour to be black
         shapeBatch.setColor(Color.BLACK);
         shapeBatch.rect(0, 0, 672, 544);
 
-        // draw the Fireboy
-        shapeBatch.setColor(Color.RED);
-        fireboy.draw(shapeBatch);
-
-        // draw the Watergirl
-        shapeBatch.setColor(Color.BLUE);
-        watergirl.draw(shapeBatch);
-
         // draw the Platforms
         shapeBatch.setColor(Color.WHITE);
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < this.platforms.length; i++) {
             platforms[i].draw(shapeBatch);
         }
 
-        platforms[29].draw(shapeBatch);
-        platforms[30].draw(shapeBatch);
+        // draw the Characters if they aren't dead yet
+        shapeBatch.setColor(Color.RED);
+        if (!fireboy.isDead()) {
+            fireboy.draw(shapeBatch);
+        }
+        shapeBatch.setColor(Color.BLUE);
+        if (!watergirl.isDead()) {
+            watergirl.draw(shapeBatch);
+        }
 
         // draw the Obstacles
         shapeBatch.setColor(Color.MAGENTA);
@@ -156,6 +206,22 @@ public class MyGdxGame extends ApplicationAdapter {
         water.draw(shapeBatch);
         shapeBatch.setColor(Color.FOREST);
         mud.draw(shapeBatch);
+
+        // draw the Gems
+        shapeBatch.setColor(Color.RED);
+        for (int i = 0; i < this.fireGems.length; i++) {
+            // only draw the FireGem if it hasn't been collected by the Fireboy yet
+            if (!fireGems[i].isCollected()) {
+                fireGems[i].draw(shapeBatch);
+            }
+        }
+        shapeBatch.setColor(Color.BLUE);
+        for (int i = 0; i < this.waterGems.length; i++) {
+            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
+            if (!waterGems[i].isCollected()) {
+                waterGems[i].draw(shapeBatch);
+            }
+        }
 
         // end drawing
         shapeBatch.end();

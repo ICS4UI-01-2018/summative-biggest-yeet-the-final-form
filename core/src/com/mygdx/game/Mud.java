@@ -25,16 +25,4 @@ public class Mud extends Obstacle {
     public Mud(float x, float y, int width, int height) {
         super(x, y, width, height);
     }
-
-    /**
-     * Determines whether if a Character falls into the mud.
-     *
-     * @param character a Character being played in the game
-     * @return a boolean representing whether if a Character has fallen into the
-     * mud
-     */
-    public boolean collision(Character character) {
-        // determines if a Character has fallen into the Mud
-        return super.obstacle.overlaps(character.getBounds());
-    }
 }

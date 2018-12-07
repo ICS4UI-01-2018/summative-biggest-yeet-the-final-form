@@ -88,4 +88,8 @@ public abstract class Gem {
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
     }
+    
+    public void collected() {
+        this.collected = true;
+    }
 }

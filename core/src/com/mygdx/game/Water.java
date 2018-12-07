@@ -33,7 +33,7 @@ public class Water extends Obstacle {
      * @return a boolean representing whether if the Fireboy has touched the
      * Water or not
      */
-    public boolean Collision(Fireboy fireboy) {
+    public boolean collision(Fireboy fireboy) {
         // determines if Fireboy has fallen into the Water
         return super.obstacle.overlaps(fireboy.getBounds());
     }
