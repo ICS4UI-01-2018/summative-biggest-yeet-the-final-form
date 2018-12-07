@@ -119,7 +119,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // constantly update the x and y positions of the Fireboy and the Watergirl
         fireboy.updatePostions();
         watergirl.updatePostions();
-          this.platforms[0].collision(fireboy);
+        this.platforms[0].collision(fireboy);
         fireboy.falling(this.platforms[0]);
         // Fireboy keyboard listeners
         // make the Fireboy move left
@@ -184,45 +184,45 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         // start drawing
-        batch.begin();
-        shapeBatch.setProjectionMatrix(camera.combined);
-        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        this.batch.begin();
+        this.shapeBatch.setProjectionMatrix(this.camera.combined);
+        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
         // set the background colour to be black
-        shapeBatch.setColor(Color.BLACK);
-        shapeBatch.rect(0, 0, 672, 544);
+        this.shapeBatch.setColor(Color.BLACK);
+        this.shapeBatch.rect(0, 0, 672, 544);
 
         // draw the Platforms
-        shapeBatch.setColor(Color.WHITE);
-        for (int i = 0; i < this.platforms.length; i++) {
-            platforms[i].draw(shapeBatch);
+        this.shapeBatch.setColor(Color.WHITE);
+        for (Platform platform : this.platforms) {
+            platform.draw(this.shapeBatch);
         }
 
         // draw the Characters if they aren't dead yet
-        shapeBatch.setColor(Color.RED);
+        this.shapeBatch.setColor(Color.RED);
         if (!fireboy.isDead()) {
-            fireboy.draw(shapeBatch);
+            fireboy.draw(this.shapeBatch);
         }
-        shapeBatch.setColor(Color.BLUE);
+        this.shapeBatch.setColor(Color.BLUE);
         if (!watergirl.isDead()) {
-            watergirl.draw(shapeBatch);
+            watergirl.draw(this.shapeBatch);
         }
 
         // draw the Obstacles
-        shapeBatch.setColor(Color.MAGENTA);
+        this.shapeBatch.setColor(Color.MAGENTA);
         fire.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        water.draw(shapeBatch);
-        shapeBatch.setColor(Color.FOREST);
-        mud.draw(shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.water.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.FOREST);
+        this.mud.draw(this.shapeBatch);
 
         // draw the Gems
-        shapeBatch.setColor(Color.RED);
+        this.shapeBatch.setColor(Color.RED);
         for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by the Fireboy yet
             if (fireGem.isCollected()) {
             } else {
-                fireGem.draw(shapeBatch);
+                fireGem.draw(this.shapeBatch);
             }
         }
         shapeBatch.setColor(Color.BLUE);
