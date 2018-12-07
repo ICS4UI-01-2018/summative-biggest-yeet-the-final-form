@@ -29,7 +29,11 @@ public class Platform {
      * @param height an integer representing the height of the platform
      */
     public Platform(float x, float y, int width, int height) {
-        this.platform = new Rectangle(x, y, width, height);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.platform = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**
@@ -57,11 +61,32 @@ public class Platform {
      * @return a boolean representing whether if the Character is on the
      * Platform
      */
-    public boolean collision(Character character) {
-        while (character.getY() + character.getHeight() == this.y) {
-            character.switchFalling();
+//    public void collision(Character character) {
+//        if (character.getY() - character.getHeight() > platform.y  ) {
+//          character.switchFalling();
+//        }else{ 
+//            character.switchFalling();         
+//        }
+//    }
+    
+    // collision detecting needs fixing
+       public boolean collision(Character character) {
+        if (character.getBounds().overlaps(this.getBounds())) {
+                  character.setFalling(false);
+                  character.setCollistion(true);
+                  return true;
+        }else{ 
+            character.setFalling(true);    
+                              character.setCollistion(false);
+
+                              return false;
+
         }
-        return true;
+    }
+       
+    
+       public Rectangle getBounds() {
+        return this.platform;
     }
 
     /**
