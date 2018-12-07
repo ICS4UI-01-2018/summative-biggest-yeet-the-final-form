@@ -102,8 +102,8 @@ public class MyGdxGame extends ApplicationAdapter {
         this.fireGems[3] = new FireGem(304, 480);
         this.waterGems = new WaterGem[4];
         this.waterGems[0] = new WaterGem(440, 64);
-        this.waterGems[1] = new WaterGem(352, 272);
-        this.waterGems[2] = new WaterGem(32, 432);
+        this.waterGems[1] = new WaterGem(352, 288);
+        this.waterGems[2] = new WaterGem(32, 448);
         this.waterGems[3] = new WaterGem(352, 480);
 
         // initialize the Doors
@@ -217,10 +217,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Gems
         shapeBatch.setColor(Color.RED);
-        for (int i = 0; i < this.fireGems.length; i++) {
+        for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by the Fireboy yet
-            if (!fireGems[i].isCollected()) {
-                fireGems[i].draw(shapeBatch);
+            if (fireGem.isCollected()) {
+            } else {
+                fireGem.draw(shapeBatch);
             }
         }
         shapeBatch.setColor(Color.BLUE);
