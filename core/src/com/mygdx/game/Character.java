@@ -39,13 +39,18 @@ public abstract class Character {
         this.gravity = 1;
         this.x = x;
         this.y = y;
-        
+
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public void gravity(Platform p) {
-        while (this.y != p.getY()) {
+    /**
+     * Gives the Character gravity throughout the game.
+     *
+     * @param platform a Platform in the game
+     */
+    public void gravity(Platform platform) {
+        while (this.y != platform.getY()) {
             switchFalling();
         }
         if (this.isFalling) {
@@ -82,7 +87,7 @@ public abstract class Character {
      */
     public void jump() {
         this.velocity = this.velocity + this.gravity;
-character.y += this.velocity;
+        character.y += this.velocity;
         // make sure the Character is on the ground before jumping
         if (this.jump && !this.isFalling) {
             this.velocity = -15;
@@ -200,7 +205,7 @@ character.y += this.velocity;
         this.x = this.character.x;
         this.y = this.character.y;
     }
-    
+
     /**
      * Sets the Character to be dead.
      */

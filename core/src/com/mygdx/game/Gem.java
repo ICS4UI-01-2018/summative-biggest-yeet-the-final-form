@@ -89,6 +89,9 @@ public abstract class Gem {
         shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
     }
     
+    /**
+     * Sets the Gem to be collected.
+     */
     public void collected() {
         this.collected = true;
     }

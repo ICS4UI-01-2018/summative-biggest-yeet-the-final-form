@@ -28,6 +28,10 @@ public class MyGdxGame extends ApplicationAdapter {
     private FireGem[] fireGems;
     private WaterGem[] waterGems;
 
+    // Doors
+    private FireDoor fireDoor;
+    private WaterDoor waterDoor;
+
     private OrthographicCamera camera;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
@@ -75,7 +79,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[23] = new Platform(480, 320, 32, 48);
         this.platforms[24] = new Platform(512, 320, 64, 32);
         this.platforms[25] = new Platform(272, 432, 384, 32);
-        this.platforms[26] = new Platform(464, 464, 64, 16);
+        this.platforms[26] = new Platform(448, 464, 64, 16);
         this.platforms[27] = new Platform(176, 400, 96, 64);
         this.platforms[28] = new Platform(128, 448, 48, 16);
         this.platforms[29] = new Platform(16, 528, 640, 16);
@@ -101,6 +105,10 @@ public class MyGdxGame extends ApplicationAdapter {
         this.waterGems[1] = new WaterGem(352, 272);
         this.waterGems[2] = new WaterGem(32, 432);
         this.waterGems[3] = new WaterGem(352, 480);
+
+        // initialize the Doors
+        this.fireDoor = new FireDoor(544, 464);
+        this.waterDoor = new WaterDoor(592, 464);
     }
 
     @Override
@@ -223,6 +231,12 @@ public class MyGdxGame extends ApplicationAdapter {
             }
         }
 
+        // draw the Doors
+        shapeBatch.setColor(Color.MAGENTA);
+        fireDoor.draw(shapeBatch);
+        shapeBatch.setColor(Color.CYAN);
+        waterDoor.draw(shapeBatch);
+
         // end drawing
         shapeBatch.end();
         batch.end();
@@ -234,6 +248,12 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.dispose();
     }
 
+    /**
+     * Resizes the screen so that the game doesn't look distorted.
+     *
+     * @param width an integer representing the width of the original screen
+     * @param height an integer representing the height of the original screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
