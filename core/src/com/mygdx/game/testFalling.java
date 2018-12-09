@@ -27,7 +27,8 @@ Platform[] z;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-
+int counter;
+float newH;
     Platform current;
 
     @Override
@@ -37,7 +38,7 @@ Platform[] z;
         shapeBatch = new ShapeRenderer();
 
         // initialize the Platform array
-        this.platforms = new Platform[10];
+        this.platforms = new Platform[2];
 
         // initialize the camera and the viewport
         this.camera = new OrthographicCamera();
@@ -48,39 +49,53 @@ Platform[] z;
         this.camera.update();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(32, 132);
+        this.fireboy = new Fireboy(32, 32);
         this.watergirl = new Watergirl(32, 112);
-
         // initialize the Platforms
-        this.platforms[0] = new Platform(0, 100, 336, 32);
-        this.platforms[1] = new Platform(0, 32, 16, 512);
-        this.platforms[2] = new Platform(336, 0, 64, 16);
-        this.platforms[3] = new Platform(400, 0, 32, 32);
-        this.platforms[4] = new Platform(432, 0, 64, 16);
-        this.platforms[5] = new Platform(496, 0, 176, 32);
-        current = this.platforms[0] = new Platform(0, 100, 336, 32);
+         this.platforms[0] = new Platform(0, 0, 336, 32);
+                  this.platforms[1] = new Platform(0, 80, 100, 25);
         // create the Fire and the Water pools
         this.fire = new Fire(336, 16, 64, 16);
+        this.newH = 0;
         this.water = new Water(432, 16, 64, 16);
+         this.counter= 0;
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         //need to find a way to check if landed after each 'fall' 
-        current.collision(fireboy);
-        fireboy.falling(current);
+       
         // Fireboy keyboard listeners
         // make the Fireboy jump      
+         for (Platform x: this.platforms){
+               if (x.collideWithBottom(fireboy)){
+                   fireboy.hitBottom(true, x); 
+               }
+         if (x.land(fireboy)!=0){
+              newH = x.land(fireboy);
+         }       
+          if (x.land(fireboy)==0){              
+             this.counter++;        
+         }  
+          if (this.counter > this.platforms.length){
+              newH = 32;
+          }
+      }
+
+                    fireboy.jumpAction(newH);
+                   fireboy.Falling(newH);
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             fireboy.jump();
+            
         }
-        // make the Fireboy move right
+  
+       // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             fireboy.moveRight();
         }
+
         // make the Fireboy move left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             fireboy.moveLeft();
@@ -89,7 +104,7 @@ Platform[] z;
         // Watergirl keyboard listeners
         // make the Watergirl jump
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            watergirl.jump();
+         //   watergirl.jump();
         }
         // make the Watergirl move right
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -123,14 +138,10 @@ Platform[] z;
 
         // draw the Platforms
         shapeBatch.setColor(Color.WHITE);
-        platforms[0].draw(shapeBatch);
+                platforms[1].draw(shapeBatch);
         shapeBatch.setColor(Color.LIME);
-
-        platforms[1].draw(shapeBatch);
-        platforms[2].draw(shapeBatch);
-        platforms[3].draw(shapeBatch);
-        platforms[4].draw(shapeBatch);
-        platforms[5].draw(shapeBatch);
+        platforms[0].draw(shapeBatch);
+       
 
 //        for (int i = 0; i < this.platforms.length; i++) {
 //            platforms[i].draw(shapeBatch);
