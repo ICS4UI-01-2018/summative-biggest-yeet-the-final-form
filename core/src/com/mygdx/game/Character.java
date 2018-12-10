@@ -17,9 +17,9 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Character {
 
-    private int gemsCollected, maxYSpeed;
-    private float x, y, speed, gravity, ySpeed, height, width,velocity;
-    private boolean isFalling, isDead, jumping, isColliding;
+    private int gemsCollected, counter;
+    private float x, y, gravity, ySpeed, height, width, speed, newHeight;
+    boolean isFalling, isDead, jump, isColliding, hitBottom;
     private Rectangle character;
 
     /**
@@ -33,16 +33,19 @@ public abstract class Character {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.speed = 2;
+        this.speed = 1;
         this.isFalling = false;
         this.isDead = false;
-        this.velocity = 0;
-        this.gravity = 1; //tweak
-        this.maxYSpeed = 5; //tweak
+        this.ySpeed = 0;
+        this.gravity = 1f; //tweak
+        //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
         this.isColliding = true;
-
+        this.jump = false;
+        this.newHeight = 32;
+        this.hitBottom = false;
+        this.counter = 0;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -50,24 +53,8 @@ public abstract class Character {
     /**
      * Gives the Character gravity throughout the game.
      *
-     * @param p platform that will be hit (may need to be removed)
+     * @param p platform that will be hit (may need to be removed) //
      */
-   
-//making it so the character can jump
-
-
-public void jump(){
-       velocity = velocity + gravity;
-   
-    
-       //Is the character jumping and not on ground? (so they can't double jump)
-       if (jumping && isFalling) {
-           velocity = -15;
-           
-       }
-}
-       //Gravity
-
     /**
      * Allows the Character to move towards the left-side of the screen without
      * it going off of the screen.
@@ -91,29 +78,114 @@ public void jump(){
             this.x = this.x + this.speed;
         }
     }
-
-    /**
-     * Allows the Character to jump. needs to be fixed so that character returns
-     * to top of platform when done
-     */
- 
-//        // make sure the Character is on the ground before jumping
-//        if (this.isFalling) {
-//            this.ySpeed = 0;
-//            this.jump = true;
-//        }else{
-//            this.jump = false;
-//        }
-
-//       
-//          this.ySpeed += gravity;
-//        this.y += 40;
-//        // make sure the Character is on the ground before jumping
-//        if (this.jump && !this.isFalling) {
-//            //this.velocity = -15;
-//            this.isFalling = true;
+    
     
 
+    /**
+     * Sets the Character to a jumping state.*buggy
+     */
+    public void jump() {
+        if (!this.jump) {
+            this.isFalling = false;
+            ySpeed = -12;//height of jump
+            this.jump = true;
+            this.speed = 2;
+        }
+    }
+
+    /**
+     * Allows the character to jump *real buggy
+     * @param fHeight the height of the platform to return to
+     */
+    public void jumpAction(float fHeight) {
+        if (this.hitBottom) {
+            ySpeed = 0;
+            this.hitBottom = false;
+            this.isFalling = true;
+        }
+        if (this.jump) {
+            if (this.ySpeed > 0) {
+                this.isFalling = true;
+            }
+           // this.speed = 2.1f;
+            ySpeed += gravity;
+            this.y -= ySpeed;
+            if (this.y < fHeight ) {
+                float c = this.y;
+                this.y = fHeight;               
+                ySpeed = 0;
+                this.speed = 2;
+                this.jump = false;
+                this.isFalling = false;
+                this.isColliding = true;
+            }
+        }
+    }
+
+    /**
+     * Allows the character to fall
+     * @param fHeight
+     * @param b 
+     */
+    public void falling(float fHeight, boolean b) {
+        if (!this.jump && !b) {
+           // System.out.println("FALL");
+            this.isFalling = true;
+            ySpeed += gravity;
+            this.y -= ySpeed;
+            if (this.y < fHeight) {
+                this.y = fHeight;
+                ySpeed = 0;
+                this.speed = 2;
+                this.jump = false;
+                this.isFalling = false;
+            }
+        }        
+    }
+
+    /**
+     * Finds the platform the character is landing on
+     * @param p Array of platforms
+     * @return the platform the character is landing on
+     */
+    public float newGround(Platform[] p) {
+        this.counter = 0;
+        for (Platform x : p) {
+            if (x.collideWithBottom(this)) {
+                this.hitBottom(true, x);
+            }
+            if (x.land(this) != 0) {
+                newHeight = x.land(this);
+            }
+            if (x.land(this) == 0) {
+                this.counter++;
+            }
+            if (this.counter >= p.length) {
+                newHeight = 32;
+                this.counter = 0;
+            }
+        }
+        return newHeight;
+    }
+
+    /**
+     * Returns whether the character is on the ground
+     * @param p Array of Platforms
+     * @return 
+     */
+    public boolean standing(Platform[] p) {
+        this.counter = 0;
+        for (Platform x : p) {
+            if (this.getX() >= x.getX() && (this.getX() + this.width)<= x.getLength() && this.getY() >= x.getY() && this.getY() <= x.getTop()) {
+                this.counter++;
+            }
+        }
+        if (this.counter == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Returns the x position of the Character.
@@ -122,6 +194,22 @@ public void jump(){
      */
     public float getX() {
         return this.x;
+    }
+
+    /**
+     * Sets whether 
+     * @param b
+     * @param p 
+     */
+    public void hitBottom(boolean b, Platform p) {
+        this.hitBottom = b;
+        if (b == true) {
+            this.y = p.getY() - this.height;
+        }
+    }
+
+    public float getTop() {
+        return this.y + this.height;
     }
 
     /**
@@ -138,7 +226,11 @@ public void jump(){
      *
      * @return a boolean representing whether if the Character is falling or not
      */
-    public boolean isFalling() {
+    public boolean isJumping() {
+        return this.jump;
+    }
+
+    public boolean getIsFalling() {
         return this.isFalling;
     }
 
@@ -199,15 +291,9 @@ public void jump(){
      * Sets the Character to fall if it's not falling, and to not fall if it's
      * falling.
      */
-    public void setFalling(boolean b) {
 
-        this.isFalling = b;
 
-    }
-
-    public void setCollistion(boolean b) {
-        this.isColliding = b;
-    }
+  
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.
@@ -217,6 +303,7 @@ public void jump(){
      */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
+
     }
 
     /**

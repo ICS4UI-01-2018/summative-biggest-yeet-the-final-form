@@ -36,6 +36,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    
+    //landing variable
+    private float newHeight;
 
     @Override
     public void create() {
@@ -50,7 +53,8 @@ public class MyGdxGame extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-
+        //dont worry about it bois
+        this.newHeight = 0;
         // initialize the Platforms
         this.platforms = new Platform[31];
         this.platforms[0] = new Platform(0, 0, 336, 32);
@@ -119,8 +123,12 @@ public class MyGdxGame extends ApplicationAdapter {
         // constantly update the x and y positions of the Fireboy and the Watergirl
         fireboy.updatePostions();
         watergirl.updatePostions();
-        
 
+        this.newHeight = fireboy.newGround(this.platforms);
+     //   System.out.println("new Height " + this.newHeight);
+        fireboy.jumpAction(this.newHeight);
+
+        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
         // Fireboy keyboard listeners
         // make the Fireboy move left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
