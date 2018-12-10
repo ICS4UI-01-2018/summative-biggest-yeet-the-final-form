@@ -5,7 +5,7 @@
  */
 package com.mygdx.game;
 
-/**
+/**    
  * Creates a FireGem as a subclass of Gem to use in a Fireboy and Watergirl
  * game.
  *
