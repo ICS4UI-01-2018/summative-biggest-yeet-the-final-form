@@ -12,7 +12,7 @@ package com.mygdx.game;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Fireboy extends Character {
-
+//need to add some kind of check colllison method to see if colliding with ANY platform
     /**
      * Creates a Fireboy using it's x and y position on the screen.
      *
@@ -23,4 +23,5 @@ public class Fireboy extends Character {
         super(x, y);
     }
     
+
 }
