@@ -92,16 +92,20 @@ public abstract class Character {
      * @param fHeight the height of the platform to return to
      */
     public void jumpAction(float fHeight) {
+        //if you hit the bottom start to fall
         if (this.hitBottom) {
             ySpeed = 0;
             this.hitBottom = false;
             this.isFalling = true;
         }
+        
         if (this.jump) {
+            //check whether your falling
             if (this.ySpeed > 0) {
                 this.isFalling = true;
             }
            // this.speed = 2.1f;
+           //in
             ySpeed += gravity;
             this.y -= ySpeed;
             if (this.y < fHeight ) {
