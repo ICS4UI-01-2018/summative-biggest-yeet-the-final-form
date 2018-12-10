@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected, counter;
     private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom;
+    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide;
     private Rectangle character;
 
     /**
@@ -44,6 +44,7 @@ public abstract class Character {
         this.jump = false;
         this.newHeight = 32;
         this.hitBottom = false;
+        this.hitSide = false;
         this.counter = 0;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
@@ -54,11 +55,17 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
+        
+        if(!hitSide){
+            
         // do not let the Character move off of the left-side of the screen
         if (this.x > 16) {
             // make the Character move towards the left of the screen
             this.x = this.x - this.speed;
         }
+        }
+        
+        
     }
 
     /**
@@ -66,10 +73,12 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
+        if(!hitSide){
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {
             // make the Character move towards the right of the screen
             this.x = this.x + this.speed;
+        }
         }
     }
     
@@ -205,6 +214,10 @@ public abstract class Character {
         return this.y + this.height;
     }
 
+    public float getSide() {
+        return this.x + this.width;
+    }
+    
     /**
      * Returns the y position of the Character.
      *
@@ -314,4 +327,17 @@ public abstract class Character {
     public void died() {
         this.isDead = true;
     }
+    
+    public void Move(){
+        this.x = this.x + 10;
+    }
+    
+        public void hitSide(boolean b, Platform p) {
+        this.hitSide = b;
+        if (b == true) {
+            this.x = p.getX() ;
+        }
+    }
+    
+    
 }
