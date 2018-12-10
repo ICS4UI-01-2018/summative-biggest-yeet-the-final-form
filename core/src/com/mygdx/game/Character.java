@@ -32,11 +32,11 @@ public abstract class Character {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.speed = 2;
+        this.speed = 1;
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 1.25f; //tweak
+        this.gravity = 1f; //tweak
         //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
@@ -77,12 +77,11 @@ public abstract class Character {
 
     /**
      * Sets the Character to a jumping state.*buggy
-     * 
      */
     public void jump() {
         if (!this.jump) {
             this.isFalling = false;
-            ySpeed = -14;//height of jump
+            ySpeed = -12;//height of jump
             this.jump = true;
             this.speed = 2;
         }
@@ -99,11 +98,10 @@ public abstract class Character {
             this.isFalling = true;
         }
         if (this.jump) {
-            System.out.println("jump");
             if (this.ySpeed > 0) {
                 this.isFalling = true;
             }
-            this.speed = 2.8f;
+           // this.speed = 2.1f;
             ySpeed += gravity;
             this.y -= ySpeed;
             if (this.y < fHeight ) {
@@ -131,12 +129,14 @@ public abstract class Character {
                 this.jump = false;
                 this.isFalling = false;
             }
-        } else {
-        //    System.out.println("not fall");
-        }
-
+        }        
     }
 
+    /**
+     * Finds the platform the character is landing on
+     * @param p Array of platforms
+     * @return the platform the character is landing on
+     */
     public float newGround(Platform[] p) {
         this.counter = 0;
         for (Platform x : p) {
@@ -157,6 +157,11 @@ public abstract class Character {
         return newHeight;
     }
 
+    /**
+     * Returns whether the character is on the ground
+     * @param p Array of Platforms
+     * @return 
+     */
     public boolean standing(Platform[] p) {
         this.counter = 0;
         for (Platform x : p) {
@@ -164,7 +169,6 @@ public abstract class Character {
                 this.counter++;
             }
         }
-      //  System.out.println("co " + this.counter);
         if (this.counter == 1) {
             return true;
         } else {
@@ -181,6 +185,11 @@ public abstract class Character {
         return this.x;
     }
 
+    /**
+     * Sets whether 
+     * @param b
+     * @param p 
+     */
     public void hitBottom(boolean b, Platform p) {
         this.hitBottom = b;
         if (b == true) {

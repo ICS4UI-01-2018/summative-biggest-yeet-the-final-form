@@ -130,7 +130,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.watergirl.updatePostions();
 
         this.newHeight = fireboy.newGround(this.platforms);
-        System.out.println("new Height " + this.newHeight);
+     //   System.out.println("new Height " + this.newHeight);
         fireboy.jumpAction(this.newHeight);
 
         fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
