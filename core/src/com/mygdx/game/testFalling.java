@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
+//ignore all of this honestly
 public class testFalling extends ApplicationAdapter {
 
     // Characters
@@ -65,33 +65,22 @@ float newH;
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         //need to find a way to check if landed after each 'fall' 
        
         // Fireboy keyboard listeners
         // make the Fireboy jump      
-         for (Platform x: this.platforms){
-               if (x.collideWithBottom(fireboy)){
-                   fireboy.hitBottom(true, x); 
-               }
-         if (x.land(fireboy)!=0){
-              newH = x.land(fireboy);
-         }       
-          if (x.land(fireboy)==0){              
-             this.counter++;        
-         }  
-          if (this.counter > this.platforms.length){
-              newH = 32;
-          }
-      }
-
+   
+newH = fireboy.newGround(this.platforms);
                     fireboy.jumpAction(newH);
-                   fireboy.Falling(newH);
+                    
+                    fireboy.Falling(newH,fireboy.standing(this.platforms));
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             fireboy.jump();
             
         }
   
-       // make the Fireboy move right
+        // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             fireboy.moveRight();
         }

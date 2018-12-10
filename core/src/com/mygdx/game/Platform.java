@@ -92,18 +92,15 @@ public float land (Character c){//fix so you can hit sides
 
     // collision detecting needs fixing
     public boolean collision(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {
-            //character.setFalling(false);
-            character.setCollistion(true, this);
+        if (character.getBounds().overlaps(this.getBounds())) {           
             return true;
         } else {
-           // character.setFalling(true);
-            character.setCollistion(false, this);
-
-            return false;
+      return false;
 
         }
     }
+    
+ 
 
     public Rectangle getBounds() {
         return this.platform;

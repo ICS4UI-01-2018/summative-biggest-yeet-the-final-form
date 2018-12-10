@@ -17,8 +17,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Character {
 
-    private int gemsCollected, maxYSpeed;
-    private float x, y, gravity, ySpeed, height, width, speed, floorHeight;
+    private int gemsCollected, counter;
+    private float x, y, gravity, ySpeed, height, width, speed, newHeight;
     boolean isFalling, isDead, jump, isColliding, hitBottom;
     private Rectangle character;
 
@@ -41,10 +41,11 @@ public abstract class Character {
         //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
-        this.isColliding = false;
+        this.isColliding = true;
         this.jump = false;
-        this.floorHeight = 32;
+        this.newHeight = 32;
         this.hitBottom = false;
+        this.counter = 0;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -77,33 +78,56 @@ public abstract class Character {
             this.x = this.x + this.speed;
         }
     }
+    
+    
 
     /**
-     * Allows the Character to jump. needs to be fixed so that character returns
-     * to top of platform when done
+     * Sets the Character to a jumping state.*buggy
+     * 
      */
     public void jump() {
         if (!this.jump) {
             this.isFalling = false;
-            ySpeed = -17;//height of jump
+            ySpeed = -14;//height of jump
             this.jump = true;
             this.speed = 2;
         }
     }
 
+    /**
+     * Allows the character to jump *real buggy
+     * @param fHeight the height of the platform to return to
+     */
     public void jumpAction(float fHeight) {
         if (this.hitBottom) {
             ySpeed = 0;
             this.hitBottom = false;
             this.isFalling = true;
-            System.out.println("h");
         }
         if (this.jump) {
-            System.out.println(this.ySpeed);
+            System.out.println("jump");
             if (this.ySpeed > 0) {
                 this.isFalling = true;
             }
             this.speed = 2.8f;
+            ySpeed += gravity;
+            this.y -= ySpeed;
+            if (this.y < fHeight ) {
+                float c = this.y;
+                this.y = fHeight;               
+                ySpeed = 0;
+                this.speed = 2;
+                this.jump = false;
+                this.isFalling = false;
+                this.isColliding = true;
+            }
+        }
+    }
+
+    public void Falling(float fHeight, boolean b) {
+        if (!this.jump && !b) {
+           // System.out.println("FALL");
+            this.isFalling = true;
             ySpeed += gravity;
             this.y -= ySpeed;
             if (this.y < fHeight) {
@@ -113,24 +137,45 @@ public abstract class Character {
                 this.jump = false;
                 this.isFalling = false;
             }
+        } else {
+        //    System.out.println("not fall");
         }
+
     }
 
-    public void Falling(float fHeight) {
-        if (!this.jump && !this.isColliding) {
-            ySpeed = 0;
-            this.isFalling = true;
-            ySpeed += gravity;
-            this.y -= ySpeed;
-        
-          if (this.y < fHeight) {
-                this.y = fHeight;
-                ySpeed = 0;
-                this.speed = 2;
-                this.jump = false;
-                this.isFalling = false;
+    public float newGround(Platform[] p) {
+        this.counter = 0;
+        for (Platform x : p) {
+            if (x.collideWithBottom(this)) {
+                this.hitBottom(true, x);
             }
-          }
+            if (x.land(this) != 0) {
+                newHeight = x.land(this);
+            }
+            if (x.land(this) == 0) {
+                this.counter++;
+            }
+            if (this.counter >= p.length) {
+                newHeight = 32;
+                this.counter = 0;
+            }
+        }
+        return newHeight;
+    }
+
+    public boolean standing(Platform[] p) {
+        this.counter = 0;
+        for (Platform x : p) {
+            if (this.getX() >= x.getX() && (this.getX() + this.width)<= x.getLength() && this.getY() >= x.getY() && this.getY() <= x.getTop()) {
+                this.counter++;
+            }
+        }
+      //  System.out.println("co " + this.counter);
+        if (this.counter == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -140,10 +185,6 @@ public abstract class Character {
      */
     public float getX() {
         return this.x;
-    }
-
-    public float getNextHeight() {
-        return this.ySpeed;
     }
 
     public void hitBottom(boolean b, Platform p) {
@@ -236,18 +277,9 @@ public abstract class Character {
      * Sets the Character to fall if it's not falling, and to not fall if it's
      * falling.
      */
-    public void setFalling(boolean b) {
-        this.isFalling = b;
-    }
 
-    public Platform setCollistion(boolean b, Platform P) {
-        this.isColliding = b;
-        if (b = true) {
-            return P;
-        } else {
-            return null;
-        }
-    }
+
+  
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.
