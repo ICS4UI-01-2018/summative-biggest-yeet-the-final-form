@@ -50,28 +50,30 @@ public class Platform {
         return (this.height + this.y);
     }
 
+    /**
+     * Returns the X-coordinate of the edge of the platform
+     * @return  the X-coordinate of the edge of the platform
+     */
     public float getLength() {
         return (this.width + this.x);
     }
- 
+ /**
+  * Determines whether the character has hit the bottom of the platform
+  * @param c the character jumping
+  * @return whether the character has collide with the bottom of the platform
+  */
 public boolean collideWithBottom (Character c){//fix so you can hit sides
-  //  System.out.println(c.isFalling);
     if (this.collision(c) && (c.getTop()>=this.y) && !c.isFalling){
         return true;
     }
     return false;
 }
 
-
-public boolean collideWithSide (Character c){//fix so you can hit sides
-  //  System.out.println(c.isFalling);
-    if (this.collision(c) && (c.getSide()>=this.x) ||
-            this.collision(c) && (c.getX()>=this.x + this.width)){
-        return true;
-    }
-    return false;
-}
-    
+/**
+ * Returns the top of the platform you are currently on
+ * @param c the character jumping
+ * @return the top of the block
+ */    
 public float land (Character c){//fix so you can hit sides
   //  System.out.println(c.isFalling);
  if (this.collision(c) && (c.getY()<=this.getTop()) && c.isFalling){
@@ -93,14 +95,12 @@ public float land (Character c){//fix so you can hit sides
     }
 
     /**
-     * Determines whether if the Character is on the Platform.
+     * Determines whether if the Character is touching the Platform.
      *
      * @param character a Character in the game
      * @return a boolean representing whether if the Character is on the
      * Platform
      */
-
-    // collision detecting needs fixing
     public boolean collision(Character character) {
         if (character.getBounds().overlaps(this.getBounds())) {           
             return true;
@@ -111,7 +111,7 @@ public float land (Character c){//fix so you can hit sides
     }
     
  
-
+   
     public Rectangle getBounds() {
         return this.platform;
     }
