@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MyGdxGame extends ApplicationAdapter {
-
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -36,27 +35,32 @@ public class MyGdxGame extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-    
+
     //landing variable
     private float newHeight;
+
+    // variable to determine whether or not if Fireboy and Watergirl passed the level
+    private boolean gameWon;
 
     @Override
     public void create() {
         // intialize the SpriteBatch and the ShapeRenderer
-        batch = new SpriteBatch();
-        shapeBatch = new ShapeRenderer();
+        this.batch = new SpriteBatch();
+        this.shapeBatch = new ShapeRenderer();
 
         // initialize the camera and the viewport
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(672, 544, camera);
+        this.viewport = new FitViewport(672, 544, this.camera);
         this.viewport.apply();
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
+        
         //dont worry about it bois
         this.newHeight = 0;
+        
         // initialize the Platforms
-        this.platforms = new Platform[31];
+        this.platforms = new Platform[30];
         this.platforms[0] = new Platform(0, 0, 336, 32);
         this.platforms[1] = new Platform(0, 32, 16, 512);
         this.platforms[2] = new Platform(336, 0, 64, 16);
@@ -69,25 +73,24 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[9] = new Platform(16, 160, 256, 32);
         this.platforms[10] = new Platform(256, 144, 32, 48);
         this.platforms[11] = new Platform(288, 144, 128, 32);
-        this.platforms[12] = new Platform(400, 112, 32, 32);
-        this.platforms[13] = new Platform(416, 144, 64, 16);
-        this.platforms[14] = new Platform(460, 144, 96, 32);
-        this.platforms[15] = new Platform(608, 208, 48, 64);
-        this.platforms[16] = new Platform(560, 224, 48, 48);
-        this.platforms[17] = new Platform(336, 240, 224, 32);
-        this.platforms[18] = new Platform(304, 240, 32, 48);
-        this.platforms[19] = new Platform(96, 256, 208, 32);
-        this.platforms[20] = new Platform(16, 336, 64, 96);
-        this.platforms[21] = new Platform(80, 336, 256, 32);
-        this.platforms[22] = new Platform(336, 336, 144, 64);
-        this.platforms[23] = new Platform(480, 320, 32, 48);
-        this.platforms[24] = new Platform(512, 320, 64, 32);
-        this.platforms[25] = new Platform(272, 432, 384, 32);
-        this.platforms[26] = new Platform(448, 464, 64, 16);
-        this.platforms[27] = new Platform(176, 400, 96, 64);
-        this.platforms[28] = new Platform(128, 448, 48, 16);
-        this.platforms[29] = new Platform(16, 528, 640, 16);
-        this.platforms[30] = new Platform(288, 512, 96, 32);
+        this.platforms[12] = new Platform(416, 144, 64, 16);
+        this.platforms[13] = new Platform(460, 144, 96, 32);
+        this.platforms[14] = new Platform(608, 208, 48, 64);
+        this.platforms[15] = new Platform(560, 224, 48, 48);
+        this.platforms[16] = new Platform(336, 240, 224, 32);
+        this.platforms[17] = new Platform(304, 240, 32, 48);
+        this.platforms[18] = new Platform(96, 256, 208, 32);
+        this.platforms[19] = new Platform(16, 336, 64, 96);
+        this.platforms[20] = new Platform(80, 336, 256, 32);
+        this.platforms[21] = new Platform(336, 336, 144, 64);
+        this.platforms[22] = new Platform(480, 320, 32, 48);
+        this.platforms[23] = new Platform(512, 320, 64, 32);
+        this.platforms[24] = new Platform(272, 432, 384, 32);
+        this.platforms[25] = new Platform(448, 464, 64, 16);
+        this.platforms[26] = new Platform(176, 400, 96, 64);
+        this.platforms[27] = new Platform(128, 448, 48, 16);
+        this.platforms[28] = new Platform(16, 528, 640, 16);
+        this.platforms[29] = new Platform(288, 512, 96, 32);
 
         // initialize the Characters
         this.fireboy = new Fireboy(32, 32);
@@ -113,6 +116,8 @@ public class MyGdxGame extends ApplicationAdapter {
         // initialize the Doors
         this.fireDoor = new FireDoor(544, 464);
         this.waterDoor = new WaterDoor(592, 464);
+        
+        this.gameWon = false;
     }
 
     @Override
@@ -121,99 +126,109 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePostions();
-        watergirl.updatePostions();
+        this.fireboy.updatePostions();
+        this.watergirl.updatePostions();
 
         this.newHeight = fireboy.newGround(this.platforms);
         System.out.println("new Height " + this.newHeight);
         fireboy.jumpAction(this.newHeight);
 
-        fireboy.Falling(this.newHeight, fireboy.standing(this.platforms));
+        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
+        
+        this.newHeight = this.watergirl.newGround(this.platforms);
+        this.watergirl.jumpAction(this.newHeight);
+        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
+        
         // Fireboy keyboard listeners
         // make the Fireboy move left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            fireboy.moveLeft();
+            this.fireboy.moveLeft();
         }
         // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            fireboy.moveRight();
+            this.fireboy.moveRight();
         }
         // make the Fireboy jump
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            fireboy.jump();
+            this.fireboy.jump();
         }
 
         // Watergirl keyboard listeners
         // make the Watergirl move left
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            watergirl.moveLeft();
+            this.watergirl.moveLeft();
         }
         // make the Watergirl move right
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            watergirl.moveRight();
+            this.watergirl.moveRight();
         }
         // make the Watergirl jump
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            watergirl.jump();
+            this.watergirl.jump();
         }
 
         // allow the Fireboy to collect the FireGems
-        for (int i = 0; i < this.fireGems.length; i++) {
+        for (FireGem fireGem : this.fireGems) {
             // determine if the Fireboy has collected the FireGem
-            if (this.fireGems[i].collision(this.fireboy)) {
+            if (fireGem.collision(this.fireboy)) {
                 // don't draw the FireGem on the screen
-                this.fireGems[i].collected();
+                fireGem.collected();
                 // add to the Fireboy's FireGem count
                 this.fireboy.addGem();
             }
         }
 
         // allow the Watergirl to collect the WaterGems
-        for (int i = 0; i < this.waterGems.length; i++) {
+        for (WaterGem waterGem : this.waterGems) {
             // determine if the Watergirl has collected the WaterGem
-            if (waterGems[i].collision(this.watergirl)) {
+            if (waterGem.collision(this.watergirl)) {
                 // don't draw the WaterGem on the screen
-                this.waterGems[i].collected();
+                waterGem.collected();
                 // add to the Watergirl's WaterGem count
                 this.watergirl.addGem();
             }
         }
 
         // allow the Fireboy to die when it comes into contact with Mud or Water
-        if (this.mud.collision(this.fireboy) || this.mud.collision(this.fireboy)) {
+        if (this.water.collision(this.fireboy) || this.mud.collision(this.fireboy)) {
             // set the Fireboy to be dead
             this.fireboy.died();
         }
 
         // allow the Watergirl to die when it comes into contact with Mud or Fire
-        if (this.mud.collision(this.watergirl) || this.mud.collision(this.watergirl)) {
+        if (this.fire.collision(this.watergirl) || this.mud.collision(this.watergirl)) {
             // set the Watergirl to be dead
             this.watergirl.died();
         }
 
+        // win the game if Fireboy and Watergirl stand in front of their respected Doors
+        if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
+            this.gameWon = true;
+        }
+
         // start drawing
-        batch.begin();
-        shapeBatch.setProjectionMatrix(camera.combined);
-        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        this.batch.begin();
+        this.shapeBatch.setProjectionMatrix(this.camera.combined);
+        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
         // set the background colour to be black
-        shapeBatch.setColor(Color.BLACK);
-        shapeBatch.rect(0, 0, 672, 544);
+        this.shapeBatch.setColor(Color.BLACK);
+        this.shapeBatch.rect(0, 0, 672, 544);
 
         // draw the Platforms
-        shapeBatch.setColor(Color.WHITE);
-        for (int i = 0; i < this.platforms.length; i++) {
-            platforms[i].draw(shapeBatch);
+        this.shapeBatch.setColor(Color.WHITE);
+        for (Platform platform : this.platforms) {
+            platform.draw(this.shapeBatch);
         }
 
         // draw the Characters if they aren't dead yet
-        shapeBatch.setColor(Color.RED);
-        if (!fireboy.isDead()) {
-            fireboy.draw(shapeBatch);
+        this.shapeBatch.setColor(Color.RED);
+        if (!this.fireboy.isDead()) {
+            this.fireboy.draw(this.shapeBatch);
         }
-        shapeBatch.setColor(Color.BLUE);
-        if (!watergirl.isDead()) {
-            watergirl.draw(shapeBatch);
+        this.shapeBatch.setColor(Color.BLUE);
+        if (!this.watergirl.isDead()) {
+            this.watergirl.draw(shapeBatch);
         }
 
         // draw the Obstacles
@@ -234,28 +249,28 @@ public class MyGdxGame extends ApplicationAdapter {
             }
         }
         shapeBatch.setColor(Color.BLUE);
-        for (int i = 0; i < this.waterGems.length; i++) {
+        for (WaterGem waterGem : this.waterGems) {
             // only draw the WaterGem if it hasn't been collected by the Watergirl yet
-            if (!waterGems[i].isCollected()) {
-                waterGems[i].draw(shapeBatch);
+            if (!waterGem.isCollected()) {
+                waterGem.draw(shapeBatch);
             }
         }
 
         // draw the Doors
-        shapeBatch.setColor(Color.MAGENTA);
-        fireDoor.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        waterDoor.draw(shapeBatch);
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fireDoor.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.waterDoor.draw(this.shapeBatch);
 
         // end drawing
-        shapeBatch.end();
-        batch.end();
-        batch.setProjectionMatrix(camera.combined);
+        this.shapeBatch.end();
+        this.batch.end();
+        this.batch.setProjectionMatrix(this.camera.combined);
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        this.batch.dispose();
     }
 
     /**

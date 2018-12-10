@@ -7,7 +7,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 /**
  * Creates a Character to use in a game of Fireboy and Watergirl. Allows for the
@@ -50,11 +49,6 @@ public abstract class Character {
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    /**
-     * Gives the Character gravity throughout the game.
-     *
-     * @param p platform that will be hit (may need to be removed) //
-     */
     /**
      * Allows the Character to move towards the left-side of the screen without
      * it going off of the screen.
@@ -124,7 +118,7 @@ public abstract class Character {
         }
     }
 
-    public void Falling(float fHeight, boolean b) {
+    public void falling(float fHeight, boolean b) {
         if (!this.jump && !b) {
            // System.out.println("FALL");
             this.isFalling = true;
