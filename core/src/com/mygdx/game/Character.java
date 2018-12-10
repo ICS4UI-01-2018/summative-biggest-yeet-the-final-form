@@ -18,10 +18,10 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Character {
 
     private int gemsCollected, maxYSpeed;
-    private float x, y, speed, gravity, ySpeed, height, width;
-    private boolean isFalling, isDead, jump, isColliding;
+    private float x, y, speed, gravity, ySpeed, height, width,velocity;
+    private boolean isFalling, isDead, jumping, isColliding;
     private Rectangle character;
-  
+
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
@@ -36,12 +36,12 @@ public abstract class Character {
         this.speed = 2;
         this.isFalling = false;
         this.isDead = false;
-        this.ySpeed = 0;
+        this.velocity = 0;
         this.gravity = 1; //tweak
         this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
-        this.isColliding = false;
+        this.isColliding = true;
 
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
@@ -52,19 +52,21 @@ public abstract class Character {
      *
      * @param p platform that will be hit (may need to be removed)
      */
-    public void falling(Platform p) {//not acclerating --> fix
-        if (this.isFalling) {
-            this.ySpeed = this.ySpeed + this.gravity;
-            if (this.ySpeed > maxYSpeed) {
-                this.ySpeed = maxYSpeed;
-            }
-            this.y = this.y - this.ySpeed;
-            p.collision(this);
-        } else {
-            // this.y = 122;
-            this.ySpeed = 0;
-        }
-    }
+   
+//making it so the character can jump
+
+
+public void jump(){
+       velocity = velocity + gravity;
+   
+    
+       //Is the character jumping and not on ground? (so they can't double jump)
+       if (jumping && isFalling) {
+           velocity = -15;
+           
+       }
+}
+       //Gravity
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -94,12 +96,7 @@ public abstract class Character {
      * Allows the Character to jump. needs to be fixed so that character returns
      * to top of platform when done
      */
-    public void jump() {
-        if (this.isColliding) {
-            this.y += 40;
-            this.jump = true;
-            this.isFalling = true;
-        }
+ 
 //        // make sure the Character is on the ground before jumping
 //        if (this.isFalling) {
 //            this.ySpeed = 0;
@@ -115,8 +112,8 @@ public abstract class Character {
 //        if (this.jump && !this.isFalling) {
 //            //this.velocity = -15;
 //            this.isFalling = true;
-    }
     
+
 
     /**
      * Returns the x position of the Character.
@@ -222,11 +219,10 @@ public abstract class Character {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
- 
-        /**
-         * Stores the current position of the Character on the screen into the
-         * Character class.
-         */
+    /**
+     * Stores the current position of the Character on the screen into the
+     * Character class.
+     */
     public void updatePostions() {
         this.character.x = this.x;
         this.character.y = this.y;

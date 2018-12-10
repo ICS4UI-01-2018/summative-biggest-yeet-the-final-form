@@ -120,10 +120,7 @@ public class MyGdxGame extends ApplicationAdapter {
         fireboy.updatePostions();
         watergirl.updatePostions();
         
-          this.platforms[0].collision(fireboy);
-        fireboy.falling(this.platforms[0]);
-        this.platforms[0].collision(watergirl);
-        watergirl.falling(this.platforms[0]);
+
         // Fireboy keyboard listeners
         // make the Fireboy move left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

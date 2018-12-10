@@ -71,7 +71,7 @@ Platform[] z;
 
         //need to find a way to check if landed after each 'fall' 
         current.collision(fireboy);
-        fireboy.falling(current);
+      //  fireboy.falling(current);
         // Fireboy keyboard listeners
         // make the Fireboy jump      
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
