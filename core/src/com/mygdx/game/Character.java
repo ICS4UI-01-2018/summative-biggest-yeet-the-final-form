@@ -73,7 +73,6 @@ public abstract class Character {
         }
     }
     
-    
 
     /**
      * Sets the Character to a jumping state.*buggy
@@ -275,14 +274,6 @@ public abstract class Character {
     public float getWidth() {
         return this.width;
     }
-
-    /**
-     * Sets the Character to fall if it's not falling, and to not fall if it's
-     * falling.
-     */
-
-
-  
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.

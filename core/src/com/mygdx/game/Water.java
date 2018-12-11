@@ -5,8 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  * Creates Water to use in a Fireboy and Watergirl game. The water kills the
  * Fireboy when he comes into contact with it.
@@ -37,7 +35,6 @@ public class Water extends Obstacle {
      */
     public boolean Collision(Fireboy fireboy) {
         // determines if Fireboy has fallen into the Water
-
         return super.obstacle.overlaps(fireboy.getBounds());
     }
 }

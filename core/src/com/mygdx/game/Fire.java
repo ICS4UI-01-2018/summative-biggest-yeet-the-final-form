@@ -5,8 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  * Creates Fire as a subclass of Obstacle to use in a game of Fireboy and
  * Watergirl. Allows for the creation of a pool of fire which will kill a
