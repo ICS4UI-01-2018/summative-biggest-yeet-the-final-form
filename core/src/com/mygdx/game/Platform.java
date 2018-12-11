@@ -105,7 +105,6 @@ public float land (Character c){//fix so you can hit sides
             return true;
         } else {
       return false;
-
         }
     }
     
