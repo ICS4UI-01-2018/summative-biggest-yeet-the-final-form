@@ -19,6 +19,7 @@ public class Platform {
     private int width;
     private float x;
     private float y;
+    private boolean gravity;
     private float speed;
 
     /**

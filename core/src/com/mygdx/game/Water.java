@@ -13,6 +13,8 @@ package com.mygdx.game;
  */
 public class Water extends Obstacle {
 
+    
+    
     /**
      * Initializes the Water as a subclass of Obstacle using it's x and y
      * coordinates, and it's width and height.
