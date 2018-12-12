@@ -35,7 +35,7 @@ public class Platform {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = 5;
+        this.speed = 0.5f;
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
