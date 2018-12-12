@@ -28,6 +28,7 @@ public class testFalling extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    private Ice ice;
     int counter;
     float newH;
     Platform current;
@@ -55,6 +56,7 @@ public class testFalling extends ApplicationAdapter {
         // initialize the Platforms
         this.platforms[0] = new Platform(0, 0, 336, 32);
         this.platforms[1] = new Platform(0, 80, 100, 25);
+        this.ice = new Ice(100,32,150,32);
         // create the Fire and the Water pools
         this.fire = new Fire(336, 16, 64, 16);
         this.newH = 0;
@@ -129,6 +131,9 @@ public class testFalling extends ApplicationAdapter {
         platforms[1].draw(shapeBatch);
         shapeBatch.setColor(Color.LIME);
         platforms[0].draw(shapeBatch);
+        
+        shapeBatch.setColor(Color.GRAY);
+        ice.draw(shapeBatch);
 
 //        for (int i = 0; i < this.platforms.length; i++) {
 //            platforms[i].draw(shapeBatch);

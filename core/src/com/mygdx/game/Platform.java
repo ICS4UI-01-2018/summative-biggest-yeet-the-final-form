@@ -108,8 +108,7 @@ public class Platform {
         if (character.getBounds().overlaps(this.getBounds())) {
             return true;
         } else {
-            return false;
-
+      return false;
         }
     }
 

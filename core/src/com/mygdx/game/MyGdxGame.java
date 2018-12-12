@@ -146,6 +146,10 @@ public class MyGdxGame extends ApplicationAdapter {
         // make the Watergirl move left if the game hasn't been won yet
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon) {
             this.fireboy.moveLeft();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon && fireboy.onIce){
+                this.fireboy.moveLeft();
+                
+            }
         }
         // make the Watergirl move right if the game hasn't been won yet
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !this.gameWon) {
