@@ -24,8 +24,8 @@ public class Fireboy extends Character {
     }
     public void moveLeft() {
         
-        if(!hitSide){
-            
+//        if(!hitSide){
+//            
 //        // do not let the Character move off of the left-side of the screen
 //        if (super.x > 16) {
 //            // make the Character move towards the left of the screen
@@ -49,6 +49,6 @@ public class Fireboy extends Character {
 //        }
 //        }
 //    }
-    
-
-}
+//    
+//
+//}
