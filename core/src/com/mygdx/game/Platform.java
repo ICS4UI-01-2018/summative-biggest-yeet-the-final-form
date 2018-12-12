@@ -69,6 +69,14 @@ public boolean collideWithBottom (Character c){//fix so you can hit sides
     return false;
 }
 
+public boolean collideWithSide (Character c){//fix so you can hit sides
+    if (this.collision(c) && (c.getX()>=this.getLength()) && c.getY() > this.y + this.width){
+        System.out.println("here");
+        return true;
+    }
+    return false;
+}
+
 /**
  * Returns the top of the platform you are currently on
  * @param c the character jumping
@@ -114,6 +122,10 @@ public float land (Character c){//fix so you can hit sides
    
     public Rectangle getBounds() {
         return this.platform;
+    }
+    
+    public float getWidth() {
+        return this.getY()+ this.width;
     }
 
     /**

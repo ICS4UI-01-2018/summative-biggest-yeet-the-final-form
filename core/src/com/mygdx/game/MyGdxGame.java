@@ -93,7 +93,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[29] = new Platform(288, 512, 96, 32);
 
         // initialize the Characters
-        this.fireboy = new Fireboy(32, 32);
+        this.fireboy = new Fireboy(336, 240);
         this.watergirl = new Watergirl(32, 112);
 
         // create the Obstacles
@@ -223,6 +223,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Characters if they aren't dead yet
         this.shapeBatch.setColor(Color.RED);
+        if (this.fireboy.getY() < 32){
+            System.out.println("here");
+            this.fireboy.setY(32);
+            this.fireboy.updatePostions();
+        }
         if (!this.fireboy.isDead()) {
             this.fireboy.draw(this.shapeBatch);
         }

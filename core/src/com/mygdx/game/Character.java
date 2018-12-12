@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected, counter;
     private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide;
+    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, landed;
     private Rectangle character;
 
     /**
@@ -37,7 +37,6 @@ public abstract class Character {
         this.isDead = false;
         this.ySpeed = 0;
         this.gravity = 1f; //tweak
-        //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
         this.isColliding = true;
@@ -46,6 +45,7 @@ public abstract class Character {
         this.hitBottom = false;
         this.hitSide = false;
         this.counter = 0;
+        this.landed = true;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -55,17 +55,16 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
-        
-        if(!hitSide){
-            
-        // do not let the Character move off of the left-side of the screen
-        if (this.x > 16) {
-            // make the Character move towards the left of the screen
-            this.x = this.x - this.speed;
+
+        if (!this.hitSide) {
+
+            // do not let the Character move off of the left-side of the screen
+            if (this.x > 16) {
+                // make the Character move towards the left of the screen
+                this.x = this.x - this.speed;
+            }
         }
-        }
-        
-        
+
     }
 
     /**
@@ -73,31 +72,32 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
-        if(!hitSide){
-        // do not let the Character move off of the right-side of the screen
-        if (this.x < 632) {
-            // make the Character move towards the right of the screen
-            this.x = this.x + this.speed;
-        }
+        if (!this.hitSide) {
+            // do not let the Character move off of the right-side of the screen
+            if (this.x < 632) {
+                // make the Character move towards the right of the screen
+                this.x = this.x + this.speed;
+            }
         }
     }
-    
-    
 
     /**
      * Sets the Character to a jumping state.*buggy
      */
     public void jump() {
         if (!this.jump) {
+            System.out.println("jump");
             this.isFalling = false;
             ySpeed = -12;//height of jump
             this.jump = true;
             this.speed = 2;
+            this.landed = false;
         }
     }
 
     /**
      * Allows the character to jump *real buggy
+     *
      * @param fHeight the height of the platform to return to
      */
     public void jumpAction(float fHeight) {
@@ -107,31 +107,36 @@ public abstract class Character {
             this.hitBottom = false;
             this.isFalling = true;
         }
-        
+
         if (this.jump) {
             //check whether your falling
             if (this.ySpeed > 0) {
+                System.out.println("falling");
+             //   System.out.println("i'm falling");
                 this.isFalling = true;
+                this.landed = false;
+
             }
-           // this.speed = 2.1f;
-           //in
+            // this.speed = 2.1f;
+            //in
             ySpeed += gravity;
             this.y -= ySpeed;
-            if (this.y < fHeight ) {
-                float c = this.y;
-                this.y = fHeight;               
+            if (this.y < fHeight) {
+               System.out.println("landing");
+                this.y = fHeight;
                 ySpeed = 0;
                 this.speed = 2;
                 this.jump = false;
                 this.isFalling = false;
                 this.isColliding = true;
+                this.landed = true;
             }
         }
     }
 
     public void falling(float fHeight, boolean b) {
-        if (!this.jump && !b) {
-           // System.out.println("FALL");
+        if (!this.landed && !this.jump && !b) {
+         //   System.out.println("FALLING");
             this.isFalling = true;
             ySpeed += gravity;
             this.y -= ySpeed;
@@ -142,11 +147,12 @@ public abstract class Character {
                 this.jump = false;
                 this.isFalling = false;
             }
-        }        
+        }
     }
 
     /**
      * Finds the platform the character is landing on
+     *
      * @param p Array of platforms
      * @return the platform the character is landing on
      */
@@ -158,9 +164,13 @@ public abstract class Character {
             }
             if (x.land(this) != 0) {
                 newHeight = x.land(this);
+                this.landed = true;
             }
             if (x.land(this) == 0) {
                 this.counter++;
+            }
+            if (x.collideWithSide(this)){
+                this.hitSide(true,x);
             }
             if (this.counter >= p.length) {
                 newHeight = 32;
@@ -172,19 +182,23 @@ public abstract class Character {
 
     /**
      * Returns whether the character is on the ground
+     *
      * @param p Array of Platforms
-     * @return 
+     * @return
      */
     public boolean standing(Platform[] p) {
         this.counter = 0;
         for (Platform x : p) {
-            if (this.getX() >= x.getX() && (this.getX() + this.width)<= x.getLength() && this.getY() >= x.getY() && this.getY() <= x.getTop()) {
+            if (this.getX() >= x.getX() && (this.getX() + this.width) <= x.getLength() && this.getY() >= x.getY() && this.getY() <= x.getTop()) {
                 this.counter++;
             }
         }
         if (this.counter == 1) {
+          //  System.out.println("standing");
+            this.landed = true;
             return true;
         } else {
+            this.landed = false;
             return false;
         }
     }
@@ -199,9 +213,10 @@ public abstract class Character {
     }
 
     /**
-     * Sets whether 
+     * Sets whether
+     *
      * @param b
-     * @param p 
+     * @param p
      */
     public void hitBottom(boolean b, Platform p) {
         this.hitBottom = b;
@@ -217,7 +232,7 @@ public abstract class Character {
     public float getSide() {
         return this.x + this.width;
     }
-    
+
     /**
      * Returns the y position of the Character.
      *
@@ -225,6 +240,10 @@ public abstract class Character {
      */
     public float getY() {
         return this.y;
+    }
+    
+    public void setY(float newNum) {
+         this.y = newNum;
     }
 
     /**
@@ -290,17 +309,13 @@ public abstract class Character {
      * @return an integer representing the width of the character
      */
     public float getWidth() {
-        return this.width;
+        return this.width + this.x;
     }
 
     /**
      * Sets the Character to fall if it's not falling, and to not fall if it's
      * falling.
      */
-
-
-  
-
     /**
      * Draws the Character on the screen using a ShapeRenderer.
      *
@@ -327,17 +342,16 @@ public abstract class Character {
     public void died() {
         this.isDead = true;
     }
-    
-    public void Move(){
+
+    public void Move() {
         this.x = this.x + 10;
     }
-    
-        public void hitSide(boolean b, Platform p) {
+
+    public void hitSide(boolean b, Platform p) {
         this.hitSide = b;
         if (b == true) {
-            this.x = p.getX() ;
+            this.x = p.getX();
         }
     }
-    
-    
+
 }
