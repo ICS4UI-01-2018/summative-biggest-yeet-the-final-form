@@ -65,7 +65,7 @@ public class LevelTwo extends ApplicationAdapter {
         this.watergirl = new Watergirl(288, 448);
 
         // initialize the Platforms
-        this.platforms = new Platform[56];
+        this.platforms = new Platform[57];
         this.platforms[0] = new Platform(0, 0, 672, 32);
         this.platforms[1] = new Platform(0, 32, 16, 496);
         this.platforms[2] = new Platform(656, 32, 16, 496);
@@ -96,19 +96,37 @@ public class LevelTwo extends ApplicationAdapter {
         this.platforms[27] = new Platform(208, 464, 32, 16);
         this.platforms[28] = new Platform(224, 448, 16, 16);
         this.platforms[29] = new Platform(176, 432, 32, 16);
-//        
-//        this.platforms[30] = new Platform();
-//        this.platforms[31] = new Platform();
-//        this.platforms[32] = new Platform();
-//        this.platforms[33] = new Platform();
-//        this.platforms[34] = new Platform();
-//        this.platforms[35] = new Platform();
-//        this.platforms[36] = new Platform();
-//        this.platforms[37] = new Platform();
-//        this.platforms[38] = new Platform();
-//        this.platforms[39] = new Platform();
+        this.platforms[30] = new Platform(192, 416, 16, 16);
+        this.platforms[31] = new Platform(144, 384, 16, 16);
+        this.platforms[32] = new Platform(160, 320, 32, 32);
+        this.platforms[33] = new Platform(192, 320, 16, 16);
+        this.platforms[34] = new Platform(208, 272, 16, 16);
+        this.platforms[35] = new Platform(112, 272, 16, 48);
+        this.platforms[36] = new Platform(56, 192, 32, 16);
+        this.platforms[37] = new Platform(128, 176, 16, 48);
+        this.platforms[38] = new Platform(16, 160, 128, 16);
+        this.platforms[39] = new Platform(176, 176, 48, 16);
+        this.platforms[40] = new Platform(448, 176, 48, 16);
+        this.platforms[41] = new Platform(528, 160, 128, 16);
+        this.platforms[42] = new Platform(528, 176, 16, 48);
+        this.platforms[43] = new Platform(584, 192, 32, 16);
+        this.platforms[44] = new Platform(448, 272, 16, 16);
+        this.platforms[45] = new Platform(544, 272, 16, 48);
+        this.platforms[46] = new Platform(464, 320, 16, 16);
+        this.platforms[47] = new Platform(480, 320, 32, 32);
+        this.platforms[48] = new Platform(512, 384, 16, 16);
+        this.platforms[49] = new Platform(432, 464, 32, 16);
+        this.platforms[50] = new Platform(432, 448, 16, 16);
+        this.platforms[51] = new Platform(496, 464, 16, 16);
+        this.platforms[52] = new Platform(496, 448, 32, 16);
+        this.platforms[53] = new Platform(544, 464, 32, 16);
+        this.platforms[54] = new Platform(544, 448, 16, 16);
+        this.platforms[55] = new Platform(464, 432, 32, 16);
+        this.platforms[56] = new Platform(464, 416, 16, 16);
 
         // initialize the Obstacles
+        
+        
         // initialize the Gems
         // initialize the Doors
     }
@@ -131,8 +149,8 @@ public class LevelTwo extends ApplicationAdapter {
 
         // draw the Platforms
         this.shapeBatch.setColor(Color.WHITE);
-        for (int i = 0; i < 30; i++) {
-            this.platforms[i].draw(this.shapeBatch);
+        for (Platform platform : this.platforms) {
+            platform.draw(this.shapeBatch);
         }
 
         // end drawing
