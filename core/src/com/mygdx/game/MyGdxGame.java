@@ -10,6 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * Level One of the Fireboy and Watergirl game.
+ * 
+ * @author  biGgEsT yEeT: tHe fiNaL fOrM
+ */
 public class MyGdxGame extends ApplicationAdapter {
 
     // Characters
@@ -23,6 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Water water;
     private Fire fire;
     private Mud mud;
+    private Button[] buttons;
 
     // arrays to store all of the Gems
     private FireGem[] fireGems;
@@ -61,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.newHeight = 0;
 
         // initialize the Platforms
-        this.platforms = new Platform[30];
+        this.platforms = new Platform[31];
         this.platforms[0] = new Platform(0, 0, 336, 32);
         this.platforms[1] = new Platform(0, 32, 16, 512);
         this.platforms[2] = new Platform(336, 0, 64, 16);
@@ -92,15 +98,20 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[27] = new Platform(128, 448, 48, 16);
         this.platforms[28] = new Platform(16, 528, 640, 16);
         this.platforms[29] = new Platform(288, 512, 96, 32);
+        this.platforms[30] = new Platform(576, 320, 80, 8);
 
         // initialize the Characters
-        this.fireboy = new Fireboy(32, 32);
+        // fireboy = 32, 32
+        this.fireboy = new Fireboy(96, 288);
         this.watergirl = new Watergirl(32, 122);
 
         // create the Obstacles
         this.fire = new Fire(336, 16, 64, 16);
         this.water = new Water(432, 16, 64, 16);
         this.mud = new Mud(416, 160, 64, 16);
+        this.buttons = new Button[2];
+        this.buttons[0] = new Button(168, 288);
+        this.buttons[1] = new Button(488, 368);
 
         // initialize the Gems
         this.fireGems = new FireGem[4];
@@ -126,9 +137,10 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // constantly update the x and y positions of the Fireboy and the Watergirl
+        // constantly update the x and y positions of the Fireboy and the Watergirl and the moving Platform
         this.fireboy.updatePostions();
         this.watergirl.updatePostions();
+        this.platforms[30].updatePositions();
 
         // Fireboy keyboard listeners
         // make the Watergirl move left if the game hasn't been won yet
@@ -202,6 +214,26 @@ public class MyGdxGame extends ApplicationAdapter {
             this.watergirl.died();
         }
 
+//        // Button moves down if a Character is on it
+//        for (Button button : this.buttons) {
+//            if (button.collision(this.fireboy) || button.collision(this.watergirl)) {
+//                // move the Platform downwards
+//                if (this.platforms[30].getY() > 272) {
+//                    this.platforms[30].moveDown();
+//                }
+//            }
+//        }
+//        
+//        // Button moves up if a Character isn't on it
+//        for (Button button : this.buttons) {
+//            if (!button.collision(this.fireboy) && !button.collision(this.watergirl)) {
+//                // move the Platform upwards
+//                if (this.platforms[30].getY() < 320) {
+//                    this.platforms[30].moveUp();
+//                }
+//            }
+//        }
+        
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
         if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
             this.gameWon = true;
@@ -218,9 +250,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Platforms
         this.shapeBatch.setColor(Color.WHITE);
-        for (Platform platform : this.platforms) {
-            platform.draw(this.shapeBatch);
+        for (int i = 0; i < this.platforms.length - 1; i++) {
+            this.platforms[i].draw(this.shapeBatch);
         }
+        // draw the Platform that connects to the Buttons
+        this.shapeBatch.setColor(Color.PURPLE);
+        this.platforms[30].draw(this.shapeBatch);
 
         // draw the Obstacles
         this.shapeBatch.setColor(Color.MAGENTA);
@@ -229,6 +264,9 @@ public class MyGdxGame extends ApplicationAdapter {
         this.water.draw(this.shapeBatch);
         this.shapeBatch.setColor(Color.FOREST);
         this.mud.draw(this.shapeBatch);
+        for (Button button : this.buttons) {
+            button.draw(shapeBatch);
+        }
 
         // draw the Gems
         this.shapeBatch.setColor(Color.RED);
