@@ -10,7 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * Level One of the Fireboy and Watergirl game.
+ * 
+ * @author  biGgEsT yEeT: tHe fiNaL fOrM
+ */
 public class MyGdxGame extends ApplicationAdapter {
+
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -22,6 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Water water;
     private Fire fire;
     private Mud mud;
+    private Button[] buttons;
 
     // arrays to store all of the Gems
     private FireGem[] fireGems;
@@ -36,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
 
-    //landing variable
+    // landing variable
     private float newHeight;
 
     // variable to determine whether or not if Fireboy and Watergirl passed the level
@@ -55,12 +62,12 @@ public class MyGdxGame extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-        
+
         //dont worry about it bois
         this.newHeight = 0;
-        
+
         // initialize the Platforms
-        this.platforms = new Platform[30];
+        this.platforms = new Platform[31];
         this.platforms[0] = new Platform(0, 0, 336, 32);
         this.platforms[1] = new Platform(0, 32, 16, 512);
         this.platforms[2] = new Platform(336, 0, 64, 16);
@@ -91,15 +98,20 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[27] = new Platform(128, 448, 48, 16);
         this.platforms[28] = new Platform(16, 528, 640, 16);
         this.platforms[29] = new Platform(288, 512, 96, 32);
+        this.platforms[30] = new Platform(576, 320, 80, 8);
 
         // initialize the Characters
-        this.fireboy = new Fireboy(336, 240);
-        this.watergirl = new Watergirl(32, 112);
+        // fireboy = 32, 32
+        this.fireboy = new Fireboy(96, 288);
+        this.watergirl = new Watergirl(32, 122);
 
         // create the Obstacles
         this.fire = new Fire(336, 16, 64, 16);
         this.water = new Water(432, 16, 64, 16);
         this.mud = new Mud(416, 160, 64, 16);
+        this.buttons = new Button[2];
+        this.buttons[0] = new Button(168, 288);
+        this.buttons[1] = new Button(488, 368);
 
         // initialize the Gems
         this.fireGems = new FireGem[4];
@@ -108,7 +120,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.fireGems[2] = new FireGem(144, 480);
         this.fireGems[3] = new FireGem(304, 480);
         this.waterGems = new WaterGem[4];
-        this.waterGems[0] = new WaterGem(440, 64);
+        this.waterGems[0] = new WaterGem(456, 64);
         this.waterGems[1] = new WaterGem(352, 288);
         this.waterGems[2] = new WaterGem(32, 448);
         this.waterGems[3] = new WaterGem(352, 480);
@@ -116,7 +128,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // initialize the Doors
         this.fireDoor = new FireDoor(544, 464);
         this.waterDoor = new WaterDoor(592, 464);
-        
+
         this.gameWon = false;
     }
 
@@ -125,47 +137,48 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // constantly update the x and y positions of the Fireboy and the Watergirl
+        // constantly update the x and y positions of the Fireboy and the Watergirl and the moving Platform
         this.fireboy.updatePostions();
         this.watergirl.updatePostions();
+        this.platforms[30].updatePositions();
 
-        this.newHeight = fireboy.newGround(this.platforms);
-     //   System.out.println("new Height " + this.newHeight);
-        fireboy.jumpAction(this.newHeight);
-
-        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
-        
-        this.newHeight = this.watergirl.newGround(this.platforms);
-        this.watergirl.jumpAction(this.newHeight);
-        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
-        
         // Fireboy keyboard listeners
-        // make the Fireboy move left
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        // make the Watergirl move left if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon) {
             this.fireboy.moveLeft();
         }
-        // make the Fireboy move right
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        // make the Watergirl move right if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !this.gameWon) {
             this.fireboy.moveRight();
         }
-        // make the Fireboy jump
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        // make the Watergirl jump if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && !this.gameWon) {
             this.fireboy.jump();
         }
 
         // Watergirl keyboard listeners
-        // make the Watergirl move left
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        // make the Watergirl move left if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !this.gameWon) {
             this.watergirl.moveLeft();
         }
-        // make the Watergirl move right
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        // make the Watergirl move right if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && !this.gameWon) {
             this.watergirl.moveRight();
         }
-        // make the Watergirl jump
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        // make the Watergirl jump if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !this.gameWon) {
             this.watergirl.jump();
         }
+
+        this.newHeight = fireboy.newGround(this.platforms);
+        //   System.out.println("new Height " + this.newHeight);
+        fireboy.jumpAction(this.newHeight);
+
+        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
+
+        this.newHeight = this.watergirl.newGround(this.platforms);
+        this.watergirl.jumpAction(this.newHeight);
+        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
 
         // allow the Fireboy to collect the FireGems
         for (FireGem fireGem : this.fireGems) {
@@ -201,6 +214,28 @@ public class MyGdxGame extends ApplicationAdapter {
             this.watergirl.died();
         }
 
+        // Button moves down if a Character is on it
+        for (Button button : this.buttons) {
+            if (button.collision(this.fireboy) || button.collision(this.watergirl)) {
+                // move the Platform downwards
+                if (this.platforms[30].getY() > 272) {
+                    this.platforms[30].moveDown();
+                }
+            }
+        }
+        
+        // Button moves up if a Character isn't on it
+        for (Button button : this.buttons) {
+            if (!button.collision(this.fireboy) && !button.collision(this.watergirl)) {
+                // move the Platform upwards
+                if (this.platforms[30].getY() < 320) {
+                    System.out.println(this.platforms[30]);
+                    System.out.println("here");
+                    this.platforms[30].moveUp();
+                }
+            }
+        }
+        
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
         if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
             this.gameWon = true;
@@ -217,9 +252,45 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Platforms
         this.shapeBatch.setColor(Color.WHITE);
-        for (Platform platform : this.platforms) {
-            platform.draw(this.shapeBatch);
+        for (int i = 0; i < this.platforms.length - 1; i++) {
+            this.platforms[i].draw(this.shapeBatch);
         }
+        // draw the Platform that connects to the Buttons
+        this.shapeBatch.setColor(Color.PURPLE);
+        this.platforms[30].draw(this.shapeBatch);
+
+        // draw the Obstacles
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fire.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.water.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.FOREST);
+        this.mud.draw(this.shapeBatch);
+        for (Button button : this.buttons) {
+            button.draw(shapeBatch);
+        }
+
+        // draw the Gems
+        this.shapeBatch.setColor(Color.RED);
+        for (FireGem fireGem : this.fireGems) {
+            // only draw the FireGem if it hasn't been collected by the Fireboy yet
+            if (!fireGem.isCollected()) {
+                fireGem.draw(this.shapeBatch);
+            }
+        }
+        this.shapeBatch.setColor(Color.BLUE);
+        for (WaterGem waterGem : this.waterGems) {
+            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
+            if (!waterGem.isCollected()) {
+                waterGem.draw(this.shapeBatch);
+            }
+        }
+
+        // draw the Doors
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fireDoor.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.waterDoor.draw(this.shapeBatch);
 
         // draw the Characters if they aren't dead yet
         this.shapeBatch.setColor(Color.RED);
@@ -236,36 +307,11 @@ public class MyGdxGame extends ApplicationAdapter {
             this.watergirl.draw(shapeBatch);
         }
 
-        // draw the Obstacles
-        shapeBatch.setColor(Color.MAGENTA);
-        fire.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        water.draw(shapeBatch);
-        shapeBatch.setColor(Color.FOREST);
-        mud.draw(shapeBatch);
-
-        // draw the Gems
-        shapeBatch.setColor(Color.RED);
-        for (FireGem fireGem : this.fireGems) {
-            // only draw the FireGem if it hasn't been collected by the Fireboy yet
-            if (fireGem.isCollected()) {
-            } else {
-                fireGem.draw(shapeBatch);
-            }
+        // draw a lime green screen over everything once the game was been won
+        if (this.gameWon) {
+            shapeBatch.setColor(Color.LIME);
+            shapeBatch.rect(0, 0, 672, 544);
         }
-        shapeBatch.setColor(Color.BLUE);
-        for (WaterGem waterGem : this.waterGems) {
-            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
-            if (!waterGem.isCollected()) {
-                waterGem.draw(shapeBatch);
-            }
-        }
-
-        // draw the Doors
-        this.shapeBatch.setColor(Color.MAGENTA);
-        this.fireDoor.draw(this.shapeBatch);
-        this.shapeBatch.setColor(Color.CYAN);
-        this.waterDoor.draw(this.shapeBatch);
 
         // end drawing
         this.shapeBatch.end();
@@ -286,6 +332,6 @@ public class MyGdxGame extends ApplicationAdapter {
      */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        this.viewport.update(width, height);
     }
 }

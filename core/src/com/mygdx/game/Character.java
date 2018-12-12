@@ -80,6 +80,7 @@ public abstract class Character {
             }
         }
     }
+    
 
     /**
      * Sets the Character to a jumping state.*buggy
@@ -168,9 +169,6 @@ public abstract class Character {
             }
             if (x.land(this) == 0) {
                 this.counter++;
-            }
-            if (x.collideWithSide(this)){
-                this.hitSide(true,x);
             }
             if (this.counter >= p.length) {
                 newHeight = 32;
@@ -312,10 +310,6 @@ public abstract class Character {
         return this.width + this.x;
     }
 
-    /**
-     * Sets the Character to fall if it's not falling, and to not fall if it's
-     * falling.
-     */
     /**
      * Draws the Character on the screen using a ShapeRenderer.
      *

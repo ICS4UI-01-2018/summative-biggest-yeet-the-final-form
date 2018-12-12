@@ -5,8 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  * Creates Mud as a subclass of Obstacle to use in a game of Fireboy and
  * Watergirl. The Mud kills both the Fireboy and Watergirl.

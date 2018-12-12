@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates a Watergirl as a subclass of Character to use in a game of Fireboy
  * and Watergirl.

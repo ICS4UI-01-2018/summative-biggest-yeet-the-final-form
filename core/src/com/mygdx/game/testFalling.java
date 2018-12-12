@@ -72,6 +72,7 @@ public class testFalling extends ApplicationAdapter {
         // make the Fireboy jump      
         newH = fireboy.newGround(this.platforms);
         fireboy.jumpAction(newH);
+
         fireboy.falling(newH, fireboy.standing(this.platforms));
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             fireboy.jump();
