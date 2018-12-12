@@ -22,7 +22,7 @@ public class Fireboy extends Character {
     public Fireboy(float x, float y) {
         super(x, y);
     }
-    public void moveLeft() {
+//    public void moveLeft() {
         
 //        if(!hitSide){
 //            
@@ -51,4 +51,4 @@ public class Fireboy extends Character {
 //    }
 //    
 //
-//}
+}
