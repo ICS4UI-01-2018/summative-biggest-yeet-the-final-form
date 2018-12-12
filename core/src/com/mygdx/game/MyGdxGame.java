@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MyGdxGame extends ApplicationAdapter {
+
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -36,7 +37,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
 
-    //landing variable
+    // landing variable
     private float newHeight;
 
     // variable to determine whether or not if Fireboy and Watergirl passed the level
@@ -55,10 +56,10 @@ public class MyGdxGame extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-        
+
         //dont worry about it bois
         this.newHeight = 0;
-        
+
         // initialize the Platforms
         this.platforms = new Platform[30];
         this.platforms[0] = new Platform(0, 0, 336, 32);
@@ -94,7 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // initialize the Characters
         this.fireboy = new Fireboy(32, 32);
-        this.watergirl = new Watergirl(32, 112);
+        this.watergirl = new Watergirl(32, 122);
 
         // create the Obstacles
         this.fire = new Fire(336, 16, 64, 16);
@@ -108,7 +109,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.fireGems[2] = new FireGem(144, 480);
         this.fireGems[3] = new FireGem(304, 480);
         this.waterGems = new WaterGem[4];
-        this.waterGems[0] = new WaterGem(440, 64);
+        this.waterGems[0] = new WaterGem(456, 64);
         this.waterGems[1] = new WaterGem(352, 288);
         this.waterGems[2] = new WaterGem(32, 448);
         this.waterGems[3] = new WaterGem(352, 480);
@@ -116,7 +117,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // initialize the Doors
         this.fireDoor = new FireDoor(544, 464);
         this.waterDoor = new WaterDoor(592, 464);
-        
+
         this.gameWon = false;
     }
 
@@ -129,43 +130,47 @@ public class MyGdxGame extends ApplicationAdapter {
         this.fireboy.updatePostions();
         this.watergirl.updatePostions();
 
-        this.newHeight = fireboy.newGround(this.platforms);
-     //   System.out.println("new Height " + this.newHeight);
-        fireboy.jumpAction(this.newHeight);
-
-        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
-        
-        this.newHeight = this.watergirl.newGround(this.platforms);
-        this.watergirl.jumpAction(this.newHeight);
-        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
-        
         // Fireboy keyboard listeners
-        // make the Fireboy move left
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        // make the Watergirl move left if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon) {
             this.fireboy.moveLeft();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon && fireboy.onIce){
+                this.fireboy.moveLeft();
+                
+            }
         }
-        // make the Fireboy move right
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        // make the Watergirl move right if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !this.gameWon) {
             this.fireboy.moveRight();
         }
-        // make the Fireboy jump
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        // make the Watergirl jump if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && !this.gameWon) {
             this.fireboy.jump();
         }
 
         // Watergirl keyboard listeners
-        // make the Watergirl move left
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        // make the Watergirl move left if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !this.gameWon) {
             this.watergirl.moveLeft();
         }
-        // make the Watergirl move right
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        // make the Watergirl move right if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && !this.gameWon) {
             this.watergirl.moveRight();
         }
-        // make the Watergirl jump
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        // make the Watergirl jump if the game hasn't been won yet
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && !this.gameWon) {
             this.watergirl.jump();
         }
+
+        this.newHeight = fireboy.newGround(this.platforms);
+        //   System.out.println("new Height " + this.newHeight);
+        fireboy.jumpAction(this.newHeight);
+
+        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
+
+        this.newHeight = this.watergirl.newGround(this.platforms);
+        this.watergirl.jumpAction(this.newHeight);
+        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
 
         // allow the Fireboy to collect the FireGems
         for (FireGem fireGem : this.fireGems) {
@@ -221,6 +226,36 @@ public class MyGdxGame extends ApplicationAdapter {
             platform.draw(this.shapeBatch);
         }
 
+        // draw the Obstacles
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fire.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.water.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.FOREST);
+        this.mud.draw(this.shapeBatch);
+
+        // draw the Gems
+        this.shapeBatch.setColor(Color.RED);
+        for (FireGem fireGem : this.fireGems) {
+            // only draw the FireGem if it hasn't been collected by the Fireboy yet
+            if (!fireGem.isCollected()) {
+                fireGem.draw(this.shapeBatch);
+            }
+        }
+        this.shapeBatch.setColor(Color.BLUE);
+        for (WaterGem waterGem : this.waterGems) {
+            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
+            if (!waterGem.isCollected()) {
+                waterGem.draw(this.shapeBatch);
+            }
+        }
+
+        // draw the Doors
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fireDoor.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.waterDoor.draw(this.shapeBatch);
+
         // draw the Characters if they aren't dead yet
         this.shapeBatch.setColor(Color.RED);
         if (!this.fireboy.isDead()) {
@@ -231,36 +266,11 @@ public class MyGdxGame extends ApplicationAdapter {
             this.watergirl.draw(shapeBatch);
         }
 
-        // draw the Obstacles
-        shapeBatch.setColor(Color.MAGENTA);
-        fire.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        water.draw(shapeBatch);
-        shapeBatch.setColor(Color.FOREST);
-        mud.draw(shapeBatch);
-
-        // draw the Gems
-        shapeBatch.setColor(Color.RED);
-        for (FireGem fireGem : this.fireGems) {
-            // only draw the FireGem if it hasn't been collected by the Fireboy yet
-            if (fireGem.isCollected()) {
-            } else {
-                fireGem.draw(shapeBatch);
-            }
+        // draw a lime green screen over everything once the game was been won
+        if (this.gameWon) {
+            shapeBatch.setColor(Color.LIME);
+            shapeBatch.rect(0, 0, 672, 544);
         }
-        shapeBatch.setColor(Color.BLUE);
-        for (WaterGem waterGem : this.waterGems) {
-            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
-            if (!waterGem.isCollected()) {
-                waterGem.draw(shapeBatch);
-            }
-        }
-
-        // draw the Doors
-        this.shapeBatch.setColor(Color.MAGENTA);
-        this.fireDoor.draw(this.shapeBatch);
-        this.shapeBatch.setColor(Color.CYAN);
-        this.waterDoor.draw(this.shapeBatch);
 
         // end drawing
         this.shapeBatch.end();
@@ -281,6 +291,6 @@ public class MyGdxGame extends ApplicationAdapter {
      */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        this.viewport.update(width, height);
     }
 }

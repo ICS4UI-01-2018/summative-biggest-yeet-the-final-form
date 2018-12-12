@@ -16,8 +16,10 @@ public class Ice extends Platform{
     }
     public boolean onIce (Character character){
         if (character.getBounds().overlaps(this.getBounds())){
+            character.isOnIce(true);
             return true;
         }else{ 
+            character.isOnIce(false);
             return false;
     }
   
