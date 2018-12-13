@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected, counter;
     private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide;
+    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, onIce;
     private Rectangle character;
 
     /**
@@ -81,12 +81,13 @@ public abstract class Character {
             }
         }
     }
+    
 
     /**
      * Sets the Character to a jumping state.*buggy
      */
     public void jump() {
-        if (!this.jump) {
+        if (!this.jump && !this.onIce) {
             this.isFalling = false;
             ySpeed = -12;//height of jump
             this.jump = true;
@@ -314,10 +315,6 @@ public abstract class Character {
     }
 
     /**
-     * Sets the Character to fall if it's not falling, and to not fall if it's
-     * falling.
-     */
-    /**
      * Draws the Character on the screen using a ShapeRenderer.
      *
      * @param shapeBatch a ShapeRenderer used to draw the Character on the
@@ -356,5 +353,10 @@ public abstract class Character {
             this.width = p.getX();
         }
     }
-
+        
+        public void isOnIce (boolean b){
+            this.onIce = b;
+        }
+    
+    
 }

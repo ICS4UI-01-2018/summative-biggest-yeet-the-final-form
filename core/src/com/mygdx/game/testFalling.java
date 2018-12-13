@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 //ignore all of this honestly
+
 public class testFalling extends ApplicationAdapter {
 
     // Characters
@@ -18,7 +19,7 @@ public class testFalling extends ApplicationAdapter {
 
     // an array to store all of the Platforms
     private Platform[] platforms;
-Platform[] z;
+    Platform[] z;
     // Water and Fire pools
     private Water water;
     private Fire fire;
@@ -27,8 +28,9 @@ Platform[] z;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-int counter;
-float newH;
+    private Ice ice;
+    int counter;
+    float newH;
     Platform current;
 
     @Override
@@ -52,13 +54,14 @@ float newH;
         this.fireboy = new Fireboy(32, 32);
         this.watergirl = new Watergirl(32, 112);
         // initialize the Platforms
-         this.platforms[0] = new Platform(0, 0, 336, 32);
-                  this.platforms[1] = new Platform(0, 80, 100, 25);
+        this.platforms[0] = new Platform(0, 0, 336, 32);
+        this.platforms[1] = new Platform(0, 80, 100, 25);
+        this.ice = new Ice(100,32,150,32);
         // create the Fire and the Water pools
         this.fire = new Fire(336, 16, 64, 16);
         this.newH = 0;
         this.water = new Water(432, 16, 64, 16);
-         this.counter= 0;
+        this.counter = 0;
     }
 
     @Override
@@ -67,19 +70,17 @@ float newH;
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //need to find a way to check if landed after each 'fall' 
-       
         // Fireboy keyboard listeners
         // make the Fireboy jump      
-   
-newH = fireboy.newGround(this.platforms);
-                    fireboy.jumpAction(newH);
-                    
-                    fireboy.falling(newH,fireboy.standing(this.platforms));
+        newH = fireboy.newGround(this.platforms);
+        fireboy.jumpAction(newH);
+
+        fireboy.falling(newH, fireboy.standing(this.platforms));
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             fireboy.jump();
-            
+
         }
-  
+
         // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             fireboy.moveRight();
@@ -93,7 +94,7 @@ newH = fireboy.newGround(this.platforms);
         // Watergirl keyboard listeners
         // make the Watergirl jump
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-         //   watergirl.jump();
+            //   watergirl.jump();
         }
         // make the Watergirl move right
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -127,10 +128,12 @@ newH = fireboy.newGround(this.platforms);
 
         // draw the Platforms
         shapeBatch.setColor(Color.WHITE);
-                platforms[1].draw(shapeBatch);
+        platforms[1].draw(shapeBatch);
         shapeBatch.setColor(Color.LIME);
         platforms[0].draw(shapeBatch);
-       
+        
+        shapeBatch.setColor(Color.GRAY);
+        ice.draw(shapeBatch);
 
 //        for (int i = 0; i < this.platforms.length; i++) {
 //            platforms[i].draw(shapeBatch);

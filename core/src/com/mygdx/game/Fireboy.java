@@ -22,6 +22,33 @@ public class Fireboy extends Character {
     public Fireboy(float x, float y) {
         super(x, y);
     }
-    
-
+//    public void moveLeft() {
+        
+//        if(!hitSide){
+//            
+//        // do not let the Character move off of the left-side of the screen
+//        if (super.x > 16) {
+//            // make the Character move towards the left of the screen
+//            super.x = this.x - this.speed;
+//        }
+//        }
+//        
+//        
+//    }
+//
+//    /**
+//     * Allows the Character to move towards the right-side of the screen without
+//     * it going off of the screen.
+//     */
+//    public void moveRight() {
+//        if(!hitSide){
+//        // do not let the Character move off of the right-side of the screen
+//        if (this.x < 632) {
+//            // make the Character move towards the right of the screen
+//            this.x = this.x + this.speed;
+//        }
+//        }
+//    }
+//    
+//
 }
