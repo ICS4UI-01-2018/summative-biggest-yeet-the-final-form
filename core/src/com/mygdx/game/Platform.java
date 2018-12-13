@@ -112,7 +112,7 @@ public float land (Character c){//fix so you can hit sides
     }
     
     public boolean collideRight(Character character){
-        if (character.getX() < this.x + this.width && character.getY() != this.getTop() && character.getCollide()== false){
+        if (character.getX() < this.x + this.width && character.getY() != this.getTop()){
             return true;
         }else if(character.getBottom()== this.getTop()){
             return false;
