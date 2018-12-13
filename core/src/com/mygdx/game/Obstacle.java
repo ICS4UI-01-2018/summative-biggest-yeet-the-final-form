@@ -16,10 +16,8 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Obstacle {
 
     Rectangle obstacle;
-    private int width;
-    private int height;
-    private float x;
-    private float y;
+    private int width, height;
+    private float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y

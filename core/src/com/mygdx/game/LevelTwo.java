@@ -7,6 +7,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,9 +30,10 @@ public class LevelTwo extends ApplicationAdapter {
     private Platform[] platforms;
 
     // Obstacles
-    private Fire[] fire;
-    private Water[] water;
-    private Mud[] mud;
+    private Fire fire;
+    private Water water;
+    private Mud mud;
+    private Ice[] ice;
 
     // Gems
     private FireGem[] fireGems;
@@ -46,20 +48,25 @@ public class LevelTwo extends ApplicationAdapter {
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
 
+    // landing variable
+    private float newHeight;
+
+    // variable to determine whether or not if Fireboy and Watergirl passed the level
+    private boolean levelWon;
+
+    private Level level;
+    
     @Override
     public void create() {
-        // intialize the SpriteBatch and the ShapeRenderer
-        this.batch = new SpriteBatch();
-        this.shapeBatch = new ShapeRenderer();
+        // creates a new level of Fireboy and Watergirl
+        this.level = new Level();
 
-        // initialize the Camera and the Viewport
-        this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(672, 544, this.camera);
-        this.viewport.apply();
-        this.camera.position.x = 336;
-        this.camera.position.y = 272;
-        this.camera.update();
+        // initializes SpriteBatch, ShapeRenderer, Camera, Viewport, and the winning variable
+        this.level.initialize(this.batch, this.shapeBatch, this.camera, this.viewport, this.levelWon);
 
+        //dont worry about it bois
+        this.newHeight = 0;
+        
         // initialize the Characters
         this.fireboy = new Fireboy(360, 448);
         this.watergirl = new Watergirl(288, 448);
@@ -125,9 +132,28 @@ public class LevelTwo extends ApplicationAdapter {
         this.platforms[56] = new Platform(464, 416, 16, 16);
 
         // initialize the Obstacles
-        
-        
+        this.fire = new Fire(16, 176, 112, 16);
+        this.water = new Water(544, 176, 112, 16);
+        this.mud = new Mud(16, 32, 640, 16);
+        this.ice = new Ice[2];
+        this.ice[0] = new Ice(16, 368, 96, 16);
+        this.ice[1] = new Ice(560, 368, 96, 16);
+
         // initialize the Gems
+        this.fireGems = new FireGem[6];
+        this.fireGems[0] = new FireGem(320, 288);
+        this.fireGems[1] = new FireGem(352, 288);
+        this.fireGems[2] = new FireGem(304, 192);
+        this.fireGems[3] = new FireGem(320, 176);
+        this.fireGems[4] = new FireGem(336, 192);
+        this.fireGems[5] = new FireGem(352, 176);
+        this.waterGems = new WaterGem[6];
+        this.waterGems[0] = new WaterGem(304, 288);
+//        this.waterGems[1] = new WaterGem();
+//        this.waterGems[2] = new WaterGem();
+//        this.waterGems[3] = new WaterGem();
+//        this.waterGems[4] = new WaterGem();
+//        this.waterGems[5] = new WaterGem();
         // initialize the Doors
     }
 
@@ -135,11 +161,32 @@ public class LevelTwo extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        this.level.basicGameLogic(this.fireboy, this.watergirl, this.fireGems, this.waterGems, this.levelWon);
+
+        this.newHeight = fireboy.newGround(this.platforms);
+        //   System.out.println("new Height " + this.newHeight);
+        fireboy.jumpAction(this.newHeight);
+
+        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
+
+        this.newHeight = this.watergirl.newGround(this.platforms);
+        this.watergirl.jumpAction(this.newHeight);
+        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
 
         // start drawing
-        this.batch.begin();
-        this.shapeBatch.setProjectionMatrix(this.camera.combined);
-        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        this.level.startDrawing(this.batch, this.shapeBatch, this.camera);
+
+        // draw the Obstacles
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fire.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.CYAN);
+        this.water.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.GREEN);
+        this.mud.draw(this.shapeBatch);
+        this.shapeBatch.setColor(Color.GRAY);
+        this.ice[0].draw(this.shapeBatch);
+        this.ice[1].draw(this.shapeBatch);
 
         // draw the Characters
         this.shapeBatch.setColor(Color.RED);
@@ -153,10 +200,24 @@ public class LevelTwo extends ApplicationAdapter {
             platform.draw(this.shapeBatch);
         }
 
+        // draw the Gems
+        this.shapeBatch.setColor(Color.RED);
+        for (FireGem fireGem : this.fireGems) {
+            // only draw the FireGem if it hasn't been collected by the Fireboy yet
+            if (!fireGem.isCollected()) {
+                fireGem.draw(this.shapeBatch);
+            }
+        }
+        this.shapeBatch.setColor(Color.BLUE);
+        for (WaterGem waterGem : this.waterGems) {
+            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
+            if (!waterGem.isCollected()) {
+                waterGem.draw(this.shapeBatch);
+            }
+        }
+
         // end drawing
-        this.shapeBatch.end();
-        this.batch.end();
-        this.batch.setProjectionMatrix(this.camera.combined);
+        this.level.endDrawing(this.batch, this.shapeBatch, this.camera);
     }
 
     @Override
