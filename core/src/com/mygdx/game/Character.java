@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected, counter;
     private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, landed;
+    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, onIce, landed;
     private Rectangle character;
 
     /**
@@ -86,8 +86,7 @@ public abstract class Character {
      * Sets the Character to a jumping state.*buggy
      */
     public void jump() {
-        if (!this.jump) {
-            System.out.println("jump");
+        if (!this.jump && !this.onIce) {
             this.isFalling = false;
             ySpeed = -12;//height of jump
             this.jump = true;
@@ -306,7 +305,7 @@ public abstract class Character {
      *
      * @return an integer representing the width of the character
      */
-    public float getWidth() {
+    public float getFarX() {
         return this.width + this.x;
     }
 
@@ -347,5 +346,10 @@ public abstract class Character {
             this.x = p.getX();
         }
     }
-
+        
+        public void isOnIce (boolean b){
+            this.onIce = b;
+        }
+    
+    
 }

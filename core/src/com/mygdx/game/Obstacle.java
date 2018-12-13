@@ -48,7 +48,29 @@ public abstract class Obstacle {
      * Character
      */
     public boolean collision(Character character) {
-        return this.obstacle.overlaps(character.getBounds());
+        if (this.x >=character.getX() && this.getFarX() <= character.getFarX() 
+                && this.y >= character.getY() && this.getTop() <= character.getTop()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
+     * Returns the right x of the character
+     * @return  the right x of the character
+     */
+    public float getFarX(){
+        return this.x + this.width;
+    }
+    
+    /**
+     * Returns the top y of the character
+     * @return  the top y of the character
+     */
+    public float getTop(){
+        return this.y + this.height;
     }
 
     /**

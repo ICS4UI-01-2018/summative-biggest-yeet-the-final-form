@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
  * Level One of the Fireboy and Watergirl game.
- * 
- * @author  biGgEsT yEeT: tHe fiNaL fOrM
+ *
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -110,8 +110,8 @@ public class MyGdxGame extends ApplicationAdapter {
         this.water = new Water(432, 16, 64, 16);
         this.mud = new Mud(416, 160, 64, 16);
         this.buttons = new Button[2];
-        this.buttons[0] = new Button(168, 288);
-        this.buttons[1] = new Button(488, 368);
+        this.buttons[0] = new Button(168, 288,this.platforms[30],this.platforms[30].getY(), 272 );
+        this.buttons[1] = new Button(488, 368,this.platforms[29], this.platforms[29].getY(),5);
 
         // initialize the Gems
         this.fireGems = new FireGem[4];
@@ -146,6 +146,10 @@ public class MyGdxGame extends ApplicationAdapter {
         // make the Watergirl move left if the game hasn't been won yet
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon) {
             this.fireboy.moveLeft();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && !this.gameWon && fireboy.onIce) {
+                this.fireboy.moveLeft();
+
+            }
         }
         // make the Watergirl move right if the game hasn't been won yet
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !this.gameWon) {
@@ -216,26 +220,20 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // Button moves down if a Character is on it
         for (Button button : this.buttons) {
-            if (button.collision(this.fireboy) || button.collision(this.watergirl)) {
+     if (button.collision(this.fireboy)) {
                 // move the Platform downwards
-                if (this.platforms[30].getY() > 272) {
-                    this.platforms[30].moveDown();
+                if (button.getPlatform().getY() > button.getEndingHeight()) {
+                    button.getPlatform().moveDown();
                 }
             }
-        }
-        
-        // Button moves up if a Character isn't on it
-        for (Button button : this.buttons) {
-            if (!button.collision(this.fireboy) && !button.collision(this.watergirl)) {
+            if (!button.collision(this.fireboy)) {
                 // move the Platform upwards
-                if (this.platforms[30].getY() < 320) {
-                    System.out.println(this.platforms[30]);
-                    System.out.println("here");
-                    this.platforms[30].moveUp();
+                if (button.getPlatform().getY() < button.getStartingHeight()) {
+                    button.getPlatform().moveUp();
                 }
             }
         }
-        
+
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
         if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
             this.gameWon = true;
@@ -294,7 +292,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Characters if they aren't dead yet
         this.shapeBatch.setColor(Color.RED);
-        if (this.fireboy.getY() < 32){
+        if (this.fireboy.getY() < 32) {
             System.out.println("here");
             this.fireboy.setY(32);
             this.fireboy.updatePostions();

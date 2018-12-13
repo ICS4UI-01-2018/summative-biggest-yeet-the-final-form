@@ -108,8 +108,7 @@ public class Platform {
         if (character.getBounds().overlaps(this.getBounds())) {
             return true;
         } else {
-            return false;
-
+      return false;
         }
     }
 
@@ -135,6 +134,7 @@ public class Platform {
      * Moves the Platform downwards.
      */
     public void moveDown() {
+        
         this.y = this.y - this.speed;
     }
 
