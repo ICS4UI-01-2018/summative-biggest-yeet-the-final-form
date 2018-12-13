@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MyGdxGame extends ApplicationAdapter {
+
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -55,18 +56,18 @@ public class MyGdxGame extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-        
+
         //dont worry about it bois
         this.newHeight = 0;
-        
+
         // initialize the Platforms
         this.platforms = new Platform[30];
-        this.platforms[0] = new Platform(0, 0, 336, 32);
+        this.platforms[0] = new Platform(0, 0, 400, 32);
         this.platforms[1] = new Platform(0, 32, 16, 512);
         this.platforms[2] = new Platform(336, 0, 64, 16);
         this.platforms[3] = new Platform(400, 0, 32, 32);
         this.platforms[4] = new Platform(432, 0, 64, 16);
-        this.platforms[5] = new Platform(496, 0, 176, 32);
+        this.platforms[5] = new Platform(496, 0, 700, 32);
         this.platforms[6] = new Platform(592, 32, 64, 64);
         this.platforms[7] = new Platform(656, 32, 16, 512);
         this.platforms[8] = new Platform(16, 80, 192, 32);
@@ -93,7 +94,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.platforms[29] = new Platform(288, 512, 96, 32);
 
         // initialize the Characters
-        this.fireboy = new Fireboy(32, 32);
+        this.fireboy = new Fireboy(336, 240);
         this.watergirl = new Watergirl(32, 112);
 
         // create the Obstacles
@@ -116,7 +117,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // initialize the Doors
         this.fireDoor = new FireDoor(544, 464);
         this.waterDoor = new WaterDoor(592, 464);
-        
+
         this.gameWon = false;
     }
 
@@ -130,20 +131,33 @@ public class MyGdxGame extends ApplicationAdapter {
         this.watergirl.updatePostions();
 
         this.newHeight = fireboy.newGround(this.platforms);
-     //   System.out.println("new Height " + this.newHeight);
+        //   System.out.println("new Height " + this.newHeight);
         fireboy.jumpAction(this.newHeight);
 
         fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
-        
+
         this.newHeight = this.watergirl.newGround(this.platforms);
         this.watergirl.jumpAction(this.newHeight);
         this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
-        
+
         // Fireboy keyboard listeners
         // make the Fireboy move left
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.fireboy.moveLeft();
         }
+
+        for (Platform p : this.platforms) {
+
+            if (p.collideLeft(fireboy)) {
+                fireboy.hitRight();
+            }
+
+            if (p.collideRight(fireboy)) {
+                fireboy.hitRight();
+            }
+        }
+        
+        
         // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             this.fireboy.moveRight();
