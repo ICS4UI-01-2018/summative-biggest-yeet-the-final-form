@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected, counter;
     private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, onIce, landed;
+    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, onIce, landed,jumpAction;
     private Rectangle character;
 
     /**
@@ -46,6 +46,7 @@ public abstract class Character {
         this.hitSide = false;
         this.counter = 0;
         this.landed = true;
+        this.jumpAction = false;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -87,6 +88,7 @@ public abstract class Character {
      */
     public void jump() {
         if (!this.jump && !this.onIce) {
+            System.out.println("here");
             this.isFalling = false;
             ySpeed = -12;//height of jump
             this.jump = true;
@@ -102,16 +104,19 @@ public abstract class Character {
      */
     public void jumpAction(float fHeight) {
         //if you hit the bottom start to fall
-        if (this.hitBottom) {
-            ySpeed = 0;
-            this.hitBottom = false;
-            this.isFalling = true;
-        }
-
+//        if (this.hitBottom) {
+//            System.out.println("j");
+//            ySpeed = 0;
+//            this.hitBottom = false;
+//            this.isFalling = true;
+//        }
         if (this.jump) {
+               this.jumpAction = true;
+          //           System.out.println(ySpeed);
+
             //check whether your falling
             if (this.ySpeed > 0) {
-                System.out.println("falling");
+            //    System.out.println("falling");
              //   System.out.println("i'm falling");
                 this.isFalling = true;
                 this.landed = false;
@@ -121,22 +126,28 @@ public abstract class Character {
             //in
             ySpeed += gravity;
             this.y -= ySpeed;
-            if (this.y < fHeight) {
+            System.out.println(this.y);
+
+
+            if (this.y <= fHeight) {
                System.out.println("landing");
                 this.y = fHeight;
                 ySpeed = 0;
                 this.speed = 2;
+                this.jumpAction = false;
                 this.jump = false;
                 this.isFalling = false;
                 this.isColliding = true;
-                this.landed = true;
+              //  this.landed = true;
             }
         }
     }
 
-    public void falling(float fHeight, boolean b) {
-        if (!this.landed && !this.jump && !b) {
-         //   System.out.println("FALLING");
+    public void falling(float fHeight) {
+        System.out.println(this.jumpAction);
+        System.out.println(this.landed);
+        if (!this.landed && !this.jumpAction) {
+            System.out.println("FALLING");
             this.isFalling = true;
             ySpeed += gravity;
             this.y -= ySpeed;
@@ -164,13 +175,14 @@ public abstract class Character {
             }
             if (x.land(this) != 0) {
                 newHeight = x.land(this);
-                this.landed = true;
+              //  this.landed = true;
             }
             if (x.land(this) == 0) {
                 this.counter++;
             }
             if (this.counter >= p.length) {
                 newHeight = 32;
+                this.landed = true;
                 this.counter = 0;
             }
         }
@@ -186,19 +198,21 @@ public abstract class Character {
     public boolean standing(Platform[] p) {
         this.counter = 0;
         for (Platform x : p) {
-            if (this.getX() >= x.getX() && (this.getX() + this.width) <= x.getLength() && this.getY() >= x.getY() && this.getY() <= x.getTop()) {
+            if (x.collision(this)) {
+                System.out.println("h");
                 this.counter++;
             }
         }
-        if (this.counter == 1) {
-          //  System.out.println("standing");
-            this.landed = true;
-            return true;
-        } else {
-            this.landed = false;
-            return false;
+        if (this.counter > 0) {
+            System.out.println("standing");
+           // this.landed = true;
+        } else{
+            System.out.println("not");
+          //  this.landed = false;
         }
+       return this.landed; 
     }
+    
 
     /**
      * Returns the x position of the Character.

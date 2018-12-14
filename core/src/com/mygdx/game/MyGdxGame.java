@@ -102,8 +102,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // initialize the Characters
         // fireboy = 32, 32
-        this.fireboy = new Fireboy(96, 288);
-        this.watergirl = new Watergirl(32, 122);
+        this.fireboy = new Fireboy(96, 240);
+        this.watergirl = new Watergirl(540, 288);
 
         // create the Obstacles
         this.fire = new Fire(336, 16, 64, 16);
@@ -178,11 +178,11 @@ public class MyGdxGame extends ApplicationAdapter {
         //   System.out.println("new Height " + this.newHeight);
         fireboy.jumpAction(this.newHeight);
 
-        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
+        fireboy.falling(this.newHeight);
 
         this.newHeight = this.watergirl.newGround(this.platforms);
         this.watergirl.jumpAction(this.newHeight);
-        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
+      //  this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
 
         // allow the Fireboy to collect the FireGems
         for (FireGem fireGem : this.fireGems) {
@@ -292,10 +292,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // draw the Characters if they aren't dead yet
         this.shapeBatch.setColor(Color.RED);
-        if (this.fireboy.getY() < 32) {
+        if (this.platforms[30].collision(watergirl)) {
             System.out.println("here");
-            this.fireboy.setY(32);
-            this.fireboy.updatePostions();
+            this.watergirl.setY(this.platforms[30].getWidth());
+            this.watergirl.updatePostions();
         }
         if (!this.fireboy.isDead()) {
             this.fireboy.draw(this.shapeBatch);

@@ -48,14 +48,9 @@ public abstract class Obstacle {
      * Character
      */
     public boolean collision(Character character) {
-        if (this.x >=character.getX() && this.getFarX() <= character.getFarX() 
-                && this.y >= character.getY() && this.getTop() <= character.getTop()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return this.obstacle.overlaps(character.getBounds());       
     }
+     
     
     /**
      * Returns the right x of the character
