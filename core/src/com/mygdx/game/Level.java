@@ -24,6 +24,40 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class Level {
 
     /**
+     * Initializes the SpriteBatch, the ShapeRenderer, the OrthographicCamera,
+     * the FitViewport, and the winning variable to use in a game of Fireboy and
+     * Watergirl.
+     *
+     * @param batch a SpriteBatch
+     * @param shapeBatch a ShapeRenderer to draw game elements with
+     * @param camera an OrthographicCamera
+     * @param viewport a FitViewport
+     * @param levelWon a boolean representing whether the Level was been won or
+     * not
+     * @param newHeight a float representing the new y coordinate after a
+     * Character jumps
+     */
+    public void initialize(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera, FitViewport viewport, boolean levelWon, float newHeight) {
+        // intialize the SpriteBatch and the ShapeRenderer
+        batch = new SpriteBatch();
+        shapeBatch = new ShapeRenderer();
+
+        // initialize the camera and the viewport
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(672, 544, camera);
+        viewport.apply();
+        camera.position.x = 336;
+        camera.position.y = 272;
+        camera.update();
+
+        // Fireboy and Watergirl have not died yet
+        levelWon = false;
+
+        // initialize the new height
+        newHeight = 32;
+    }
+
+    /**
      * Implements the basic game logic in a game of Fireboy and Watergirl. This
      * will constantly update the position of the Characters on the screen. It
      * allows for the Characters to move right, or left when certain keys are
@@ -33,13 +67,17 @@ public class Level {
      *
      * @param f a Character representing a Fireboy in a game
      * @param w a Character representing a Watergirl in a game
-     * @param fg an array of FireGems for the Fireboy to collect during the game
-     * @param wg an array of WaterGems for the Watergirl to collect during the
+     * @param fireGem an array of FireGems for the Fireboy to collect during the
      * game
-     * @param lw a boolean representing whether or not the Fireboy or Watergirl
-     * have passed the level yet
+     * @param waterGem an array of WaterGems for the Watergirl to collect during
+     * the game
+     * @param platforms an array of Platforms used in a Level
+     * @param newHeight a float represnting the new y coordinate after a
+     * Character jumps
+     * @param levelWon a boolean representing whether if the Level has been
+     * beaten or not
      */
-    public void basicGameLogic(Fireboy f, Watergirl w, FireGem[] fg, WaterGem[] wg, boolean levelWon) {
+    public void basicGameLogic(Fireboy f, Watergirl w, FireGem[] fireGem, WaterGem[] waterGem, Platform[] platforms, float newHeight, boolean levelWon) {
         // constantly updates the positions of the Characters
         f.updatePostions();
         w.updatePostions();
@@ -76,29 +114,37 @@ public class Level {
         }
 
         // allow the Fireboy to collect the FireGems
-        for (FireGem fireGem : fg) {
+        for (FireGem fGem : fireGem) {
             // determine if the Fireboy has collected the FireGem
-            if (fireGem.collision(f)) {
+            if (fGem.collision(f)) {
                 // don't draw the FireGem on the screen
-                fireGem.collected();
+                fGem.collected();
                 // add to the Fireboy's FireGem count
                 f.addGem();
             }
         }
 
         // allow the Watergirl to collect the WaterGems
-        for (WaterGem waterGem : wg) {
+        for (WaterGem wGem : waterGem) {
             // determine if the Watergirl has collected the WaterGem
-            if (waterGem.collision(w)) {
+            if (wGem.collision(w)) {
                 // don't draw the WaterGem on the screen
-                waterGem.collected();
+                wGem.collected();
                 // add to the Watergirl's WaterGem count
                 w.addGem();
             }
         }
 
-        // game can be won once the Fireboy and Watergirl are in front of their respected Doors
         // allow the Fireboy and the Watergirl to jump
+        newHeight = f.newGround(platforms);
+        f.jumpAction(newHeight);
+        f.falling(newHeight, f.standing(platforms));
+
+        newHeight = w.newGround(platforms);
+        w.jumpAction(newHeight);
+        w.falling(newHeight, w.standing(platforms));
+
+        // game can be won once the Fireboy and Watergirl are in front of their respected Doors
         // make the Button move downwards if a Character has collided with it
         // allow the Fireboy to die in the Water
         // allow the Fireboy to die in the Mud
@@ -120,17 +166,6 @@ public class Level {
     }
 
     /**
-     * Draws the background of the game to be black.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the background
-     */
-    public void drawBackground(ShapeRenderer shapeBatch) {
-        // set the background to be black
-        shapeBatch.setColor(Color.BLACK);
-        shapeBatch.rect(0, 0, 672, 544);
-    }
-
-    /**
      * Ends the drawing of game elements.
      *
      * @param batch a SpriteBatch
@@ -141,6 +176,17 @@ public class Level {
         shapeBatch.end();
         batch.end();
         batch.setProjectionMatrix(camera.combined);
+    }
+
+    /**
+     * Draws the background of the game to be black.
+     *
+     * @param shapeBatch a ShapeRenderer to draw the background
+     */
+    public void drawBackground(ShapeRenderer shapeBatch) {
+        // set the background to be black
+        shapeBatch.setColor(Color.BLACK);
+        shapeBatch.rect(0, 0, 672, 544);
     }
 
     /**
@@ -239,31 +285,15 @@ public class Level {
     }
 
     /**
-     * Initializes the SpriteBatch, the ShapeRenderer, the OrthographicCamera,
-     * the FitViewport, and the winning variable to use in a game of Fireboy and
-     * Watergirl.
+     * Draws the Ice of a Level using a ShapeRenderer.
      *
-     * @param batch a SpriteBatch
-     * @param shapeBatch a ShapeRenderer to draw game elements with
-     * @param camera an OrthographicCamera
-     * @param viewport a FitViewport
-     * @param levelWon a boolean representing whether the Level was been won or
-     * not
+     * @param shapeBatch a ShapeRenderer to draw the Ice with
+     * @param ice an array of Platforms representing Ice to draw
      */
-    public void initialize(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera, FitViewport viewport, boolean levelWon) {
-        // intialize the SpriteBatch and the ShapeRenderer
-        batch = new SpriteBatch();
-        shapeBatch = new ShapeRenderer();
-
-        // initialize the camera and the viewport
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(672, 544, camera);
-        viewport.apply();
-        camera.position.x = 336;
-        camera.position.y = 272;
-        camera.update();
-
-        // Fireboy and Watergirl have not died yet
-        levelWon = false;
+    public void drawIce(ShapeRenderer shapeBatch, Ice[] ice) {
+        shapeBatch.setColor(Color.GRAY);
+        for (Ice i : ice) {
+            i.draw(shapeBatch);
+        }
     }
 }

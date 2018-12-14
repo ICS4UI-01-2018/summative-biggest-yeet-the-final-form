@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -49,11 +48,8 @@ public class LevelOne extends ApplicationAdapter {
         // creates a new level of Fireboy and Watergirl
         this.level = new Level();
 
-        // initializes SpriteBatch, ShapeRenderer, Camera, Viewport, and the winning variable
-        this.level.initialize(this.batch, this.shapeBatch, this.camera, this.viewport, this.levelWon);
-
-        //dont worry about it bois
-        this.newHeight = 0;
+        // initializes SpriteBatch, ShapeRenderer, Camera, Viewport, the winning variable, and the jumping variable
+        this.level.initialize(this.batch, this.shapeBatch, this.camera, this.viewport, this.levelWon, this.newHeight);
 
         // initialize the Platforms
         this.platforms = new Platform[31];
@@ -128,20 +124,10 @@ public class LevelOne extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // implement the basic game logic
-        this.level.basicGameLogic(this.fireboy, this.watergirl, this.fireGems, this.waterGems, this.levelWon);
+        this.level.basicGameLogic(this.fireboy, this.watergirl, this.fireGems, this.waterGems, this.platforms, this.newHeight, this.levelWon);
 
         // constantly update the x and y positions of the moving Platform
         this.platforms[30].updatePositions();
-
-        this.newHeight = fireboy.newGround(this.platforms);
-        //   System.out.println("new Height " + this.newHeight);
-        fireboy.jumpAction(this.newHeight);
-
-        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
-
-        this.newHeight = this.watergirl.newGround(this.platforms);
-        this.watergirl.jumpAction(this.newHeight);
-        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
 
 //        // Button moves down if a Character is on it
 //        for (Button button : this.buttons) {
@@ -162,9 +148,11 @@ public class LevelOne extends ApplicationAdapter {
 //                }
 //            }
 //        }
-
-        // start drawing
-        this.level.startDrawing(this.batch, this.shapeBatch, this.camera);
+//        // start drawing
+//        this.level.startDrawing(this.batch, this.shapeBatch, this.camera);
+        batch.begin();
+        shapeBatch.setProjectionMatrix(camera.combined);
+        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         // draw the background
         this.level.drawBackground(this.shapeBatch);
         // draw the Gems
@@ -192,14 +180,14 @@ public class LevelOne extends ApplicationAdapter {
         this.batch.dispose();
     }
 
-    /**
-     * Resizes the screen so that the game doesn't look distorted.
-     *
-     * @param width an integer representing the width of the original screen
-     * @param height an integer representing the height of the original screen
-     */
-    @Override
-    public void resize(int width, int height) {
-        this.viewport.update(width, height);
-    }
+//    /**
+//     * Resizes the screen so that the game doesn't look distorted.
+//     *
+//     * @param width an integer representing the width of the original screen
+//     * @param height an integer representing the height of the original screen
+//     */
+//    @Override
+//    public void resize(int width, int height) {
+//        this.viewport.update(width, height);
+//    }
 }
