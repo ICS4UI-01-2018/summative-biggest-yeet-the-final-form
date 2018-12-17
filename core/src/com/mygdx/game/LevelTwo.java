@@ -132,8 +132,8 @@ public class LevelTwo extends ApplicationAdapter {
         this.mud = new Mud[1];
         this.mud[0] = new Mud(16, 32, 640, 16);
         this.buttons = new Button[2];
-        this.buttons[0] = new Button(64, 208);
-        this.buttons[1] = new Button(592, 208);
+  //      this.buttons[0] = new Button(64, 208);
+//        this.buttons[1] = new Button(592, 208);
 
         // initialize the Gems
         this.fireGems = new FireGem[6];

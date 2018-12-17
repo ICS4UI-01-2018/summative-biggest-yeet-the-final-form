@@ -138,11 +138,11 @@ public class Level {
         // allow the Fireboy and the Watergirl to jump
         newHeight = f.newGround(platforms);
         f.jumpAction(newHeight);
-        f.falling(newHeight, f.standing(platforms));
+  //      f.falling(newHeight, f.standing(platforms));
 
         newHeight = w.newGround(platforms);
         w.jumpAction(newHeight);
-        w.falling(newHeight, w.standing(platforms));
+//        w.falling(newHeight, w.standing(platforms));
 
         // game can be won once the Fireboy and Watergirl are in front of their respected Doors
         // make the Button move downwards if a Character has collided with it

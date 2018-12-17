@@ -116,8 +116,8 @@ public class Platform {
     public boolean collideRight(Character character){
         if (character.getX() < this.x + this.width && character.getY() != this.getTop()){
             return true;
-        }else if(character.getBottom()== this.getTop()){
-            return false;
+//        }else if(character.getBottom()== this.getTop()){
+       //     return false;
         }
         return true;
     }

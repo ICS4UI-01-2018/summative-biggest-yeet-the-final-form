@@ -98,8 +98,8 @@ public class LevelOne extends ApplicationAdapter {
         this.mud = new Mud[1];
         this.mud[0] = new Mud(416, 160, 64, 16);
         this.buttons = new Button[2];
-        this.buttons[0] = new Button(168, 288);
-        this.buttons[1] = new Button(488, 368);
+    //    this.buttons[0] = new Button(168, 288);
+//        this.buttons[1] = new Button(488, 368);
 
         // initialize the Gems
         this.fireGems = new FireGem[4];
