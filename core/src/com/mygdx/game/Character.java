@@ -40,13 +40,14 @@ public abstract class Character {
         //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
-        
+
         this.isColliding = true;
         this.jump = false;
         this.newHeight = 32;
         this.hitBottom = false;
         this.hitSide = false;
         this.counter = 0;
+        
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -56,16 +57,13 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
-
         if (!hitSide) {
-
             // do not let the Character move off of the left-side of the screen
             if (this.x > 16) {
                 // make the Character move towards the left of the screen
                 this.x = this.x - this.speed;
             }
         }
-
     }
 
     /**
@@ -81,7 +79,6 @@ public abstract class Character {
             }
         }
     }
-    
 
     /**
      * Sets the Character to a jumping state.*buggy
@@ -227,13 +224,13 @@ public abstract class Character {
     }
 
     public void hitRight() {
-        x = x - (this.speed +1);
+        x = x - (this.speed + 1);
     }
-    
+
     public void hitLeft() {
-        x = x - (this.speed +1);
+        x = x - (this.speed + 1);
     }
-    
+
     /**
      * Returns the y position of the Character.
      *
@@ -243,11 +240,10 @@ public abstract class Character {
         return this.y;
     }
 
-    
-     public boolean getCollide() {
-            return this.isColliding;
+    public boolean getCollide() {
+        return this.isColliding;
     }
-    
+
     /**
      * Returns whether the Character is falling or not.
      *
@@ -346,17 +342,14 @@ public abstract class Character {
     }
 
     public void hitSide(boolean b, Platform p) {
-
         this.hitSide = b;
         if (b == true) {
             this.x = p.getX();
             this.width = p.getX();
         }
     }
-        
-        public void isOnIce (boolean b){
-            this.onIce = b;
-        }
-    
-    
+
+    public void isOnIce(boolean b) {
+        this.onIce = b;
+    }
 }
