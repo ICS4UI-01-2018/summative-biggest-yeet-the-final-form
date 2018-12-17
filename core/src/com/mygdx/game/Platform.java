@@ -105,13 +105,42 @@ public class Platform {
      * Platform
      */
     public boolean collision(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {
+        if (character.getBounds().overlaps(this.getBounds())) {  
+            this.x = character.getX();
             return true;
         } else {
       return false;
         }
     }
-
+    
+    public boolean collideRight(Character character){
+        if (character.getX() < this.x + this.width && character.getY() != this.getTop()){
+            return true;
+        }else if(character.getBottom()== this.getTop()){
+            return false;
+        }
+        return true;
+    }
+    
+     public boolean collideLeft(Character character){
+         if (character.getX()>= this.x && character.getY() < this.getTop()){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+     
+//      public boolean collideBottom(Character character){
+//        
+//    }
+//      
+//       public boolean collideTop(Character character){
+//        
+//    }
+    
+ 
+   
     public Rectangle getBounds() {
         return this.platform;
     }
