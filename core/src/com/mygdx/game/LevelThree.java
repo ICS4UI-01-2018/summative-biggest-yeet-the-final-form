@@ -24,6 +24,8 @@ public class LevelThree extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    // create a new Level
+    private Level level;
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -47,12 +49,46 @@ public class LevelThree extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // initialize the Level
+        this.level = new Level();
+        // initialize the SpriteBatch and the ShapeRenderer
+        this.batch = new SpriteBatch();
+        this.shapeBatch = new ShapeRenderer();
+        // initialize the OrthographicCamera and the FitViewport
+        this.camera = new OrthographicCamera();
+        this.viewport = new FitViewport(672, 544, this.camera);
+        this.viewport.apply();
+        this.camera.position.x = 336;
+        this.camera.position.y = 272;
+        this.camera.update();
+        // initialize the variable for the height
+        this.newHeight = 32;
+        // Fireboy and Watergirl haven't won the level yet
+        this.levelWon = false;
+
         // initialize the Characters
         this.fireboy = new Fireboy(616, 32);
         this.watergirl = new Watergirl(32, 32);
 
         // initialize the Platforms
+        
         // initialize the Obstacles
+        this.fire = new Fire[3];
+        this.fire[0] = new Fire(544, 160, 48, 16);
+        this.fire[1] = new Fire(584, 464, 72, 16);
+        this.fire[2] = new Fire(352, 272, 112, 16);
+        this.water = new Water[3];
+        this.water[0] = new Water(80, 160, 48, 16);
+        this.water[1] = new Water(32, 464, 72, 16);
+        this.water[2] = new Water(208, 272, 112, 16);
+        this.mud = new Mud[4];
+        this.mud[0] = new Mud(144, 16, 112, 16);
+        this.mud[1] = new Mud(272, 16, 48, 16);
+        this.mud[2] = new Mud(352, 16, 48, 16);
+        this.mud[3] = new Mud(416, 16, 112, 16);
+        this.buttons = new Button[1];
+        this.buttons[0] = new Button(328, 128);
+
         // initialize the Gems
     }
 
@@ -61,18 +97,32 @@ public class LevelThree extends ApplicationAdapter {
         // clear the screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         // begin drawing
-        batch.begin();
-        shapeBatch.setProjectionMatrix(camera.combined);
-        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        this.level.beginDraw(this.batch, this.shapeBatch, this.camera);
         // draw the background
-
+        this.level.drawBackground(this.shapeBatch);
+        // draw the Obstacles
+        this.level.drawObstacles(this.shapeBatch, this.fire, this.water, this.mud, this.buttons);
         // draw the Characters
-
+        this.level.drawCharacters(this.shapeBatch, this.fireboy, this.watergirl);
         // end drawing
-        shapeBatch.end();
-        batch.end();
-        batch.setProjectionMatrix(camera.combined);
+        this.level.endDraw(this.batch, this.shapeBatch, this.camera);
+    }
+
+    @Override
+    public void dispose() {
+        this.batch.dispose();
+    }
+
+    /**
+     * Resizes the screen so that the game doesn't look distorted.
+     *
+     * @param width an integer representing the width of the original screen
+     * @param height an integer representing the height of the original screen
+     */
+    @Override
+    public void resize(int width, int height) {
+        this.viewport.update(width, height);
     }
 }

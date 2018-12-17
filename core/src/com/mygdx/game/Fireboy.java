@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates a Fireboy as a subclass of Character to use in a game of Fireboy and
  * Watergirl.
@@ -13,6 +16,7 @@ package com.mygdx.game;
  */
 public class Fireboy extends Character {
 //need to add some kind of check colllison method to see if colliding with ANY platform
+
     /**
      * Creates a Fireboy using it's x and y position on the screen.
      *
@@ -22,8 +26,23 @@ public class Fireboy extends Character {
     public Fireboy(float x, float y) {
         super(x, y);
     }
+
+    /**
+     * Draws a red rectangle on the screen using a ShapeRenderer to represent a
+     * Fireboy.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw with
+     */
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        // set the Fireboy to be red
+        shapeBatch.setColor(Color.RED);
+        // draw the Fireboy on the screen
+        super.draw(shapeBatch);
+    }
+    
 //    public void moveLeft() {
-        
+
 //        if(!hitSide){
 //            
 //        // do not let the Character move off of the left-side of the screen
