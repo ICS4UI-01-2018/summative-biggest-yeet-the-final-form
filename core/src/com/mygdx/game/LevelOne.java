@@ -161,6 +161,8 @@ public class LevelOne extends ApplicationAdapter {
 //                }
 //            }
 //        }
+    
+
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
         if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
