@@ -47,7 +47,7 @@ public abstract class Character {
         this.hitBottom = false;
         this.hitSide = false;
         this.counter = 0;
-        
+
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -223,12 +223,22 @@ public abstract class Character {
         return this.x + this.width;
     }
 
-    public void hitRight() {
-        x = x - (this.speed + 1);
+    public boolean hitRight(Platform p) {
+
+        if (x + width > p.getX()) {
+            this.x = p.getX();
+            this.width = p.getX();
+            return true;
+        }
+        return false;
     }
 
-    public void hitLeft() {
-        x = x - (this.speed + 1);
+    public boolean hitLeft(Platform p) {
+        if (x < p.getX() + p.getLength()) {
+            this.x = this.x - (this.speed + 1);
+            return true;
+        }
+        return false;
     }
 
     /**
