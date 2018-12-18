@@ -23,7 +23,7 @@ public class Fireboy extends Character {
      * @param x a float representing the x position on the screen
      * @param y a float representing the y position on the screen
      */
-    public Fireboy(float x, float y) {
+    public Fireboy(int x, int y) {
         super(x, y);
     }
 

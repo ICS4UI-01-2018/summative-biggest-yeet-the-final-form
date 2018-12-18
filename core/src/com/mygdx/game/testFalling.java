@@ -16,21 +16,21 @@ public class testFalling extends ApplicationAdapter {
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
-
+    private Platform ground;
+    private Platform platform;
     // an array to store all of the Platforms
     private Platform[] platforms;
     Platform[] z;
     // Water and Fire pools
-    private Water water;
-    private Fire fire;
+
 
     private OrthographicCamera camera;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-    private Ice ice;
+    //private Ice ice;
     int counter;
-    float newH;
+    //float newH;
     Platform current;
 
     @Override
@@ -54,14 +54,17 @@ public class testFalling extends ApplicationAdapter {
         this.fireboy = new Fireboy(32, 32);
         this.watergirl = new Watergirl(32, 112);
         // initialize the Platforms
-        this.platforms[0] = new Platform(0, 0, 336, 32);
-        this.platforms[1] = new Platform(0, 80, 100, 25);
-        this.ice = new Ice(100,32,150,32);
-        // create the Fire and the Water pools
-        this.fire = new Fire(336, 16, 64, 16);
-        this.newH = 0;
-        this.water = new Water(432, 16, 64, 16);
-        this.counter = 0;
+      
+        ground = new Platform (0, 0, 336, 32);
+      //  this.platforms[0] = ground;
+        
+        platform = new Platform(0, 80, 100, 25);
+//        this.ice = new Ice(100,32,150,32);
+//        // create the Fire and the Water pools
+//        this.fire = new Fire(336, 16, 64, 16);
+//        this.newH = 0;
+////        this.water = new Water(432, 16, 64, 16);
+      //  this.counter = 0;
     }
 
     @Override
@@ -72,14 +75,23 @@ public class testFalling extends ApplicationAdapter {
         //need to find a way to check if landed after each 'fall' 
         // Fireboy keyboard listeners
         // make the Fireboy jump      
-        newH = fireboy.newGround(this.platforms);
-        fireboy.jumpAction(newH);
 
-        fireboy.falling(newH, fireboy.standing(this.platforms));
+      
+        if (ground.getBounds().intersects(fireboy.getBounds())){
+                fireboy.stopJumping();
+            }
+//
+            if (platform.getBounds().intersects(fireboy.getBounds())){
+                fireboy.stopJumpings(platform);
+            }
+//        
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+           
             fireboy.jump();
-
         }
+                            fireboy.jumpAction();
+
+        
 
         // make the Fireboy move right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -106,8 +118,8 @@ public class testFalling extends ApplicationAdapter {
         }
 
         // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePositions();
-        watergirl.updatePositions();
+        fireboy.updatePostions();
+        watergirl.updatePostions();
 
         // start drawing
         batch.begin();
@@ -128,21 +140,20 @@ public class testFalling extends ApplicationAdapter {
 
         // draw the Platforms
         shapeBatch.setColor(Color.WHITE);
-        platforms[1].draw(shapeBatch);
+        platform.draw(shapeBatch);
         shapeBatch.setColor(Color.LIME);
-        platforms[0].draw(shapeBatch);
-        
+        ground.draw(shapeBatch);
         shapeBatch.setColor(Color.GRAY);
-        ice.draw(shapeBatch);
+   //     ice.draw(shapeBatch);
 
 //        for (int i = 0; i < this.platforms.length; i++) {
 //            platforms[i].draw(shapeBatch);
 //        }
         // draw the Fire and the Water
         shapeBatch.setColor(Color.MAGENTA);
-        fire.draw(shapeBatch);
+      //  fire.draw(shapeBatch);
         shapeBatch.setColor(Color.CYAN);
-        water.draw(shapeBatch);
+        //water.draw(shapeBatch);
 
         // end drawing
         shapeBatch.end();
