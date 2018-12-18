@@ -325,7 +325,7 @@ public abstract class Character {
      * Stores the current position of the Character on the screen into the
      * Character class.
      */
-    public void updatePostions() {
+    public void updatePositions() {
         this.character.x = this.x;
         this.character.y = this.y;
     }

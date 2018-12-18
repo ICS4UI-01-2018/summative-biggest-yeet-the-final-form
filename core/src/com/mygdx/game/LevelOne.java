@@ -21,6 +21,8 @@ public class LevelOne extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    // create a new Level
+    private Level level;
     // landing variable
     private float newHeight;
     // Characters
@@ -29,9 +31,9 @@ public class LevelOne extends ApplicationAdapter {
     // an array to store all of the Platforms
     private Platform[] platforms;
     // Obstacles
-    private Water water;
-    private Fire fire;
-    private Mud mud;
+    private Fire[] fire;
+    private Water[] water;
+    private Mud[] mud;
     private Button[] buttons;
     // arrays to store all of the Gems
     private FireGem[] fireGems;
@@ -44,6 +46,8 @@ public class LevelOne extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // create a new Level
+        this.level = new Level();
         // initialize the SpriteBatch and the ShapeRenderer
         this.batch = new SpriteBatch();
         this.shapeBatch = new ShapeRenderer();
@@ -99,24 +103,27 @@ public class LevelOne extends ApplicationAdapter {
         this.platforms[30] = new Platform(576, 320, 80, 8);
 
         // initialize the Obstacles
-        this.fire = new Fire(336, 16, 64, 16);
-        this.water = new Water(432, 16, 64, 16);
-        this.mud = new Mud(416, 160, 64, 16);
+        this.fire = new Fire[1];
+        this.fire[0] = new Fire(336, 16, 64, 16);
+        this.water = new Water[1];
+        this.water[0] = new Water(432, 16, 64, 16);
+        this.mud = new Mud[1];
+        this.mud[0] = new Mud(416, 160, 64, 16);
         this.buttons = new Button[2];
         this.buttons[0] = new Button(168, 288);
         this.buttons[1] = new Button(488, 368);
 
         // initialize the Gems
         this.fireGems = new FireGem[4];
-        this.fireGems[0] = new FireGem(360, 64);
-        this.fireGems[1] = new FireGem(112, 304);
-        this.fireGems[2] = new FireGem(144, 480);
-        this.fireGems[3] = new FireGem(304, 480);
+        this.fireGems[0] = new FireGem(22.5f, 4);
+        this.fireGems[1] = new FireGem(7, 19);
+        this.fireGems[2] = new FireGem(9, 30);
+        this.fireGems[3] = new FireGem(19, 30);
         this.waterGems = new WaterGem[4];
-        this.waterGems[0] = new WaterGem(456, 64);
-        this.waterGems[1] = new WaterGem(352, 288);
-        this.waterGems[2] = new WaterGem(32, 448);
-        this.waterGems[3] = new WaterGem(352, 480);
+        this.waterGems[0] = new WaterGem(28.5f, 4);
+        this.waterGems[1] = new WaterGem(23, 18);
+        this.waterGems[2] = new WaterGem(2, 28);
+        this.waterGems[3] = new WaterGem(22, 30);
 
         // initialize the Doors
         this.fireDoor = new FireDoor(544, 464);
@@ -130,84 +137,10 @@ public class LevelOne extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // constantly update the x and y positions of the Fireboy and the Watergirl and the moving Platform
-        this.fireboy.updatePostions();
-        this.watergirl.updatePostions();
+        this.level.updateCharacterPositions(fireboy, watergirl);
         this.platforms[30].updatePositions();
 
-        // Characters can only move if the level hasn't been won yet
-        if (!this.levelWon) {
-            // Fireboy keyboard listeners
-            // make the Fireboy move left
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                this.fireboy.moveLeft();
-            }
-            // make the Watergirl move right
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                this.fireboy.moveRight();
-            }
-            // make the Watergirl jump
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                this.fireboy.jump();
-            }
-
-            // Watergirl keyboard listeners
-            // make the Watergirl move left
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                this.watergirl.moveLeft();
-            }
-            // make the Watergirl move right
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                this.watergirl.moveRight();
-            }
-            // make the Watergirl jump
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                this.watergirl.jump();
-            }
-        }
-
-        this.newHeight = fireboy.newGround(this.platforms);
-        //   System.out.println("new Height " + this.newHeight);
-        fireboy.jumpAction(this.newHeight);
-
-        fireboy.falling(this.newHeight, fireboy.standing(this.platforms));
-
-        this.newHeight = this.watergirl.newGround(this.platforms);
-        this.watergirl.jumpAction(this.newHeight);
-        this.watergirl.falling(this.newHeight, this.watergirl.standing(this.platforms));
-
-        // allow the Fireboy to collect the FireGems
-        for (FireGem fireGem : this.fireGems) {
-            // determine if the Fireboy has collected the FireGem
-            if (fireGem.collision(this.fireboy)) {
-                // don't draw the FireGem on the screen
-                fireGem.collected();
-                // add to the Fireboy's FireGem count
-                this.fireboy.addGem();
-            }
-        }
-
-        // allow the Watergirl to collect the WaterGems
-        for (WaterGem waterGem : this.waterGems) {
-            // determine if the Watergirl has collected the WaterGem
-            if (waterGem.collision(this.watergirl)) {
-                // don't draw the WaterGem on the screen
-                waterGem.collected();
-                // add to the Watergirl's WaterGem count
-                this.watergirl.addGem();
-            }
-        }
-
-        // allow the Fireboy to die when it comes into contact with Mud or Water
-        if (this.water.collision(this.fireboy) || this.mud.collision(this.fireboy)) {
-            // set the Fireboy to be dead
-            this.fireboy.died();
-        }
-
-        // allow the Watergirl to die when it comes into contact with Mud or Fire
-        if (this.fire.collision(this.watergirl) || this.mud.collision(this.watergirl)) {
-            // set the Watergirl to be dead
-            this.watergirl.died();
-        }
+        this.level.gameLogic(this.levelWon, this.fireboy, this.watergirl, this.newHeight, this.platforms, this.fireGems, this.waterGems, this.fire, this.water, this.mud, this.fireDoor, this.waterDoor);
 
 //        // Button moves down if a Character is on it
 //        for (Button button : this.buttons) {
@@ -234,14 +167,9 @@ public class LevelOne extends ApplicationAdapter {
         }
 
         // start drawing
-        this.batch.begin();
-        this.shapeBatch.setProjectionMatrix(this.camera.combined);
-        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-
+        this.level.beginDraw(this.batch, this.shapeBatch, this.camera);
         // set the background colour to be black
-        this.shapeBatch.setColor(Color.BLACK);
-        this.shapeBatch.rect(0, 0, 672, 544);
-
+        this.level.drawBackground(this.shapeBatch);
         // draw the Platforms
         this.shapeBatch.setColor(Color.WHITE);
         for (int i = 0; i < this.platforms.length - 1; i++) {
@@ -250,60 +178,18 @@ public class LevelOne extends ApplicationAdapter {
         // draw the Platform that connects to the Buttons
         this.shapeBatch.setColor(Color.PURPLE);
         this.platforms[30].draw(this.shapeBatch);
-
         // draw the Obstacles
-        this.shapeBatch.setColor(Color.MAGENTA);
-        this.fire.draw(this.shapeBatch);
-        this.shapeBatch.setColor(Color.CYAN);
-        this.water.draw(this.shapeBatch);
-        this.shapeBatch.setColor(Color.FOREST);
-        this.mud.draw(this.shapeBatch);
-        for (Button button : this.buttons) {
-            button.draw(shapeBatch);
-        }
-
+        this.level.drawObstacles(this.shapeBatch, this.fire, this.water, this.mud, this.buttons);
         // draw the Gems
-        this.shapeBatch.setColor(Color.RED);
-        for (FireGem fireGem : this.fireGems) {
-            // only draw the FireGem if it hasn't been collected by the Fireboy yet
-            if (!fireGem.isCollected()) {
-                fireGem.draw(this.shapeBatch);
-            }
-        }
-        this.shapeBatch.setColor(Color.BLUE);
-        for (WaterGem waterGem : this.waterGems) {
-            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
-            if (!waterGem.isCollected()) {
-                waterGem.draw(this.shapeBatch);
-            }
-        }
-
+        this.level.drawGems(this.shapeBatch, this.fireGems, this.waterGems);
         // draw the Doors
-        this.shapeBatch.setColor(Color.MAGENTA);
-        this.fireDoor.draw(this.shapeBatch);
-        this.shapeBatch.setColor(Color.CYAN);
-        this.waterDoor.draw(this.shapeBatch);
-
+        this.level.drawDoors(this.shapeBatch, this.fireDoor, this.waterDoor);
         // draw the Characters if they aren't dead yet
-        this.shapeBatch.setColor(Color.RED);
-        if (!this.fireboy.isDead()) {
-            this.fireboy.draw(this.shapeBatch);
-        }
-        this.shapeBatch.setColor(Color.BLUE);
-        if (!this.watergirl.isDead()) {
-            this.watergirl.draw(shapeBatch);
-        }
-
+        this.level.drawCharacters(this.shapeBatch, this.fireboy, this.watergirl);
         // draw a lime green screen over everything once the game was been won
-        if (this.levelWon) {
-            shapeBatch.setColor(Color.LIME);
-            shapeBatch.rect(0, 0, 672, 544);
-        }
-
+        this.level.drawLevelComplete(this.shapeBatch, this.levelWon);
         // end drawing
-        this.shapeBatch.end();
-        this.batch.end();
-        this.batch.setProjectionMatrix(this.camera.combined);
+        this.level.endDraw(this.batch, this.shapeBatch, this.camera);
     }
 
     @Override

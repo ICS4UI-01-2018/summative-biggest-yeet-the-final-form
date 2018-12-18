@@ -89,7 +89,29 @@ public class LevelThree extends ApplicationAdapter {
         this.buttons = new Button[1];
         this.buttons[0] = new Button(328, 128);
 
-        // initialize the Gems
+//        // initialize the Gems
+//        this.fireGems = new FireGem[8];
+//        this.fireGems[0] = new FireGem();
+//        this.fireGems[1] = new FireGem();
+//        this.fireGems[2] = new FireGem();
+//        this.fireGems[3] = new FireGem();
+//        this.fireGems[4] = new FireGem();
+//        this.fireGems[5] = new FireGem();
+//        this.fireGems[6] = new FireGem();
+//        this.fireGems[7] = new FireGem();
+//        this.waterGems = new WaterGem[8];
+//        this.waterGems[0] = new WaterGem();
+//        this.waterGems[1] = new WaterGem();
+//        this.waterGems[2] = new WaterGem();
+//        this.waterGems[3] = new WaterGem();
+//        this.waterGems[4] = new WaterGem();
+//        this.waterGems[5] = new WaterGem();
+//        this.waterGems[6] = new WaterGem();
+//        this.waterGems[7] = new WaterGem();
+        
+        // initialize the Doors
+        this.fireDoor = new FireDoor(24, 144);
+        this.waterDoor = new WaterDoor(616, 144);
     }
 
     @Override
@@ -104,6 +126,8 @@ public class LevelThree extends ApplicationAdapter {
         this.level.drawBackground(this.shapeBatch);
         // draw the Obstacles
         this.level.drawObstacles(this.shapeBatch, this.fire, this.water, this.mud, this.buttons);
+        // draw the Doors
+        this.level.drawDoors(this.shapeBatch, this.fireDoor, this.waterDoor);
         // draw the Characters
         this.level.drawCharacters(this.shapeBatch, this.fireboy, this.watergirl);
         // end drawing

@@ -14,13 +14,11 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Platform {
 
-    private Rectangle platform;
-    private int height;
-    private int width;
-    private float x;
-    private float y;
+    private final Rectangle platform;
+    private final int width, height;
+    private float x, y;
     private boolean gravity;
-    private float speed;
+    private final float speed;
 
     /**
      * Creates a Platform using the x, y, width, and height.
@@ -36,6 +34,8 @@ public class Platform {
         this.width = width;
         this.height = height;
         this.speed = 0.5f;
+
+        // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
@@ -105,32 +105,32 @@ public class Platform {
      * Platform
      */
     public boolean collision(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {  
+        if (character.getBounds().overlaps(this.getBounds())) {
             this.x = character.getX();
             return true;
         } else {
-      return false;
+            return false;
         }
     }
-    
-    public boolean collideRight(Character character){
-        if (character.getX() < this.x + this.width && character.getY() != this.getTop()){
+
+    public boolean collideRight(Character character) {
+        if (character.getX() < this.x + this.width && character.getY() != this.getTop()) {
             return true;
-        }else if(character.getBottom()== this.getTop()){
+        } else if (character.getBottom() == this.getTop()) {
             return false;
         }
         return true;
     }
-    
-     public boolean collideLeft(Character character){
-         if (character.getX()>= this.x && character.getY() < this.getTop()){
+
+    public boolean collideLeft(Character character) {
+        if (character.getX() >= this.x && character.getY() < this.getTop()) {
             return true;
-        }else{
+        } else {
             return false;
         }
-        
+
     }
-     
+
 //      public boolean collideBottom(Character character){
 //        
 //    }
@@ -138,23 +138,6 @@ public class Platform {
 //       public boolean collideTop(Character character){
 //        
 //    }
-    
- 
-   
-    public Rectangle getBounds() {
-        return this.platform;
-    }
-
-    /**
-     * Draws the Platform on the screen.
-     *
-     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
-     * screenF
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
-    }
-
     /**
      * Moves the Platform downwards.
      */
@@ -168,12 +151,26 @@ public class Platform {
     public void moveUp() {
         this.y = this.y + this.speed;
     }
-    
+
     /**
      * Updates the x and y positions of the Platform.
      */
     public void updatePositions() {
         this.platform.x = this.x;
         this.platform.y = this.y;
+    }
+
+    public Rectangle getBounds() {
+        return this.platform;
+    }
+
+    /**
+     * Draws the Platform on the screen.
+     *
+     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
+     * screenF
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 }

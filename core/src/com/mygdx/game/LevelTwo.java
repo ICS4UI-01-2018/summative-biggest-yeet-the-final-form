@@ -148,6 +148,7 @@ public class LevelTwo extends ApplicationAdapter {
 
     @Override
     public void render() {
+        // clear the screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }

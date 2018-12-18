@@ -45,7 +45,7 @@ public abstract class Obstacle {
      * @return a boolean representing whether the Obstacle has collided with a
      * Character
      */
-    public boolean collision(Character character) {
+    public boolean collidesWith(Character character) {
         return this.obstacle.overlaps(character.getBounds());
     }
 

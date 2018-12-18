@@ -13,8 +13,6 @@ package com.mygdx.game;
  */
 public class Water extends Obstacle {
 
-    
-    
     /**
      * Initializes the Water as a subclass of Obstacle using it's x and y
      * coordinates, and it's width and height.
@@ -26,17 +24,5 @@ public class Water extends Obstacle {
      */
     public Water(float x, float y, int width, int height) {
         super(x, y, width, height);
-    }
-
-    /**
-     * Determine if the Fireboy has touched the Water.
-     *
-     * @param fireboy the Fireboy in the game
-     * @return a boolean representing whether if the Fireboy has touched the
-     * Water or not
-     */
-    public boolean Collision(Fireboy fireboy) {
-        // determines if Fireboy has fallen into the Water
-        return super.obstacle.overlaps(fireboy.getBounds());
     }
 }

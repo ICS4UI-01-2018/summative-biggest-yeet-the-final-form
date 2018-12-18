@@ -106,8 +106,8 @@ public class testFalling extends ApplicationAdapter {
         }
 
         // constantly update the x and y positions of the Fireboy and the Watergirl
-        fireboy.updatePostions();
-        watergirl.updatePostions();
+        fireboy.updatePositions();
+        watergirl.updatePositions();
 
         // start drawing
         batch.begin();
