@@ -38,8 +38,8 @@ public abstract class Character {
         this.ySpeed = 0;
         this.gravity = 1f; //tweak
         //  this.maxYSpeed = 5; //tweak
-        this.x = x;
-        this.y = y;
+        this.x = x * 16;
+        this.y = y * 16;
 
         this.isColliding = true;
         this.jump = false;
