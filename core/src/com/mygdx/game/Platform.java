@@ -18,7 +18,7 @@ public class Platform {
     private final float width, height;
     private float x, y;
     private boolean gravity;
-    private final float speed;
+    private int speed;
 
     /**
      * Creates a Platform using the x, y, width, and height.
@@ -61,32 +61,7 @@ public class Platform {
         return (this.width + this.x);
     }
 
-    /**
-     * Determines whether the character has hit the bottom of the platform
-     *
-     * @param c the character jumping
-     * @return whether the character has collide with the bottom of the platform
-     */
-    public boolean collideWithBottom(Character c) {//fix so you can hit sides
-        if (this.collision(c) && (c.getTop() >= this.y) && !c.isFalling) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the top of the platform you are currently on
-     *
-     * @param c the character jumping
-     * @return the top of the block
-     */
-    public float land(Character c) {//fix so you can hit sides
-        //  System.out.println(c.isFalling);
-        if (this.collision(c) && (c.getY() <= this.getTop()) && c.isFalling) {
-            return this.getTop();
-        }
-        return 0;
-    }
+  
 
     /**
      * Returns the y-coordinate of the Platform.
@@ -97,47 +72,23 @@ public class Platform {
         return this.y;
     }
 
+  public boolean collision(Character c){
+      return this.getBounds().overlaps(c.getBounds());
+  }
+ 
+   
+ 
+
     /**
-     * Determines whether if the Character is touching the Platform.
+     * Draws the Platform on the screen.
      *
-     * @param character a Character in the game
-     * @return a boolean representing whether if the Character is on the
-     * Platform
+     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
+     * screenF
      */
-    public boolean collision(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {
-            this.x = character.getX();
-            return true;
-        } else {
-            return false;
-        }
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 
-    public boolean collideRight(Character character) {
-        if (character.getX() < this.x + this.width && character.getY() != this.getTop()) {
-            return true;
-        } else if (character.getBottom() == this.getTop()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean collideLeft(Character character) {
-        if (character.getX() >= this.x && character.getY() < this.getTop()) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-//      public boolean collideBottom(Character character){
-//        
-//    }
-//      
-//       public boolean collideTop(Character character){
-//        
-//    }
     /**
      * Moves the Platform downwards.
      */
@@ -151,26 +102,15 @@ public class Platform {
     public void moveUp() {
         this.y = this.y + this.speed;
     }
-
+    
+       public Rectangle getBounds() {
+        return this.platform;
+    }
     /**
      * Updates the x and y positions of the Platform.
      */
     public void updatePositions() {
         this.platform.x = this.x;
         this.platform.y = this.y;
-    }
-
-    public Rectangle getBounds() {
-        return this.platform;
-    }
-
-    /**
-     * Draws the Platform on the screen.
-     *
-     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
-     * screenF
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 }

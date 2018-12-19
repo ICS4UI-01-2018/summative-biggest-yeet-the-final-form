@@ -132,9 +132,26 @@ public class Level extends ApplicationAdapter {
                 fireGem.collected();
                 // add to the Fireboy's FireGem count
                 this.fireboy.addGem();
+        // gravity and jumping for the Fireboy
+        fireboy.onTop(platforms);
+        for (Platform p : platforms) {
+            if (p.getBounds().overlaps(fireboy.getBounds()) && p.getY() == 0) {
+                fireboy.stopJumping();
+            } else if (p.getBounds().overlaps(fireboy.getBounds())) {
+                System.out.println("ht");
+                fireboy.stopJumpings(p);
             }
         }
+//        
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 
+            }
+            fireboy.jumpAction();
+
+            }
+
+            }
+        }
         // allow the Watergirl to collect the WaterGems
         for (WaterGem waterGem : this.waterGems) {
             // determine if the Watergirl has collected the WaterGem
@@ -143,59 +160,6 @@ public class Level extends ApplicationAdapter {
                 waterGem.collected();
                 // add to the Watergirl's WaterGem count
                 this.watergirl.addGem();
-            }
-        }
-
-        // allow the Watergirl to die when it comes into contact with Fire
-        for (Fire f : this.fire) {
-            if (f.collidesWith(this.watergirl)) {
-                this.watergirl.died();
-            }
-        }
-
-        // allow the Fireboy to die when it comes into contact with Water
-        for (Water w : this.water) {
-            if (w.collidesWith(this.fireboy)) {
-                this.fireboy.died();
-            }
-        }
-
-        for (Mud m : this.mud) {
-            // allow the Fireboy to die when it comes into contact with Mud
-            if (m.collidesWith(this.fireboy)) {
-                this.fireboy.died();
-            }
-
-            // allow the Watergirl to die when it comes into contact with Mud
-            if (m.collidesWith(this.watergirl)) {
-                this.watergirl.died();
-            }
-        }
-
-        // win the game if Fireboy and Watergirl stand in front of their respected Doors
-        if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
-            this.levelWon = true;
-        }
-
-        // Buttons will move down if a Character is on it
-        
-        // Buttons will move up if a Character isn't on it
-    }
-
-    @Override
-    public void dispose() {
-        this.batch.dispose();
-    }
-
-    /**
-     * Resizes the screen so that the game doesn't look distorted.
-     *
-     * @param width an integer representing the width of the original screen
-     * @param height an integer representing the height of the original screen
-     */
-    @Override
-    public void resize(int width, int height) {
-        this.viewport.update(width, height);
     }
 
     /**
@@ -311,3 +275,21 @@ public class Level extends ApplicationAdapter {
 //        }
 //    }
 }
+        // allow the Watergirl to die when it comes into contact with Fire
+        for (Fire f : this.fire) {
+            if (f.collidesWith(this.watergirl)) {
+                this.watergirl.died();
+            }
+        }
+
+        // allow the Fireboy to die when it comes into contact with Water
+        for (Water w : this.water) {
+            if (w.collidesWith(this.fireboy)) {
+                this.fireboy.died();
+            }
+        }
+
+        for (Mud m : this.mud) {
+            // allow the Fireboy to die when it comes into contact with Mud
+            if (m.collidesWith(this.fireboy)) {
+                this.fireboy.died();
