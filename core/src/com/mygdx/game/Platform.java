@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Platform {
 
     private final Rectangle platform;
-    private final int width, height;
+    private final float width, height;
     private float x, y;
     private boolean gravity;
     private final float speed;
@@ -28,11 +28,11 @@ public class Platform {
      * @param width an integer representing the width of the platform
      * @param height an integer representing the height of the platform
      */
-    public Platform(float x, float y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public Platform(float x, float y, float width, float height) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
         this.speed = 0.5f;
 
         // initialize a new Rectangle to represent the Platform
