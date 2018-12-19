@@ -18,7 +18,7 @@ public class Platform {
     private final float width, height;
     private float x, y;
     private boolean gravity;
-    private int speed;
+    private float speed;
 
     /**
      * Creates a Platform using the x, y, width, and height.
