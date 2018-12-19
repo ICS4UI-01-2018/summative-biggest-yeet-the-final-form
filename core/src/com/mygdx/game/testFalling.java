@@ -51,7 +51,7 @@ public class testFalling extends ApplicationAdapter {
         this.camera.update();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(32, 32);
+        this.fireboy = new Fireboy(0, 105);
         this.watergirl = new Watergirl(32, 112);
         // initialize the Platforms
       
@@ -75,16 +75,15 @@ public class testFalling extends ApplicationAdapter {
         //need to find a way to check if landed after each 'fall' 
         // Fireboy keyboard listeners
         // make the Fireboy jump      
-
-      
-        if (ground.getBounds().intersects(fireboy.getBounds())){
+        if (ground.getBounds().overlaps(fireboy.getBounds())){
                 fireboy.stopJumping();
             }
 //
-            if (platform.getBounds().intersects(fireboy.getBounds())){
+            if (platform.getBounds().overlaps(fireboy.getBounds())){
                 fireboy.stopJumpings(platform);
             }
 //        
+//fireboy.onTop(platform, ground);
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
            
             fireboy.jump();

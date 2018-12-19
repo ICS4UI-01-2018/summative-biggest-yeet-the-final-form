@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Fireboy extends Character {
-//need to add some kind of check colllison method to see if colliding with ANY platform
 
     /**
      * Creates a Fireboy using it's x and y position on the screen.
@@ -35,39 +34,14 @@ public class Fireboy extends Character {
      */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
-        // set the Fireboy to be red
+   //      set the Fireboy to be red
         shapeBatch.setColor(Color.RED);
-        // draw the Fireboy on the screen
+     //    draw the Fireboy on the screen
         super.draw(shapeBatch);
     }
     
-//    public void moveLeft() {
+ 
+    }
+    
 
-//        if(!hitSide){
-//            
-//        // do not let the Character move off of the left-side of the screen
-//        if (super.x > 16) {
-//            // make the Character move towards the left of the screen
-//            super.x = this.x - this.speed;
-//        }
-//        }
-//        
-//        
-//    }
-//
-//    /**
-//     * Allows the Character to move towards the right-side of the screen without
-//     * it going off of the screen.
-//     */
-//    public void moveRight() {
-//        if(!hitSide){
-//        // do not let the Character move off of the right-side of the screen
-//        if (this.x < 632) {
-//            // make the Character move towards the right of the screen
-//            this.x = this.x + this.speed;
-//        }
-//        }
-//    }
-//    
-//
-}
+

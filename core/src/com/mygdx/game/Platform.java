@@ -6,7 +6,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import java.awt.Rectangle;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
@@ -17,8 +17,8 @@ public class Platform {
     private Rectangle platform;
     private int height;
     private int width;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private boolean gravity;
     private int speed;
 
@@ -30,7 +30,7 @@ public class Platform {
      * @param width an integer representing the width of the platform
      * @param height an integer representing the height of the platform
      */
-    public Platform(int x, int y, int width, int height) {
+    public Platform(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -44,11 +44,11 @@ public class Platform {
      *
      * @return a float representing the x-coordinate of the Platform
      */
-    public int getX() {
+    public float getX() {
         return this.x;
     }
 
-    public int getTop() {
+    public float getTop() {
         return (this.height + this.y);
     }
 
@@ -57,7 +57,7 @@ public class Platform {
      *
      * @return the X-coordinate of the edge of the platform
      */
-    public int getLength() {
+    public float getLength() {
         return (this.width + this.x);
     }
 
@@ -68,21 +68,13 @@ public class Platform {
      *
      * @return a float representing the y-coordinate of the Platform
      */
-    public int getY() {
+    public float getY() {
         return this.y;
     }
 
-    /**
-
-     
-//      public boolean collideBottom(Character character){
-//        
-//    }
-//      
-//       public boolean collideTop(Character character){
-//        
-//    }
-    
+  public boolean collision(Character c){
+      return this.getBounds().overlaps(c.getBounds());
+  }
  
    
  
