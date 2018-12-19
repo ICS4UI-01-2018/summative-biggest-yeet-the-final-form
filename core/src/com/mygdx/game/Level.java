@@ -102,17 +102,12 @@ public class Level {
         fireboy.onTop(platforms);
         for (Platform p : platforms) {
             if (p.getBounds().overlaps(fireboy.getBounds()) && p.getY() == 0) {
-                fireboy.stopJumping();
+                fireboy.stopJumpingGround();
             } else if (p.getBounds().overlaps(fireboy.getBounds())) {
-                System.out.println("ht");
-                fireboy.stopJumpings(p);
+                fireboy.stopJumpingPlatform(p);
             }
         }
 //        
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-
-                fireboy.jump();
-            }
             fireboy.jumpAction();
 
             // allow the Fireboy to collect the FireGems
