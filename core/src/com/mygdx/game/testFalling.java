@@ -76,11 +76,11 @@ public class testFalling extends ApplicationAdapter {
         // Fireboy keyboard listeners
         // make the Fireboy jump      
         if (ground.getBounds().overlaps(fireboy.getBounds())){
-                fireboy.stopJumping();
+                fireboy.stopJumpingGround();
             }
 //
             if (platform.getBounds().overlaps(fireboy.getBounds())){
-                fireboy.stopJumpings(platform);
+                fireboy.stopJumpingPlatform(platform);
             }
 //        
 //fireboy.onTop(platform, ground);
