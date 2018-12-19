@@ -17,8 +17,7 @@ public abstract class Obstacle {
 
     Rectangle obstacle;
     private float width, height;
-    private float x;
-    float y;
+    float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y

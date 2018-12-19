@@ -53,4 +53,11 @@ public class Button extends Obstacle {
     public void moveUp() {
         super.y += this.speed;
     }
+    
+    /**
+     * Updates the position of the Button as it is moving up and down.
+     */
+    public void updatePositions() {
+        super.obstacle.y = super.y;
+    }
 }

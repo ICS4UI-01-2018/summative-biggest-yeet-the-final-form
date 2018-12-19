@@ -41,7 +41,6 @@ public abstract class Character {
         this.x = x * 16;
         this.y = y * 16;
 
-        this.isColliding = true;
         this.jump = false;
         this.hitBottom = false;
         this.hitSide = false;
@@ -332,7 +331,7 @@ public abstract class Character {
      * Stores the current position of the Character on the screen into the
      * Character class.
      */
-    public void updatePostions() {
+    public void updatePositions() {
         this.character.x = this.x;
         this.character.y = this.y;
     }
