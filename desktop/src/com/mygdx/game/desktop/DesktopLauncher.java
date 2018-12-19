@@ -5,11 +5,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.LevelOne;
 import com.mygdx.game.testFalling;
 
-
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-                new LwjglApplication(new LevelOne(), config);
-          // new LwjglApplication(new testFalling(), config);
-	}
+
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        new LwjglApplication(new LevelOne(), config);
+        // new LwjglApplication(new testFalling(), config);
+    }
 }

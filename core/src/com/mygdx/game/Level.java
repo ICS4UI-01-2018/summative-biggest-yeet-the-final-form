@@ -104,6 +104,7 @@ public class Level extends ApplicationAdapter {
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
                 }
+                this.fireboy.jumpAction();
             }
 
             // Watergirl keyboard listeners
@@ -121,6 +122,7 @@ public class Level extends ApplicationAdapter {
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                     this.watergirl.jump();
                 }
+                this.watergirl.jumpAction();
             }
         }
 
@@ -287,26 +289,16 @@ public class Level extends ApplicationAdapter {
             this.shapeBatch.setColor(Color.BLUE);
             this.watergirl.draw(this.shapeBatch);
         }
+        
+        // draws a level complete screen when the Level has been won using a ShapeRenderer
+        if (this.levelWon) {
+            this.shapeBatch.setColor(Color.LIME);
+            this.shapeBatch.rect(0, 0, 672, 544);
+        }
 
         // allows for the drawing of the game objects to end
         this.shapeBatch.end();
         this.batch.end();
         this.batch.setProjectionMatrix(this.camera.combined);
     }
-
-//    /**
-//     * Draws a level complete screen when the Level has been won using a
-//     * ShapeRenderer.
-//     *
-//     * @param shapeBatch a ShapeRenderer used to draw the level complete screen
-//     * with
-//     * @param levelWon a boolean representing whether if the level has been won
-//     * yet
-//     */
-//    public void drawLevelComplete(ShapeRenderer shapeBatch, boolean levelWon) {
-//        if (levelWon) {
-//            shapeBatch.setColor(Color.LIME);
-//            shapeBatch.rect(0, 0, 672, 544);
-//        }
-//    }
 }

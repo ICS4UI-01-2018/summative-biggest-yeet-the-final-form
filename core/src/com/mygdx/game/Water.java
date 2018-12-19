@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates Water to use in a Fireboy and Watergirl game. The water kills the
  * Fireboy when he comes into contact with it.
@@ -24,5 +27,16 @@ public class Water extends Obstacle {
      */
     public Water(float x, float y, int width, int height) {
         super(x, y, width, height);
+    }
+
+    /**
+     * Draws a pool of blue Water on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer to draw the Water with
+     */
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.setColor(Color.CYAN);
+        super.draw(shapeBatch);
     }
 }
