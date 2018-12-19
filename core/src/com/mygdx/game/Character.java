@@ -38,15 +38,10 @@ public abstract class Character {
         this.ySpeed = 0;
         this.gravity = 0.8f; //tweak
         //  this.maxYSpeed = 5; //tweak
-        this.x = x;
-        this.y = y;
-        this.overlapWidth = 0;
-        this.overlapFarX = 0;
-        this.overlapX = 0;
-        this.overlapHeight = 0;
-        this.overlapTopY = 0;
-        this.overlapY = 0;
-        this.onGround = true;
+        this.x = x * 16;
+        this.y = y * 16;
+
+        this.isColliding = true;
         this.jump = false;
         this.hitBottom = false;
         this.hitSide = false;
