@@ -56,7 +56,7 @@ public class Level extends ApplicationAdapter {
         // initialize the SpriteBatch and the ShapeRenderer
         this.batch = new SpriteBatch();
         this.shapeBatch = new ShapeRenderer();
-        
+
         // initialize the Camera and the Viewport
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -64,7 +64,7 @@ public class Level extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-        
+
         // Fireboy and Watergirl haven't won the level yet
         this.levelWon = false;
     }
@@ -106,11 +106,24 @@ public class Level extends ApplicationAdapter {
                     this.fireboy.jump();
                 }
                 this.fireboy.jumpAction();
+
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        fireboy.stopJumpingPlatform(p);
+                    }
+                }
+
+                for (Platform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        fireboy.stopJumpingPlatform(p);
+                    }
+                }
             }
 
             // Watergirl keyboard listeners
             // only move the Watergirl is she hasn't died yet
             if (!this.watergirl.isDead()) {
+                watergirl.onTop(this.platforms, this.movingPlatforms);
                 // make the Watergirl move left
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                     this.watergirl.moveLeft();
@@ -124,9 +137,19 @@ public class Level extends ApplicationAdapter {
                     this.watergirl.jump();
                 }
                 this.watergirl.jumpAction();
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        watergirl.stopJumpingPlatform(p);
+                    }
+                }
+
+                for (Platform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        watergirl.stopJumpingPlatform(p);
+                    }
+                }
             }
         }
-
         // allow the Fireboy to collect the FireGems
         for (FireGem fireGem : this.fireGems) {
             // determine if the Fireboy has collected the FireGem
@@ -188,7 +211,7 @@ public class Level extends ApplicationAdapter {
             if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
                 b.moveDown();
             }
-            
+
             // Buttons will move up if a Character isn't on it
             if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
                 b.moveUp();
@@ -299,7 +322,7 @@ public class Level extends ApplicationAdapter {
             this.shapeBatch.setColor(Color.BLUE);
             this.watergirl.draw(this.shapeBatch);
         }
-        
+
         // draws a level complete screen when the Level has been won using a ShapeRenderer
         if (this.levelWon) {
             this.shapeBatch.setColor(Color.LIME);

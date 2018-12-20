@@ -32,11 +32,11 @@ public abstract class Character {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.speed = 1;
+        this.speed = 2;
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.8f; //tweak
+        this.gravity = 0.7f; //tweak
         //  this.maxYSpeed = 5; //tweak
         this.x = x * 16;
         this.y = y * 16;
@@ -120,7 +120,7 @@ public abstract class Character {
             this.isFalling = false;
             ySpeed = -11;//height of jump
             this.jump = true;
-            this.speed = 2;
+            this.speed = 3.5f;//tweak
             this.onGround = false;
             System.out.println(this.onGround);
 
@@ -156,6 +156,8 @@ public abstract class Character {
                 this.y = p.getTop();
                 this.onGround = true;
                 this.jump = false;
+                            this.speed = 2f;//tweak
+
             }
         } else {
             // player is on the right
@@ -208,7 +210,7 @@ public abstract class Character {
 
         if (counter == 0) {
             this.onGround = false;
-
+                         this.speed = 2f;//tweak
         }
 
     }
