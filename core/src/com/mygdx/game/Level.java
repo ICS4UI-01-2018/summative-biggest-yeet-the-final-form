@@ -32,7 +32,8 @@ public class Level extends ApplicationAdapter {
     Fireboy fireboy;
     Watergirl watergirl;
     // arrays to store the standing and moving Platforms
-    Platform[] platforms, movingPlatforms;
+    Platform[] platforms;
+    MovingPlatform[] movingPlatforms;
     // game Obstacles
     Fire[] fire;
     Water[] water;
