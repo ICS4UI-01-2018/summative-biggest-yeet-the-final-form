@@ -16,10 +16,10 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Character {
 
-    private int gemsCollected, counter;
-    private float x, y, gravity, ySpeed, height, width, speed, newHeight;
-    boolean isFalling, isDead, jump, isColliding, hitBottom, hitSide, onIce, landed,jumpAction;
-    private Rectangle character;
+    private int gemsCollected;
+    private float x, y, gravity, ySpeed, height, width, speed, overlapWidth, overlapFarX, overlapX, overlapHeight, overlapTopY, overlapY;
+    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, onIce;
+    private Rectangle character, overlap;
 
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
@@ -36,20 +36,47 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 1f; //tweak
-        this.x = x;
-        this.y = y;
-
-        this.isColliding = true;
+        this.gravity = 0.8f; //tweak
+        //  this.maxYSpeed = 5; //tweak
+        this.x = x * 16;
+        this.y = y * 16;
+        this.onGround = true;
         this.jump = false;
-        this.newHeight = 32;
         this.hitBottom = false;
         this.hitSide = false;
-        this.counter = 0;
-        this.landed = true;
-        this.jumpAction = false;
+        overlap = new Rectangle(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
+
+    }
+
+    /**
+     * Returns rectangle created by two overlapping rectangles
+     *
+     * @param p the platform being overlapped
+     * @return rectangle created by two overlapping rectangles
+     */
+    public Rectangle overlapRectangle(Platform p) {
+        if (this.getBounds().overlaps(p.getBounds())) {
+            if (this.y + this.height > p.getTop()) {
+                this.overlapY = this.y;
+                this.overlapTopY = p.getTop();
+            } else {
+                this.overlapY = p.getY();
+                this.overlapTopY = this.getTop();
+            }
+            if (this.x < p.getX()) {
+                this.overlapX = p.getX();
+                this.overlapFarX = this.length();
+            } else {
+                this.overlapX = this.x;
+                this.overlapFarX = p.getLength();
+            }
+        }
+        this.overlapWidth = this.overlapFarX - this.overlapX;
+        this.overlapHeight = this.overlapTopY - this.overlapY;
+        this.overlap = this.overlap.set(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
+        return this.overlap;
     }
 
     /**
@@ -57,16 +84,11 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
-
-        if (!this.hitSide) {
-
-            // do not let the Character move off of the left-side of the screen
-            if (this.x > 16) {
-                // make the Character move towards the left of the screen
-                this.x = this.x - this.speed;
-            }
+        // do not let the Character move off of the left-side of the screen
+        if (this.x > 16) {
+            // make the Character move towards the left of the screen
+            this.x = this.x - this.speed;
         }
-
     }
 
     /**
@@ -74,145 +96,122 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
-        if (!this.hitSide) {
-            // do not let the Character move off of the right-side of the screen
-            if (this.x < 632) {
-                // make the Character move towards the right of the screen
-                this.x = this.x + this.speed;
-            }
+        // do not let the Character move off of the right-side of the screen
+        if (this.x < 632) {
+            // make the Character move towards the right of the screen
+            this.x = this.x + this.speed;
         }
     }
 
     /**
-     * Sets the Character to a jumping state.*buggy
+     * Returns far X coordinate
+     *
+     * @return coordinate
+     */
+    public float length() {
+        return this.x + this.width;
+    }
+
+    /**
+     * Sets the Character to a jumping state
      */
     public void jump() {
-        if (!this.jump && !this.onIce) {
-            System.out.println("here");
+        if (this.onGround) {
             this.isFalling = false;
-            ySpeed = -12;//height of jump
+            ySpeed = -11;//height of jump
             this.jump = true;
             this.speed = 2;
-            this.landed = false;
+            this.onGround = false;
+            System.out.println(this.onGround);
+
         }
     }
 
     /**
-     * Allows the character to jump *real buggy
+     * Allows the character to jump and fall
      *
-     * @param fHeight the height of the platform to return to
      */
-    public void jumpAction(float fHeight) {
-        //if you hit the bottom start to fall
-//        if (this.hitBottom) {
-//            System.out.println("j");
-//            ySpeed = 0;
-//            this.hitBottom = false;
-//            this.isFalling = true;
-//        }
-        if (this.jump) {
-               this.jumpAction = true;
-          //           System.out.println(ySpeed);
+    public void jumpAction() {
+        if (!this.onGround) {
+            ySpeed += gravity;
+            this.y -= ySpeed;
+        }
+    }
 
-            //check whether your falling
+    /**
+     * Stops character from jumping if on platform
+     *
+     * @param p
+     */
+    public void stopJumpingPlatform(Platform p) {
+        this.overlap = this.overlapRectangle(p);
+        if (this.overlap.height < this.overlap.width) {
+            if (this.ySpeed < 0) {
+                // stop moving up/down
+                this.ySpeed = 0;
+                // correct the position
+                this.y = p.getY() - this.height;
+            }
             if (this.ySpeed > 0) {
-            //    System.out.println("falling");
-             //   System.out.println("i'm falling");
-                this.isFalling = true;
-                this.landed = false;
-
-            }
-            // this.speed = 2.1f;
-            //in
-            ySpeed += gravity;
-            this.y -= ySpeed;
-            System.out.println(this.y);
-
-
-            if (this.y <= fHeight) {
-               System.out.println("landing");
-                this.y = fHeight;
-                ySpeed = 0;
-                this.speed = 2;
-                this.jumpAction = false;
+                this.y = p.getTop();
+                this.onGround = true;
                 this.jump = false;
-                this.isFalling = false;
-                this.isColliding = true;
-              //  this.landed = true;
+            }
+        } else {
+            // player is on the right
+            if (this.x < p.getX()) {
+                this.x = this.x - this.overlap.width;
+            } else {
+                this.x = this.x + this.overlap.width;
             }
         }
-    }
 
-    public void falling(float fHeight) {
-        System.out.println(this.jumpAction);
-        System.out.println(this.landed);
-        if (!this.landed && !this.jumpAction) {
-            System.out.println("FALLING");
-            this.isFalling = true;
-            ySpeed += gravity;
-            this.y -= ySpeed;
-            if (this.y < fHeight) {
-                this.y = fHeight;
-                ySpeed = 0;
-                this.speed = 2;
-                this.jump = false;
-                this.isFalling = false;
-            }
-        }
     }
 
     /**
-     * Finds the platform the character is landing on
+     * Sets character to be standing on a platform
      *
-     * @param p Array of platforms
-     * @return the platform the character is landing on
+     * @param platforms array of platforms
+     * @param movingPlatforms
      */
-    public float newGround(Platform[] p) {
-        this.counter = 0;
-        for (Platform x : p) {
-            if (x.collideWithBottom(this)) {
-                this.hitBottom(true, x);
-            }
-            if (x.land(this) != 0) {
-                newHeight = x.land(this);
-              //  this.landed = true;
-            }
-            if (x.land(this) == 0) {
-                this.counter++;
-            }
-            if (this.counter >= p.length) {
-                newHeight = 32;
-                this.landed = true;
-                this.counter = 0;
+    public void onTop(Platform[] platforms, Platform[] movingPlatforms) {
+        int counter = 0;
+        for (Platform p : platforms) {
+            if (this.y == p.getTop()) {
+                if ((this.x >= p.getX() && this.length() <= p.getLength())) {
+                    this.onGround = true;
+                    counter++;
+                } else if (this.x < p.getX() && this.length() >= p.getX()) {
+                    this.onGround = true;
+                    counter++;
+                } else if (this.length() > p.getLength() && this.x <= p.getLength()) {
+                    this.onGround = true;
+                    counter++;
+                }
             }
         }
-        return newHeight;
-    }
 
-    /**
-     * Returns whether the character is on the ground
-     *
-     * @param p Array of Platforms
-     * @return
-     */
-    public boolean standing(Platform[] p) {
-        this.counter = 0;
-        for (Platform x : p) {
-            if (x.collision(this)) {
-                System.out.println("h");
-                this.counter++;
+        for (Platform p : movingPlatforms) {
+            if (this.y == p.getTop()) {
+                if ((this.x >= p.getX() && this.length() <= p.getLength())) {
+                    this.onGround = true;
+                    counter++;
+                } else if (this.x < p.getX() && this.length() >= p.getX()) {
+                    this.onGround = true;
+                    counter++;
+                } else if (this.length() > p.getLength() && this.x <= p.getLength()) {
+                    this.onGround = true;
+                    counter++;
+                }
             }
         }
-        if (this.counter > 0) {
-            System.out.println("standing");
-           // this.landed = true;
-        } else{
-            System.out.println("not");
-          //  this.landed = false;
+
+        if (counter == 0) {
+            this.onGround = false;
+
         }
-       return this.landed; 
+
     }
-    
 
     /**
      * Returns the x position of the Character.
@@ -224,32 +223,12 @@ public abstract class Character {
     }
 
     /**
-     * Sets whether
+     * Returns top Y coordinate
      *
-     * @param b
-     * @param p
+     * @return top y coordinate
      */
-    public void hitBottom(boolean b, Platform p) {
-        this.hitBottom = b;
-        if (b == true) {
-            this.y = p.getY() - this.height;
-        }
-    }
-
     public float getTop() {
         return this.y + this.height;
-    }
-
-    public float getLeft() {
-        return this.x;
-    }
-
-    public float getBottom() {
-        return this.y;
-    }
-
-    public float getRight() {
-        return this.x + this.width;
     }
 
     /**
@@ -259,23 +238,6 @@ public abstract class Character {
      */
     public float getY() {
         return this.y;
-    }
-    
-    public void setY(float newNum) {
-         this.y = newNum;
-    }
-
-    /**
-     * Returns whether the Character is falling or not.
-     *
-     * @return a boolean representing whether if the Character is falling or not
-     */
-    public boolean isJumping() {
-        return this.jump;
-    }
-
-    public boolean getIsFalling() {
-        return this.isFalling;
     }
 
     /**
@@ -327,8 +289,8 @@ public abstract class Character {
      *
      * @return an integer representing the width of the character
      */
-    public float getFarX() {
-        return this.width + this.x;
+    public float getWidth() {
+        return this.width;
     }
 
     /**
@@ -339,14 +301,14 @@ public abstract class Character {
      */
     public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(character.x, character.y, character.width, character.height);
-
     }
 
     /**
      * Stores the current position of the Character on the screen into the
      * Character class.
      */
-    public void updatePostions() {
+    public void updatePositions() {
+
         this.character.x = this.x;
         this.character.y = this.y;
     }
@@ -356,17 +318,6 @@ public abstract class Character {
      */
     public void died() {
         this.isDead = true;
-    }
-
-    public void Move() {
-        this.x = this.x + 10;
-    }
-
-    public void hitSide(boolean b, Platform p) {
-        this.hitSide = b;
-        if (b == true) {
-            this.x = p.getX();
-        }
     }
 
     public void isOnIce(boolean b) {

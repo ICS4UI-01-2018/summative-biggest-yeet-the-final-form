@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Gem {
 
     private float x, y;
-    private int width, height;
+    private final int width, height;
     private boolean collected;
     Rectangle gem;
 
@@ -27,12 +27,12 @@ public abstract class Gem {
      * @param y a float representing the y coordinate of the Gem
      */
     public Gem(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.x = x * 16;
+        this.y = y * 16;
         this.width = 16;
         this.height = 16;
         this.collected = false;
-        this.gem = new Rectangle(x, y, this.width, this.height);
+        this.gem = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**

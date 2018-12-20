@@ -6,19 +6,19 @@
 package com.mygdx.game;
 
 /**
-/**    
+ * /**
  * Creates a FireGem as a subclass of Gem to use in a Fireboy and Watergirl
  * game.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class FireGem extends Gem{
+public class FireGem extends Gem {
+
     /**
-     * initalizes fire gem as subclass of gem with "fireboy" as char allowed
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param width the width
-     * @param height the height
+     * Initalizes fire gem as subclass of Gem using its x and y coordinate.
+     *
+     * @param x a float representing the x coordinate of the FireGem
+     * @param y a float representing the y coordinate of the FireGem
      */
     public FireGem(float x, float y) {
         super(x, y);

@@ -16,8 +16,9 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Obstacle {
 
     Rectangle obstacle;
-    private int width, height;
-    private float x, y;
+    float height;
+    private float width;
+    float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y
@@ -28,11 +29,11 @@ public abstract class Obstacle {
      * @param width an integer representing the width of the Obstacle
      * @param height an integer representing the height of the Obstacle
      */
-    public Obstacle(float x, float y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public Obstacle(float x, float y, float width, float height) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
 
         this.obstacle = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -45,25 +46,12 @@ public abstract class Obstacle {
      * @return a boolean representing whether the Obstacle has collided with a
      * Character
      */
-    public boolean collision(Character character) {
-        return this.obstacle.overlaps(character.getBounds());       
-    }
-     
-    
-    /**
-     * Returns the right x of the character
-     * @return  the right x of the character
-     */
-    public float getFarX(){
-        return this.x + this.width;
-    }
-    
-    /**
-     * Returns the top y of the character
-     * @return  the top y of the character
-     */
-    public float getTop(){
-        return this.y + this.height;
+    public boolean collidesWith(Character character) {
+        if (this.y == character.getY() && character.getX() >= this.x && character.length() < this.x + this.width) {
+            return true;
+        } else {
+            return this.obstacle.overlaps(character.getBounds());
+        }
     }
 
     /**
@@ -92,7 +80,6 @@ public abstract class Obstacle {
     public Rectangle getBounds() {
         return obstacle;
     }
-    
 
     /**
      * Draws the Obstacle on the screen.
@@ -108,8 +95,8 @@ public abstract class Obstacle {
      *
      * @return an integer representing the width of the Obstacle
      */
-    public int getWidth() {
-        return this.width;  
+    public float getWidth() {
+        return this.width;
     }
 
     /**
@@ -117,7 +104,21 @@ public abstract class Obstacle {
      *
      * @return an integer representing the height of the Obstacle
      */
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
     }
+
+    /**
+     * Returns the X-coordinate of the edge of the platform
+     *
+     * @return the X-coordinate of the edge of the platform
+     */
+    public float getLength() {
+        return (this.width + this.x);
+    }
+
+    public float getTop() {
+        return (this.height + this.y);
+    }
+
 }

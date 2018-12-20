@@ -17,9 +17,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class Button extends Obstacle {
 
-    Platform p;
-    float startHeight;
-    float endHeight;
+    private float speed, starting, ending, maximumY, minimumY;
+;
+    private Platform controlledPlatform;
 
     /**
      * Initializes a Button to use in a game of Fireboy and Watergirl using it's
@@ -28,41 +28,15 @@ public class Button extends Obstacle {
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
      * @param p the platform the button controls
-     * @param startHeight the height the platform will return to
-     * @param endHeight the lowest height the platform can go
      */
-    public Button(float x, float y, Platform p, float startHeight, float endHeight) {
-        super(x, y, 16, 8);
-        this.p = p;
-        this.startHeight = startHeight;
-        this.endHeight = endHeight;
-    }
-
-    /**
-     * Returns the platform associated with button
-     *
-     * @return
-     */
-    public Platform getPlatform() {
-        return this.p;
-    }
-
-    /**
-     * Returns starting height of platform
-     *
-     * @return starting height of platform
-     */
-    public float getStartingHeight() {
-        return this.startHeight;
-    }
-
-    /**
-     * Returns ending height of platform
-     *
-     * @return ending height of platform
-     */
-    public float getEndingHeight() {
-        return this.endHeight;
+    public Button(float x, float y, Platform p) {
+        super(x, y, 1, 0.5f);
+        this.controlledPlatform = p;
+       this.speed = 0.1f;
+        // Button cannot move higher than this y position
+        this.maximumY = y;
+        // Button cannot move lower than this y position
+        this.minimumY = y - super.height;
     }
 
     @Override
@@ -72,4 +46,62 @@ public class Button extends Obstacle {
         // draw the Button
         shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
+
+    /**
+     * Allows for the Button to move down.
+     */
+    public void moveDown() {
+        super.y += this.speed;
+    }
+
+    /**
+     * Allows for the Button to move up.
+     */
+    public void moveUp() {
+        super.y -= this.speed;
+    }
+    /**
+     * Moves platform down
+     * @param ending the ending pos. of the platform
+     */
+    public void movePlatformDown(float ending){
+       if (this.controlledPlatform.getY() > ending){
+        this.y = this.y - this.speed;
+    }
+    }
+    
+     public void movePlatformUp(float starting){
+       if (this.controlledPlatform.getY() < starting- this.controlledPlatform.getWidth() ){
+        this.y = this.y + this.speed;
+       }
+    }
+
+    /**
+     * Updates the position of the Button as it is moving up and down.
+     */
+    public void updatePositions() {
+        super.obstacle.y = super.y;
+    }
+
+    /**
+     * Returns the maximum y position that the Button can reach.
+     *
+     * @return a float representing the maximum y position that the Button can
+     * reach
+     */
+    public float getMaximumY() {
+        return this.maximumY;
+    }
+
+    /**
+     * Returns the minimum y position that the Button can be.
+     *
+     * @return a float representing the minimum y position that the Button can
+     * be
+     */
+    public float getMinimumY() {
+        return this.minimumY;
+    }
+    
+    
 }

@@ -14,11 +14,9 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Platform {
 
-    private Rectangle platform;
-    private int height;
-    private int width;
-    private float x;
-    private float y;
+    private final Rectangle platform;
+    private final float width, height;
+    private float x, y;
     private boolean gravity;
     private float speed;
 
@@ -30,12 +28,14 @@ public class Platform {
      * @param width an integer representing the width of the platform
      * @param height an integer representing the height of the platform
      */
-    public Platform(float x, float y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public Platform(float x, float y, float width, float height) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
         this.speed = 0.5f;
+
+        // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
@@ -61,32 +61,7 @@ public class Platform {
         return (this.width + this.x);
     }
 
-    /**
-     * Determines whether the character has hit the bottom of the platform
-     *
-     * @param c the character jumping
-     * @return whether the character has collide with the bottom of the platform
-     */
-    public boolean collideWithBottom(Character c) {//fix so you can hit sides
-        if (this.collision(c) && (c.getTop() >= this.y) && !c.isFalling) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the top of the platform you are currently on
-     *
-     * @param c the character jumping
-     * @return the top of the block
-     */
-    public float land(Character c) {//fix so you can hit sides
-        //  System.out.println(c.isFalling);
-        if (this.collision(c) && (c.getY() <= this.getTop()) && c.isFalling) {
-            return this.getTop();
-        }
-        return 0;
-    }
+  
 
     /**
      * Returns the y-coordinate of the Platform.
@@ -97,57 +72,12 @@ public class Platform {
         return this.y;
     }
 
-    /**
-     * Determines whether if the Character is touching the Platform.
-     *
-     * @param character a Character in the game
-     * @return a boolean representing whether if the Character is on the
-     * Platform
-     */
-    public boolean collision(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {  
-            this.x = character.getX();
-            return true;
-        } else {
-      return false;
-        }
-    }
-    
-    public boolean collideRight(Character character){
-        if (character.getX() < this.x + this.width && character.getY() != this.getTop()){
-            return true;
-//        }else if(character.getBottom()== this.getTop()){
-       //     return false;
-        }
-        return true;
-    }
-    
-     public boolean collideLeft(Character character){
-         if (character.getX()>= this.x && character.getY() < this.getTop()){
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
-     
-//      public boolean collideBottom(Character character){
-//        
-//    }
-//      
-//       public boolean collideTop(Character character){
-//        
-//    }
-    
+  public boolean collision(Character c){
+      return this.getBounds().overlaps(c.getBounds());
+  }
  
    
-    public Rectangle getBounds() {
-        return this.platform;
-    }
-    
-    public float getWidth() {
-        return this.getY()+ this.width;
-    }
+ 
 
     /**
      * Draws the Platform on the screen.
@@ -159,21 +89,14 @@ public class Platform {
         shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 
-    /**
-     * Moves the Platform downwards.
-     */
-    public void moveDown() {
-        
-        this.y = this.y - this.speed;
-    }
-
-    /**
-     * Moves the Platform upwards.
-     */
-    public void moveUp() {
-        this.y = this.y + this.speed;
-    }
+ 
+public float getWidth(){
+    return this.width;
+}
     
+       public Rectangle getBounds() {
+        return this.platform;
+    }
     /**
      * Updates the x and y positions of the Platform.
      */

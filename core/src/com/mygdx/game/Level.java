@@ -5,295 +5,336 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
- * The basic game logic of Fireboy and Watergirl that are standard across each
- * Level of the game. This class also can draw the different game elements
- * needed in the game, and initialize things such as the Camera, and the
- * FitViewport.
+ * Draws the objects of the games on the screen.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Level {
+public class Level extends ApplicationAdapter {
+
+    private OrthographicCamera camera;
+    private FitViewport viewport;
+    private ShapeRenderer shapeBatch;
+    private SpriteBatch batch;
+    // variable to determine whether or not if Fireboy and Watergirl passed the level
+    private boolean levelWon;
+    // game Characters
+    Fireboy fireboy;
+    Watergirl watergirl;
+    // arrays to store the standing and moving Platforms
+    Platform[] platforms, movingPlatforms;
+    // game Obstacles
+    Fire[] fire;
+    Water[] water;
+    Mud[] mud;
+    Button[] buttons;
+    // arrays to store all of the Gems
+    FireGem[] fireGems;
+    WaterGem[] waterGems;
+    // game Doors
+    FireDoor fireDoor;
+    WaterDoor waterDoor;
 
     /**
-     * Initializes the SpriteBatch, the ShapeRenderer, the OrthographicCamera,
-     * the FitViewport, and the winning variable to use in a game of Fireboy and
-     * Watergirl.
-     *
-     * @param batch a SpriteBatch
-     * @param shapeBatch a ShapeRenderer to draw game elements with
-     * @param camera an OrthographicCamera
-     * @param viewport a FitViewport
-     * @param levelWon a boolean representing whether the Level was been won or
-     * not
-     * @param newHeight a float representing the new y coordinate after a
-     * Character jumps
+     * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
+     * FitViewport, a variable for height for jumping, and a variable to
+     * determine whether if the Fireboy and Watergirl have beat the Level.
      */
-    public void initialize(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera, FitViewport viewport, boolean levelWon, float newHeight) {
-        // intialize the SpriteBatch and the ShapeRenderer
-        batch = new SpriteBatch();
-        shapeBatch = new ShapeRenderer();
+    @Override
+    public void create() {
+        // initialize the SpriteBatch and the ShapeRenderer
+        this.batch = new SpriteBatch();
+        this.shapeBatch = new ShapeRenderer();
 
-        // initialize the camera and the viewport
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(672, 544, camera);
-        viewport.apply();
-        camera.position.x = 336;
-        camera.position.y = 272;
-        camera.update();
+        // initialize the Camera and the Viewport
+        this.camera = new OrthographicCamera();
+        this.viewport = new FitViewport(672, 544, this.camera);
+        this.viewport.apply();
+        this.camera.position.x = 336;
+        this.camera.position.y = 272;
+        this.camera.update();
 
-        // Fireboy and Watergirl have not died yet
-        levelWon = false;
-
-        // initialize the new height
-        newHeight = 32;
+        // Fireboy and Watergirl haven't won the level yet
+        this.levelWon = false;
     }
 
     /**
-     * Implements the basic game logic in a game of Fireboy and Watergirl. This
-     * will constantly update the position of the Characters on the screen. It
-     * allows for the Characters to move right, or left when certain keys are
-     * pressed. It allows for the Characters to jump when certain keys are
-     * pressed. It also allows for the Characters to collect their corresponding
-     * Gems.
-     *
-     * @param f a Character representing a Fireboy in a game
-     * @param w a Character representing a Watergirl in a game
-     * @param fireGem an array of FireGems for the Fireboy to collect during the
-     * game
-     * @param waterGem an array of WaterGems for the Watergirl to collect during
-     * the game
-     * @param platforms an array of Platforms used in a Level
-     * @param newHeight a float represnting the new y coordinate after a
-     * Character jumps
-     * @param levelWon a boolean representing whether if the Level has been
-     * beaten or not
+     * Implements the basic game logic for Fireboy and Watergirl.
      */
-    public void basicGameLogic(Fireboy f, Watergirl w, FireGem[] fireGem, WaterGem[] waterGem, Platform[] platforms, float newHeight, boolean levelWon) {
-        // constantly updates the positions of the Characters
-        f.updatePostions();
-        w.updatePostions();
+    @Override
+    public void render() {
+        // clear the background
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // the Characters can only move if the game hasn't been won yet
-        if (levelWon == false) {
+        // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
+        this.fireboy.updatePositions();
+        this.watergirl.updatePositions();
+        for (Platform p : this.movingPlatforms) {
+            p.updatePositions();
+        }
+        for (Button b : this.buttons) {
+            b.updatePositions();
+        }
+
+        // Characters can only move if the level hasn't been won yet
+        if (!this.levelWon) {
+
             // Fireboy keyboard listeners
-            // make the Fireboy move left
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                f.moveLeft();
-            }
-            // make the Fireboy move right
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                f.moveRight();
-            }
-            // make the Fireboy jump
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                f.jump();
+            // only move the Fireboy if he hasn't died yet
+            if (!this.fireboy.isDead()) {
+                fireboy.onTop(this.platforms, this.movingPlatforms);
+                // make the Fireboy move left
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    this.fireboy.moveLeft();
+                }
+                // make the Watergirl move right
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    this.fireboy.moveRight();
+                }
+                // make the Watergirl jump
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    this.fireboy.jump();
+                }
+                this.fireboy.jumpAction();
+
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        fireboy.stopJumpingPlatform(p);
+                    }
+                }
+
+                for (Platform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        fireboy.stopJumpingPlatform(p);
+                    }
+                }
             }
 
             // Watergirl keyboard listeners
-            // make the Watergirl move left
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                w.moveLeft();
-            }
-            // make the Watergirl move right
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                w.moveRight();
-            }
-            // make the Watergirl jump
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                w.jump();
+            // only move the Watergirl is she hasn't died yet
+            if (!this.watergirl.isDead()) {
+                watergirl.onTop(this.platforms, this.movingPlatforms);
+                // make the Watergirl move left
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    this.watergirl.moveLeft();
+                }
+                // make the Watergirl move right
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    this.watergirl.moveRight();
+                }
+                // make the Watergirl jump
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    this.watergirl.jump();
+                }
+                this.watergirl.jumpAction();
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        watergirl.stopJumpingPlatform(p);
+                    }
+                }
+
+                for (Platform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        watergirl.stopJumpingPlatform(p);
+                    }
+                }
             }
         }
 
         // allow the Fireboy to collect the FireGems
-        for (FireGem fGem : fireGem) {
+        for (FireGem fireGem : this.fireGems) {
             // determine if the Fireboy has collected the FireGem
-            if (fGem.collision(f)) {
+            if (fireGem.collision(this.fireboy)) {
                 // don't draw the FireGem on the screen
-                fGem.collected();
+                fireGem.collected();
                 // add to the Fireboy's FireGem count
-                f.addGem();
+                this.fireboy.addGem();
             }
         }
 
         // allow the Watergirl to collect the WaterGems
-        for (WaterGem wGem : waterGem) {
+        for (WaterGem waterGem : this.waterGems) {
             // determine if the Watergirl has collected the WaterGem
-            if (wGem.collision(w)) {
+            if (waterGem.collision(this.watergirl)) {
                 // don't draw the WaterGem on the screen
-                wGem.collected();
+                waterGem.collected();
                 // add to the Watergirl's WaterGem count
-                w.addGem();
+                this.watergirl.addGem();
             }
         }
 
-        // allow the Fireboy and the Watergirl to jump
-        newHeight = f.newGround(platforms);
-        f.jumpAction(newHeight);
-  //      f.falling(newHeight, f.standing(platforms));
+        // allow the Watergirl to die when it comes into contact with Fire
+        for (Fire f : this.fire) {
+            if (f.collidesWith(this.watergirl)) {
+                this.watergirl.died();
+            }
+        }
 
-        newHeight = w.newGround(platforms);
-        w.jumpAction(newHeight);
-//        w.falling(newHeight, w.standing(platforms));
+        // allow the Fireboy to die when it comes into contact with Water
+        for (Water w : this.water) {
+            if (w.collidesWith(this.fireboy)) {
+                this.fireboy.died();
+            }
+        }
 
-        // game can be won once the Fireboy and Watergirl are in front of their respected Doors
-        // make the Button move downwards if a Character has collided with it
-        // allow the Fireboy to die in the Water
-        // allow the Fireboy to die in the Mud
-        // allow the Watergirl to die in the Fire
-        // allow the Watergirl to die in the Mud
+        for (Mud m : this.mud) {
+            // allow the Fireboy to die when it comes into contact with Mud
+            if (m.collidesWith(this.fireboy)) {
+                this.fireboy.died();
+            }
+
+            // allow the Watergirl to die when it comes into contact with Mud
+            if (m.collidesWith(this.watergirl)) {
+                this.watergirl.died();
+            }
+        }
+
+        // win the game if Fireboy and Watergirl stand in front of their respected Doors
+        if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
+            this.levelWon = true;
+        }
+
+        for (Button b : this.buttons) {
+            // Buttons will move down if a Character is on it
+            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+            }
+            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+            }
+
+            // Buttons will move up if a Character isn't on it
+            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        this.batch.dispose();
     }
 
     /**
-     * Allows for the drawing of game elements.
+     * Resizes the screen so that the game doesn't look distorted.
      *
-     * @param batch a SpriteBatch
-     * @param shapeBatch a ShapeRenderer to draw the game elements
-     * @param camera an OrthographicCamera
+     * @param width an integer representing the width of the original screen
+     * @param height an integer representing the height of the original screen
      */
-    public void startDrawing(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera) {
-        batch.begin();
-        shapeBatch.setProjectionMatrix(camera.combined);
-        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+    @Override
+    public void resize(int width, int height
+    ) {
+        this.viewport.update(width, height);
     }
 
     /**
-     * Ends the drawing of game elements.
-     *
-     * @param batch a SpriteBatch
-     * @param shapeBatch a ShapeRenderer to draw the game elements
-     * @param camera an OrthographicCamera
+     * Allows for the drawing of the game objects.
      */
-    public void endDrawing(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera) {
-        shapeBatch.end();
-        batch.end();
-        batch.setProjectionMatrix(camera.combined);
-    }
+    public void draw() {
+        // allows for the drawing of game objects to begin
+        this.batch.begin();
+        this.shapeBatch.setProjectionMatrix(camera.combined);
+        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
-    /**
-     * Draws the background of the game to be black.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the background
-     */
-    public void drawBackground(ShapeRenderer shapeBatch) {
-        // set the background to be black
-        shapeBatch.setColor(Color.BLACK);
-        shapeBatch.rect(0, 0, 672, 544);
-    }
+        // draws a black background
+        this.shapeBatch.setColor(Color.BLACK);
+        this.shapeBatch.rect(0, 0, 672, 544);
 
-    /**
-     * Draws the Gems in the level of the game.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the Gems
-     * @param fireGems an array of Gems representing FireGems to draw
-     * @param waterGems an array of Gems representing WaterGems to draw
-     */
-    public void drawGems(ShapeRenderer shapeBatch, FireGem[] fireGems, WaterGem[] waterGems) {
-        // draw the FireGems
-        shapeBatch.setColor(Color.RED);
-        for (FireGem fireGem : fireGems) {
-            // only draw the FireGem if it hasn't been collected by the Fireboy yet
+        // go through the array and draw each Button
+        for (Button b : this.buttons) {
+            b.draw(this.shapeBatch);
+        }
+
+        // draws the standing Platforms
+        this.shapeBatch.setColor(Color.WHITE);
+        for (Platform p : this.platforms) {
+            p.draw(this.shapeBatch);
+        }
+
+        // draws the moving Platforms
+        this.shapeBatch.setColor(Color.PURPLE);
+        for (Platform p : this.movingPlatforms) {
+            p.draw(this.shapeBatch);
+        }
+
+        // set the FireGems to be red
+        this.shapeBatch.setColor(Color.RED);
+        // go through the array and draw each FireGem
+        for (FireGem fireGem : this.fireGems) {
+            // only draw the FireGem if it hasn't been collected by a Fireboy yet
             if (!fireGem.isCollected()) {
-                fireGem.draw(shapeBatch);
+                fireGem.draw(this.shapeBatch);
             }
         }
 
-        // draw the WaterGems
-        shapeBatch.setColor(Color.BLUE);
-        for (WaterGem waterGem : waterGems) {
-            // only draw the WaterGem if it hasn't been collected by the Watergirl yet
+        // set the WaterGems to be blue
+        this.shapeBatch.setColor(Color.BLUE);
+        // go through the array and draw each WaterGem
+        for (WaterGem waterGem : this.waterGems) {
+            // only draw the WaterGem if it hasn't been collected by a Watergirl yet
             if (!waterGem.isCollected()) {
-                waterGem.draw(shapeBatch);
+                waterGem.draw(this.shapeBatch);
             }
         }
-    }
 
-    /**
-     * Draws the Doors in the level of the game.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the Doors
-     * @param fireDoor a Door representing a FireDoor to draw
-     * @param waterDoor a Door representing a WaterDoor to draw
-     */
-    public void drawDoors(ShapeRenderer shapeBatch, FireDoor fireDoor, WaterDoor waterDoor) {
-        shapeBatch.setColor(Color.MAGENTA);
-        fireDoor.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        waterDoor.draw(shapeBatch);
-    }
+        // set the FireDoor to be magneta
+        this.shapeBatch.setColor(Color.MAGENTA);
+        this.fireDoor.draw(this.shapeBatch);
+        // set the WaterDoor to be cyan
+        this.shapeBatch.setColor(Color.CYAN);
+        this.waterDoor.draw(this.shapeBatch);
 
-    /**
-     * Draws the Characters in the level of the game.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the Characters
-     * @param fireboy a Character representing a Fireboy to draw
-     * @param watergirl a Character representing a Watergirl to draw
-     */
-    public void drawCharacters(ShapeRenderer shapeBatch, Fireboy fireboy, Watergirl watergirl) {
-        // draw the Characters if they aren't dead yet
-        shapeBatch.setColor(Color.RED);
-        if (!fireboy.isDead()) {
-            fireboy.draw(shapeBatch);
-        }
-        shapeBatch.setColor(Color.BLUE);
-        if (!watergirl.isDead()) {
-            watergirl.draw(shapeBatch);
-        }
-    }
-
-    /**
-     * Draws the Obstacles of a Level using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the Obstacles with
-     * @param fire an array of Obstacles representing Fire to draw
-     * @param water an array of Obstacles representing Water to draw
-     * @param mud an array of Obstacles representing Mud to draw
-     * @param buttons an array of Obstacles representing Buttons to draw
-     */
-    public void drawObstacles(ShapeRenderer shapeBatch, Fire[] fire, Water[] water, Mud[] mud, Button[] buttons) {
-        // draw the Fire
-        shapeBatch.setColor(Color.MAGENTA);
-        for (Fire f : fire) {
-            f.draw(shapeBatch);
+        // go through the array and draw each Fire
+        for (Fire f : this.fire) {
+            f.draw(this.shapeBatch);
         }
 
-        // draw the Water
-        shapeBatch.setColor(Color.CYAN);
-        for (Water w : water) {
-            w.draw(shapeBatch);
+        // go through the array and draw each Water
+        for (Water w : this.water) {
+            w.draw(this.shapeBatch);
         }
 
-        // draw the Mud
-        shapeBatch.setColor(Color.FOREST);
-        for (Mud m : mud) {
-            m.draw(shapeBatch);
+        // go through the array and draw each Mud
+        for (Mud m : this.mud) {
+            m.draw(this.shapeBatch);
         }
 
-        // draw the Buttons
-        shapeBatch.setColor(Color.PURPLE);
-        for (Button b : buttons) {
-            b.draw(shapeBatch);
+        // do not draw the Fireboy on the screen if the Fireboy has died
+        if (!this.fireboy.isDead()) {
+            // set the color of the Fireboy to be red
+            this.shapeBatch.setColor(Color.RED);
+            this.fireboy.draw(this.shapeBatch);
         }
-    }
+        // do not draw the Watergirl on the screen if the Watergirl has died
+        if (!this.watergirl.isDead()) {
+            // set the color of the Watergirl to be blue
+            this.shapeBatch.setColor(Color.BLUE);
+            this.watergirl.draw(this.shapeBatch);
+        }
 
-    /**
-     * Draws the Ice of a Level using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer to draw the Ice with
-     * @param ice an array of Platforms representing Ice to draw
-     */
-    public void drawIce(ShapeRenderer shapeBatch, Ice[] ice) {
-        shapeBatch.setColor(Color.GRAY);
-        for (Ice i : ice) {
-            i.draw(shapeBatch);
+        // draws a level complete screen when the Level has been won using a ShapeRenderer
+        if (this.levelWon) {
+            this.shapeBatch.setColor(Color.LIME);
+            this.shapeBatch.rect(0, 0, 672, 544);
         }
+
+        // allows for the drawing of the game objects to end
+        this.shapeBatch.end();
+        this.batch.end();
+        this.batch.setProjectionMatrix(this.camera.combined);
     }
 }
