@@ -25,8 +25,6 @@ public class LevelTwo extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-    // create a new Level
-    private Level level;
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -51,12 +49,6 @@ public class LevelTwo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        // creates a new level of Fireboy and Watergirl
-        this.level = new Level();
-
-        // initializes SpriteBatch, ShapeRenderer, Camera, Viewport, the winning variable, and the jumping variable
-        this.level.initialize(this.batch, this.shapeBatch, this.camera, this.viewport, this.levelWon, this.newHeight);
-
         // initialize the Characters
         this.fireboy = new Fireboy(360, 448);
         this.watergirl = new Watergirl(288, 448);
@@ -132,8 +124,8 @@ public class LevelTwo extends ApplicationAdapter {
         this.mud = new Mud[1];
         this.mud[0] = new Mud(16, 32, 640, 16);
         this.buttons = new Button[2];
-  //      this.buttons[0] = new Button(64, 208);
-//        this.buttons[1] = new Button(592, 208);
+        this.buttons[0] = new Button(64, 208);
+        this.buttons[1] = new Button(592, 208);
 
         // initialize the Gems
         this.fireGems = new FireGem[6];
@@ -158,28 +150,6 @@ public class LevelTwo extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // implement the basic game logic
-        this.level.basicGameLogic(this.fireboy, this.watergirl, this.fireGems, this.waterGems, this.platforms, this.newHeight, this.levelWon);
-
-        // start drawing
-        this.level.startDrawing(this.batch, this.shapeBatch, this.camera);
-        // draw the Obstacles
-        this.level.drawObstacles(this.shapeBatch, this.fire, this.water, this.mud, this.buttons);
-        // draw the Characters
-        this.level.drawCharacters(this.shapeBatch, this.fireboy, this.watergirl);
-        // draw the Gems
-        this.level.drawGems(this.shapeBatch, this.fireGems, this.waterGems);
-
-        // draw the Platforms
-        this.shapeBatch.setColor(Color.WHITE);
-        for (Platform platform : this.platforms) {
-            platform.draw(this.shapeBatch);
-        }
-        this.level.drawIce(this.shapeBatch, this.ice);
-
-        // end drawing
-        this.level.endDrawing(this.batch, this.shapeBatch, this.camera);
     }
 
     @Override

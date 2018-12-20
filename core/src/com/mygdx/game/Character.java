@@ -39,6 +39,7 @@ public abstract class Character {
         this.gravity = 1f; //tweak
         this.x = x;
         this.y = y;
+
         this.isColliding = true;
         this.jump = false;
         this.newHeight = 32;
@@ -81,7 +82,6 @@ public abstract class Character {
             }
         }
     }
-    
 
     /**
      * Sets the Character to a jumping state.*buggy
@@ -240,7 +240,15 @@ public abstract class Character {
         return this.y + this.height;
     }
 
-    public float getSide() {
+    public float getLeft() {
+        return this.x;
+    }
+
+    public float getBottom() {
+        return this.y;
+    }
+
+    public float getRight() {
         return this.x + this.width;
     }
 
@@ -360,10 +368,8 @@ public abstract class Character {
             this.x = p.getX();
         }
     }
-        
-        public void isOnIce (boolean b){
-            this.onIce = b;
-        }
-    
-    
+
+    public void isOnIce(boolean b) {
+        this.onIce = b;
+    }
 }

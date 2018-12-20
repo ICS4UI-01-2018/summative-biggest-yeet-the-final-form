@@ -24,8 +24,6 @@ public class LevelThree extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-    // creates a new Level
-    private Level level;
     // Characters
     private Fireboy fireboy;
     private Watergirl watergirl;
@@ -49,12 +47,6 @@ public class LevelThree extends ApplicationAdapter {
 
     @Override
     public void create() {
-        // create a new Level of Fireboy and Watergirl
-        this.level = new Level();
-
-        // initializes SpriteBatch, ShapeRenderer, Camera, Viewport, the winning variable, and the jumping variable
-        this.level.initialize(this.batch, this.shapeBatch, this.camera, this.viewport, this.levelWon, this.newHeight);
-
         // initialize the Characters
         this.fireboy = new Fireboy(616, 32);
         this.watergirl = new Watergirl(32, 32);
@@ -70,13 +62,17 @@ public class LevelThree extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        // start drawing
-        this.level.startDrawing(this.batch, this.shapeBatch, this.camera);
+        // begin drawing
+        batch.begin();
+        shapeBatch.setProjectionMatrix(camera.combined);
+        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         // draw the background
-        this.level.drawBackground(this.shapeBatch);
+
         // draw the Characters
-        this.level.drawCharacters(this.shapeBatch, this.fireboy, this.watergirl);
+
         // end drawing
-        this.level.endDrawing(this.batch, this.shapeBatch, this.camera);
+        shapeBatch.end();
+        batch.end();
+        batch.setProjectionMatrix(camera.combined);
     }
 }
