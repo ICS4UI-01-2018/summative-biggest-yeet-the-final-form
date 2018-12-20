@@ -47,11 +47,7 @@ public abstract class Obstacle {
      * Character
      */
     public boolean collidesWith(Character character) {
-        if (this.y == character.getY() && character.getX() >= this.x && character.length() < this.x + this.width) {
-            return true;
-        } else {
-            return this.obstacle.overlaps(character.getBounds());
-        }
+        return this.obstacle.overlaps(character.getBounds());
     }
 
     /**
@@ -96,7 +92,7 @@ public abstract class Obstacle {
      * @return an integer representing the width of the Obstacle
      */
     public float getWidth() {
-        return this.width;
+        return this.width;  
     }
 
     /**

@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates Fire as a subclass of Obstacle to use in a game of Fireboy and
  * Watergirl. Allows for the creation of a pool of fire which will kill a
@@ -28,13 +31,13 @@ public class Fire extends Obstacle {
     }
 
     /**
-     * Determines whether if a Watergirl has fallen into the Fire.
+     * Draws the Fire on the screen using a ShapeRenderer.
      *
-     * @param watergirl a Watergirl used in a game of Fireboy and Watergirl
-     * @return a boolean representing whether if the Watergirl has fallen into
-     * the Fire or not
+     * @param shapeBatch a ShapeRenderer to draw the Fire with
      */
-    public boolean Collision(Watergirl watergirl) {
-        return super.obstacle.overlaps(watergirl.getBounds());
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.setColor(Color.MAGENTA);
+        super.draw(shapeBatch);
     }
 }

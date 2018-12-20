@@ -125,3 +125,4 @@ Thumbs.db
 /ios-moe/xcode/native/
 /JavaApplication1/nbproject/private/
 /.nb-gradle/
+/core/desktop/build/

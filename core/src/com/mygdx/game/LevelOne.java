@@ -53,9 +53,9 @@ public class LevelOne extends Level {
         super.platforms[29] = new Platform(18, 32, 6, 2);
 
         // initialize the moving Platforms
-        this.movingPlatforms = new Platform[1];
-        this.movingPlatforms[0] = new Platform(36, 20, 5, 0.5f);
-
+        this.movingPlatforms = new MovingPlatform[1];
+        this.movingPlatforms[0] = new MovingPlatform(36, 20, 5, 0.5f);
+        
         // initialize the Obstacles
         super.fire = new Fire[1];
         super.fire[0] = new Fire(21, 1, 4, 1);
@@ -93,8 +93,22 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        // the moving Platform will move down if a Character is on it
-        // the moving Platform will move up if a Character isn't on it
+        for (Button b: this.buttons) {
+            // the moving Platform will move down if a Character is on it
+            if (b.collidesWith(this.fireboy) && this.movingPlatforms[0].getY() < this.movingPlatforms[0].getMaximumY()) {
+                this.movingPlatforms[0].moveUp();
+            }
+            if (b.collidesWith(this.watergirl) && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMaximumY()) {
+                this.movingPlatforms[0].moveUp();
+            }
+            
+            // the moving Platform will move up if a Character isn't on it
+            if ((b.collidesWith(this.fireboy) || b.collidesWith(this.watergirl))
+                    && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMinimumY()) {
+                this.movingPlatforms[0].moveDown();
+            }
+        }
+        
         // draw the game elements
         super.draw();
     }

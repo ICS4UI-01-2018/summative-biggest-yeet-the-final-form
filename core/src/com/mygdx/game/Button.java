@@ -39,6 +39,11 @@ public class Button extends Obstacle {
         this.minimumY = y - super.height;
     }
 
+    /**
+     * Draws the Button on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Button on the screen
+     */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
         // make the Buttons purple

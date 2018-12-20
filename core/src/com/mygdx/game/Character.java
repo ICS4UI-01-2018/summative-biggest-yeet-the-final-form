@@ -28,7 +28,7 @@ public abstract class Character {
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(float x, float y) {
+    public Character(int x, int y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;

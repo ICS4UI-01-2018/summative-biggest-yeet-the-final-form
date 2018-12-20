@@ -16,9 +16,8 @@ public class Platform {
 
     private final Rectangle platform;
     private final float width, height;
-    private float x, y;
-    private boolean gravity;
-    private float speed;
+    private float x;
+    float y;
 
     /**
      * Creates a Platform using the x, y, width, and height.
@@ -33,7 +32,6 @@ public class Platform {
         this.y = y * 16;
         this.width = width * 16;
         this.height = height * 16;
-        this.speed = 0.5f;
 
         // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
@@ -61,8 +59,6 @@ public class Platform {
         return (this.width + this.x);
     }
 
-  
-
     /**
      * Returns the y-coordinate of the Platform.
      *
@@ -72,12 +68,9 @@ public class Platform {
         return this.y;
     }
 
-  public boolean collision(Character c){
-      return this.getBounds().overlaps(c.getBounds());
-  }
- 
-   
- 
+    public boolean collision(Character c) {
+        return this.getBounds().overlaps(c.getBounds());
+    }
 
     /**
      * Draws the Platform on the screen.

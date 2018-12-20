@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -21,7 +22,21 @@ public class Watergirl extends Character {
      * @param x a float representing the Watergirl's x position on the screen
      * @param y a float representing the Watergirl's y position on the screen
      */
-    public Watergirl(float x, float y) {
+    public Watergirl(int x, int y) {
         super(x, y);
+    }
+
+    /**
+     * Draws a blue rectangle on the screen using a ShapeRenderer to represent a
+     * Watergirl.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Watergirl with
+     */
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        // set the Watergirl to be blue
+        shapeBatch.setColor(Color.BLUE);
+        // draw the Watergirl on the screen
+        super.draw(shapeBatch);
     }
 }
