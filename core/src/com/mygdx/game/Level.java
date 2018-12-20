@@ -24,13 +24,10 @@ public class Level extends ApplicationAdapter {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
-    // make shapeBatch private
-    ShapeRenderer shapeBatch;
+    private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
     // variable to determine whether or not if Fireboy and Watergirl passed the level
     private boolean levelWon;
-    // landing variable
-    private float newHeight;
     // game Characters
     Fireboy fireboy;
     Watergirl watergirl;
@@ -58,6 +55,7 @@ public class Level extends ApplicationAdapter {
         // initialize the SpriteBatch and the ShapeRenderer
         this.batch = new SpriteBatch();
         this.shapeBatch = new ShapeRenderer();
+        
         // initialize the Camera and the Viewport
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -65,8 +63,7 @@ public class Level extends ApplicationAdapter {
         this.camera.position.x = 336;
         this.camera.position.y = 272;
         this.camera.update();
-        // initialize the variable for the height
-        this.newHeight = 32;
+        
         // Fireboy and Watergirl haven't won the level yet
         this.levelWon = false;
     }
@@ -80,11 +77,14 @@ public class Level extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // constantly update the x and y positions of the Characters and the moving Platforms
+        // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
         for (Platform p : this.movingPlatforms) {
             p.updatePositions();
+        }
+        for (Button b : this.buttons) {
+            b.updatePositions();
         }
 
         // Characters can only move if the level hasn't been won yet
@@ -179,8 +179,23 @@ public class Level extends ApplicationAdapter {
             this.levelWon = true;
         }
 
-        // Buttons will move down if a Character is on it
-        // Buttons will move up if a Character isn't on it
+        for (Button b : this.buttons) {
+            // Buttons will move down if a Character is on it
+            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+            }
+            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+            }
+            
+            // Buttons will move up if a Character isn't on it
+            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+        }
     }
 
     @Override
@@ -256,22 +271,16 @@ public class Level extends ApplicationAdapter {
         this.shapeBatch.setColor(Color.CYAN);
         this.waterDoor.draw(this.shapeBatch);
 
-        // set the Fire to be magenta
-        this.shapeBatch.setColor(Color.MAGENTA);
         // go through the array and draw each Fire
         for (Fire f : this.fire) {
             f.draw(this.shapeBatch);
         }
 
-        // set the Water to be cyan
-        this.shapeBatch.setColor(Color.CYAN);
         // go through the array and draw each Water
         for (Water w : this.water) {
             w.draw(this.shapeBatch);
         }
 
-        // set the Mud to be forest green
-        this.shapeBatch.setColor(Color.FOREST);
         // go through the array and draw each Mud
         for (Mud m : this.mud) {
             m.draw(this.shapeBatch);

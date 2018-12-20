@@ -16,43 +16,41 @@ public class LevelOne extends Level {
         super.create();
 
         // initialize the Characters
-        // fireboy = 32, 32
-        this.fireboy = new Fireboy(490, 32);
-        this.watergirl = new Watergirl(32, 122);
+        this.fireboy = new Fireboy(2, 2);
+        this.watergirl = new Watergirl(2, 6);
 
         // initialize the Platforms
-        this.platforms = new Platform[31];
-        this.platforms[0] = new Platform(0, 0, 336, 32);
-        this.platforms[1] = new Platform(0, 32, 16, 512);
-        this.platforms[2] = new Platform(336, 0, 64, 16);
-        this.platforms[3] = new Platform(400, 0, 32, 32);
-        this.platforms[4] = new Platform(432, 0, 64, 16);
-        this.platforms[5] = new Platform(496, 0, 176, 32);
-        this.platforms[6] = new Platform(592, 32, 64, 64);
-        this.platforms[7] = new Platform(656, 32, 16, 512);
-        this.platforms[8] = new Platform(16, 80, 192, 32);
-        this.platforms[9] = new Platform(16, 160, 256, 32);
-        this.platforms[10] = new Platform(256, 144, 32, 48);
-        this.platforms[11] = new Platform(288, 144, 128, 32);
-        this.platforms[12] = new Platform(416, 144, 64, 16);
-        this.platforms[13] = new Platform(460, 144, 96, 32);
-        this.platforms[14] = new Platform(608, 208, 48, 64);
-        this.platforms[15] = new Platform(560, 224, 48, 48);
-        this.platforms[16] = new Platform(336, 240, 224, 32);
-        this.platforms[17] = new Platform(304, 240, 32, 48);//ugly
-        this.platforms[18] = new Platform(96, 256, 208, 32);
-        this.platforms[19] = new Platform(16, 336, 64, 96);
-        this.platforms[20] = new Platform(80, 336, 256, 32);
-        this.platforms[21] = new Platform(336, 336, 144, 64);
-        this.platforms[22] = new Platform(480, 320, 32, 48);
-        this.platforms[23] = new Platform(512, 320, 64, 32);
-        this.platforms[24] = new Platform(272, 432, 384, 32);
-        this.platforms[25] = new Platform(448, 464, 64, 16);
-        this.platforms[26] = new Platform(176, 400, 96, 64);
-        this.platforms[27] = new Platform(128, 448, 48, 16);
-        this.platforms[28] = new Platform(16, 528, 640, 16);
-        this.platforms[29] = new Platform(288, 512, 96, 32);
-        this.platforms[30] = new Platform(576, 320, 80, 8);
+        super.platforms = new Platform[30];
+        super.platforms[0] = new Platform(0, 0, 21, 2);
+        super.platforms[1] = new Platform(0, 2, 1, 32);
+        super.platforms[2] = new Platform(21, 0, 4, 1);
+        super.platforms[3] = new Platform(25, 0, 2, 2);
+        super.platforms[4] = new Platform(27, 0, 4, 1);
+        super.platforms[5] = new Platform(31, 0, 11, 2);
+        super.platforms[6] = new Platform(37, 2, 4, 4);
+        super.platforms[7] = new Platform(41, 2, 1, 32);
+        super.platforms[8] = new Platform(1, 5, 12, 2);
+        super.platforms[9] = new Platform(1, 10, 16, 2);
+        super.platforms[10] = new Platform(16, 9, 2, 3);
+        super.platforms[11] = new Platform(18, 9, 8, 2);
+        super.platforms[12] = new Platform(26, 9, 4, 1);
+        super.platforms[13] = new Platform(30, 9, 6, 2);
+        super.platforms[14] = new Platform(38, 13, 3, 4);
+        super.platforms[15] = new Platform(35, 14, 3, 3);
+        super.platforms[16] = new Platform(21, 15, 14, 2);
+        super.platforms[17] = new Platform(19, 15, 2, 3);
+        super.platforms[18] = new Platform(6, 16, 13, 2);
+        super.platforms[19] = new Platform(1, 21, 4, 6);
+        super.platforms[20] = new Platform(5, 21, 16, 2);
+        super.platforms[21] = new Platform(21, 21, 9, 4);
+        super.platforms[22] = new Platform(30, 20, 2, 3);
+        super.platforms[23] = new Platform(32, 20, 4, 2);
+        super.platforms[24] = new Platform(17, 27, 24, 2);
+        super.platforms[25] = new Platform(29, 29, 4, 1);
+        super.platforms[26] = new Platform(11, 25, 6, 4);
+        super.platforms[27] = new Platform(8, 28, 3, 1);
+        super.platforms[28] = new Platform(1, 33, 40, 1);
+        super.platforms[29] = new Platform(18, 32, 6, 2);
 
         // initialize the moving Platforms
         this.movingPlatforms = new Platform[1];
