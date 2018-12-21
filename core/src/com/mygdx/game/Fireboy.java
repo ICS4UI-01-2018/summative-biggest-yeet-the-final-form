@@ -34,14 +34,9 @@ public class Fireboy extends Character {
      */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
-   //      set the Fireboy to be red
+        // set the Fireboy to be red
         shapeBatch.setColor(Color.RED);
-     //    draw the Fireboy on the screen
+        // draw the Fireboy on the screen
         super.draw(shapeBatch);
     }
-    
- 
-    }
-    
-
-
+}

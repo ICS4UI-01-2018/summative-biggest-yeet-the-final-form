@@ -37,7 +37,9 @@ public class Fire extends Obstacle {
      */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
+        // set the colour of the Fire to be magenta
         shapeBatch.setColor(Color.MAGENTA);
+        // draw the fire
         super.draw(shapeBatch);
     }
 }

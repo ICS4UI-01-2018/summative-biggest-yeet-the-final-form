@@ -36,6 +36,7 @@ public class Mud extends Obstacle {
      */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
+        // set the colour of the Mud to be forest green
         shapeBatch.setColor(Color.FOREST);
         super.draw(shapeBatch);
     }
