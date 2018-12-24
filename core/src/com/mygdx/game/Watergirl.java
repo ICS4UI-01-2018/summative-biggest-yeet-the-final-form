@@ -36,7 +36,6 @@ public class Watergirl extends Character {
     public void draw(ShapeRenderer shapeBatch) {
         // set the Watergirl to be blue
         shapeBatch.setColor(Color.BLUE);
-        // draw the Watergirl on the screen
         super.draw(shapeBatch);
     }
 }

@@ -36,6 +36,7 @@ public class Water extends Obstacle {
      */
     @Override
     public void draw(ShapeRenderer shapeBatch) {
+        // set the colour of the Water to be cyan
         shapeBatch.setColor(Color.CYAN);
         super.draw(shapeBatch);
     }

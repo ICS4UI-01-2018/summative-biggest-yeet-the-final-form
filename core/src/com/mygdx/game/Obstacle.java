@@ -17,7 +17,7 @@ public abstract class Obstacle {
 
     Rectangle obstacle;
     float height;
-    private float width;
+    private final float width;
     float x, y;
 
     /**
@@ -92,7 +92,7 @@ public abstract class Obstacle {
      * @return an integer representing the width of the Obstacle
      */
     public float getWidth() {
-        return this.width;  
+        return this.width;
     }
 
     /**
@@ -105,16 +105,20 @@ public abstract class Obstacle {
     }
 
     /**
-     * Returns the X-coordinate of the edge of the platform
+     * Returns the x-coordinate of the edge of the Obstacle.
      *
-     * @return the X-coordinate of the edge of the platform
+     * @return a float representing the X-coordinate of the edge of the Obstacle
      */
     public float getLength() {
         return (this.width + this.x);
     }
 
+    /**
+     * Returns the y-coordinate of the top of the Obstacle.
+     *
+     * @return a float representing the y-coordinate of the top of the Obstacle
+     */
     public float getTop() {
         return (this.height + this.y);
     }
-
 }

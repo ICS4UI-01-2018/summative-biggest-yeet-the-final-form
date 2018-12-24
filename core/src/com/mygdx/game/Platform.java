@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
+ * Creates a Platform to use in a game of Fireboy and Watergirl. The Characters
+ * can move along the Platforms to complete each Level of the game.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
@@ -16,7 +18,7 @@ public class Platform {
 
     private final Rectangle platform;
     private final float width, height;
-    private float x;
+    private final float x;
     float y;
 
     /**
@@ -82,14 +84,24 @@ public class Platform {
         shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 
- 
-public float getWidth(){
-    return this.width;
-}
-    
-       public Rectangle getBounds() {
+    /**
+     * Returns the width of the Platform.
+     *
+     * @return a float representing the width of the Platform
+     */
+    public float getWidth() {
+        return this.width;
+    }
+
+    /**
+     * Returns the Rectangle that represents the Platform.
+     *
+     * @return a Rectangle that represents the Platform
+     */
+    public Rectangle getBounds() {
         return this.platform;
     }
+
     /**
      * Updates the x and y positions of the Platform.
      */
