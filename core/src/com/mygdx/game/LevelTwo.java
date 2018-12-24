@@ -5,15 +5,6 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-
 /**
  * Level Two of the Fireboy and Watergirl game.
  *
@@ -21,13 +12,35 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  */
 public class LevelTwo extends Level {
 
+    /**
+     * Initializes the different game objects in the Level.
+     */
     @Override
     public void create() {
-        
+        // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
+        super.create();
+
+        // initialize the Characters
+        super.fireboy = new Fireboy(22.5f, 28);
+        super.watergirl = new Watergirl(18, 28);
+
+        // initialize the Platforms
+        // initialize the MovingPlatforms
+        // initialize the Obstacles
+        // initialize the Gems
+        // initialize the Doors
     }
 
+    /**
+     * Implement the basic game logic and draw all the game objects on the
+     * screen.
+     */
     @Override
     public void render() {
+        // clear the screen and implement the basic game logic
+        super.render();
 
+        // draw the game elements
+        super.draw();
     }
 }

@@ -22,7 +22,7 @@ public class Watergirl extends Character {
      * @param x a float representing the Watergirl's x position on the screen
      * @param y a float representing the Watergirl's y position on the screen
      */
-    public Watergirl(int x, int y) {
+    public Watergirl(float x, float y) {
         super(x, y);
     }
 
