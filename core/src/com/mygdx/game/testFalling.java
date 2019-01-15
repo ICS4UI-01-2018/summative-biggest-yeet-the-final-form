@@ -148,20 +148,80 @@ public class testFalling extends ApplicationAdapter {
 //        for (int i = 0; i < this.platforms.length; i++) {
 //            platforms[i].draw(shapeBatch);
 //        }
-        // draw the Fire and the Water
-        shapeBatch.setColor(Color.MAGENTA);
-      //  fire.draw(shapeBatch);
-        shapeBatch.setColor(Color.CYAN);
-        //water.draw(shapeBatch);
-
-        // end drawing
-        shapeBatch.end();
-        batch.end();
-        batch.setProjectionMatrix(camera.combined);
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
-    }
-}
+//                            fireboy.jumpAction();
+//
+//        
+//
+//        // make the Fireboy move right
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+//            fireboy.moveRight();
+//        }
+//
+//        // make the Fireboy move left
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+//            fireboy.moveLeft();
+//        }
+//
+//        // Watergirl keyboard listeners
+//        // make the Watergirl jump
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            //   watergirl.jump();
+//        }
+//        // make the Watergirl move right
+//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            watergirl.moveRight();
+//        }
+//        // make the Waterfirl move left
+//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            watergirl.moveLeft();
+//        }
+//
+//        // constantly update the x and y positions of the Fireboy and the Watergirl
+//        fireboy.updatePostions();
+//        watergirl.updatePostions();
+//
+//        // start drawing
+//        batch.begin();
+//        shapeBatch.setProjectionMatrix(camera.combined);
+//        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+//
+//        // change background colour
+//        shapeBatch.setColor(Color.BLACK);
+//        shapeBatch.rect(0, 0, 672, 544);
+//
+//        // draw the Fireboy
+//        shapeBatch.setColor(Color.RED);
+//        fireboy.draw(shapeBatch);
+//
+//        // draw the Watergirl
+//        shapeBatch.setColor(Color.BLUE);
+//        watergirl.draw(shapeBatch);
+//
+//        // draw the Platforms
+//        shapeBatch.setColor(Color.WHITE);
+//        platform.draw(shapeBatch);
+//        shapeBatch.setColor(Color.LIME);
+//        ground.draw(shapeBatch);
+//        shapeBatch.setColor(Color.GRAY);
+//   //     ice.draw(shapeBatch);
+//
+////        for (int i = 0; i < this.platforms.length; i++) {
+////            platforms[i].draw(shapeBatch);
+////        }
+//        // draw the Fire and the Water
+//        shapeBatch.setColor(Color.MAGENTA);
+//      //  fire.draw(shapeBatch);
+//        shapeBatch.setColor(Color.CYAN);
+//        //water.draw(shapeBatch);
+//
+//        // end drawing
+//        shapeBatch.end();
+//        batch.end();
+//        batch.setProjectionMatrix(camera.combined);
+//    }
+//
+//    @Override
+//    public void dispose() {
+//        batch.dispose();
+//    }
+//}

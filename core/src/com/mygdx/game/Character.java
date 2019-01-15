@@ -36,7 +36,7 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.7f; //tweak
+        this.gravity = 0.5f; //tweak
         //  this.maxYSpeed = 5; //tweak
         this.x = x * 16;
         this.y = y * 16;
@@ -50,34 +50,19 @@ public abstract class Character {
 
     }
 
-    /**
-     * Returns rectangle created by two overlapping rectangles
-     *
-     * @param p the platform being overlapped
-     * @return rectangle created by two overlapping rectangles
-     */
-    public Rectangle overlapRectangle(Platform p) {
-        if (this.getBounds().overlaps(p.getBounds())) {
-            if (this.y + this.height > p.getTop()) {
-                this.overlapY = this.y;
-                this.overlapTopY = p.getTop();
-            } else {
-                this.overlapY = p.getY();
-                this.overlapTopY = this.getTop();
-            }
-            if (this.x < p.getX()) {
-                this.overlapX = p.getX();
-                this.overlapFarX = this.length();
-            } else {
-                this.overlapX = this.x;
-                this.overlapFarX = p.getLength();
+    public int howManyCol(Platform[] p) {
+        int counter = 0;
+        for (Platform x : p) {
+            if (this.getBounds().overlaps(x.getBounds())) {
+                counter++;
             }
         }
-        this.overlapWidth = this.overlapFarX - this.overlapX;
-        this.overlapHeight = this.overlapTopY - this.overlapY;
-        this.overlap = this.overlap.set(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
-        return this.overlap;
+        return counter;
     }
+
+   public float getYSpeed (){
+       return this.ySpeed;
+   }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -138,82 +123,8 @@ public abstract class Character {
         }
     }
 
-    /**
-     * Stops character from jumping if on platform
-     *
-     * @param p
-     */
-    public void stopJumpingPlatform(Platform p) {
-        this.overlap = this.overlapRectangle(p);
-        if (this.overlap.height < this.overlap.width) {
-            if (this.ySpeed < 0) {
-                // stop moving up/down
-                this.ySpeed = 0;
-                // correct the position
-                this.y = p.getY() - this.height;
-            }
-            if (this.ySpeed > 0) {
-                this.y = p.getTop();
-                this.onGround = true;
-                this.jump = false;
-                            this.speed = 2f;//tweak
+  
 
-            }
-        } else {
-            // player is on the right
-            if (this.x < p.getX()) {
-                this.x = this.x - this.overlap.width;
-            } else {
-                this.x = this.x + this.overlap.width;
-            }
-        }
-
-    }
-
-    /**
-     * Sets character to be standing on a platform
-     *
-     * @param platforms array of platforms
-     * @param movingPlatforms
-     */
-    public void onTop(Platform[] platforms, Platform[] movingPlatforms) {
-        int counter = 0;
-        for (Platform p : platforms) {
-            if (this.y == p.getTop()) {
-                if ((this.x >= p.getX() && this.length() <= p.getLength())) {
-                    this.onGround = true;
-                    counter++;
-                } else if (this.x < p.getX() && this.length() >= p.getX()) {
-                    this.onGround = true;
-                    counter++;
-                } else if (this.length() > p.getLength() && this.x <= p.getLength()) {
-                    this.onGround = true;
-                    counter++;
-                }
-            }
-        }
-
-        for (Platform p : movingPlatforms) {
-            if (this.y == p.getTop()) {
-                if ((this.x >= p.getX() && this.length() <= p.getLength())) {
-                    this.onGround = true;
-                    counter++;
-                } else if (this.x < p.getX() && this.length() >= p.getX()) {
-                    this.onGround = true;
-                    counter++;
-                } else if (this.length() > p.getLength() && this.x <= p.getLength()) {
-                    this.onGround = true;
-                    counter++;
-                }
-            }
-        }
-
-        if (counter == 0) {
-            this.onGround = false;
-                         this.speed = 2f;//tweak
-        }
-
-    }
 
     /**
      * Returns the x position of the Character.
@@ -324,5 +235,26 @@ public abstract class Character {
 
     public void isOnIce(boolean b) {
         this.onIce = b;
+    }
+
+    public void setY(float b) {
+        this.y = b;
+          this.character.y = this.y;
+    }
+
+    public void setYSpeed(float b) {
+        this.ySpeed = b;
+    }
+
+    public void setX(float b) {
+        this.x = b;
+    }
+
+    public void setOnGround(boolean b) {
+        this.onGround = b;
+    }
+
+    public void setJumping(boolean b) {
+        this.jump = b;
     }
 }
