@@ -18,9 +18,6 @@ public class Fireboy extends Character {
 
     /**
      * Creates a Fireboy using it's x and y position on the screen.
-     *
-     * @param x a float representing the x position on the screen
-     * @param y a float representing the y position on the screen
      */
     public Fireboy(float x, float y) {
         super(x, y);
