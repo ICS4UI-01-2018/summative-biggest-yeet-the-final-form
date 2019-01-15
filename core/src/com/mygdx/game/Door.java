@@ -16,9 +16,10 @@ import com.badlogic.gdx.math.Rectangle;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public abstract class Door {
-
-    private int height, width;
-    private float x, y;
+    
+    private final int width, height;
+    float x;
+    private float y;
     Rectangle door;
 
     /**
@@ -29,8 +30,8 @@ public abstract class Door {
      * @param y a float representing the y position of the Door
      */
     public Door(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.x = x * 16;
+        this.y = y * 16;
         this.width = 32;
         this.height = 40;
         

@@ -22,7 +22,7 @@ public class Watergirl extends Character {
      * @param x a float representing the Watergirl's x position on the screen
      * @param y a float representing the Watergirl's y position on the screen
      */
-    public Watergirl(int x, int y) {
+    public Watergirl(float x, float y) {
         super(x, y);
     }
 
@@ -36,7 +36,6 @@ public class Watergirl extends Character {
     public void draw(ShapeRenderer shapeBatch) {
         // set the Watergirl to be blue
         shapeBatch.setColor(Color.BLUE);
-        // draw the Watergirl on the screen
         super.draw(shapeBatch);
     }
 }

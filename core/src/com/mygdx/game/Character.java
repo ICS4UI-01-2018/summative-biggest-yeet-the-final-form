@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected;
     private float x, y, gravity, ySpeed, height, width, speed, overlapWidth, overlapFarX, overlapX, overlapHeight, overlapTopY, overlapY;
-    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, onIce, ahh;
+    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, onIce;
     private Rectangle character, overlap;
 
     /**
@@ -28,24 +28,18 @@ public abstract class Character {
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(int x, int y) {
+    public Character(float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.speed = 1;
+        this.speed = 2;
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
         this.gravity = 0.5f; //tweak
         //  this.maxYSpeed = 5; //tweak
-        this.x = x;
-        this.y = y;
-        this.overlapWidth = 0;
-        this.overlapFarX = 0;
-        this.overlapX = 0;
-        this.overlapHeight = 0;
-        this.overlapTopY = 0;
-        this.overlapY = 0;
+        this.x = x * 16;
+        this.y = y * 16;
         this.onGround = true;
         this.jump = false;
         this.hitBottom = false;
@@ -75,24 +69,11 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
-        if (!hitSide) {
-            // do not let the Character move off of the left-side of the screen
-            if (this.x > 16) {
-                // make the Character move towards the left of the screen
-                this.x = this.x - this.speed;
-            }
+        // do not let the Character move off of the left-side of the screen
+        if (this.x > 16) {
+            // make the Character move towards the left of the screen
+            this.x = this.x - this.speed;
         }
-    }
-
-    /**
-     * Allows the Character to move towards the left-side of the screen without
-     * it going off of the screen.
-     *
-     * @return
-     */
-    public float length() {
-        return this.x + this.width;
-
     }
 
     /**
@@ -100,34 +81,40 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
-        if (!hitSide) {
-            // do not let the Character move off of the right-side of the screen
-            if (this.x < 632) {
-                // make the Character move towards the right of the screen
-                this.x = this.x + this.speed;
-            }
+        // do not let the Character move off of the right-side of the screen
+        if (this.x < 632) {
+            // make the Character move towards the right of the screen
+            this.x = this.x + this.speed;
         }
     }
 
     /**
-     * Sets the Character to a jumping state.*buggy
+     * Returns far X coordinate
+     *
+     * @return coordinate
+     */
+    public float length() {
+        return this.x + this.width;
+    }
+
+    /**
+     * Sets the Character to a jumping state
      */
     public void jump() {
-        // System.out.println(this.onGround);
         if (this.onGround) {
-            // System.out.println("h");
             this.isFalling = false;
-            ySpeed = -16;//height of jump
+            ySpeed = -11;//height of jump
             this.jump = true;
-            this.speed = 2;
+            this.speed = 3.5f;//tweak
             this.onGround = false;
+            System.out.println(this.onGround);
+
         }
     }
 
     /**
-     * Allows the character to jump *real buggy
+     * Allows the character to jump and fall
      *
-     * @param fHeight the height of the platform to return to
      */
     public void jumpAction() {
         if (!this.onGround) {
@@ -148,42 +135,13 @@ public abstract class Character {
         return this.x;
     }
 
+    /**
+     * Returns top Y coordinate
+     *
+     * @return top y coordinate
+     */
     public float getTop() {
         return this.y + this.height;
-    }
-
-    public boolean onGroubnd() {
-        return this.onGround;
-    }
-
-    public float getLeft() {
-        return this.x;
-    }
-
-    public float getBottom() {
-        return this.y;
-    }
-
-    public float getRight() {
-        return this.x + this.width;
-    }
-
-    public boolean hitRight(Platform p) {
-
-        if (x + width > p.getX()) {
-            this.x = p.getX();
-            this.width = p.getX();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hitLeft(Platform p) {
-        if (x < p.getX() + p.getLength()) {
-            this.x = this.x - (this.speed + 1);
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -262,7 +220,8 @@ public abstract class Character {
      * Stores the current position of the Character on the screen into the
      * Character class.
      */
-    public void updatePostions() {
+    public void updatePositions() {
+
         this.character.x = this.x;
         this.character.y = this.y;
     }
@@ -272,10 +231,6 @@ public abstract class Character {
      */
     public void died() {
         this.isDead = true;
-    }
-
-    public void Move() {
-        this.x = this.x + 10;
     }
 
     public void isOnIce(boolean b) {

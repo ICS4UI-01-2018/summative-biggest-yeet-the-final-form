@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates Mud as a subclass of Obstacle to use in a game of Fireboy and
  * Watergirl. The Mud kills both the Fireboy and Watergirl.
@@ -24,5 +27,17 @@ public class Mud extends Obstacle {
      */
     public Mud(float x, float y, int width, int height) {
         super(x, y, width, height);
+    }
+
+    /**
+     * Draws Mud on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer to draw the Mud with
+     */
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        // set the colour of the Mud to be forest green
+        shapeBatch.setColor(Color.FOREST);
+        super.draw(shapeBatch);
     }
 }

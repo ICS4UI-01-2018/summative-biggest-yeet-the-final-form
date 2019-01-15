@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Gem {
 
-    private float x, y;
+    private final float x, y;
     private final int width, height;
     private boolean collected;
     Rectangle gem;

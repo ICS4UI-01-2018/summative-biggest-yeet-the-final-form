@@ -16,8 +16,9 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Obstacle {
 
     Rectangle obstacle;
-    private int width, height;
-    private float x, y;
+    float height;
+    private final float width;
+    float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y
@@ -28,11 +29,11 @@ public abstract class Obstacle {
      * @param width an integer representing the width of the Obstacle
      * @param height an integer representing the height of the Obstacle
      */
-    public Obstacle(float x, float y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public Obstacle(float x, float y, float width, float height) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
 
         this.obstacle = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -75,7 +76,6 @@ public abstract class Obstacle {
     public Rectangle getBounds() {
         return obstacle;
     }
-    
 
     /**
      * Draws the Obstacle on the screen.
@@ -91,8 +91,8 @@ public abstract class Obstacle {
      *
      * @return an integer representing the width of the Obstacle
      */
-    public int getWidth() {
-        return this.width;  
+    public float getWidth() {
+        return this.width;
     }
 
     /**
@@ -100,7 +100,25 @@ public abstract class Obstacle {
      *
      * @return an integer representing the height of the Obstacle
      */
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
+    }
+
+    /**
+     * Returns the x-coordinate of the edge of the Obstacle.
+     *
+     * @return a float representing the X-coordinate of the edge of the Obstacle
+     */
+    public float getLength() {
+        return (this.width + this.x);
+    }
+
+    /**
+     * Returns the y-coordinate of the top of the Obstacle.
+     *
+     * @return a float representing the y-coordinate of the top of the Obstacle
+     */
+    public float getTop() {
+        return (this.height + this.y);
     }
 }
