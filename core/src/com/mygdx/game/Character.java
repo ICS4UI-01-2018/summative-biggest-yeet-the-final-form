@@ -36,7 +36,7 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 1; //tweak
+        this.gravity = 0.5f; //tweak
         //  this.maxYSpeed = 5; //tweak
         this.x = x;
         this.y = y;
@@ -56,31 +56,19 @@ public abstract class Character {
 
     }
 
-    public Rectangle overlapRectangle(Platform p) {
-        if (this.getBounds().overlaps(p.getBounds())) {
-            if (this.y + this.height > p.getTop()) {
-                this.overlapY = this.y;
-                this.overlapTopY = p.getTop();
-            } else {
-                this.overlapY = p.getY();
-                this.overlapTopY = this.getTop();
+    public int howManyCol(Platform[] p) {
+        int counter = 0;
+        for (Platform x : p) {
+            if (this.getBounds().overlaps(x.getBounds())) {
+                counter++;
             }
-            if (this.x < p.getX()) {
-                this.overlapX = p.getX();
-                this.overlapFarX = this.length();
-            } else {
-                this.overlapX = this.x;
-                this.overlapFarX = p.getLength();
-            }
-            // this.onGround = true;
-
         }
-        this.overlapWidth = this.overlapFarX - this.overlapX;
-        this.overlapHeight = this.overlapTopY - this.overlapY;
-        this.overlap = this.overlap.set(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
-        //  System.out.println(this.overlap.toString());
-        return this.overlap;
+        return counter;
     }
+
+   public float getYSpeed (){
+       return this.ySpeed;
+   }
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -148,71 +136,8 @@ public abstract class Character {
         }
     }
 
-    public void stopJumping() {
-        this.ySpeed = 0;
-        this.onGround = true;
-        //this.jump = false;
-        this.y = 32;
-    }
+  
 
-    public void stopJumpings(Platform p) {
-        this.overlap = this.overlapRectangle(p);
-        //    Rectangle overlap = p.collision(this);
-        if (this.overlap.height < this.overlap.width) {
-            if (this.ySpeed < 0) {
-                // stop moving up/down
-                this.ySpeed = 0;
-                // correct the position
-                this.y = p.getY() - this.height;
-
-                // set on ground
-            }
-            if (this.ySpeed > 0) {
-                this.y = p.getTop();
-                //   System.out.println(this.y);
-                this.onGround = true;
-                this.jump = false;
-            }
-        } else {
-            // player is on the right
-            if (this.x < p.getX()) {
-                this.x = this.x - this.overlap.width;
-            } else {
-                this.x = this.x + this.overlap.width;
-            }
-        }
-
-    }
-
-    public void onTop(Platform[] platforms) {
-
-        int counter = 0;
-        for (Platform p : platforms) {
-            float leftOver = this.length() - p.getX();
-            float rightOver = p.getLength() - this.x;
-            if (this.y == p.getTop()) {
-                //  System.out.println(" th "  + this.x + " ahaha" + p.getX());
-                if ((this.x >= p.getX() && this.length() <= p.getLength())) {
-                    System.out.println("completley on");
-                    this.onGround = true;
-                    counter++;
-                } else if (this.x < p.getX() && this.length() >= p.getX()) {
-                    System.out.println("off left");
-                    this.onGround = true;
-                    counter++;
-                } else if (this.length() > p.getLength() && this.x <= p.getLength()) {
-                    System.out.println("off right");
-                    this.onGround = true;
-                    counter++;
-                }
-            }
-        }
-        if (counter == 0) {
-            this.onGround = false;
-
-        }
-
-    }
 
     /**
      * Returns the x position of the Character.
@@ -355,5 +280,26 @@ public abstract class Character {
 
     public void isOnIce(boolean b) {
         this.onIce = b;
+    }
+
+    public void setY(float b) {
+        this.y = b;
+          this.character.y = this.y;
+    }
+
+    public void setYSpeed(float b) {
+        this.ySpeed = b;
+    }
+
+    public void setX(float b) {
+        this.x = b;
+    }
+
+    public void setOnGround(boolean b) {
+        this.onGround = b;
+    }
+
+    public void setJumping(boolean b) {
+        this.jump = b;
     }
 }

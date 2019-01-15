@@ -65,7 +65,7 @@ public class LevelOne extends ApplicationAdapter {
 
         // initialize the Characters
         // fireboy = 32, 32
-        this.fireboy = new Fireboy(490, 32);
+        this.fireboy = new Fireboy(40, 32);
         this.watergirl = new Watergirl(32, 122);
 
         // initialize the Platforms

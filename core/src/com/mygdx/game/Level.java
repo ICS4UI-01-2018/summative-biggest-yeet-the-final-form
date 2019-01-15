@@ -98,83 +98,90 @@ public class Level {
             }
         }
 
+  
+
         // gravity and jumping for the Fireboy
-        fireboy.onTop(platforms);
+        // fireboy.onTop(platforms);
         for (Platform p : platforms) {
-            if (p.getBounds().overlaps(fireboy.getBounds()) && p.getY() == 0) {
-                fireboy.stopJumping();
-            } else if (p.getBounds().overlaps(fireboy.getBounds())) {
-                System.out.println("ht");
-                fireboy.stopJumpings(p);
+            // p.onTop(fireboy);
+            if (p.getBounds().overlaps(fireboy.getBounds())) {
+                System.out.println(fireboy.getYSpeed());
+                p.stopJumpings(fireboy);
             }
+//            if (p.getBounds().overlaps(fireboy.getBounds()) && p.getY() == 0) {
+//                fireboy.stopJumping();
+//            } else if (p.getBounds().overlaps(fireboy.getBounds())) {
+//                fireboy.stopJumpings(p);
+//            }
         }
 //        
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 
-                fireboy.jump();
-            }
-            fireboy.jumpAction();
+            fireboy.jump();
+        }
+        fireboy.jumpAction();
 
-            // allow the Fireboy to collect the FireGems
-            for (FireGem fireGem : fireGems) {
-                // determine if the Fireboy has collected the FireGem
-                if (fireGem.collision(fireboy)) {
-                    // don't draw the FireGem on the screen
-                    fireGem.collected();
-                    // add to the Fireboy's FireGem count
-                    fireboy.addGem();
-                }
-            }
-
-            // allow the Watergirl to collect the WaterGems
-            for (WaterGem waterGem : waterGems) {
-                // determine if the Watergirl has collected the WaterGem
-                if (waterGem.collision(watergirl)) {
-                    // don't draw the WaterGem on the screen
-                    waterGem.collected();
-                    // add to the Watergirl's WaterGem count
-                    watergirl.addGem();
-                }
-            }
-
-            // allow the Watergirl to die when it comes into contact with Fire
-            for (Fire f : fire) {
-                if (f.collidesWith(watergirl)) {
-                    watergirl.died();
-                }
-            }
-
-            // allow the Fireboy to die when it comes into contact with Water
-            for (Water w : water) {
-                if (w.collidesWith(fireboy)) {
-                    fireboy.died();
-                }
-            }
-
-            for (Mud m : mud) {
-                // allow the Fireboy to die when it comes into contact with Mud
-                if (m.collidesWith(fireboy)) {
-                    fireboy.died();
-                }
-
-                // allow the Watergirl to die when it comes into contact with Mud
-                if (m.collidesWith(watergirl)) {
-                    watergirl.died();
-                }
-            }
-
-            // win the game if Fireboy and Watergirl stand in front of their respected Doors
-            if (fireDoor.collision(fireboy) && waterDoor.collision(watergirl)) {
-                levelWon = true;
+        // allow the Fireboy to collect the FireGems
+        for (FireGem fireGem : fireGems) {
+            // determine if the Fireboy has collected the FireGem
+            if (fireGem.collision(fireboy)) {
+                // don't draw the FireGem on the screen
+                fireGem.collected();
+                // add to the Fireboy's FireGem count
+                fireboy.addGem();
             }
         }
-        /**
-         * Allows for the drawing to begin.
-         *
-         * @param batch a SpriteBatch
-         * @param shapeBatch a ShapeRenderer to draw the objects with
-         * @param camera an OrthographicCamera
-         */
+
+        // allow the Watergirl to collect the WaterGems
+        for (WaterGem waterGem : waterGems) {
+            // determine if the Watergirl has collected the WaterGem
+            if (waterGem.collision(watergirl)) {
+                // don't draw the WaterGem on the screen
+                waterGem.collected();
+                // add to the Watergirl's WaterGem count
+                watergirl.addGem();
+            }
+        }
+
+        // allow the Watergirl to die when it comes into contact with Fire
+        for (Fire f : fire) {
+            if (f.collidesWith(watergirl)) {
+                watergirl.died();
+            }
+        }
+
+        // allow the Fireboy to die when it comes into contact with Water
+        for (Water w : water) {
+            if (w.collidesWith(fireboy)) {
+                fireboy.died();
+            }
+        }
+
+        for (Mud m : mud) {
+            // allow the Fireboy to die when it comes into contact with Mud
+            if (m.collidesWith(fireboy)) {
+                fireboy.died();
+            }
+
+            // allow the Watergirl to die when it comes into contact with Mud
+            if (m.collidesWith(watergirl)) {
+                watergirl.died();
+            }
+        }
+
+        // win the game if Fireboy and Watergirl stand in front of their respected Doors
+        if (fireDoor.collision(fireboy) && waterDoor.collision(watergirl)) {
+            levelWon = true;
+        }
+    }
+
+    /**
+     * Allows for the drawing to begin.
+     *
+     * @param batch a SpriteBatch
+     * @param shapeBatch a ShapeRenderer to draw the objects with
+     * @param camera an OrthographicCamera
+     */
     public void beginDraw(SpriteBatch batch, ShapeRenderer shapeBatch, OrthographicCamera camera) {
         batch.begin();
         shapeBatch.setProjectionMatrix(camera.combined);
