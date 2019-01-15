@@ -25,8 +25,18 @@ public class LevelTwo extends Level {
         super.watergirl = new Watergirl(18, 28);
 
         // initialize the Platforms
+        
         // initialize the MovingPlatforms
+        super.movingPlatforms = new MovingPlatform[6];
+        
         // initialize the Obstacles
+        super.fire = new Fire[1];
+        super.fire[0] = new Fire(1, 11, 7, 1);
+        super.water = new Water[1];
+        super.water[0] = new Water(34, 11, 7, 1);
+        super.mud = new Mud[1];
+        super.mud[0] = new Mud(1, 2, 40, 1);
+        
         // initialize the Gems
         // initialize the Doors
     }
