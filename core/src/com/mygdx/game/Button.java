@@ -33,9 +33,9 @@ public class Button extends Obstacle {
         this.controlledPlatform = platform;
         this.speed = 0.1f;
         // Button cannot move higher than this y position
-        this.maximumY = y + super.height;
+        this.maximumY = y;
         // Button cannot move lower than this y position
-        this.minimumY = y;
+        this.minimumY = y - super.height;
     }
 
     /**
