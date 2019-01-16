@@ -43,10 +43,8 @@ public abstract class Character {
         this.jump = false;
         this.hitBottom = false;
         this.hitSide = false;
-
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
-
     }
 
     /**
