@@ -27,18 +27,5 @@ public class Ice extends Platform {
         super(x, y, width, height);
     }
 
-    /**
-     *
-     * @param character
-     * @return
-     */
-    public boolean onIce(Character character) {
-        if (character.getBounds().overlaps(this.getBounds())) {
-            character.isOnIce(true);
-            return true;
-        } else {
-            character.isOnIce(false);
-            return false;
-        }
-    }
+  
 }
