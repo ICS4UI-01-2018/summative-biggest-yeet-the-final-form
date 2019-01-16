@@ -78,7 +78,9 @@ public class Button extends Obstacle {
 
     /**
      * Moves the Platform that the Button controls up.
-     * @param starting a float representing the starting position of the Platform
+     *
+     * @param starting a float representing the starting position of the
+     * Platform
      */
     public void movePlatformUp(float starting) {
         if (this.controlledPlatform.getY() < starting - this.controlledPlatform.getWidth()) {

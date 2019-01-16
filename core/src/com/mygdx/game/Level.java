@@ -11,6 +11,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,6 +28,7 @@ public class Level extends ApplicationAdapter {
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
     private boolean levelWon;
+    private Texture fireGemPic;
     Fireboy fireboy;
     Watergirl watergirl;
     Platform[] platforms;
@@ -50,6 +52,9 @@ public class Level extends ApplicationAdapter {
         // initialize the SpriteBatch and the ShapeRenderer
         this.batch = new SpriteBatch();
         this.shapeBatch = new ShapeRenderer();
+
+        // initialize the textures
+        this.fireGemPic = new Texture("FireGem.jpg");
 
         // initialize the Camera and the Viewport
         this.camera = new OrthographicCamera();
@@ -148,6 +153,7 @@ public class Level extends ApplicationAdapter {
                 }
             }
         }
+
         // allow the Fireboy to collect the FireGems
         for (FireGem fireGem : this.fireGems) {
             // determine if the Fireboy has collected the FireGem
@@ -197,26 +203,31 @@ public class Level extends ApplicationAdapter {
         }
 
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
-        if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
+        if (this.fireDoor.collision(this.fireboy)
+                && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
 
-        for (Button b : this.buttons) {
-            // Buttons will move down if a Character is on it
-            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
-                b.moveDown();
-            }
-            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
-                b.moveDown();
-            }
+//        for (Button b : this.buttons) {
+//            // Buttons will move down if a Character is on it
+//            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
+//                b.moveDown();
+//            }
+//            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
+//                b.moveDown();
+//            }
+//
+//            // Buttons will move up if a Character isn't on it
+//            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
+//                b.moveUp();
+//            }
+//            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
+//                b.moveUp();
+//            }
+//        }
 
-            // Buttons will move up if a Character isn't on it
-            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
-                b.moveUp();
-            }
-            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
-                b.moveUp();
-            }
+        for (Button b : this.buttons) {
+            
         }
     }
 
@@ -267,12 +278,13 @@ public class Level extends ApplicationAdapter {
         }
 
         // set the FireGems to be red
-        this.shapeBatch.setColor(Color.RED);
+        // this.shapeBatch.setColor(Color.RED);
         // go through the array and draw each FireGem
         for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by a Fireboy yet
             if (!fireGem.isCollected()) {
-                fireGem.draw(this.shapeBatch);
+                // fireGem.draw(this.shapeBatch);
+                this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
             }
         }
 
@@ -289,7 +301,7 @@ public class Level extends ApplicationAdapter {
         // set the FireDoor to be magneta
         this.shapeBatch.setColor(Color.MAGENTA);
         this.fireDoor.draw(this.shapeBatch);
-        
+
         // set the WaterDoor to be cyan
         this.shapeBatch.setColor(Color.CYAN);
         this.waterDoor.draw(this.shapeBatch);
