@@ -197,7 +197,7 @@ public abstract class Character {
      */
     public void moveLeft() {
         if (this.jump) {
-            this.xSpeed = 4;
+            this.xSpeed = 3;
         }
         if (!this.jump) {
             this.xSpeed = 2;
@@ -216,7 +216,7 @@ public abstract class Character {
      */
     public void moveRight() {
         if (this.jump) {
-            this.xSpeed = 4;
+            this.xSpeed = 3;
         }
         if (!this.jump) {
             this.xSpeed = 2;
