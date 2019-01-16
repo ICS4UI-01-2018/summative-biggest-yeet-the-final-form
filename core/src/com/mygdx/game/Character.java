@@ -199,6 +199,9 @@ public abstract class Character {
         if (this.jump) {
             this.xSpeed = 4;
         }
+        if (!this.jump) {
+            this.xSpeed = 2;
+        }
         // do not let the Character move off of the left-side of the screen
         if (this.x > 16) {
             // make the Character move towards the left of the screen
@@ -214,6 +217,9 @@ public abstract class Character {
     public void moveRight() {
         if (this.jump) {
             this.xSpeed = 4;
+        }
+        if (!this.jump) {
+            this.xSpeed = 2;
         }
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {

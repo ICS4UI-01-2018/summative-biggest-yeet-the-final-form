@@ -107,7 +107,7 @@ public class Level extends ApplicationAdapter {
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
                 }
-                //  block.updatePos(fireboy, platforms); ignore
+             //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
                 //check if he is on the ground
