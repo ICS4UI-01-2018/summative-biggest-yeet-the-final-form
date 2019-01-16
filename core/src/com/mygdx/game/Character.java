@@ -36,7 +36,7 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.5f; //tweak
+        this.gravity = 0.7f; //tweak
         //  this.maxYSpeed = 5; //tweak
         this.x = x * 16;
         this.y = y * 16;
@@ -50,19 +50,7 @@ public abstract class Character {
 
     }
 
-    public int howManyCol(Platform[] p) {
-        int counter = 0;
-        for (Platform x : p) {
-            if (this.getBounds().overlaps(x.getBounds())) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-   public float getYSpeed (){
-       return this.ySpeed;
-   }
+    
 
     /**
      * Allows the Character to move towards the left-side of the screen without
@@ -73,6 +61,7 @@ public abstract class Character {
         if (this.x > 16) {
             // make the Character move towards the left of the screen
             this.x = this.x - this.speed;
+                 this.updatePositions();
         }
     }
 
@@ -85,9 +74,35 @@ public abstract class Character {
         if (this.x < 632) {
             // make the Character move towards the right of the screen
             this.x = this.x + this.speed;
+                 this.updatePositions();
         }
     }
+  public void setY(float b) {
+        this.y = b;
+                this.updatePositions();
+          //this.character.y = this.y;
+    }
 
+    public void setYSpeed(float b) {
+        this.ySpeed = b;
+    }
+
+    public void setX(float b) {
+        this.x = b;
+        this.updatePositions();
+    }
+
+    public void setOnGround(boolean b) {
+        this.onGround = b;
+    }
+
+    public void setJumping(boolean b) {
+        this.jump = b;
+    }
+    
+    public float getYSpeed (){
+        return this.ySpeed;
+    }
     /**
      * Returns far X coordinate
      *
@@ -105,10 +120,10 @@ public abstract class Character {
             this.isFalling = false;
             ySpeed = -11;//height of jump
             this.jump = true;
-            this.speed = 3.5f;//tweak
+         //   this.speed = 3.5f;//tweak
             this.onGround = false;
             System.out.println(this.onGround);
-
+            
         }
     }
 
@@ -120,11 +135,13 @@ public abstract class Character {
         if (!this.onGround) {
             ySpeed += gravity;
             this.y -= ySpeed;
+                 this.updatePositions();
         }
     }
 
-  
+   
 
+  
 
     /**
      * Returns the x position of the Character.
@@ -235,26 +252,5 @@ public abstract class Character {
 
     public void isOnIce(boolean b) {
         this.onIce = b;
-    }
-
-    public void setY(float b) {
-        this.y = b;
-          this.character.y = this.y;
-    }
-
-    public void setYSpeed(float b) {
-        this.ySpeed = b;
-    }
-
-    public void setX(float b) {
-        this.x = b;
-    }
-
-    public void setOnGround(boolean b) {
-        this.onGround = b;
-    }
-
-    public void setJumping(boolean b) {
-        this.jump = b;
     }
 }
