@@ -26,23 +26,17 @@ public class Level extends ApplicationAdapter {
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
-    // variable to determine whether or not if Fireboy and Watergirl passed the level
     private boolean levelWon;
-    // game Characters
     Fireboy fireboy;
     Watergirl watergirl;
-    // arrays to store the standing and moving Platforms
     Platform[] platforms;
     MovingPlatform[] movingPlatforms;
-    // game Obstacles
     Fire[] fire;
     Water[] water;
     Mud[] mud;
     Button[] buttons;
-    // arrays to store all of the Gems
     FireGem[] fireGems;
     WaterGem[] waterGems;
-    // game Doors
     FireDoor fireDoor;
     WaterDoor waterDoor;
 
@@ -211,7 +205,6 @@ public class Level extends ApplicationAdapter {
             // Buttons will move down if a Character is on it
             if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
                 b.moveDown();
-                System.out.println("h");
             }
             if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
                 b.moveDown();
@@ -296,6 +289,7 @@ public class Level extends ApplicationAdapter {
         // set the FireDoor to be magneta
         this.shapeBatch.setColor(Color.MAGENTA);
         this.fireDoor.draw(this.shapeBatch);
+        
         // set the WaterDoor to be cyan
         this.shapeBatch.setColor(Color.CYAN);
         this.waterDoor.draw(this.shapeBatch);

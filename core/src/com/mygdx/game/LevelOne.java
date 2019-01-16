@@ -93,22 +93,6 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        for (Button b : this.buttons) {
-            // the moving Platform will move down if a Character is on it
-            if (b.collidesWith(this.fireboy) && this.movingPlatforms[0].getY() < this.movingPlatforms[0].getMaximumY()) {
-                this.movingPlatforms[0].moveUp();
-            }
-            if (b.collidesWith(this.watergirl) && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMaximumY()) {
-                this.movingPlatforms[0].moveUp();
-            }
-
-            // the moving Platform will move up if a Character isn't on it
-            if ((b.collidesWith(this.fireboy) || b.collidesWith(this.watergirl))
-                    && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMinimumY()) {
-                this.movingPlatforms[0].moveDown();
-            }
-        }
-
         // draw the game elements
         super.draw();
     }
