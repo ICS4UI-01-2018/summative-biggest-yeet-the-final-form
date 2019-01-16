@@ -39,6 +39,8 @@ public abstract class Level extends ApplicationAdapter {
     FireDoor fireDoor;
     WaterDoor waterDoor;
 
+    Block block;
+
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
      * FitViewport, a variable for height for jumping, and a variable to
@@ -84,20 +86,148 @@ public abstract class Level extends ApplicationAdapter {
             button.updatePositions();
         }
 
-        // Fireboy keyboard listeners
-        // Fireboy can only move if he hasn't died
-        // Watergirl keyboard listeners
-        // Watergirl can only move if he hasn't died
-        // Characters will die if they come into contact with Mud
-        // Fireboy will die if they come into contact with Water
-        // Watergirl will die if they come into contact with Fire
-        // Buttons will move down if a Character comes into contact with it
-        // Buttons will back up if a Character comes into contact with it
-        // Level will be completed once the Characters are in front of their respective Doors
-        if (this.fireDoor.collision(this.fireboy)
-                && this.waterDoor.collision(this.watergirl)) {
+        // Characters can only move if the level hasn't been won yet
+        if (!this.levelWon) {
+            // Fireboy keyboard listeners
+            // only move the Fireboy if he hasn't died yet
+            if (!this.fireboy.isDead()) {
+                // make the Fireboy move left
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    this.fireboy.moveLeft();
+                }
+                // make the Watergirl move right
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    this.fireboy.moveRight();
+                }
+                // make the Watergirl jump
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    this.fireboy.jump();
+                }
+                //  block.updatePos(fireboy, platforms); ignore
+                //make fireboy jump
+                this.fireboy.jumpAction();
+                //check if he is on the ground
+                fireboy.onTop(platforms);
+                //check if he is hitting a platform or a moving platform
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        p.whereIsPlayer(fireboy);
+                    }
+                }
+
+                for (MovingPlatform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        p.whereIsPlayer(fireboy);
+                    }
+                }
+            }
+
+            // Watergirl keyboard listeners
+            // only move the Watergirl is she hasn't died yet
+            if (!this.watergirl.isDead()) {
+//                watergirl.onTop(this.platforms, this.movingPlatforms);
+                // make the Watergirl move left
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    this.watergirl.moveLeft();
+                }
+                // make the Watergirl move right
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    this.watergirl.moveRight();
+                }
+                // make the Watergirl jump
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    this.watergirl.jump();
+                }
+                this.watergirl.jumpAction();
+                for (Platform p : this.platforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        //   watergirl.whereIsPlayer(p);
+                    }
+                }
+
+                for (Platform p : this.movingPlatforms) {
+                    if (p.getBounds().overlaps(watergirl.getBounds())) {
+                        // watergirl.whereIsPlayer(p);
+                    }
+                }
+            }
+        }
+        // allow the Fireboy to collect the FireGems
+        for (FireGem fireGem : this.fireGems) {
+            // determine if the Fireboy has collected the FireGem
+            if (fireGem.collision(this.fireboy)) {
+                // don't draw the FireGem on the screen
+                fireGem.collected();
+                // add to the Fireboy's FireGem count
+                this.fireboy.addGem();
+            }
+        }
+
+        // allow the Watergirl to collect the WaterGems
+        for (WaterGem waterGem : this.waterGems) {
+            // determine if the Watergirl has collected the WaterGem
+            if (waterGem.collision(this.watergirl)) {
+                // don't draw the WaterGem on the screen
+                waterGem.collected();
+                // add to the Watergirl's WaterGem count
+                this.watergirl.addGem();
+            }
+        }
+
+        // allow the Watergirl to die when it comes into contact with Fire
+        for (Fire f : this.fire) {
+            if (f.collidesWith(this.watergirl)) {
+                this.watergirl.died();
+            }
+        }
+
+        // allow the Fireboy to die when it comes into contact with Water
+        for (Water w : this.water) {
+            if (w.collidesWith(this.fireboy)) {
+                this.fireboy.died();
+            }
+        }
+
+        for (Mud m : this.mud) {
+            // allow the Fireboy to die when it comes into contact with Mud
+            if (m.collidesWith(this.fireboy)) {
+                this.fireboy.died();
+            }
+
+            // allow the Watergirl to die when it comes into contact with Mud
+            if (m.collidesWith(this.watergirl)) {
+                this.watergirl.died();
+            }
+        }
+
+        // win the game if Fireboy and Watergirl stand in front of their respected Doors
+        if (this.fireDoor.collision(this.fireboy) && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
+
+        for (Button b : this.buttons) {
+            // Buttons will move down if a Character is on it
+            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+                System.out.println("h");
+            }
+            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
+                b.moveDown();
+            }
+
+            // Buttons will move up if a Character isn't on it
+            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
+                b.moveUp();
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        this.batch.dispose();
     }
 
     /**
@@ -200,6 +330,11 @@ public abstract class Level extends ApplicationAdapter {
         if (this.levelWon) {
             this.shapeBatch.setColor(Color.LIME);
             this.shapeBatch.rect(0, 0, 672, 544);
+        }
+
+        this.shapeBatch.setColor(Color.BROWN);
+        {
+            block.draw(shapeBatch);
         }
 
         // allows for the drawing of the game objects to end

@@ -39,14 +39,14 @@ public class MovingPlatform extends Platform {
      * Moves the Platform downwards.
      */
     public void moveDown() {
-        super.y = super.y - this.speed;
+        super.setY(super.getY() - this.speed);
     }
 
     /**
      * Moves the Platform upwards.
      */
     public void moveUp() {
-        super.y = super.y + this.speed;
+        super.setY(super.getY() + this.speed);
     }
 
     /**
@@ -65,5 +65,9 @@ public class MovingPlatform extends Platform {
      */
     public float getMinimumY() {
         return minimumY;
+    }
+    
+    public void whereIsPlayer (Character c){
+        super.whereIsPlayer(c);
     }
 }

@@ -17,58 +17,37 @@ import com.badlogic.gdx.math.Rectangle;
 public class Platform {
 
     private Rectangle platform, overlap;
-    private int height;
-    private int width;
+    private float width, height;
     private float x;
     private float y;
-    private float overlapWidth, overlapFarX, overlapX, overlapHeight, overlapTopY, overlapY;
-    private boolean gravity;
-    private int speed;
 
     /**
-     * Creates a Platform using the x, y, width, and height.
+     * Creates a Platform using the xRect, y, width, and height.
      *
-     * @param x an integer representing the x-coordinate of the platform
+     * @param x an integer representing the xRect-coordinate of the platform
      * @param y an integer representing the y-coordinate of the platform
      * @param width an integer representing the width of the platform
      * @param height an integer representing the height of the platform
      */
-    public Platform(float x, float y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.speed = 1;
-         this.overlapWidth = 0;
-        this.overlapFarX = 0;
-        this.overlapX = 0;
-        this.overlapHeight = 0;
-        this.overlapTopY = 0;
-        this.overlapY = 0;
-        overlap = new Rectangle(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
+    public Platform(float x, float y, float width, float height) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
+
+        //initalize an empty rectangle to be used for collisions
+        this.overlap = new Rectangle(0, 0, 0, 0);
+        // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**
-     * Gets the x-coordinate of the Platform.
+     * Gets the xRect-coordinate of the Platform.
      *
-     * @return a float representing the x-coordinate of the Platform
+     * @return a float representing the xRect-coordinate of the Platform
      */
     public float getX() {
         return this.x;
-    }
-
-    public float getTop() {
-        return (this.height + this.y);
-    }
-
-    /**
-     * Returns the X-coordinate of the edge of the platform
-     *
-     * @return the X-coordinate of the edge of the platform
-     */
-    public float getLength() {
-        return (this.width + this.x);
     }
 
     /**
@@ -80,18 +59,49 @@ public class Platform {
         return this.y;
     }
 
-    public boolean collision(Character c) {
-        return this.getBounds().overlaps(c.getBounds());
+    /**
+     * Sets the y-coordinate to the specified float
+     *
+     * @param f a float representing the new y-coordinate
+     */
+    public void setY(float f) {
+        this.y = f;
     }
 
     /**
-     * Draws the Platform on the screen.
+     * Sets the xRect-coordinate to the specified float
      *
-     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
-     * screenF
+     * @param f a float representing the new xRect-coordinate
      */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
+    public void setX(float f) {
+        this.x = f;
+    }
+
+    /**
+     * Sets the far xRect-coordinate to the specified float
+     *
+     * @param f a float representing the new far xRect-coordinate
+     */
+    public void setFarX(float f) {
+        this.x = f - this.width;
+    }
+
+    /**
+     * Returns the top y-coordinate of the platform.
+     *
+     * @return a float representing the top y-coordinate of the platform.
+     */
+    public float getTop() {
+        return (this.height + this.y);
+    }
+
+    /**
+     * Returns the X-coordinate of the edge of the platform
+     *
+     * @return the X-coordinate of the edge of the platform
+     */
+    public float getFarX() {
+        return (this.width + this.x);
     }
 
     /**
@@ -108,96 +118,90 @@ public class Platform {
      *
      * @return a Rectangle that represents the Platform
      */
-    public void moveUp() {
-        this.y = this.y + this.speed;
-    }
-
     public Rectangle getBounds() {
         return this.platform;
     }
 
     /**
-     * Updates the x and y positions of the Platform.
+     * Returns rectangle created by two overlapping rectangles
+     *
+     * @param r1 the first rectangle being checked
+     * @param r2 the second rectangle being checked
+     * @param overlap a rectangle that will store the resultant rectangle
+     * @return a rectangle created by two overlapping rectangles
+     */
+    public Rectangle intersection(Rectangle r1, Rectangle r2, Rectangle overlap) {
+        if (!r1.overlaps(r2)) {//if there is no intersection return nothing
+            return null;
+        }
+        //find the greater xRect and the greater y value
+        float xOverlap = Math.max(r1.x, r2.x);
+        float yOverlap = Math.max(r1.y, r2.y);
+        //find smaller width and height and subtract cooresponidng overlap value
+        float widthOverlap = Math.min(r1.x + r1.width, r2.x + r2.width) - xOverlap;
+        float heightOverlap = Math.min(r1.y + r1.height, r2.y + r2.height) - yOverlap;
+        //pass value to create resulting overlap rectangle
+        overlap.set(xOverlap, yOverlap, widthOverlap, heightOverlap);
+
+        return overlap;
+    }
+
+    /**
+     * Stops character from jumping if on platform
+     *
+     * @param c Character being checked
+     */
+    public void whereIsPlayer(Character c) {//square? also need to be implented for obstacles
+        //create a rectangle representing the overlap
+        this.overlap = this.intersection(c.getBounds(), this.getBounds(), this.overlap);
+
+        //if height is less than width then player is at top or bottom
+        if (this.overlap.height < this.overlap.width) {
+            //if player is falling and their top is equal to/below the platforms top then player is hitting BOTTOM of platform
+            if (c.getYSpeed() < 0 && c.getTop() <= this.getTop()) {
+                // stop moving up
+                c.setYSpeed(0);
+                // correct the position
+                c.setTop(this.y);
+            }
+            //if player is jumping and their top is (equal to/above the platforms top(subject to change)) then player is hitting TOP of platform
+            if (c.getYSpeed() > 0 && c.getY() >= this.y) {
+                //put player on top of platform
+                c.setY(this.getTop());
+                //set player to be on the ground and no longer jumping
+                c.setOnGround(true);
+                c.setJumping(false);
+            }
+        } else {//if overlap height is greater than its width player is hitting a side
+            //if players x is lesser then player is hitting LEFT side of PLATFORM
+            if (c.getX() < this.getX()) {
+                //set player to be beside platform
+                c.setFarX(this.getX());
+            } else {//if players x is greater then player is hitting RIGHT side of PLATFORM
+                //set player to be beside platform
+                c.setX(this.getFarX());
+            }
+        }
+        //update player position
+        c.updatePositions();
+    }
+
+    /**
+     * Updates the xRect and y positions of the Platform.
      */
     public void updatePositions() {
         this.platform.x = this.x;
         this.platform.y = this.y;
     }
 
-    public Rectangle overlapRectangle(Character c) {
-        if (this.getBounds().overlaps(c.getBounds())) {
-            if (c.getY() + c.getHeight() > this.getTop()) {
-                this.overlapY = c.getY();
-                this.overlapTopY = this.getTop();
-            } else {
-                this.overlapY = this.getY();
-                this.overlapTopY = c.getTop();
-            }
-            if (c.getX() < this.getX()) {
-                this.overlapX = this.getX();
-                this.overlapFarX = c.length();
-            } else {
-                this.overlapX = c.getX();
-                this.overlapFarX = this.getLength();
-            }
-            // this.onGround = true;
-
-        }
-        this.overlapWidth = this.overlapFarX - this.overlapX;
-        this.overlapHeight = this.overlapTopY - this.overlapY;
-        this.overlap = this.overlap.set(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
-        return this.overlap;
+    /**
+     * Draws the Platform on the screen.
+     *
+     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
+     * screenF
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
     }
 
-    public void stopJumpings(Character c) {
-        this.overlap = this.overlapRectangle(c);
-        
-        //    Rectangle overlap = p.collision(this);
-        if (this.overlap.height < this.overlap.width) {
-            if (c.getYSpeed() < 0 && c.getTop() <= this.getTop()) {
-                // stop moving up/down
-                c.setYSpeed( 0);
-                // correct the position
-                c.setY( this.getY() - this.height);
-                //   System.out.println("on bottom");
-                // set on ground
-            }
-            if (c.getYSpeed() > 0) {
-              c.setY(this.getTop());
-                //   System.out.println(this.y);
-                c.setOnGround(true); 
-                c.setJumping(false); 
-                
-            }
-        } else {
-            // player is on the right
-            if (c.getX() < this.getX()) {
-                c.setX(c.getX() - this.overlap.width);
-                //  System.out.println("on side");
-            } else {
-                   c.setX(c.getX() + this.overlap.width);
-                //  System.out.println("on side");
-            }
-        }
-    }
-    
-        public void onTop(Character c) {
-            if (c.getY() == this.getTop()) 
-                System.out.println("hm");
-                if ((c.getX() >= this.getX() && c.length() <= this.getLength())) {
-                    System.out.println("b");
-                    c.setOnGround(true);
-                } else if (c.getX() < this.getX() && c.length() >= this.getX()) {
-                    c.setOnGround(true);
-                } else if (c.length() > this.getLength() && c.getX() <= this.getLength()) {
-                    c.setOnGround(true);
-                }
-            
-        
-        else{
-            c.onGround = false;
-
-        }
-
-    }
 }

@@ -7,41 +7,110 @@ package com.mygdx.game;
  */
 public class LevelOne extends Level {
 
+    /**
+     * Initialize the different game objects in the Level.
+     */
     @Override
     public void create() {
-        // initialize the SpriteBatch, ShapeRenderer, Camera, FitViewport, and a boolean to determine whether the game has been won
+        // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
 
         // initialize the Characters
-        super.fireboy = new Fireboy(super.multiplesOf20(new int[]{2, 30}));
-        super.watergirl = new Watergirl(super.multiplesof20(new int[]{}));
-        
+        this.fireboy = new Fireboy(7, 16);
+        this.watergirl = new Watergirl(2, 7);
+
         // initialize the Platforms
-        super.platforms = new Platform[];
-        super.platforms[0] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[1] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[2] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[3] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[4] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[5] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[6] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[7] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[8] = new Platform(super.multiplesOf20(new int[]{}));
-        super.platforms[9] = new Platform(super.multiplesOf20(new int[]{}));
-        
-        // initialize the MovingPlatforms
-        super.movingPlatforms = new MovingPlatform[1];
-        super.movingPlatforms[0] = new MovingPlatform(super.multiplesof20(new int[]{}));
-        
-        // initialize Fire
-        // initialize Water
-        // initialize Mud
-        // initialize Buttons
-        
-        // initialize FireGems
-        // initialize WaterGems
-        
-        // initialize the FireDoor
-        // initialize the WaterDoor
+        super.platforms = new Platform[30];
+        super.platforms[0] = new Platform(0, 0, 21, 2);
+        super.platforms[1] = new Platform(0, 2, 1, 32);
+        super.platforms[2] = new Platform(21, 0, 4, 1);
+        super.platforms[3] = new Platform(25, 0, 2, 2);
+        super.platforms[4] = new Platform(27, 0, 4, 1);
+        super.platforms[5] = new Platform(31, 0, 11, 2);
+        super.platforms[6] = new Platform(37, 2, 4, 4);
+        super.platforms[7] = new Platform(41, 2, 1, 32);
+        super.platforms[8] = new Platform(1, 5, 12, 2);
+        super.platforms[9] = new Platform(1, 10, 16, 2);
+        super.platforms[10] = new Platform(16, 9, 2, 3);
+        super.platforms[11] = new Platform(18, 9, 8, 2);
+        super.platforms[12] = new Platform(26, 9, 4, 1);
+        super.platforms[13] = new Platform(30, 9, 6, 2);
+        super.platforms[14] = new Platform(38, 13, 3, 4);
+        super.platforms[15] = new Platform(35, 14, 3, 3);
+        super.platforms[16] = new Platform(21, 15, 14, 2);
+        super.platforms[17] = new Platform(19, 15, 2, 3);
+        super.platforms[18] = new Platform(6, 16, 13, 2);
+        super.platforms[19] = new Platform(1, 21, 4, 6);
+        super.platforms[20] = new Platform(5, 21, 16, 2);
+        super.platforms[21] = new Platform(21, 21, 9, 4);
+        super.platforms[22] = new Platform(30, 20, 2, 3);
+        super.platforms[23] = new Platform(32, 20, 4, 2);
+        super.platforms[24] = new Platform(17, 27, 24, 2);
+        super.platforms[25] = new Platform(29, 29, 4, 1);
+        super.platforms[26] = new Platform(11, 25, 6, 4);
+        super.platforms[27] = new Platform(8, 28, 3, 1);
+        super.platforms[28] = new Platform(1, 33, 40, 1);
+        super.platforms[29] = new Platform(18, 32, 6, 2);
+
+        // initialize the moving Platforms
+        this.movingPlatforms = new MovingPlatform[1];
+        this.movingPlatforms[0] = new MovingPlatform(36, 20, 5, 0.5f);
+
+        // initialize the Obstacles
+        super.fire = new Fire[1];
+        super.fire[0] = new Fire(21, 1, 4, 1);
+        super.water = new Water[1];
+        super.water[0] = new Water(27, 1, 4, 1);
+        super.mud = new Mud[1];
+        super.mud[0] = new Mud(26, 10, 4, 1);
+        super.buttons = new Button[2];
+        super.buttons[0] = new Button(10.5f, 18, this.movingPlatforms[0]);
+        super.buttons[1] = new Button(30.5f, 23, this.movingPlatforms[0]);
+
+        // initialize the Gems
+        super.fireGems = new FireGem[4];
+        super.fireGems[0] = new FireGem(22.5f, 4);
+        super.fireGems[1] = new FireGem(7, 19);
+        super.fireGems[2] = new FireGem(9, 30);
+        super.fireGems[3] = new FireGem(19, 30);
+        super.waterGems = new WaterGem[4];
+        super.waterGems[0] = new WaterGem(28.5f, 4);
+        super.waterGems[1] = new WaterGem(23, 18);
+        super.waterGems[2] = new WaterGem(2, 28);
+        super.waterGems[3] = new WaterGem(22, 30);
+
+        // initialize the Doors
+        super.fireDoor = new FireDoor(35, 29);
+        super.waterDoor = new WaterDoor(38, 29);
+        super.block = new Block (0,0,0,0); //ignore
+    }
+
+    /**
+     * Implement the basic game logic and draw all the game objects on the
+     * screen.
+     */
+    @Override
+    public void render() {
+        // clear the screen and implement the basic game logic
+        super.render();
+
+        for (Button b : this.buttons) {
+            // the moving Platform will move down if a Character is on it
+            if (b.collidesWith(this.fireboy) && this.movingPlatforms[0].getY() < this.movingPlatforms[0].getMaximumY()) {
+                this.movingPlatforms[0].moveUp();
+            }
+            if (b.collidesWith(this.watergirl) && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMaximumY()) {
+                this.movingPlatforms[0].moveUp();
+            }
+
+            // the moving Platform will move up if a Character isn't on it
+            if ((b.collidesWith(this.fireboy) || b.collidesWith(this.watergirl))
+                    && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMinimumY()) {
+                this.movingPlatforms[0].moveDown();
+            }
+        }
+
+        // draw the game elements
+        super.draw();
     }
 }
