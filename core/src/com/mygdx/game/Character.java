@@ -44,7 +44,7 @@ public abstract class Character {
         this.jump = false;
         this.hitBottom = false;
         this.hitSide = false;
-        overlap = new Rectangle(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
+        this.overlap = new Rectangle(this.overlapX, this.overlapY, this.overlapWidth, this.overlapHeight);
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
 

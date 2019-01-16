@@ -19,11 +19,11 @@ public class Watergirl extends Character {
     /**
      * Creates a Watergirl using it's x and y position on the screen.
      *
-     * @param x a float representing the Watergirl's x position on the screen
-     * @param y a float representing the Watergirl's y position on the screen
+     * @param coordinates an array of integers representing the positions of the
+     * Watergirl
      */
-    public Watergirl(float x, float y) {
-        super(x, y);
+    public Watergirl(int[] coordinates) {
+        super(coordinates[0], coordinates[1]);
     }
 
     /**

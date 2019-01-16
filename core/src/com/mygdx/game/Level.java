@@ -73,7 +73,7 @@ public abstract class Level extends ApplicationAdapter {
 
         // draw the game elements on the screen
         draw();
-        
+
         // constantly update x and y positions of Characters, MovingPlatforms, and Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
@@ -82,6 +82,21 @@ public abstract class Level extends ApplicationAdapter {
         }
         for (Button button : this.buttons) {
             button.updatePositions();
+        }
+
+        // Fireboy keyboard listeners
+        // Fireboy can only move if he hasn't died
+        // Watergirl keyboard listeners
+        // Watergirl can only move if he hasn't died
+        // Characters will die if they come into contact with Mud
+        // Fireboy will die if they come into contact with Water
+        // Watergirl will die if they come into contact with Fire
+        // Buttons will move down if a Character comes into contact with it
+        // Buttons will back up if a Character comes into contact with it
+        // Level will be completed once the Characters are in front of their respective Doors
+        if (this.fireDoor.collision(this.fireboy)
+                && this.waterDoor.collision(this.watergirl)) {
+            this.levelWon = true;
         }
     }
 
@@ -107,23 +122,18 @@ public abstract class Level extends ApplicationAdapter {
 
         // draws a black background
         this.shapeBatch.setColor(Color.BLACK);
-        this.shapeBatch.rect(0, 0, 672, 544);
-
-        // go through the array and draw each Button
-        for (Button b : this.buttons) {
-            b.draw(this.shapeBatch);
-        }
+        this.shapeBatch.rect(0, 0, 840, 680);
 
         // draws the stationary Platforms
         this.shapeBatch.setColor(Color.WHITE);
-        for (Platform p : this.platforms) {
-            p.draw(this.shapeBatch);
+        for (Platform platform : this.platforms) {
+            platform.draw(this.shapeBatch);
         }
 
         // draws the moving Platforms
         this.shapeBatch.setColor(Color.PURPLE);
-        for (Platform p : this.movingPlatforms) {
-            p.draw(this.shapeBatch);
+        for (MovingPlatform movingPlatform : this.movingPlatforms) {
+            movingPlatform.draw(this.shapeBatch);
         }
 
         // set the FireGems to be red
@@ -154,18 +164,18 @@ public abstract class Level extends ApplicationAdapter {
         this.waterDoor.draw(this.shapeBatch);
 
         // go through the array and draw each Fire
-        for (Fire f : this.fire) {
-            f.draw(this.shapeBatch);
+        for (Fire fire : this.fire) {
+            fire.draw(this.shapeBatch);
         }
 
         // go through the array and draw each Water
-        for (Water w : this.water) {
-            w.draw(this.shapeBatch);
+        for (Water water : this.water) {
+            water.draw(this.shapeBatch);
         }
 
         // go through the array and draw each Mud
-        for (Mud m : this.mud) {
-            m.draw(this.shapeBatch);
+        for (Mud mud : this.mud) {
+            mud.draw(this.shapeBatch);
         }
 
         // do not draw the Fireboy on the screen if the Fireboy has died
@@ -179,6 +189,11 @@ public abstract class Level extends ApplicationAdapter {
             // set the color of the Watergirl to be blue
             this.shapeBatch.setColor(Color.BLUE);
             this.watergirl.draw(this.shapeBatch);
+        }
+
+        // go through the array and draw each Button
+        for (Button button : this.buttons) {
+            button.draw(this.shapeBatch);
         }
 
         // draws a level complete screen when the Level has been won using a ShapeRenderer
@@ -206,5 +221,14 @@ public abstract class Level extends ApplicationAdapter {
             integers[i] *= 20;
         }
         return integers;
+    }
+
+    /**
+     * Returns whether if the Level has been won or not.
+     *
+     * @return a boolean representing whether if the Level has been won or not
+     */
+    public boolean isLevelWon() {
+        return this.levelWon;
     }
 }
