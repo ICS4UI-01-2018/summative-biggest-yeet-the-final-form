@@ -19,11 +19,11 @@ public class Fireboy extends Character {
     /**
      * Creates a Fireboy using it's x and y position on the screen.
      *
-     * @param coordinates an array of integers representing the positions of the
-     * Fireboy
+     * @param x an integer representing the x position of the Fireboy
+     * @param y an integer representing the y position of the Fireboy
      */
-    public Fireboy(int[] coordinates) {
-        super(coordinates[0], coordinates[1]);
+    public Fireboy(float x, float y) {
+        super(x, y);
     }
 
     /**

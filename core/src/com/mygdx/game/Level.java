@@ -7,6 +7,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,27 +20,31 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public abstract class Level extends ApplicationAdapter {
+public class Level extends ApplicationAdapter {
 
     private OrthographicCamera camera;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
+    // variable to determine whether or not if Fireboy and Watergirl passed the level
     private boolean levelWon;
+    // game Characters
     Fireboy fireboy;
     Watergirl watergirl;
+    // arrays to store the standing and moving Platforms
     Platform[] platforms;
     MovingPlatform[] movingPlatforms;
+    // game Obstacles
     Fire[] fire;
     Water[] water;
     Mud[] mud;
     Button[] buttons;
+    // arrays to store all of the Gems
     FireGem[] fireGems;
     WaterGem[] waterGems;
+    // game Doors
     FireDoor fireDoor;
     WaterDoor waterDoor;
-
-    Block block;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -54,10 +59,10 @@ public abstract class Level extends ApplicationAdapter {
 
         // initialize the Camera and the Viewport
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(840, 680, this.camera);
+        this.viewport = new FitViewport(672, 544, this.camera);
         this.viewport.apply();
-        this.camera.position.x = 420;
-        this.camera.position.y = 340;
+        this.camera.position.x = 336;
+        this.camera.position.y = 272;
         this.camera.update();
 
         // Fireboy and Watergirl haven't won the level yet
@@ -73,17 +78,14 @@ public abstract class Level extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // draw the game elements on the screen
-        draw();
-
-        // constantly update x and y positions of Characters, MovingPlatforms, and Buttons
+        // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (Platform platform : this.movingPlatforms) {
-            platform.updatePositions();
+        for (Platform p : this.movingPlatforms) {
+            p.updatePositions();
         }
-        for (Button button : this.buttons) {
-            button.updatePositions();
+        for (Button b : this.buttons) {
+            b.updatePositions();
         }
 
         // Characters can only move if the level hasn't been won yet
@@ -252,18 +254,23 @@ public abstract class Level extends ApplicationAdapter {
 
         // draws a black background
         this.shapeBatch.setColor(Color.BLACK);
-        this.shapeBatch.rect(0, 0, 840, 680);
+        this.shapeBatch.rect(0, 0, 672, 544);
 
-        // draws the stationary Platforms
+        // go through the array and draw each Button
+        for (Button b : this.buttons) {
+            b.draw(this.shapeBatch);
+        }
+
+        // draws the standing Platforms
         this.shapeBatch.setColor(Color.WHITE);
-        for (Platform platform : this.platforms) {
-            platform.draw(this.shapeBatch);
+        for (Platform p : this.platforms) {
+            p.draw(this.shapeBatch);
         }
 
         // draws the moving Platforms
         this.shapeBatch.setColor(Color.PURPLE);
-        for (MovingPlatform movingPlatform : this.movingPlatforms) {
-            movingPlatform.draw(this.shapeBatch);
+        for (Platform p : this.movingPlatforms) {
+            p.draw(this.shapeBatch);
         }
 
         // set the FireGems to be red
@@ -294,18 +301,18 @@ public abstract class Level extends ApplicationAdapter {
         this.waterDoor.draw(this.shapeBatch);
 
         // go through the array and draw each Fire
-        for (Fire fire : this.fire) {
-            fire.draw(this.shapeBatch);
+        for (Fire f : this.fire) {
+            f.draw(this.shapeBatch);
         }
 
         // go through the array and draw each Water
-        for (Water water : this.water) {
-            water.draw(this.shapeBatch);
+        for (Water w : this.water) {
+            w.draw(this.shapeBatch);
         }
 
         // go through the array and draw each Mud
-        for (Mud mud : this.mud) {
-            mud.draw(this.shapeBatch);
+        for (Mud m : this.mud) {
+            m.draw(this.shapeBatch);
         }
 
         // do not draw the Fireboy on the screen if the Fireboy has died
@@ -321,49 +328,15 @@ public abstract class Level extends ApplicationAdapter {
             this.watergirl.draw(this.shapeBatch);
         }
 
-        // go through the array and draw each Button
-        for (Button button : this.buttons) {
-            button.draw(this.shapeBatch);
-        }
-
         // draws a level complete screen when the Level has been won using a ShapeRenderer
         if (this.levelWon) {
             this.shapeBatch.setColor(Color.LIME);
             this.shapeBatch.rect(0, 0, 672, 544);
         }
 
-        this.shapeBatch.setColor(Color.BROWN);
-        {
-            block.draw(shapeBatch);
-        }
-
         // allows for the drawing of the game objects to end
         this.shapeBatch.end();
         this.batch.end();
         this.batch.setProjectionMatrix(this.camera.combined);
-    }
-
-    /**
-     * Multiplies each spot of an integer array by 20.
-     *
-     * @param integers an array of integers that store all numbers that must be
-     * multiplied by 20
-     * @return an array of integers that have been multiplied by 20
-     */
-    public int[] multiplesOf20(int[] integers) {
-        // go through the array of integers and multiply each spot by 20
-        for (int i = 0; i < integers.length; i++) {
-            integers[i] *= 20;
-        }
-        return integers;
-    }
-
-    /**
-     * Returns whether if the Level has been won or not.
-     *
-     * @return a boolean representing whether if the Level has been won or not
-     */
-    public boolean isLevelWon() {
-        return this.levelWon;
     }
 }
