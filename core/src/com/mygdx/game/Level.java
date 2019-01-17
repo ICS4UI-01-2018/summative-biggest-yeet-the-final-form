@@ -211,12 +211,23 @@ public class Level extends ApplicationAdapter {
         // Buttons will move down if a Character is on it
         // Buttons will return to their original position if a Character isn't on it
     
+        System.out.println(buttons[0].collidesWith(this.fireboy));
+        System.out.println(buttons[1].collidesWith(this.fireboy));
+
+//        if (buttons[0].collidesWith(this.fireboy)) {
+//            buttons[0].getMovingPlatform().moveDown();
+//        } else {
+//            buttons[0].getMovingPlatform().moveUp();
+//        }
+
         for (Button b : this.buttons) {
-            // MovingPlatforms will move down if the corresponding Button is pressed
             if (b.collidesWith(this.fireboy)) {
                 b.getMovingPlatform().moveDown();
+            } else {
+                b.getMovingPlatform().moveUp();
             }
         }
+
     }
 
     @Override

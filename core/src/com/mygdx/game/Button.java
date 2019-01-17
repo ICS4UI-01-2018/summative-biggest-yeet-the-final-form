@@ -33,7 +33,7 @@ public class Button extends Obstacle {
         super(x, y, 1, 0.5f);
         
         this.movingPlatform = platform;
-        this.speed = 0.2f;
+        this.speed = 0.1f;
         
         // Button cannot move higher than this y position
         this.maximumY = y;
@@ -60,14 +60,18 @@ public class Button extends Obstacle {
      * Allows for the Button to move down.
      */
     public void moveDown() {
-        super.y -= this.speed;
+         if (super.y > this.minimumY) {
+            super.y -= this.speed;
+        }
     }
 
     /**
      * Allows for the Button to move up.
      */
     public void moveUp() {
-        super.y += this.speed;
+        if (super.y < this.maximumY) {
+            super.y += this.speed;
+        }
     }
 
     /**
