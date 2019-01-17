@@ -283,10 +283,11 @@ public abstract class Character {
      *
      * @param platforms array of platforms
      */
-    public void onTop(Platform[] platforms) {
+    public int onTop(Platform[] platforms) {
         int counter = 0;
         for (Platform p : platforms) {
             if (this.y == p.getTop()) {
+                counter++;
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
                     this.onGround = true;
@@ -303,8 +304,10 @@ public abstract class Character {
         }
 
         if (counter == 0) {
+            
             this.onGround = false;
         }
+        return counter;
     }
 
     /**

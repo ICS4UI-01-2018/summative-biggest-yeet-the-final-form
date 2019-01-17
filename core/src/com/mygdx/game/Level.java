@@ -80,7 +80,7 @@ public class Level extends ApplicationAdapter {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (Platform p : this.movingPlatforms) {
+        for (MovingPlatform p : this.movingPlatforms) {
             p.updatePositions();
         }
         for (Button b : this.buttons) {
@@ -107,6 +107,20 @@ public class Level extends ApplicationAdapter {
              //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
+                
+                if (this.movingPlatforms instanceof Platform[]){
+                   Platform[] temp = (Platform []) this.movingPlatforms;
+                 int hm =  fireboy.onTop(temp);
+                 if (hm!= 0){
+                     System.out.println("good");
+                 }
+                   for (Platform p : temp){
+                       if (p.getBounds().overlaps(fireboy.getBounds())){
+                           p.whereIsPlayer(fireboy);
+                       }
+                   }
+                }
+                
                 //check if he is on the ground
                 fireboy.onTop(platforms);
                 //check if he is hitting a platform or a moving platform
@@ -116,11 +130,11 @@ public class Level extends ApplicationAdapter {
                     }
                 }
 
-                for (MovingPlatform p : this.movingPlatforms) {
-                    if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        p.whereIsPlayer(fireboy);
-                    }
-                }
+//                for (MovingPlatform p : this.movingPlatforms) {
+//                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+//                        p.whereIsPlayer(fireboy);
+//                    }
+//                }
             }
 
             // Watergirl keyboard listeners
@@ -208,27 +222,25 @@ public class Level extends ApplicationAdapter {
             this.levelWon = true;
         }
 
-//        for (Button b : this.buttons) {
-//            // Buttons will move down if a Character is on it
-//            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
-//                b.moveDown();
-//            }
-//            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
-//                b.moveDown();
-//            }
-//
-//            // Buttons will move up if a Character isn't on it
-//            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
-//                b.moveUp();
-//            }
-//            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
-//                b.moveUp();
-//            }
+        // Buttons will move down if a Character is on it
+        // Buttons will return to their original position if a Character isn't on it
+    
+       
+
+//        if (buttons[0].collidesWith(this.fireboy)) {
+//            buttons[0].getMovingPlatform().moveDown();
+//        } else {
+//            buttons[0].getMovingPlatform().moveUp();
 //        }
 
         for (Button b : this.buttons) {
-            
+            if (b.collidesWith(this.fireboy)) {
+                b.getMovingPlatform().moveDown();
+            } else {
+                b.getMovingPlatform().moveUp();
+            }
         }
+
     }
 
     @Override

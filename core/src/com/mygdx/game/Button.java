@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class Button extends Obstacle {
 
-    private final MovingPlatform controlledPlatform;
+    private final MovingPlatform movingPlatform;
     private final float speed, maximumY, minimumY;
 
     /**
@@ -29,11 +29,15 @@ public class Button extends Obstacle {
      * @param platform a Platform representing the Platform that the Button controls
      */
     public Button(float x, float y, MovingPlatform platform) {
+        // initialize the x and y position, and the width and height of the Button
         super(x, y, 1, 0.5f);
-        this.controlledPlatform = platform;
+        
+        this.movingPlatform = platform;
         this.speed = 0.1f;
+        
         // Button cannot move higher than this y position
         this.maximumY = y;
+        
         // Button cannot move lower than this y position
         this.minimumY = y - super.height;
     }
@@ -47,6 +51,7 @@ public class Button extends Obstacle {
     public void draw(ShapeRenderer shapeBatch) {
         // make the Buttons purple
         shapeBatch.setColor(Color.PURPLE);
+        
         // draw the Button
         shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
@@ -55,36 +60,17 @@ public class Button extends Obstacle {
      * Allows for the Button to move down.
      */
     public void moveDown() {
-        super.y -= this.speed;
+         if (super.y > this.minimumY) {
+            super.y -= this.speed;
+        }
     }
 
     /**
      * Allows for the Button to move up.
      */
     public void moveUp() {
-        super.y += this.speed;
-    }
-
-    /**
-     * Moves the Platform that the Button controls down.
-     *
-     * @param ending a float representing the ending position of the Platform
-     */
-    public void movePlatformDown(float ending) {
-        if (this.controlledPlatform.getY() > ending) {
-            this.y = this.y - this.speed;
-        }
-    }
-
-    /**
-     * Moves the Platform that the Button controls up.
-     *
-     * @param starting a float representing the starting position of the
-     * Platform
-     */
-    public void movePlatformUp(float starting) {
-        if (this.controlledPlatform.getY() < starting - this.controlledPlatform.getWidth()) {
-            this.y = this.y + this.speed;
+        if (super.y < this.maximumY) {
+            super.y += this.speed;
         }
     }
 
@@ -113,5 +99,9 @@ public class Button extends Obstacle {
      */
     public float getMinimumY() {
         return this.minimumY;
+    }
+    
+    public MovingPlatform getMovingPlatform() {
+        return this.movingPlatform;
     }
 }

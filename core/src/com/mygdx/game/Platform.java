@@ -17,10 +17,10 @@ import com.badlogic.gdx.math.Intersector;
  */
 public class Platform {
 
-    private Rectangle platform, overlap;
+    Rectangle platform, overlap;
     private float width, height;
     private float x;
-    private float y;
+    float y;
 
     /**
      * Creates a Platform using the xRect, y, width, and height.
@@ -161,14 +161,6 @@ public class Platform {
         }
         //update player position
         c.updatePositions();
-    }
-
-    /**
-     * Updates the xRect and y positions of the Platform.
-     */
-    public void updatePositions() {
-        this.platform.x = this.x;
-        this.platform.y = this.y;
     }
 
     /**
