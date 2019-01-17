@@ -7,6 +7,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Intersector;
 
 /**
  * Creates a Platform to use in a game of Fireboy and Watergirl. The Characters
@@ -134,12 +135,33 @@ public class Platform {
         if (!r1.overlaps(r2)) {//if there is no intersection return nothing
             return null;
         }
-        //find the greater xRect and the greater y value
-        float xOverlap = Math.max(r1.x, r2.x);
-        float yOverlap = Math.max(r1.y, r2.y);
-        //find smaller width and height and subtract cooresponidng overlap value
-        float widthOverlap = Math.min(r1.x + r1.width, r2.x + r2.width) - xOverlap;
-        float heightOverlap = Math.min(r1.y + r1.height, r2.y + r2.height) - yOverlap;
+        
+        float xOverlap, yOverlap, widthOverlap, heightOverlap;
+        heightOverlap = 0;
+        
+        if (r1.x > r2.x){
+            xOverlap = r1.x;
+        }else{
+            xOverlap = r2.x;
+        }
+        
+        if (r1.y > r2.y){
+            yOverlap = r1.y;
+        }else{
+            yOverlap = r2.y;
+        }
+         if ((r1.x + r1.width)>( r2.x + r2.width)){
+            widthOverlap = r1.x + r1.width -xOverlap;
+        }else{
+           widthOverlap = r2.x + r2.width -xOverlap;
+        }
+         if ((r1.y + r1.height)>( r2.y + r2.height)){
+            widthOverlap = r1.y + r1.height -yOverlap;
+        }else{
+           heightOverlap = r2.y + r2.height -yOverlap;
+        }
+ 
+   
         //pass value to create resulting overlap rectangle
         overlap.set(xOverlap, yOverlap, widthOverlap, heightOverlap);
 

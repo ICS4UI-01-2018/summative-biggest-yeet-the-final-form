@@ -16,7 +16,7 @@ public class LevelOne extends Level {
         super.create();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(20, 2);
+        this.fireboy = new Fireboy(2, 2);
         this.watergirl = new Watergirl(2, 7);
 
         // initialize the Platforms
@@ -82,7 +82,6 @@ public class LevelOne extends Level {
         // initialize the Doors
         super.fireDoor = new FireDoor(35, 29);
         super.waterDoor = new WaterDoor(38, 29);
-        super.block = new Block (30,2,5,5); 
     }
 
     /**
@@ -93,22 +92,6 @@ public class LevelOne extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-
-        for (Button b : this.buttons) {
-            // the moving Platform will move down if a Character is on it
-            if (b.collidesWith(this.fireboy) && this.movingPlatforms[0].getY() < this.movingPlatforms[0].getMaximumY()) {
-                this.movingPlatforms[0].moveUp();
-            }
-            if (b.collidesWith(this.watergirl) && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMaximumY()) {
-                this.movingPlatforms[0].moveUp();
-            }
-
-            // the moving Platform will move up if a Character isn't on it
-            if ((b.collidesWith(this.fireboy) || b.collidesWith(this.watergirl))
-                    && this.movingPlatforms[0].getY() > this.movingPlatforms[0].getMinimumY()) {
-                this.movingPlatforms[0].moveDown();
-            }
-        }
 
         // draw the game elements
         super.draw();
