@@ -17,9 +17,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class Button extends Obstacle {
 
-    private final Platform controlledPlatform;
+    private final MovingPlatform controlledPlatform;
     private final float speed, maximumY, minimumY;
-    private float starting, ending;
 
     /**
      * Initializes a Button to use in a game of Fireboy and Watergirl using it's
@@ -29,7 +28,7 @@ public class Button extends Obstacle {
      * @param y a float representing the y coordinate of the Button
      * @param platform a Platform representing the Platform that the Button controls
      */
-    public Button(float x, float y, Platform platform) {
+    public Button(float x, float y, MovingPlatform platform) {
         super(x, y, 1, 0.5f);
         this.controlledPlatform = platform;
         this.speed = 0.1f;
@@ -56,14 +55,14 @@ public class Button extends Obstacle {
      * Allows for the Button to move down.
      */
     public void moveDown() {
-        super.y += this.speed;
+        super.y -= this.speed;
     }
 
     /**
      * Allows for the Button to move up.
      */
     public void moveUp() {
-        super.y -= this.speed;
+        super.y += this.speed;
     }
 
     /**
@@ -79,7 +78,9 @@ public class Button extends Obstacle {
 
     /**
      * Moves the Platform that the Button controls up.
-     * @param starting a float representing the starting position of the Platform
+     *
+     * @param starting a float representing the starting position of the
+     * Platform
      */
     public void movePlatformUp(float starting) {
         if (this.controlledPlatform.getY() < starting - this.controlledPlatform.getWidth()) {
