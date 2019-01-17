@@ -66,9 +66,4 @@ public class MovingPlatform extends Platform {
     public float getMinimumY() {
         return minimumY;
     }
-    
-    @Override
-    public void whereIsPlayer (Character c){
-        super.whereIsPlayer(c);
-    }
 }
