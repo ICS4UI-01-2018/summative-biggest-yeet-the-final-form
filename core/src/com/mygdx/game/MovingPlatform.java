@@ -24,29 +24,34 @@ public class MovingPlatform extends Platform {
      * @param x a float representing the x position of the MovingPlatform
      * @param y a float representing the y position of the MovingPlatform
      * @param width a float representing the width of the MovingPlatform
+     * @param height a float representing the height of the MovingPlatform
      * @param minimumY a float representing the minimum y position that the
      * MovingPlatform can be
      */
-    public MovingPlatform(float x, float y, float width, float minimumY) {
-        super(x, y, width, 0.5f);
+    public MovingPlatform(float x, float y, float width, float height, float minimumY) {
+        super(x, y, width, height);
 
-        this.maximumY = y;
-        this.minimumY = minimumY;
+        this.maximumY = y * 16;
+        this.minimumY = minimumY * 16;
         this.speed = 0.5f;
     }
 
     /**
-     * Moves the Platform downwards.
+     * Moves the MovingPlatform down if it can.
      */
     public void moveDown() {
-        super.setY(super.getY() - this.speed);
+        if (super.y > this.minimumY) {
+            super.y -= this.speed;
+        }
     }
 
     /**
-     * Moves the Platform upwards.
+     * Moves the MovingPlatform up it it can.
      */
     public void moveUp() {
-        super.setY(super.getY() + this.speed);
+        if (super.y < this.maximumY) {
+            super.y += this.speed;
+        }
     }
 
     /**
@@ -55,7 +60,7 @@ public class MovingPlatform extends Platform {
      * @return a float representing the maximum y position of the MovingPlatform
      */
     public float getMaximumY() {
-        return maximumY;
+        return this.maximumY;
     }
 
     /**
@@ -64,10 +69,13 @@ public class MovingPlatform extends Platform {
      * @return a float representing the minimum y position of the MovingPlatform
      */
     public float getMinimumY() {
-        return minimumY;
+        return this.minimumY;
     }
     
-    public void whereIsPlayer (Character c){
-        super.whereIsPlayer(c);
+    /**
+     * Updates the y position of the MovingPlatform as it can move up and down.
+     */
+    public void updatePositions() {
+        super.platform.y = super.y;
     }
 }
