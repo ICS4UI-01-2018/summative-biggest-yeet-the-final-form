@@ -54,7 +54,7 @@ public class LevelOne extends Level {
 
         // initialize the moving Platforms
         this.movingPlatforms = new MovingPlatform[1];
-        this.movingPlatforms[0] = new MovingPlatform(36, 20, 5, 0.5f);
+        this.movingPlatforms[0] = new MovingPlatform(1, 17.5f, 5, 0.5f, 12);
 
         // initialize the Obstacles
         super.fire = new Fire[1];
@@ -65,7 +65,7 @@ public class LevelOne extends Level {
         super.mud[0] = new Mud(26, 10, 4, 1);
         super.buttons = new Button[2];
         super.buttons[0] = new Button(10.5f, 18, this.movingPlatforms[0]);
-        super.buttons[1] = new Button(30.5f, 23, this.movingPlatforms[0]);
+        super.buttons[1] = new Button(10.5f, 12, this.movingPlatforms[0]);
 
         // initialize the Gems
         super.fireGems = new FireGem[4];

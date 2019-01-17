@@ -80,7 +80,7 @@ public class Level extends ApplicationAdapter {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (Platform p : this.movingPlatforms) {
+        for (MovingPlatform p : this.movingPlatforms) {
             p.updatePositions();
         }
         for (Button b : this.buttons) {
@@ -208,26 +208,14 @@ public class Level extends ApplicationAdapter {
             this.levelWon = true;
         }
 
-//        for (Button b : this.buttons) {
-//            // Buttons will move down if a Character is on it
-//            if (b.collidesWith(this.fireboy) && b.getY() > b.getMinimumY()) {
-//                b.moveDown();
-//            }
-//            if (b.collidesWith(this.watergirl) && b.getY() > b.getMinimumY()) {
-//                b.moveDown();
-//            }
-//
-//            // Buttons will move up if a Character isn't on it
-//            if (!b.collidesWith(this.fireboy) && b.getY() < b.getMaximumY()) {
-//                b.moveUp();
-//            }
-//            if (!b.collidesWith(this.watergirl) && b.getY() < b.getMaximumY()) {
-//                b.moveUp();
-//            }
-//        }
-
+        // Buttons will move down if a Character is on it
+        // Buttons will return to their original position if a Character isn't on it
+    
         for (Button b : this.buttons) {
-            
+            // MovingPlatforms will move down if the corresponding Button is pressed
+            if (b.collidesWith(this.fireboy)) {
+                b.getMovingPlatform().moveDown();
+            }
         }
     }
 
