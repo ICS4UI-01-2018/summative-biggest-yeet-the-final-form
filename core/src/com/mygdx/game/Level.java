@@ -207,6 +207,11 @@ public class Level extends ApplicationAdapter {
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
+        
+        // determines if the Buttons are pressed
+        for (Button b : this.buttons) {
+            b.pressed(this.fireboy, this.watergirl);
+        }
     }
 
     @Override
