@@ -207,7 +207,7 @@ public class Level extends ApplicationAdapter {
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
-        
+
         // determines if the Buttons are pressed
         for (Button b : this.buttons) {
             b.pressed(this.fireboy, this.watergirl);
@@ -260,25 +260,9 @@ public class Level extends ApplicationAdapter {
             p.draw(this.shapeBatch);
         }
 
-        // set the FireGems to be red
-        this.shapeBatch.setColor(Color.RED);
-        // go through the array and draw each FireGem
+        // draws the FireGems
         for (FireGem fireGem : this.fireGems) {
-            // only draw the FireGem if it hasn't been collected by a Fireboy yet
-            if (!fireGem.isCollected()) {
-                fireGem.draw(this.shapeBatch);
-                // this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
-            }
-        }
-
-        // set the WaterGems to be blue
-        this.shapeBatch.setColor(Color.BLUE);
-        // go through the array and draw each WaterGem
-        for (WaterGem waterGem : this.waterGems) {
-            // only draw the WaterGem if it hasn't been collected by a Watergirl yet
-            if (!waterGem.isCollected()) {
-                waterGem.draw(this.shapeBatch);
-            }
+            fireGem.draw(this.batch);
         }
 
         // set the FireDoor to be magneta

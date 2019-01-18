@@ -5,7 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -15,24 +16,27 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Gem {
 
-    private final float x, y;
-    private final int width, height;
+    final float x, y;
+    final int width, height;
     private boolean collected;
     Rectangle gem;
+    Texture gemPic;
 
     /**
      * Initializes a Gem using the x and y coordinates of it on the screen.
      *
+     * @param gemPic
      * @param x a float representing the x coordinate of the Gem
      * @param y a float representing the y coordinate of the Gem
      */
-    public Gem(float x, float y) {
+    public Gem(Texture gemPic, float x, float y) {
         this.x = x * 16;
         this.y = y * 16;
         this.width = 16;
         this.height = 16;
         this.collected = false;
         this.gem = new Rectangle(this.x, this.y, this.width, this.height);
+        this.gemPic = gemPic;
     }
 
     /**
@@ -80,14 +84,16 @@ public abstract class Gem {
         return this.collected;
     }
 
-    /**
-     * Draws the Gem on the screen.
-     *
-     * @param shapeBatch a ShapeRenderer that will draw the Gem on the screen
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
-    }
+//    /**
+//     * Draws the Gem on the screen.
+//     *
+//     * @param shapeBatch a ShapeRenderer that will draw the Gem on the screen
+//     */
+//    public void draw(ShapeRenderer shapeBatch) {
+//        shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
+//    }
+    
+    public abstract void draw(SpriteBatch batch);
     
     /**
      * Sets the Gem to be collected.
