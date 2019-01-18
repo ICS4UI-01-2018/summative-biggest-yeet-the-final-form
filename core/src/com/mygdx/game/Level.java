@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Level extends ApplicationAdapter {
+//make arraylist
 
     private OrthographicCamera camera;
     private FitViewport viewport;
@@ -104,37 +105,49 @@ public class Level extends ApplicationAdapter {
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
                 }
-             //     block.updatePos(fireboy, platforms); 
+                //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
-                
-                if (this.movingPlatforms instanceof Platform[]){
-                   Platform[] temp = (Platform []) this.movingPlatforms;
-                 fireboy.onTop(temp);
-//                   for (Platform p : temp){
-//                       if (p.getBounds().overlaps(fireboy.getBounds())){
-//                           System.out.println("yea");
-//                           p.whereIsPlayer(fireboy);
-//                       }
-//                   }
-                   
-                   }
-                
-               
-                //check if he is on the ground
-                fireboy.onTop(platforms);
-                                    int counter = 0;
+                int counter = 0;
+                if (this.movingPlatforms instanceof Platform[]) {
+                    Platform[] temp = (Platform[]) this.movingPlatforms;
+                    if (temp[0].getBounds().overlaps(fireboy.getBounds())) {
+                        System.out.println("true");
+                    }
+                    //boolean onMoving = fireboy.onTop(temp);
 
+                    System.out.println(counter);
+
+                }
+
+                for (MovingPlatform p : this.movingPlatforms) {
+                    int hm = (p.onTop(fireboy));
+                    counter += hm;
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        p.whereIsPlayer(fireboy);
+                    }
+
+                    if (counter != 0) {
+                        p.wasOnTop = true;
+                        fireboy.setOnGround(true);
+                    }
+                    
+                    if (fireboy.jump) {
+                        p.wasOnTop = false;
+                    }
+                    p.tieTo(fireboy);
+                }
+
+                //check if he is on the ground
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
-                   
-                    int hm  =(p.onTop(fireboy));
+                    int hm = (p.onTop(fireboy));
                     counter += hm;
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
                     }
                 }
-                if (counter!=0){
+                if (counter != 0) {
                     fireboy.setOnGround(true);
                 }
             }
@@ -218,11 +231,16 @@ public class Level extends ApplicationAdapter {
         }
 
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
-        if (this.fireDoor.collision(this.fireboy)
+        if (this.fireDoor.collision(
+                this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
 
+        // determines if the Buttons are pressed
+        for (Button b : this.buttons) {
+            b.pressed(this.fireboy, this.watergirl);
+        }
     }
 
     @Override
@@ -272,13 +290,13 @@ public class Level extends ApplicationAdapter {
         }
 
         // set the FireGems to be red
-        // this.shapeBatch.setColor(Color.RED);
+        this.shapeBatch.setColor(Color.RED);
         // go through the array and draw each FireGem
         for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by a Fireboy yet
             if (!fireGem.isCollected()) {
-                // fireGem.draw(this.shapeBatch);
-                this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
+                fireGem.draw(this.shapeBatch);
+                // this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
             }
         }
 

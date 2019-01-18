@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected;
     private float x, y, gravity, ySpeed, height, width, xSpeed;
-    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, onIce;
+    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop;
     private Rectangle character;
 
     /**
@@ -43,6 +43,7 @@ public abstract class Character {
         this.jump = false;
         this.hitBottom = false;
         this.hitSide = false;
+        this.isOnTop = false;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -232,6 +233,7 @@ public abstract class Character {
      */
     public void jump() {
         if (this.onGround) {
+            this.isOnTop = false;
             this.isFalling = false;
             ySpeed = -11;//height of jump
             this.jump = true;
@@ -283,7 +285,7 @@ public abstract class Character {
      *
      * @param platforms array of platforms
      */
-    public int onTop(Platform[] platforms) {
+    public boolean onTop(Platform[] platforms) {
         int counter = 0;
         for (Platform p : platforms) {
             if (this.y == p.getTop()) {
@@ -303,10 +305,11 @@ public abstract class Character {
         }
 
         if (counter == 0) {
-            
-            this.onGround = false;
+                        this.onGround = false;
+
+            return false;
         }
-        return counter;
+        return true;
     }
 
     /**
@@ -336,8 +339,6 @@ public abstract class Character {
         this.isDead = true;
     }
 
-    public void isOnIce(boolean b) {
-        this.onIce = b;
-    }
+
 
 }
