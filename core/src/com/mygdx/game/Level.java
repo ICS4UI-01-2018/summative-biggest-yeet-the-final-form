@@ -81,9 +81,9 @@ public class Level extends ApplicationAdapter {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (MovingPlatform p : this.movingPlatforms) {
-            p.updatePositions();
-        }
+//        for (MovingPlatform p : this.movingPlatforms) {
+//            p.updatePositions();
+//        }
         for (Button b : this.buttons) {
             b.updatePositions();
         }
@@ -289,25 +289,9 @@ public class Level extends ApplicationAdapter {
             p.draw(this.shapeBatch);
         }
 
-        // set the FireGems to be red
-        this.shapeBatch.setColor(Color.RED);
-        // go through the array and draw each FireGem
+        // draws the FireGems
         for (FireGem fireGem : this.fireGems) {
-            // only draw the FireGem if it hasn't been collected by a Fireboy yet
-            if (!fireGem.isCollected()) {
-                fireGem.draw(this.shapeBatch);
-                // this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
-            }
-        }
-
-        // set the WaterGems to be blue
-        this.shapeBatch.setColor(Color.BLUE);
-        // go through the array and draw each WaterGem
-        for (WaterGem waterGem : this.waterGems) {
-            // only draw the WaterGem if it hasn't been collected by a Watergirl yet
-            if (!waterGem.isCollected()) {
-                waterGem.draw(this.shapeBatch);
-            }
+            fireGem.draw(this.batch);
         }
 
         // set the FireDoor to be magneta
