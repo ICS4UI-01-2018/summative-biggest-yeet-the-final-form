@@ -207,15 +207,10 @@ public class Level extends ApplicationAdapter {
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
         }
-
-        // Buttons will move down if a Character is on it
-        // Buttons will return to their original position if a Character isn't on it
-    
+        
+        // determines if the Buttons are pressed
         for (Button b : this.buttons) {
-            // MovingPlatforms will move down if the corresponding Button is pressed
-            if (b.collidesWith(this.fireboy)) {
-                b.getMovingPlatform().moveDown();
-            }
+            b.pressed(this.fireboy, this.watergirl);
         }
     }
 
@@ -266,13 +261,13 @@ public class Level extends ApplicationAdapter {
         }
 
         // set the FireGems to be red
-        // this.shapeBatch.setColor(Color.RED);
+        this.shapeBatch.setColor(Color.RED);
         // go through the array and draw each FireGem
         for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by a Fireboy yet
             if (!fireGem.isCollected()) {
-                // fireGem.draw(this.shapeBatch);
-                this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
+                fireGem.draw(this.shapeBatch);
+                // this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
             }
         }
 
