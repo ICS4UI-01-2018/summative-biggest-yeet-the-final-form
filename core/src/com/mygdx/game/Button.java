@@ -41,7 +41,7 @@ public class Button extends Obstacle {
         this.maximumY = y;
 
         // Button cannot move lower than this y position
-        this.minimumY = y - (super.height / 2);
+        this.minimumY = y - 4;
 
         // set the Button to not be in a pressed state
         this.isPressed = false;

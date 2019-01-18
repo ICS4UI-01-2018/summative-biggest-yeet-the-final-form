@@ -93,9 +93,11 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
+        // MovingPlatform moves down if a Button is pressed
         if (buttons[0].isPressed() || buttons[1].isPressed()) {
             buttons[0].getMovingPlatform().moveDown();
         } else {
+            // Moving Platform returns to its original state if the Button isn't pressed
             buttons[0].getMovingPlatform().moveUp();
         }
         

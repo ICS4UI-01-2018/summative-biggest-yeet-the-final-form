@@ -212,6 +212,15 @@ public class Level extends ApplicationAdapter {
         for (Button b : this.buttons) {
             b.pressed(this.fireboy, this.watergirl);
         }
+        
+        // Button animation
+        for (Button b : this.buttons) {
+            if (b.isPressed() == true) {
+                b.moveDown();
+            } else {
+                b.moveUp();
+            }
+        }
     }
 
     @Override
