@@ -212,15 +212,6 @@ public class Level extends ApplicationAdapter {
         for (Button b : this.buttons) {
             b.pressed(this.fireboy, this.watergirl);
         }
-        
-        // Button animation
-        for (Button b : this.buttons) {
-            if (b.isPressed() == true) {
-                b.moveDown();
-            } else {
-                b.moveUp();
-            }
-        }
     }
 
     @Override
@@ -270,13 +261,13 @@ public class Level extends ApplicationAdapter {
         }
 
         // set the FireGems to be red
-        // this.shapeBatch.setColor(Color.RED);
+        this.shapeBatch.setColor(Color.RED);
         // go through the array and draw each FireGem
         for (FireGem fireGem : this.fireGems) {
             // only draw the FireGem if it hasn't been collected by a Fireboy yet
             if (!fireGem.isCollected()) {
-                // fireGem.draw(this.shapeBatch);
-                this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
+                fireGem.draw(this.shapeBatch);
+                // this.batch.draw(this.fireGemPic, fireGem.getX(), fireGem.getY(), 16, 16);
             }
         }
 
