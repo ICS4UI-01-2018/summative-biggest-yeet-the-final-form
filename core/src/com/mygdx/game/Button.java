@@ -27,8 +27,8 @@ public class Button extends Obstacle {
      *
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
-     * @param platform a Platform representing the Platform that the Button
-     * controls
+     * @param platform a MovingPlatform representing the MovingPlatform that the
+     * Button controls
      */
     public Button(float x, float y, MovingPlatform platform) {
         // initialize the x and y position, and the width and height of the Button
