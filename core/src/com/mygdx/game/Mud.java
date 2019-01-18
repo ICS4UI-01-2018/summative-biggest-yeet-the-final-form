@@ -5,8 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates Mud as a subclass of Obstacle to use in a game of Fireboy and
@@ -26,18 +26,35 @@ public class Mud extends Obstacle {
      * @param height an integer representing the height of the Mud
      */
     public Mud(float x, float y, int width, int height) {
-        super(x, y, width, height);
+        super(new Texture("Mud.jpg"), x, y, width, height);
     }
 
     /**
-     * Draws Mud on the screen using a ShapeRenderer.
+     * Draws the Mud on the screen using a SpriteBatch.
      *
-     * @param shapeBatch a ShapeRenderer to draw the Mud with
+     * @param batch a SpriteBatch used to draw the Mud on the screen
      */
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the colour of the Mud to be forest green
-        shapeBatch.setColor(Color.FOREST);
-        super.draw(shapeBatch);
+    public void draw(SpriteBatch batch) {
+        // determine how many times you have to copy the Texture
+        float copy = super.getWidth() / 16;
+        // a variable used to determine where to place each Texture
+        float textureX = super.getX();
+
+        // determine if you can draw the whole Texture
+        while (copy - 1 > 1) {
+            // draw the Texture
+            batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
+            copy -= 1;
+            // determine where to place the Texture next
+            textureX += 16;
+        }
+
+        // determine if the Mud needs to be drawn a little bit more
+        if (copy == 0.5) {
+            // draw the Texture
+            batch.draw(super.getTexture(), textureX, super.getY(), 8, 16);
+            copy = 0;
+        }
     }
 }

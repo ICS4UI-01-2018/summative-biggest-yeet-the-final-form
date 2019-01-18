@@ -10,8 +10,8 @@ import com.mygdx.game.LevelTwo;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-                //new LwjglApplication(new LevelOne(), config);
+                new LwjglApplication(new LevelOne(), config);
           // new LwjglApplication(new testFalling(), config);
-          new LwjglApplication(new LevelTwo(), config);
+          //new LwjglApplication(new LevelTwo(), config);
 	}
 }

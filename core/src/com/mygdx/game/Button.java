@@ -6,6 +6,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -32,7 +34,7 @@ public class Button extends Obstacle {
      */
     public Button(float x, float y, MovingPlatform platform) {
         // initialize the x and y position, and the width and height of the Button
-        super(x, y, 1, 0.5f);
+        super(new Texture("Button.jpg"), x, y, 1, 0.5f);
 
         this.movingPlatform = platform;
         this.speed = 0.1f;
@@ -137,5 +139,15 @@ public class Button extends Obstacle {
     public void pressed(Fireboy fireboy, Watergirl watergirl) {
         this.isPressed = (super.collidesWith(fireboy) || super.collidesWith(watergirl))
                 || (super.collidesWith(fireboy) && super.collidesWith(watergirl));
+    }
+
+    /**
+     * Draws the Button on the screen using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the Button on the screen
+     */
+    @Override
+    public void draw(SpriteBatch batch) {
+        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }

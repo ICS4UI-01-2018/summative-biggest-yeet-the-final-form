@@ -6,6 +6,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -26,18 +28,35 @@ public class Water extends Obstacle {
      * @param height an integer representing the height of the Water
      */
     public Water(float x, float y, int width, int height) {
-        super(x, y, width, height);
+        super(new Texture("Water.jpg"), x, y, width, height);
     }
-
+    
     /**
-     * Draws a pool of blue Water on the screen using a ShapeRenderer.
+     * Draws the Water on the screen using a SpriteBatch.
      *
-     * @param shapeBatch a ShapeRenderer to draw the Water with
+     * @param batch a SpriteBatch used to draw the Water on the screen
      */
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the colour of the Water to be cyan
-        shapeBatch.setColor(Color.CYAN);
-        super.draw(shapeBatch);
+    public void draw(SpriteBatch batch) {
+        // determine how many times you have to copy the Texture
+        float copy = super.getWidth() / 16;
+        // a variable used to determine where to place each Texture
+        float textureX = super.getX();
+
+        // determine if you can draw the whole Texture
+        while (copy - 1 > 1) {
+            // draw the Texture
+            batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
+            copy -= 1;
+            // determine where to place the Texture next
+            textureX += 16;
+        }
+
+        // determine if the Water needs to be drawn a little bit more
+        if (copy == 0.5) {
+            // draw the Texture
+            batch.draw(super.getTexture(), textureX, super.getY(), 8, 16);
+            copy = 0;
+        }
     }
 }

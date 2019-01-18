@@ -28,7 +28,6 @@ public class Level extends ApplicationAdapter {
     private ShapeRenderer shapeBatch;
     private SpriteBatch batch;
     private boolean levelWon;
-    private Texture fireGemPic;
     Fireboy fireboy;
     Watergirl watergirl;
     Platform[] platforms;
@@ -52,9 +51,6 @@ public class Level extends ApplicationAdapter {
         // initialize the SpriteBatch and the ShapeRenderer
         this.batch = new SpriteBatch();
         this.shapeBatch = new ShapeRenderer();
-
-        // initialize the textures
-        this.fireGemPic = new Texture("FireGem.jpg");
 
         // initialize the Camera and the Viewport
         this.camera = new OrthographicCamera();
@@ -80,9 +76,9 @@ public class Level extends ApplicationAdapter {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-//        for (MovingPlatform p : this.movingPlatforms) {
-//            p.updatePositions();
-//        }
+        for (MovingPlatform p : this.movingPlatforms) {
+            p.updatePositions();
+        }
         for (Button b : this.buttons) {
             b.updatePositions();
         }
@@ -235,7 +231,6 @@ public class Level extends ApplicationAdapter {
      */
     public void draw() {
         // allows for the drawing of game objects to begin
-        this.batch.begin();
         this.shapeBatch.setProjectionMatrix(camera.combined);
         this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -260,11 +255,6 @@ public class Level extends ApplicationAdapter {
             p.draw(this.shapeBatch);
         }
 
-        // draws the FireGems
-        for (FireGem fireGem : this.fireGems) {
-            fireGem.draw(this.batch);
-        }
-
         // set the FireDoor to be magneta
         this.shapeBatch.setColor(Color.MAGENTA);
         this.fireDoor.draw(this.shapeBatch);
@@ -273,20 +263,20 @@ public class Level extends ApplicationAdapter {
         this.shapeBatch.setColor(Color.CYAN);
         this.waterDoor.draw(this.shapeBatch);
 
-        // go through the array and draw each Fire
-        for (Fire f : this.fire) {
-            f.draw(this.shapeBatch);
-        }
-
-        // go through the array and draw each Water
-        for (Water w : this.water) {
-            w.draw(this.shapeBatch);
-        }
-
-        // go through the array and draw each Mud
-        for (Mud m : this.mud) {
-            m.draw(this.shapeBatch);
-        }
+//        // go through the array and draw each Fire
+//        for (Fire f : this.fire) {
+//            f.draw(this.shapeBatch);
+//        }
+//
+//        // go through the array and draw each Water
+//        for (Water w : this.water) {
+//            w.draw(this.shapeBatch);
+//        }
+//
+//        // go through the array and draw each Mud
+//        for (Mud m : this.mud) {
+//            m.draw(this.shapeBatch);
+//        }
 
         // do not draw the Fireboy on the screen if the Fireboy has died
         if (!this.fireboy.isDead()) {
@@ -309,7 +299,41 @@ public class Level extends ApplicationAdapter {
 
         // allows for the drawing of the game objects to end
         this.shapeBatch.end();
-        this.batch.end();
         this.batch.setProjectionMatrix(this.camera.combined);
+        
+        // allows for the drawing of Textures
+        this.batch.begin();
+
+        // draw the FireGems
+        for (FireGem fireGem : this.fireGems) {
+            fireGem.draw(this.batch);
+        }
+        // draw the WaterGems
+        for (WaterGem waterGem : this.waterGems) {
+            waterGem.draw(this.batch);
+        }
+        
+        // draw the Buttons
+        for (Button button : this.buttons) {
+            button.draw(this.batch);
+        }
+        
+        // draw the Fire
+        for (Fire fire : this.fire) {
+            fire.draw(this.batch);
+        }
+        
+        // draw the Water
+        for (Water water : this.water) {
+            water.draw(this.batch);
+        }
+        
+        // draw the Mud
+        for (Mud mud : this.mud) {
+            mud.draw(this.batch);
+        }
+        
+        // end the drawing of Textures
+        this.batch.end();
     }
 }

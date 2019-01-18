@@ -16,27 +16,27 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Gem {
 
-    final float x, y;
-    final int width, height;
+    private final float x, y;
+    private final int width, height;
     private boolean collected;
     Rectangle gem;
-    Texture gemPic;
+    private Texture texture;
 
     /**
      * Initializes a Gem using the x and y coordinates of it on the screen.
      *
-     * @param gemPic
+     * @param texture a Texture representing the Gem
      * @param x a float representing the x coordinate of the Gem
      * @param y a float representing the y coordinate of the Gem
      */
-    public Gem(Texture gemPic, float x, float y) {
+    public Gem(Texture texture, float x, float y) {
         this.x = x * 16;
         this.y = y * 16;
         this.width = 16;
         this.height = 16;
         this.collected = false;
         this.gem = new Rectangle(this.x, this.y, this.width, this.height);
-        this.gemPic = gemPic;
+        this.texture = texture;
     }
 
     /**
@@ -84,21 +84,33 @@ public abstract class Gem {
         return this.collected;
     }
 
-//    /**
-//     * Draws the Gem on the screen.
-//     *
-//     * @param shapeBatch a ShapeRenderer that will draw the Gem on the screen
-//     */
-//    public void draw(ShapeRenderer shapeBatch) {
-//        shapeBatch.rect(gem.x, gem.y, gem.width, gem.height);
-//    }
-    
-    public abstract void draw(SpriteBatch batch);
-    
+    /**
+     * Used to draw the Gems on the screen if they haven't been collected by
+     * their corresponding Characters yet.
+     *
+     * @param batch a SpriteBatch used to draw the Gems on the screen if they
+     * haven't been collected yet
+     */
+    public void draw(SpriteBatch batch) {
+        // determine if the Gem has been collected by their corresponding Character yet
+        if (!this.collected) {
+           batch.draw(this.texture, this.x, this.y, this.width, this.height);
+        }
+    }
+
     /**
      * Sets the Gem to be collected.
      */
     public void collected() {
         this.collected = true;
+    }
+
+    /**
+     * Returns the Texture of the Gem.
+     *
+     * @return a Texture representing the Gem
+     */
+    public Texture getTexture() {
+        return this.texture;
     }
 }

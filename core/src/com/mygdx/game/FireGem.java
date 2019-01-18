@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * /**
  * Creates a FireGem as a subclass of Gem to use in a Fireboy and Watergirl
  * game.
  *
@@ -18,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class FireGem extends Gem {
 
     /**
-     * Initalizes fire gem as subclass of Gem using its x and y coordinate.
+     * Initializes fire gem as subclass of Gem using its x and y coordinate.
      *
      * @param x a float representing the x coordinate of the FireGem
      * @param y a float representing the y coordinate of the FireGem
@@ -36,12 +35,5 @@ public class FireGem extends Gem {
      */
     public boolean collision(Fireboy fireboy) {
         return super.gem.overlaps(fireboy.getBounds());
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        if (!super.isCollected()) {
-            batch.draw(super.gemPic, super.x, super.y, super.width, super.height);
-        }
     }
 }

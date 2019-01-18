@@ -24,7 +24,7 @@ public class WaterGem extends Gem {
      * @param y a float representing the y coordinate of the WaterGem
      */
     public WaterGem(float x, float y) {
-        super(new Texture("FireGem.jpg"), x, y);
+        super(new Texture("WaterGem.jpg"), x, y);
     }
 
     /**
@@ -35,12 +35,5 @@ public class WaterGem extends Gem {
      */
     public boolean collision(Watergirl watergirl) {
         return super.gem.overlaps(watergirl.getBounds());
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        if (!super.isCollected()) {
-            batch.draw(super.gemPic, super.x, super.y, super.width, super.height);
-        }
     }
 }
