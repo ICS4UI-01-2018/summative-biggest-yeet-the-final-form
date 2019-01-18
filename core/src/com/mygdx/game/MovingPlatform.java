@@ -16,6 +16,7 @@ package com.mygdx.game;
 public class MovingPlatform extends Platform {
 
     private final float speed, maximumY, minimumY;
+     boolean isMovingUp, isMovingDown, wasOnTop;
 
     /**
      * Initializes a MovingPlatform using its x and y position, its width, and
@@ -34,6 +35,9 @@ public class MovingPlatform extends Platform {
         this.maximumY = y * 16;
         this.minimumY = minimumY * 16;
         this.speed = 0.5f;
+        this.isMovingUp = false;
+        this.isMovingDown = false;
+        this.wasOnTop = false;
     }
 
     /**
@@ -42,6 +46,8 @@ public class MovingPlatform extends Platform {
     public void moveDown() {
         if (super.y > this.minimumY) {
             super.y -= this.speed;
+            this.isMovingDown = true;
+            this.isMovingUp = false;
         }
     }
 
@@ -51,6 +57,8 @@ public class MovingPlatform extends Platform {
     public void moveUp() {
         if (super.y < this.maximumY) {
             super.y += this.speed;
+            this.isMovingDown = false;
+            this.isMovingUp = true;
         }
     }
 
@@ -71,11 +79,47 @@ public class MovingPlatform extends Platform {
     public float getMinimumY() {
         return this.minimumY;
     }
-    
+
     /**
      * Updates the y position of the MovingPlatform as it can move up and down.
      */
     public void updatePositions() {
         super.platform.y = super.y;
     }
+
+    public boolean getIsMovingUp() {
+        return this.isMovingUp;
+    }
+
+    public boolean getIsMovingDown() {
+        return this.isMovingDown;
+    }
+
+    public void tieTo(Character c) {
+        if (this.wasOnTop) {
+            c.setY(super.getTop());
+        }
+    }
+
+    @Override
+    public int onTop(Character c) {
+        int counter = 0;
+        if (c.getY() == this.getTop()) {
+            //player is somewhere in the middle of the platform
+            if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
+                c.onGround = true;
+                counter++;
+            }//character is on edge of platform
+            else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
+                c.onGround = true;
+                counter++;
+            } else if (c.getFarX() > this.getFarX() && c.getX() <= this.getFarX()) {
+                c.onGround = true;
+                counter++;
+            }
+        }
+
+        return counter;
+    }
+
 }

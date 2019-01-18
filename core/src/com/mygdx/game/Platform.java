@@ -7,6 +7,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Intersector;
 
 /**
  * Creates a Platform to use in a game of Fireboy and Watergirl. The Characters
@@ -123,37 +124,13 @@ public class Platform {
     }
 
     /**
-     * Returns rectangle created by two overlapping rectangles
-     *
-     * @param r1 the first rectangle being checked
-     * @param r2 the second rectangle being checked
-     * @param overlap a rectangle that will store the resultant rectangle
-     * @return a rectangle created by two overlapping rectangles
-     */
-    public Rectangle intersection(Rectangle r1, Rectangle r2, Rectangle overlap) {
-        if (!r1.overlaps(r2)) {//if there is no intersection return nothing
-            return null;
-        }
-        //find the greater xRect and the greater y value
-        float xOverlap = Math.max(r1.x, r2.x);
-        float yOverlap = Math.max(r1.y, r2.y);
-        //find smaller width and height and subtract cooresponidng overlap value
-        float widthOverlap = Math.min(r1.x + r1.width, r2.x + r2.width) - xOverlap;
-        float heightOverlap = Math.min(r1.y + r1.height, r2.y + r2.height) - yOverlap;
-        //pass value to create resulting overlap rectangle
-        overlap.set(xOverlap, yOverlap, widthOverlap, heightOverlap);
-
-        return overlap;
-    }
-
-    /**
      * Stops character from jumping if on platform
      *
      * @param c Character being checked
      */
     public void whereIsPlayer(Character c) {//square? also need to be implented for obstacles
         //create a rectangle representing the overlap
-        this.overlap = this.intersection(c.getBounds(), this.getBounds(), this.overlap);
+        Intersector.intersectRectangles(c.getBounds(), this.getBounds(), this.overlap);
 
         //if height is less than width then player is at top or bottom
         if (this.overlap.height < this.overlap.width) {
@@ -184,6 +161,26 @@ public class Platform {
         }
         //update player position
         c.updatePositions();
+    }
+
+    public int onTop(Character c) {
+        int counter = 0;
+        if (c.getY() == this.getTop()) {
+            //player is somewhere in the middle of the platform
+            if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
+                c.onGround = true;                
+                counter++;
+            }//character is on edge of platform
+            else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
+                c.onGround = true;
+                counter++;
+            } else if (c.getFarX() > this.getFarX() && c.getX() <= this.getFarX()) {
+                c.onGround = true;
+                counter++;
+            }
+        }
+
+        return counter;
     }
 
     /**
