@@ -80,9 +80,9 @@ public class Level extends ApplicationAdapter {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (MovingPlatform p : this.movingPlatforms) {
-            p.updatePositions();
-        }
+//        for (MovingPlatform p : this.movingPlatforms) {
+//            p.updatePositions();
+//        }
         for (Button b : this.buttons) {
             b.updatePositions();
         }
