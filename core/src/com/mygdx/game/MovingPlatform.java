@@ -79,5 +79,8 @@ public class MovingPlatform extends Platform {
         super.platform.y = super.y;
     }
     
-
+    @Override
+    public void whereIsPlayer (Character c){
+    super.whereIsPlayer(c);
+}
 }

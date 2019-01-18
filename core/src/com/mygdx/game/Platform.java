@@ -162,6 +162,22 @@ public class Platform {
         //update player position
         c.updatePositions();
     }
+        public int onTop(Character c) {
+        int counter = 0;
+            if (c.getY() == this.getTop()) {
+                //player is somewhere in the middle of the platform
+                if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
+                    counter++;
+                }//character is on edge of platform
+                else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
+                    counter++;
+                } else if (c.getFarX() > this.getFarX() && c.getX() <= this.getFarX()) {
+                    counter++;
+                }
+            }
+        
+        return counter;
+        }
 
     /**
      * Draws the Platform on the screen.

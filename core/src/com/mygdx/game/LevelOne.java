@@ -17,7 +17,7 @@ public class LevelOne extends Level {
 
         // initialize the Characters
         this.fireboy = new Fireboy(15, 18);
-        this.watergirl = new Watergirl(2, 7);
+        this.watergirl = new Watergirl(15, 12);
 
         // initialize the Platforms
         super.platforms = new Platform[30];
@@ -93,6 +93,29 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
+        if ((buttons[0].collidesWith(this.fireboy) || buttons[0].collidesWith(this.watergirl))
+                || (buttons[0].collidesWith(this.fireboy) && buttons[0].collidesWith(this.watergirl))) {
+            // MovingPlatform will move down if a Character is on its corresponding Button
+            buttons[0].getMovingPlatform().moveDown();
+            buttons[0].moveDown();
+        } else if (buttons[1].collidesWith(this.fireboy) == false
+                && buttons[1].collidesWith(this.watergirl) == false) {
+            // MovingPlatform will move up if a Character isn't on it its corresponding Button
+            buttons[0].getMovingPlatform().moveUp();
+                        buttons[0].moveUp();
+
+        }
+        
+        if ((buttons[1].collidesWith(this.fireboy) || buttons[1].collidesWith(this.watergirl))
+                || (buttons[1].collidesWith(this.fireboy) && buttons[1].collidesWith(this.watergirl))) {
+            // MovingPlatform will move down if a Character is on its corresponding Button
+            buttons[1].getMovingPlatform().moveDown();
+        } else if (buttons[0].collidesWith(this.fireboy) == false
+                && buttons[0].collidesWith(this.watergirl) == false) {
+            // MovingPlatform will move up if a Character isn't on it its corresponding Button
+            buttons[1].getMovingPlatform().moveUp();
+        }
+        
         // draw the game elements
         super.draw();
     }

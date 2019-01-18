@@ -110,31 +110,33 @@ public class Level extends ApplicationAdapter {
                 
                 if (this.movingPlatforms instanceof Platform[]){
                    Platform[] temp = (Platform []) this.movingPlatforms;
-                 int hm =  fireboy.onTop(temp);
-                 if (hm!= 0){
-                     System.out.println("good");
-                 }
-                   for (Platform p : temp){
-                       if (p.getBounds().overlaps(fireboy.getBounds())){
-                           p.whereIsPlayer(fireboy);
-                       }
+                 fireboy.onTop(temp);
+//                   for (Platform p : temp){
+//                       if (p.getBounds().overlaps(fireboy.getBounds())){
+//                           System.out.println("yea");
+//                           p.whereIsPlayer(fireboy);
+//                       }
+//                   }
+                   
                    }
-                }
                 
+               
                 //check if he is on the ground
                 fireboy.onTop(platforms);
+                                    int counter = 0;
+
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
+                   
+                    int hm  =(p.onTop(fireboy));
+                    counter += hm;
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
                     }
                 }
-
-//                for (MovingPlatform p : this.movingPlatforms) {
-//                    if (p.getBounds().overlaps(fireboy.getBounds())) {
-//                        p.whereIsPlayer(fireboy);
-//                    }
-//                }
+                if (counter!=0){
+                    fireboy.setOnGround(true);
+                }
             }
 
             // Watergirl keyboard listeners
@@ -156,7 +158,6 @@ public class Level extends ApplicationAdapter {
                 this.watergirl.jumpAction();
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(watergirl.getBounds())) {
-                        //   watergirl.whereIsPlayer(p);
                     }
                 }
 
@@ -220,25 +221,6 @@ public class Level extends ApplicationAdapter {
         if (this.fireDoor.collision(this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
-        }
-
-        // Buttons will move down if a Character is on it
-        // Buttons will return to their original position if a Character isn't on it
-    
-       
-
-//        if (buttons[0].collidesWith(this.fireboy)) {
-//            buttons[0].getMovingPlatform().moveDown();
-//        } else {
-//            buttons[0].getMovingPlatform().moveUp();
-//        }
-
-        for (Button b : this.buttons) {
-            if (b.collidesWith(this.fireboy)) {
-                b.getMovingPlatform().moveDown();
-            } else {
-                b.getMovingPlatform().moveUp();
-            }
         }
 
     }

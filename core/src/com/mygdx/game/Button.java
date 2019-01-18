@@ -39,7 +39,7 @@ public class Button extends Obstacle {
         this.maximumY = y;
         
         // Button cannot move lower than this y position
-        this.minimumY = y - super.height;
+        this.minimumY = y - 4;
     }
 
     /**
