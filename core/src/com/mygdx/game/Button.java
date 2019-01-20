@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class Button extends Obstacle {
 
-    private final MovingPlatform movingPlatform;
+    private final MovingPlatform[] movingPlatforms;
     private final float speed, maximumY, minimumY;
     private boolean isPressed;
 
@@ -27,14 +27,14 @@ public class Button extends Obstacle {
      *
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
-     * @param platform an array of Platforms representing the MovingPlatforms
-     * that the Button controls
+     * @param movingPlatforms an array of MovingPlatforms representing the
+     * MovingPlatforms that the Button controls
      */
-    public Button(float x, float y, MovingPlatform platform) {
+    public Button(float x, float y, MovingPlatform[] movingPlatforms) {
         // initialize the x and y position, and the width and height of the Button
         super(new Texture("Button.jpg"), x, y, 1, 0.5f);
 
-        this.movingPlatform = platform;
+        this.movingPlatforms = movingPlatforms;
         this.speed = 0.1f;
 
         // Button cannot move higher than this y position
@@ -77,11 +77,11 @@ public class Button extends Obstacle {
     /**
      * Returns the MovingPlatform that the Button is controlling.
      *
-     * @return a Platform representing a MovingPlatform that the Button is
-     * controlling
+     * @return an array of MovingPlatforms representing the MovingPlatform(s)
+     * that the Button can control
      */
-    public MovingPlatform getMovingPlatform() {
-        return this.movingPlatform;
+    public MovingPlatform[] getMovingPlatforms() {
+        return this.movingPlatforms;
     }
 
     /**

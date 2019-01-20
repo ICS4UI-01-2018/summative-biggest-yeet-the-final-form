@@ -112,7 +112,7 @@ public class LevelTwo extends Level {
         super.mud[3] = new Mud(26,1,7,1);
         super.buttons = new Button[1];
         // !!! CHANGE THIS SO THAT IT LINKS TO TWO MOVING PLATFORMS !!! \\\
-        super.buttons[0] = new Button(20.5f,8, this.movingPlatforms[0]);
+        super.buttons[0] = new Button(20.5f,8, new MovingPlatform[]{this.movingPlatforms[0], this.movingPlatforms[1]});
         
         // initialize the Gems
         super.fireGems = new FireGem[8];
@@ -147,6 +147,20 @@ public class LevelTwo extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
+        
+        // determine which MovingPlatforms that the Button controls
+        MovingPlatform[] buttonPlatforms = buttons[0].getMovingPlatforms();
+        if (buttons[0].isPressed()) {
+            // MovingPlatforms will move down when the Button is pressed
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.moveDown();
+            }
+        } else {
+            // MovingPlatforms will move up when the Button isn't pressed
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.moveUp();
+            }
+        }
         
         // draw the game elements
         super.draw();

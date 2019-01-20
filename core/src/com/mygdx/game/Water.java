@@ -47,9 +47,11 @@ public class Water extends Obstacle {
         while (copy - 1 >= 0) {
             // draw the Texture
             batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
-            copy -= 1;
+            
             // determine where to place the Texture next
             textureX += 16;
+            
+            copy -= 1;
         }
     }
 }
