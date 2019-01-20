@@ -147,7 +147,7 @@ public class LevelTwo extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-
+        
         // draw the game elements
         super.draw();
     }

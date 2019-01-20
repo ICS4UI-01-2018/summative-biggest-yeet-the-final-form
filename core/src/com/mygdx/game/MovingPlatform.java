@@ -16,7 +16,7 @@ package com.mygdx.game;
 public class MovingPlatform extends Platform {
 
     private final float speed, maximumY, minimumY;
-     boolean isMovingUp, isMovingDown, wasOnTop;
+    boolean isMovingUp, isMovingDown, wasOnTop;
 
     /**
      * Initializes a MovingPlatform using its x and y position, its width, and

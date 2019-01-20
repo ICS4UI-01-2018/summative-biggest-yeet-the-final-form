@@ -5,10 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Creates a Button as a subclass of Obstacle to use in a game of Fireboy and
@@ -29,8 +27,8 @@ public class Button extends Obstacle {
      *
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
-     * @param platform a MovingPlatform representing the MovingPlatform that the
-     * Button controls
+     * @param platform an array of Platforms representing the MovingPlatforms
+     * that the Button controls
      */
     public Button(float x, float y, MovingPlatform platform) {
         // initialize the x and y position, and the width and height of the Button
@@ -47,38 +45,6 @@ public class Button extends Obstacle {
 
         // set the Button to not be in a pressed state
         this.isPressed = false;
-    }
-
-    /**
-     * Draws the Button on the screen using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer used to draw the Button on the screen
-     */
-    @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // make the Buttons purple
-        shapeBatch.setColor(Color.PURPLE);
-
-        // draw the Button
-        shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-    }
-
-    /**
-     * Allows for the Button to move down.
-     */
-    public void moveDown() {
-        if (super.y > this.minimumY) {
-            super.y -= this.speed;
-        }
-    }
-
-    /**
-     * Allows for the Button to move up.
-     */
-    public void moveUp() {
-        if (super.y < this.maximumY) {
-            super.y += this.speed;
-        }
     }
 
     /**

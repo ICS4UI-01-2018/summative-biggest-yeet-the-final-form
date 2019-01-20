@@ -315,39 +315,39 @@ public class Level extends ApplicationAdapter {
         this.shapeBatch.end();
         this.batch.setProjectionMatrix(this.camera.combined);
         
-//        // allows for the drawing of Textures
-//        this.batch.begin();
-//
-//        // draw the FireGems
-//        for (FireGem fireGem : this.fireGems) {
-//            fireGem.draw(this.batch);
-//        }
-//        // draw the WaterGems
-//        for (WaterGem waterGem : this.waterGems) {
-//            waterGem.draw(this.batch);
-//        }
-//        
-//        // draw the Buttons
-//        for (Button button : this.buttons) {
-//            button.draw(this.batch);
-//        }
-//        
-//        // draw the Fire
-//        for (Fire f : this.fire) {
-//            f.draw(this.batch);
-//        }
-//        
-//        // draw the Water
-//        for (Water w : this.water) {
-//            w.draw(this.batch);
-//        }
-//        
-//        // draw the Mud
-//        for (Mud m : this.mud) {
-//            m.draw(this.batch);
-//        }
-//        
-//        // end the drawing of Textures
-//        this.batch.end();
+        // allows for the drawing of Textures
+        this.batch.begin();
+
+        // draw the FireGems
+        for (FireGem fireGem : this.fireGems) {
+            fireGem.draw(this.batch);
+        }
+        // draw the WaterGems
+        for (WaterGem waterGem : this.waterGems) {
+            waterGem.draw(this.batch);
+        }
+        
+        // draw the Buttons
+        for (Button button : this.buttons) {
+            button.draw(this.batch);
+        }
+        
+        // draw the Fire
+        for (Fire f : this.fire) {
+            f.draw(this.batch);
+        }
+        
+        // draw the Water
+        for (Water w : this.water) {
+            w.draw(this.batch);
+        }
+        
+        // draw the Mud
+        for (Mud m : this.mud) {
+            m.draw(this.batch);
+        }
+        
+        // end the drawing of Textures
+        this.batch.end();
     }
 }
