@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Level extends ApplicationAdapter {
-//make arraylist
 
     private OrthographicCamera camera;
     private FitViewport viewport;
@@ -126,7 +125,7 @@ public class Level extends ApplicationAdapter {
                         p.wasOnTop = true;
                         fireboy.setOnGround(true);
                     }
-                    
+
                     if (fireboy.jump) {
                         p.wasOnTop = false;
                     }
@@ -271,7 +270,6 @@ public class Level extends ApplicationAdapter {
 //        for (Platform p : this.platforms) {
 //            p.draw(this.shapeBatch);
 //        }
-
         // draw the moving Platforms
         for (MovingPlatform p : this.movingPlatforms) {
             p.draw(this.shapeBatch);
@@ -305,7 +303,7 @@ public class Level extends ApplicationAdapter {
         // allows for the drawing of the game objects to end
         this.shapeBatch.end();
         this.batch.setProjectionMatrix(this.camera.combined);
-        
+
         // allows for the drawing of Textures
         this.batch.begin();
 
@@ -313,7 +311,7 @@ public class Level extends ApplicationAdapter {
         for (Platform p : this.platforms) {
             p.draw(this.batch);
         }
-        
+
         // draw the Gems
         for (FireGem fireGem : this.fireGems) {
             fireGem.draw(this.batch);
@@ -321,7 +319,7 @@ public class Level extends ApplicationAdapter {
         for (WaterGem waterGem : this.waterGems) {
             waterGem.draw(this.batch);
         }
-        
+
         // draw the Obstacles
         for (Button button : this.buttons) {
             button.draw(this.batch);
@@ -335,7 +333,7 @@ public class Level extends ApplicationAdapter {
         for (Mud m : this.mud) {
             m.draw(this.batch);
         }
-        
+
         // end the drawing of Textures
         this.batch.end();
     }

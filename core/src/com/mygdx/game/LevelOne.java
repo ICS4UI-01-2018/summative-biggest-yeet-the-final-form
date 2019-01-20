@@ -16,8 +16,8 @@ public class LevelOne extends Level {
         super.create();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(15, 18);
-        this.watergirl = new Watergirl(15, 12);
+        super.fireboy = new Fireboy(15, 18);
+        super.watergirl = new Watergirl(15, 12);
 
         // initialize the Platforms
         super.platforms = new Platform[30];
@@ -54,7 +54,7 @@ public class LevelOne extends Level {
 
         // initialize the moving Platforms
         this.movingPlatforms = new MovingPlatform[1];
-        this.movingPlatforms[0] = new MovingPlatform(1, 17.5f, 5, 0.5f, 12);
+        this.movingPlatforms[0] = new MovingPlatform(false, 1, 17.5f, 5, 0.5f, 12);
 
         // initialize the Obstacles
         super.fire = new Fire[1];

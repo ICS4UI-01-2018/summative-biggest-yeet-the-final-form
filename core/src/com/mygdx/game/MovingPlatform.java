@@ -20,27 +20,38 @@ public class MovingPlatform extends Platform {
 
     private final float speed, maximumY, minimumY;
     boolean isMovingUp, isMovingDown, wasOnTop;
+    private static final boolean UP = true;
+    private static final boolean DOWN = false;
 
     /**
      * Initializes a MovingPlatform using its x and y position, its width, and
      * it's minimum y position.
      *
+     * @param b a boolean representing whether if the MovingPlatform will move
+     * up or down
      * @param x a float representing the x position of the MovingPlatform
      * @param y a float representing the y position of the MovingPlatform
      * @param width a float representing the width of the MovingPlatform
      * @param height a float representing the height of the MovingPlatform
-     * @param minimumY a float representing the minimum y position that the
-     * MovingPlatform can be
+     * @param movingY a float representing the maximum/minimum y position that
+     * the MovingPlatform will be when it moves
      */
-    public MovingPlatform(float x, float y, float width, float height, float minimumY) {
+    public MovingPlatform(boolean b, float x, float y, float width, float height, float movingY) {
         super(x, y, width, height);
 
-        this.maximumY = y * 16;
-        this.minimumY = minimumY * 16;
         this.speed = 0.5f;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
+
+        // set the minimum and maximum y variables based on whether if the MovingPlatform will move up or down
+        if (!b) {
+            this.maximumY = y * 16;
+            this.minimumY = movingY * 16;
+        } else {
+            this.maximumY = movingY * 16;
+            this.minimumY = y * 16;
+        }
     }
 
     /**

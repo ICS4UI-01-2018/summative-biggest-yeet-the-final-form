@@ -19,9 +19,10 @@ public class LevelTwo extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
+        
         // initialize the Characters
-        this.fireboy = new Fireboy(38.5f, 2);
-        this.watergirl = new Watergirl(2, 2);
+        super.fireboy = new Fireboy(38.5f, 2);
+        super.watergirl = new Watergirl(2, 2);
 
         // initialize the Platforms
         super.platforms = new Platform[65];
@@ -93,8 +94,8 @@ public class LevelTwo extends Level {
 
         // initialize the moving Platforms
         this.movingPlatforms = new MovingPlatform[2];
-        this.movingPlatforms[0] = new MovingPlatform(16, 13, 4, 1, 9);
-        this.movingPlatforms[1] = new MovingPlatform(22, 13, 4, 1, 9);
+        this.movingPlatforms[0] = new MovingPlatform(false, 16, 13, 4, 1, 9);
+        this.movingPlatforms[1] = new MovingPlatform(false, 22, 13, 4, 1, 9);
 
         // initialize the Obstacles
         super.fire = new Fire[3];
