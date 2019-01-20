@@ -25,7 +25,7 @@ public class LevelThree extends Level {
         super.watergirl = new Watergirl(18, 28);
         
         // initialize the Platforms
-        super.platforms = new Platform[];
+        // super.platforms = new Platform[];
         
         // initialize the MovingPlatforms
         super.movingPlatforms = new MovingPlatform[6];
@@ -35,7 +35,7 @@ public class LevelThree extends Level {
         movingPlatforms[3] = new MovingPlatform(true, 24, 11, 1, 3, 14);
         movingPlatforms[4] = new MovingPlatform(true, 24, 16, 1, 4, 20);
         movingPlatforms[5] = new MovingPlatform(true, 24, 23, 1, 3, 26);
-//        
+       
         // initialize the Obstacles
         // initialize the Gems
         // initialize the Doors

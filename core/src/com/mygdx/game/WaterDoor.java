@@ -36,7 +36,7 @@ public class WaterDoor extends Door {
      * WaterDoor
      */
     public boolean collision(Watergirl watergirl) {
-        return super.door.overlaps(watergirl.getBounds());
+        return super.getBounds().overlaps(watergirl.getBounds());
     }
 
     /**

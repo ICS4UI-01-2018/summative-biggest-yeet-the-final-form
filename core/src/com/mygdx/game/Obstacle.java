@@ -18,10 +18,10 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Obstacle {
 
     private final Texture texture;
-    Rectangle obstacle;
-    float height;
+    private final Rectangle obstacle;
+    private final float height;
     private final float width;
-    float x, y;
+    private final float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y
@@ -142,4 +142,13 @@ public abstract class Obstacle {
      * @param batch a SpriteBatch used to draw the Obstacles on the screen
      */
     public abstract void draw(SpriteBatch batch);
+
+    /**
+     * Sets the y position of the Obstacle to be the specified float.
+     *
+     * @param obstacleY a float representing the new y position of the Obstacle
+     */
+    public void setObstacleY(float obstacleY) {
+        this.obstacle.y = obstacleY;
+    }
 }

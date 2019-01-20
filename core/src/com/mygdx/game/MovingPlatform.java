@@ -58,8 +58,10 @@ public class MovingPlatform extends Platform {
      * Moves the MovingPlatform down if it can.
      */
     public void moveDown() {
-        if (super.y > this.minimumY) {
-            super.y -= this.speed;
+        // determine if the MovingPlatform can move down
+        if (super.getY() > this.minimumY) {
+            // move the MovingPlatform down
+            super.setY(super.getY() - this.speed);
             this.isMovingDown = true;
             this.isMovingUp = false;
         }
@@ -69,8 +71,10 @@ public class MovingPlatform extends Platform {
      * Moves the MovingPlatform up it it can.
      */
     public void moveUp() {
-        if (super.y < this.maximumY) {
-            super.y += this.speed;
+        // determine if the MovingPlatform can move up
+        if (super.getY() < this.maximumY) {
+            // move the MovingPlatform up
+            super.setY(super.getY() + this.speed);
             this.isMovingDown = false;
             this.isMovingUp = true;
         }
@@ -98,20 +102,32 @@ public class MovingPlatform extends Platform {
      * Updates the y position of the MovingPlatform as it can move up and down.
      */
     public void updatePositions() {
-        super.platform.y = super.y;
+        super.setPlatformY(super.getY());
     }
 
+    /**
+     * Returns whether if the MovingPlatform is moving up or not.
+     *
+     * @return a boolean representing whether if the MovingPlatform is moving up
+     * or not
+     */
     public boolean getIsMovingUp() {
         return this.isMovingUp;
     }
 
+    /**
+     * Returns whether if the MovingPlatform is moving down or not.
+     *
+     * @return a boolean representing whether if the MovingPlatform is moving
+     * down or not
+     */
     public boolean getIsMovingDown() {
         return this.isMovingDown;
     }
 
-    public void tieTo(Character c) {
+    public void tieTo(Character character) {
         if (this.wasOnTop) {
-            c.setY(super.getTop());
+            character.setY(super.getTop());
         }
     }
 
@@ -132,7 +148,6 @@ public class MovingPlatform extends Platform {
                 counter++;
             }
         }
-
         return counter;
     }
 

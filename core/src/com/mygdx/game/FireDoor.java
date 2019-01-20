@@ -35,7 +35,7 @@ public class FireDoor extends Door {
      * front of the Firedoor
      */
     public boolean collision(Fireboy fireboy) {
-        return super.door.overlaps(fireboy.getBounds());
+        return super.getBounds().overlaps(fireboy.getBounds());
     }
 
     /**

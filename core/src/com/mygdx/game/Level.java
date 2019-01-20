@@ -302,9 +302,9 @@ public class Level extends ApplicationAdapter {
 
         // allows for the drawing of the game objects to end
         this.shapeBatch.end();
-        this.batch.setProjectionMatrix(this.camera.combined);
 
         // allows for the drawing of Textures
+        this.batch.setProjectionMatrix(this.camera.combined);
         this.batch.begin();
 
         // draw the Platforms
