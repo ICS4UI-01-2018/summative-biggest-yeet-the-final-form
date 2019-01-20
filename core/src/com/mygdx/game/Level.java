@@ -266,29 +266,21 @@ public class Level extends ApplicationAdapter {
         this.shapeBatch.setColor(Color.BLACK);
         this.shapeBatch.rect(0, 0, 672, 544);
 
-        // go through the array and draw each Button
-        for (Button b : this.buttons) {
-            b.draw(this.shapeBatch);
-        }
+//        // draws the standing Platforms
+//        this.shapeBatch.setColor(Color.WHITE);
+//        for (Platform p : this.platforms) {
+//            p.draw(this.shapeBatch);
+//        }
 
-        // draws the standing Platforms
-        this.shapeBatch.setColor(Color.WHITE);
-        for (Platform p : this.platforms) {
-            p.draw(this.shapeBatch);
-        }
-
-        // draws the moving Platforms
-        this.shapeBatch.setColor(Color.PURPLE);
-        for (Platform p : this.movingPlatforms) {
+        // draw the moving Platforms
+        for (MovingPlatform p : this.movingPlatforms) {
             p.draw(this.shapeBatch);
         }
 
         // set the FireDoor to be magneta
-        this.shapeBatch.setColor(Color.MAGENTA);
         this.fireDoor.draw(this.shapeBatch);
 
         // set the WaterDoor to be cyan
-        this.shapeBatch.setColor(Color.CYAN);
         this.waterDoor.draw(this.shapeBatch);
 
         // do not draw the Fireboy on the screen if the Fireboy has died
@@ -317,31 +309,29 @@ public class Level extends ApplicationAdapter {
         // allows for the drawing of Textures
         this.batch.begin();
 
-        // draw the FireGems
+        // draw the Platforms
+        for (Platform p : this.platforms) {
+            p.draw(this.batch);
+        }
+        
+        // draw the Gems
         for (FireGem fireGem : this.fireGems) {
             fireGem.draw(this.batch);
         }
-        // draw the WaterGems
         for (WaterGem waterGem : this.waterGems) {
             waterGem.draw(this.batch);
         }
         
-        // draw the Buttons
+        // draw the Obstacles
         for (Button button : this.buttons) {
             button.draw(this.batch);
         }
-        
-        // draw the Fire
         for (Fire f : this.fire) {
             f.draw(this.batch);
         }
-        
-        // draw the Water
         for (Water w : this.water) {
             w.draw(this.batch);
         }
-        
-        // draw the Mud
         for (Mud m : this.mud) {
             m.draw(this.batch);
         }

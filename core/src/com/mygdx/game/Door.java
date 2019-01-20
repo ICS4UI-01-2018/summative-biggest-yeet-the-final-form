@@ -79,7 +79,5 @@ public abstract class Door {
      *
      * @param shapeBatch a ShapeRenderer used to draw the Door on the screen
      */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(door.x, door.y, door.width, door.height);
-    }
+    public abstract void draw(ShapeRenderer shapeBatch);
 }

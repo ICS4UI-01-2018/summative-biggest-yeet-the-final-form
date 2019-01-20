@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Intersector;
@@ -21,6 +23,7 @@ public class Platform {
     private float width, height;
     private float x;
     float y;
+    private Texture platformPic;
 
     /**
      * Creates a Platform using the xRect, y, width, and height.
@@ -36,10 +39,14 @@ public class Platform {
         this.width = width * 16;
         this.height = height * 16;
 
-        //initalize an empty rectangle to be used for collisions
+        // initialize an new Rectangle to be used for collisions
         this.overlap = new Rectangle(0, 0, 0, 0);
+
         // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
+
+        // initialize the Texture for the Platform
+        this.platformPic = new Texture("Block.jpg");
     }
 
     /**
@@ -115,6 +122,15 @@ public class Platform {
     }
 
     /**
+     * Returns the height of the Platform.
+     *
+     * @return a float representing the height of the Platform
+     */
+    public float getHeight() {
+        return this.height;
+    }
+
+    /**
      * Returns the Rectangle that represents the Platform.
      *
      * @return a Rectangle that represents the Platform
@@ -168,7 +184,7 @@ public class Platform {
         if (c.getY() == this.getTop()) {
             //player is somewhere in the middle of the platform
             if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
-                c.onGround = true;                
+                c.onGround = true;
                 counter++;
             }//character is on edge of platform
             else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
@@ -183,14 +199,46 @@ public class Platform {
         return counter;
     }
 
-    /**
-     * Draws the Platform on the screen.
-     *
-     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
-     * screenF
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
+//    /**
+//     * Draws the Platform on the screen.
+//     *
+//     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
+//     * screenF
+//     */
+//    public void draw(ShapeRenderer shapeBatch) {
+//        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
+//    }
+    public void draw(SpriteBatch batch) {
+        // determine how many columns of Textures you need to draw
+        float column = this.width / 16;
+        // determine how many rows of Textures you need to draw
+        float row = this.height / 16;
+        
+        // determine the starting x and y positions to draw the Texture
+        float xDraw = this.x;
+        float yDraw = this.y;
+        
+        // determine if you can draw a new column of Textures
+        while (column - 1 >= 0) {
+            // draw a Texture
+            batch.draw(platformPic, xDraw, yDraw, 16, 16);
+            
+            // determine if more Textures need to be drawn vertically
+            while (row - 1 > 0) {
+                // adjust the yDraw variable
+                yDraw += 16;
+                
+                // draw the Texture
+                batch.draw(platformPic, xDraw, yDraw, 16, 16);
+                
+                row--;
+            }
+            
+            // reset the variables
+            column--;
+            row = this.height / 16;
+            xDraw += 16;
+            yDraw = this.y;
+        }
     }
-
 }

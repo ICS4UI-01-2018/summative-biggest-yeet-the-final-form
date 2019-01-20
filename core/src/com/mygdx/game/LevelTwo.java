@@ -49,7 +49,7 @@ public class LevelTwo extends Level {
         super.platforms[21] = new Platform(30.5f, 15, 1, 1);
         super.platforms[22] = new Platform(36, 20, 5, 1);
         super.platforms[23] = new Platform(34, 24, 5, 1);
-        super.platforms[24] = new Platform(36, 28,5, 1);
+        super.platforms[24] = new Platform(36, 28, 5, 1);
         super.platforms[25] = new Platform(36, 29, 1, 1);
         super.platforms[26] = new Platform(26, 9, 3, 1);
         super.platforms[27] = new Platform(13, 9, 3, 1);
@@ -95,45 +95,44 @@ public class LevelTwo extends Level {
         this.movingPlatforms = new MovingPlatform[2];
         this.movingPlatforms[0] = new MovingPlatform(16, 13, 4, 1, 9);
         this.movingPlatforms[1] = new MovingPlatform(22, 13, 4, 1, 9);
-        
+
         // initialize the Obstacles
         super.fire = new Fire[3];
-        super.fire[0] = new Fire(34,10,3,1);
-        super.fire[1] = new Fire(37,29,4,1);
-        super.fire[2] = new Fire(22,17,7,1);
+        super.fire[0] = new Fire(34, 10, 3, 1);
+        super.fire[1] = new Fire(37, 29, 4, 1);
+        super.fire[2] = new Fire(22, 17, 7, 1);
         super.water = new Water[3];
-        super.water[0] = new Water(5,10,3,1);
-        super.water[1] = new Water(1,28,4,1);
-        super.water[2] = new Water(13,17,7,1);
+        super.water[0] = new Water(5, 10, 3, 1);
+        super.water[1] = new Water(1, 28, 4, 1);
+        super.water[2] = new Water(13, 17, 7, 1);
         super.mud = new Mud[4];
-        super.mud[0] = new Mud(9,1,7,1);
-        super.mud[1] = new Mud(17,1,3,1);
-        super.mud[2] = new Mud(22,1,3,1);
-        super.mud[3] = new Mud(26,1,7,1);
+        super.mud[0] = new Mud(9, 1, 7, 1);
+        super.mud[1] = new Mud(17, 1, 3, 1);
+        super.mud[2] = new Mud(22, 1, 3, 1);
+        super.mud[3] = new Mud(26, 1, 7, 1);
         super.buttons = new Button[1];
-        // !!! CHANGE THIS SO THAT IT LINKS TO TWO MOVING PLATFORMS !!! \\\
-        super.buttons[0] = new Button(20.5f,8, new MovingPlatform[]{this.movingPlatforms[0], this.movingPlatforms[1]});
-        
+        super.buttons[0] = new Button(20.5f, 8, new MovingPlatform[]{this.movingPlatforms[0], this.movingPlatforms[1]});
+
         // initialize the Gems
         super.fireGems = new FireGem[8];
-        super.fireGems[0] = new FireGem(25,6);
-        super.fireGems[1] = new FireGem(14,11);
-        super.fireGems[2] = new FireGem(16,21);
-        super.fireGems[3] = new FireGem(16,26);
-        super.fireGems[4] = new FireGem(4,25);
-        super.fireGems[5] = new FireGem(4,21);
-        super.fireGems[6] = new FireGem(17,16);
-        super.fireGems[7] = new FireGem(18,15);
+        super.fireGems[0] = new FireGem(25, 6);
+        super.fireGems[1] = new FireGem(14, 11);
+        super.fireGems[2] = new FireGem(16, 21);
+        super.fireGems[3] = new FireGem(16, 26);
+        super.fireGems[4] = new FireGem(4, 25);
+        super.fireGems[5] = new FireGem(4, 21);
+        super.fireGems[6] = new FireGem(17, 15);
+        super.fireGems[7] = new FireGem(18, 15);
         super.waterGems = new WaterGem[8];
-        super.waterGems[0] = new WaterGem(16,6);
-        super.waterGems[1] = new WaterGem(27,11);
-        super.waterGems[2] = new WaterGem(25,21);
-        super.waterGems[3] = new WaterGem(25,26);
-        super.waterGems[4] = new WaterGem(37,25);
-        super.waterGems[5] = new WaterGem(37,21);
-        super.waterGems[6] = new WaterGem(23,16);
-        super.waterGems[7] = new WaterGem(24,15);
-        
+        super.waterGems[0] = new WaterGem(16, 6);
+        super.waterGems[1] = new WaterGem(27, 11);
+        super.waterGems[2] = new WaterGem(25, 21);
+        super.waterGems[3] = new WaterGem(25, 26);
+        super.waterGems[4] = new WaterGem(37, 26);
+        super.waterGems[5] = new WaterGem(37, 22);
+        super.waterGems[6] = new WaterGem(23, 15);
+        super.waterGems[7] = new WaterGem(24, 15);
+
         // initialize the Doors
         super.fireDoor = new FireDoor(1.5f, 9);
         super.waterDoor = new WaterDoor(38.5f, 9);
@@ -147,7 +146,7 @@ public class LevelTwo extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-        
+
         // determine which MovingPlatforms that the Button controls
         MovingPlatform[] buttonPlatforms = buttons[0].getMovingPlatforms();
         if (buttons[0].isPressed()) {
@@ -161,7 +160,7 @@ public class LevelTwo extends Level {
                 mp.moveUp();
             }
         }
-        
+
         // draw the game elements
         super.draw();
     }

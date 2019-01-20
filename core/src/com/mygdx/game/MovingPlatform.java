@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates a MovingPlatform that can be used in a game of Fireboy and Watergirl
  * as an obstacle as a subclass of Platform. MovingPlatforms can be controlled
@@ -122,4 +125,16 @@ public class MovingPlatform extends Platform {
         return counter;
     }
 
+    /**
+     * Draws a MovingPlatform using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the MovingPlatform
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        // set the MovingPlatforms to be purple
+        shapeBatch.setColor(Color.PURPLE);
+
+        // draw the MovingPlatform
+        shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+    }
 }
