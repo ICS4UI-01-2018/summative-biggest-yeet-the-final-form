@@ -41,10 +41,10 @@ public class Level extends Screen {
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
-        
+
         // variable to determine if the Level has been won yet
         this.levelWon = false;
-  
+
     }
 
     /**
@@ -89,11 +89,8 @@ public class Level extends Screen {
                 if (this.movingPlatforms instanceof Platform[]) {
                     Platform[] temp = (Platform[]) this.movingPlatforms;
                     if (temp[0].getBounds().overlaps(fireboy.getBounds())) {
-                        System.out.println("true");
                     }
                     //boolean onMoving = fireboy.onTop(temp);
-
-                    System.out.println(counter);
 
                 }
 
@@ -213,7 +210,7 @@ public class Level extends Screen {
                 && this.waterDoor.collision(this.watergirl)) {
             super.setScreenOn(false);
             this.levelWon = true;
-            //super.hi
+            this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
 
         // determines if the Buttons are pressed
@@ -250,6 +247,9 @@ public class Level extends Screen {
             // set the color of the Fireboy to be red
             super.getShapeRenderer().setColor(Color.RED);
             this.fireboy.draw(super.getShapeRenderer());
+        } else {
+            System.out.println("here");
+            this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
         // do not draw the Watergirl on the screen if the Watergirl has died
         if (!this.watergirl.isDead()) {
@@ -301,16 +301,16 @@ public class Level extends Screen {
         // end the drawing of Textures
         super.getSpriteBatch().end();
     }
-    
+
     /**
      * Returns whether or not if the Level has been won yet.
-     * 
-     * @return a boolean representing whether or not the Level has been won yet 
+     *
+     * @return a boolean representing whether or not the Level has been won yet
      */
     public boolean isLevelWon() {
         return this.levelWon;
     }
-    
+
     public void setLevelWon() {
         this.levelWon = true;
     }

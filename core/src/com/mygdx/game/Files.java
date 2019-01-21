@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,19 +20,20 @@ public class Files {
 
     private ArrayList<Scores> scores;
 
-    public Files(String accounts) {
+    public Files(String file, Character f, Character w) {
         this.scores = new ArrayList<Scores>();
         try {
-            Scanner input = new Scanner(new File("scores"));
+            Scanner input = new Scanner(new File(file));
             //while there are still customers
             while (input.hasNext()) {
+                System.out.println("hello");
                 String line = input.nextLine();
                 String[] customerInfo = line.split(",");
                 LocalDate date = LocalDate.parse(customerInfo[0].trim());
                 int gemsCollected = Integer.parseInt(customerInfo[1].trim());
                 //if last customers account number is not one less than the current one there is a deleted customer  between them --> account number shouldn't be used
                 //add customer to array
-                Scores s = new Scores(date, gemsCollected);
+                Scores s = new Scores(date, f, w);
                 this.scores.add(s);
             }
         } catch (FileNotFoundException ex) {
@@ -48,23 +48,16 @@ public class Files {
                 //get customer info and encrypt it 
                 LocalDate date = java.time.LocalDate.now();
                 // String time = 
-                int gemsCollected = 5;
+                int gemsCollected = c.getGemsCollected();
                 output.println(date + "," + gemsCollected);
-
                 output.close();
-
+                System.out.println("here");
             }
-        } catch (FileNotFoundException ex) {
-            System.out.println("hm");
-        }
-    }
-    
-//    public Scores highScore (){
-//        
-//    }
 
-    public int gemsCollected(Character f, Character w) {
-        return f.getGemsCollected() + w.getGemsCollected();
+        } catch (FileNotFoundException ex) {
+            System.out.println("error saving");
+
+        }
     }
 
 }
