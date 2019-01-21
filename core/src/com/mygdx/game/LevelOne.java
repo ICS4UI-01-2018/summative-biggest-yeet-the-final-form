@@ -16,8 +16,8 @@ public class LevelOne extends Level {
         super.create();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(15, 18);
-        this.watergirl = new Watergirl(2, 7);
+        super.fireboy = new Fireboy(15, 18);
+        super.watergirl = new Watergirl(15, 12);
 
         // initialize the Platforms
         super.platforms = new Platform[30];
@@ -54,7 +54,7 @@ public class LevelOne extends Level {
 
         // initialize the moving Platforms
         this.movingPlatforms = new MovingPlatform[1];
-        this.movingPlatforms[0] = new MovingPlatform(1, 17.5f, 5, 0.5f, 12);
+        this.movingPlatforms[0] = new MovingPlatform(false, 1, 17.5f, 5, 0.5f, 12);
 
         // initialize the Obstacles
         super.fire = new Fire[1];
@@ -64,8 +64,8 @@ public class LevelOne extends Level {
         super.mud = new Mud[1];
         super.mud[0] = new Mud(26, 10, 4, 1);
         super.buttons = new Button[2];
-        super.buttons[0] = new Button(10.5f, 18, this.movingPlatforms[0]);
-        super.buttons[1] = new Button(10.5f, 12, this.movingPlatforms[0]);
+        super.buttons[0] = new Button(10.5f, 18, new MovingPlatform[]{this.movingPlatforms[0]});
+        super.buttons[1] = new Button(10.5f, 12, new MovingPlatform[]{this.movingPlatforms[0]});
 
         // initialize the Gems
         super.fireGems = new FireGem[4];
@@ -93,12 +93,20 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        // MovingPlatform moves down if a Button is pressed
-        if (buttons[0].isPressed() || buttons[1].isPressed()) {
-            buttons[0].getMovingPlatform().moveDown();
+        // determine which MovingPlatforms the Button controls
+        MovingPlatform[] buttonPlatforms = buttons[0].getMovingPlatforms();
+        // determine if any Buttons are pressed
+        if ((buttons[0].isPressed() || buttons[1].isPressed())
+                || (buttons[0].isPressed() && buttons[1].isPressed())) {
+            // MovingPlatform moves down if a Button is pressed
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.moveDown();
+            }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
-            buttons[0].getMovingPlatform().moveUp();
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.moveUp();
+            }
         }
         
         // draw the game elements

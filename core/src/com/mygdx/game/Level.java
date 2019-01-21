@@ -5,30 +5,19 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
  * Draws the objects of the games on the screen.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
-public class Level extends ApplicationAdapter {
+public class Level extends Screen {
 
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-    private ShapeRenderer shapeBatch;
-    private SpriteBatch batch;
     private boolean levelWon;
-    private Texture fireGemPic;
     Fireboy fireboy;
     Watergirl watergirl;
     Platform[] platforms;
@@ -49,22 +38,10 @@ public class Level extends ApplicationAdapter {
      */
     @Override
     public void create() {
-        // initialize the SpriteBatch and the ShapeRenderer
-        this.batch = new SpriteBatch();
-        this.shapeBatch = new ShapeRenderer();
-
-        // initialize the textures
-        this.fireGemPic = new Texture("FireGem.jpg");
-
-        // initialize the Camera and the Viewport
-        this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(672, 544, this.camera);
-        this.viewport.apply();
-        this.camera.position.x = 336;
-        this.camera.position.y = 272;
-        this.camera.update();
-
-        // Fireboy and Watergirl haven't won the level yet
+        // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
+        super.create();
+        
+        // variable to determine if the Level has been won yet
         this.levelWon = false;
     }
 
@@ -74,21 +51,20 @@ public class Level extends ApplicationAdapter {
     @Override
     public void render() {
         // clear the background
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render();
 
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-//        for (MovingPlatform p : this.movingPlatforms) {
-//            p.updatePositions();
-//        }
+        for (MovingPlatform p : this.movingPlatforms) {
+            p.updatePositions();
+        }
         for (Button b : this.buttons) {
             b.updatePositions();
         }
 
         // Characters can only move if the level hasn't been won yet
-        if (!this.levelWon) {
+        if (!super.getScreenOn()) {
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
@@ -104,22 +80,50 @@ public class Level extends ApplicationAdapter {
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
                 }
-                //  block.updatePos(fireboy, platforms); ignore
+                //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
+                int counter = 0;
+                if (this.movingPlatforms instanceof Platform[]) {
+                    Platform[] temp = (Platform[]) this.movingPlatforms;
+                    if (temp[0].getBounds().overlaps(fireboy.getBounds())) {
+                        System.out.println("true");
+                    }
+                    //boolean onMoving = fireboy.onTop(temp);
+
+                    System.out.println(counter);
+
+                }
+
+                for (MovingPlatform p : this.movingPlatforms) {
+                    int hm = (p.onTop(fireboy));
+                    counter += hm;
+                    if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        p.whereIsPlayer(fireboy);
+                    }
+
+                    if (counter != 0) {
+                        p.wasOnTop = true;
+                        fireboy.setOnGround(true);
+                    }
+
+                    if (fireboy.jump) {
+                        p.wasOnTop = false;
+                    }
+                    p.tieTo(fireboy);
+                }
+
                 //check if he is on the ground
-                fireboy.onTop(platforms);
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
+                    int hm = (p.onTop(fireboy));
+                    counter += hm;
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
                     }
                 }
-
-                for (MovingPlatform p : this.movingPlatforms) {
-                    if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        p.whereIsPlayer(fireboy);
-                    }
+                if (counter != 0) {
+                    fireboy.setOnGround(true);
                 }
             }
 
@@ -142,7 +146,6 @@ public class Level extends ApplicationAdapter {
                 this.watergirl.jumpAction();
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(watergirl.getBounds())) {
-                        //   watergirl.whereIsPlayer(p);
                     }
                 }
 
@@ -203,8 +206,10 @@ public class Level extends ApplicationAdapter {
         }
 
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
-        if (this.fireDoor.collision(this.fireboy)
+        if (this.fireDoor.collision(
+                this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
+            super.setScreenOn(false);
             this.levelWon = true;
         }
 
@@ -214,102 +219,96 @@ public class Level extends ApplicationAdapter {
         }
     }
 
-    @Override
-    public void dispose() {
-        this.batch.dispose();
-    }
-
-    /**
-     * Resizes the screen so that the game doesn't look distorted.
-     *
-     * @param width an integer representing the width of the original screen
-     * @param height an integer representing the height of the original screen
-     */
-    @Override
-    public void resize(int width, int height) {
-        this.viewport.update(width, height);
-    }
-
     /**
      * Allows for the drawing of the game objects.
      */
     public void draw() {
         // allows for the drawing of game objects to begin
-        this.batch.begin();
-        this.shapeBatch.setProjectionMatrix(camera.combined);
-        this.shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
+        super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
 
         // draws a black background
-        this.shapeBatch.setColor(Color.BLACK);
-        this.shapeBatch.rect(0, 0, 672, 544);
+        super.getShapeRenderer().setColor(Color.BLACK);
+        super.getShapeRenderer().rect(0, 0, 672, 544);
 
-        // go through the array and draw each Button
-        for (Button b : this.buttons) {
-            b.draw(this.shapeBatch);
-        }
-
-        // draws the standing Platforms
-        this.shapeBatch.setColor(Color.WHITE);
-        for (Platform p : this.platforms) {
-            p.draw(this.shapeBatch);
-        }
-
-        // draws the moving Platforms
-        this.shapeBatch.setColor(Color.PURPLE);
-        for (Platform p : this.movingPlatforms) {
-            p.draw(this.shapeBatch);
-        }
-
-        // draws the FireGems
-        for (FireGem fireGem : this.fireGems) {
-            fireGem.draw(this.batch);
+        // draw the moving Platforms
+        for (MovingPlatform p : this.movingPlatforms) {
+            p.draw(super.getShapeRenderer());
         }
 
         // set the FireDoor to be magneta
-        this.shapeBatch.setColor(Color.MAGENTA);
-        this.fireDoor.draw(this.shapeBatch);
+        this.fireDoor.draw(super.getShapeRenderer());
 
         // set the WaterDoor to be cyan
-        this.shapeBatch.setColor(Color.CYAN);
-        this.waterDoor.draw(this.shapeBatch);
-
-        // go through the array and draw each Fire
-        for (Fire f : this.fire) {
-            f.draw(this.shapeBatch);
-        }
-
-        // go through the array and draw each Water
-        for (Water w : this.water) {
-            w.draw(this.shapeBatch);
-        }
-
-        // go through the array and draw each Mud
-        for (Mud m : this.mud) {
-            m.draw(this.shapeBatch);
-        }
+        this.waterDoor.draw(super.getShapeRenderer());
 
         // do not draw the Fireboy on the screen if the Fireboy has died
         if (!this.fireboy.isDead()) {
             // set the color of the Fireboy to be red
-            this.shapeBatch.setColor(Color.RED);
-            this.fireboy.draw(this.shapeBatch);
+            super.getShapeRenderer().setColor(Color.RED);
+            this.fireboy.draw(super.getShapeRenderer());
         }
         // do not draw the Watergirl on the screen if the Watergirl has died
         if (!this.watergirl.isDead()) {
             // set the color of the Watergirl to be blue
-            this.shapeBatch.setColor(Color.BLUE);
-            this.watergirl.draw(this.shapeBatch);
+            super.getShapeRenderer().setColor(Color.BLUE);
+            this.watergirl.draw(super.getShapeRenderer());
         }
 
         // draws a level complete screen when the Level has been won using a ShapeRenderer
-        if (this.levelWon) {
-            this.shapeBatch.setColor(Color.LIME);
-            this.shapeBatch.rect(0, 0, 672, 544);
+        if (super.getScreenOn()) {
+            super.getShapeRenderer().setColor(Color.LIME);
+            super.getShapeRenderer().rect(0, 0, 672, 544);
         }
 
         // allows for the drawing of the game objects to end
-        this.shapeBatch.end();
-        this.batch.end();
-        this.batch.setProjectionMatrix(this.camera.combined);
+        super.getShapeRenderer().end();
+
+        // allows for the drawing of Textures
+        super.getSpriteBatch().setProjectionMatrix(super.getCamera().combined);
+        super.getSpriteBatch().begin();
+
+        // draw the Platforms
+        for (Platform p : this.platforms) {
+            p.draw(super.getSpriteBatch());
+        }
+
+        // draw the Gems
+        for (FireGem fireGem : this.fireGems) {
+            fireGem.draw(super.getSpriteBatch());
+        }
+        for (WaterGem waterGem : this.waterGems) {
+            waterGem.draw(super.getSpriteBatch());
+        }
+
+        // draw the Obstacles
+        for (Button button : this.buttons) {
+            button.draw(super.getSpriteBatch());
+        }
+        for (Fire f : this.fire) {
+            f.draw(super.getSpriteBatch());
+        }
+        for (Water w : this.water) {
+            w.draw(super.getSpriteBatch());
+        }
+        for (Mud m : this.mud) {
+            m.draw(super.getSpriteBatch());
+        }
+
+        // end the drawing of Textures
+        super.getSpriteBatch().end();
+    }
+    
+    /**
+     * Returns whether or not if the Level has been won yet.
+     * 
+     * @return a boolean representing whether or not the Level has been won yet 
+     */
+    public boolean isLevelWon() {
+        return this.levelWon;
+    }
+    
+    public void setLevelWon() {
+        this.levelWon = true;
     }
 }

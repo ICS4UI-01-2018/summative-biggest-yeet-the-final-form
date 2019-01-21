@@ -16,11 +16,10 @@ import com.badlogic.gdx.math.Rectangle;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public abstract class Door {
-    
+
     private final int width, height;
-    float x;
-    private float y;
-    Rectangle door;
+    private final float x, y;
+    private final Rectangle door;
 
     /**
      * Create a Character using the Character-type allowed through the door, and
@@ -34,7 +33,7 @@ public abstract class Door {
         this.y = y * 16;
         this.width = 32;
         this.height = 40;
-        
+
         this.door = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
@@ -79,7 +78,14 @@ public abstract class Door {
      *
      * @param shapeBatch a ShapeRenderer used to draw the Door on the screen
      */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(door.x, door.y, door.width, door.height);
+    public abstract void draw(ShapeRenderer shapeBatch);
+
+    /**
+     * Returns the Rectangle that represents the Door.
+     *
+     * @return a Rectangle representing the Door
+     */
+    public Rectangle getBounds() {
+        return this.door;
     }
 }

@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -15,21 +17,24 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Obstacle {
 
-    Rectangle obstacle;
-    float height;
+    private final Texture texture;
+    private final Rectangle obstacle;
+    private final float height;
     private final float width;
-    float x, y;
+    private final float x, y;
 
     /**
      * Initializes an Obstacle using it's width and height, and it's x and y
      * coordinates on the screen.
      *
+     * @param texture a Texture representing the appearance of the Obstacle
      * @param x a float representing the x position of the Obstacle
      * @param y a float representing the y position of the Obstacle
      * @param width an integer representing the width of the Obstacle
      * @param height an integer representing the height of the Obstacle
      */
-    public Obstacle(float x, float y, float width, float height) {
+    public Obstacle(Texture texture, float x, float y, float width, float height) {
+        this.texture = texture;
         this.x = x * 16;
         this.y = y * 16;
         this.width = width * 16;
@@ -120,5 +125,30 @@ public abstract class Obstacle {
      */
     public float getTop() {
         return (this.height + this.y);
+    }
+
+    /**
+     * Returns the Texture of the Obstacle.
+     *
+     * @return a Texture representing the appearance of the Obstacle
+     */
+    public Texture getTexture() {
+        return this.texture;
+    }
+
+    /**
+     * Draws the Obstacles on the screen using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the Obstacles on the screen
+     */
+    public abstract void draw(SpriteBatch batch);
+
+    /**
+     * Sets the y position of the Obstacle to be the specified float.
+     *
+     * @param obstacleY a float representing the new y position of the Obstacle
+     */
+    public void setObstacleY(float obstacleY) {
+        this.obstacle.y = obstacleY;
     }
 }

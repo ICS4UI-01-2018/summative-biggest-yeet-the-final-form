@@ -5,8 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates Fire as a subclass of Obstacle to use in a game of Fireboy and
@@ -27,19 +27,30 @@ public class Fire extends Obstacle {
      * @param height an integer representing the height of the Fire
      */
     public Fire(float x, float y, int width, int height) {
-        super(x, y, width, height);
+        super(new Texture("Fire.jpg"), x, y, width, height);
     }
-
+    
     /**
-     * Draws the Fire on the screen using a ShapeRenderer.
+     * Draws the Fire on the screen using a SpriteBatch.
      *
-     * @param shapeBatch a ShapeRenderer to draw the Fire with
+     * @param batch a SpriteBatch used to draw the Fire on the screen
      */
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the colour of the Fire to be magenta
-        shapeBatch.setColor(Color.MAGENTA);
-        // draw the fire
-        super.draw(shapeBatch);
+    public void draw(SpriteBatch batch) {
+        // determine how many times you have to copy the Texture
+        float copy = super.getWidth() / 16;
+        // a variable used to determine where to place each Texture
+        float textureX = super.getX();
+
+        // determine if you can draw the whole Texture
+        while (copy - 1 >= 0) {
+            // draw the Texture
+            batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
+            
+            // determine where to place the Texture next
+            textureX += 16;
+            
+            copy -= 1;
+        }
     }
 }

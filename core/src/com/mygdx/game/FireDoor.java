@@ -5,6 +5,9 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 /**
  * Creates a FireDoor as a subclass of Door to use in the Fireboy and Watergirl
  * game.
@@ -32,6 +35,20 @@ public class FireDoor extends Door {
      * front of the Firedoor
      */
     public boolean collision(Fireboy fireboy) {
-        return super.door.overlaps(fireboy.getBounds());
+        return super.getBounds().overlaps(fireboy.getBounds());
+    }
+
+    /**
+     * Draws the FireDoor using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the FireDoor
+     */
+    @Override
+    public void draw(ShapeRenderer shapeBatch) {
+        // set the FireDoor to be magenta
+        shapeBatch.setColor(Color.MAGENTA);
+
+        // draw the FireDoor
+        shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }

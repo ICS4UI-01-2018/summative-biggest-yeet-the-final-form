@@ -5,8 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a Button as a subclass of Obstacle to use in a game of Fireboy and
@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class Button extends Obstacle {
 
-    private final MovingPlatform movingPlatform;
+    private final MovingPlatform[] movingPlatforms;
     private final float speed, maximumY, minimumY;
     private boolean isPressed;
 
@@ -27,14 +27,14 @@ public class Button extends Obstacle {
      *
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
-     * @param platform a MovingPlatform representing the MovingPlatform that the
-     * Button controls
+     * @param movingPlatforms an array of MovingPlatforms representing the
+     * MovingPlatforms that the Button controls
      */
-    public Button(float x, float y, MovingPlatform platform) {
+    public Button(float x, float y, MovingPlatform[] movingPlatforms) {
         // initialize the x and y position, and the width and height of the Button
-        super(x, y, 1, 0.5f);
+        super(new Texture("Button.jpg"), x, y, 1, 0.5f);
 
-        this.movingPlatform = platform;
+        this.movingPlatforms = movingPlatforms;
         this.speed = 0.1f;
 
         // Button cannot move higher than this y position
@@ -48,42 +48,10 @@ public class Button extends Obstacle {
     }
 
     /**
-     * Draws the Button on the screen using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer used to draw the Button on the screen
-     */
-    @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // make the Buttons purple
-        shapeBatch.setColor(Color.PURPLE);
-
-        // draw the Button
-        shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-    }
-
-    /**
-     * Allows for the Button to move down.
-     */
-    public void moveDown() {
-        if (super.y > this.minimumY) {
-            super.y -= this.speed;
-        }
-    }
-
-    /**
-     * Allows for the Button to move up.
-     */
-    public void moveUp() {
-        if (super.y < this.maximumY) {
-            super.y += this.speed;
-        }
-    }
-
-    /**
      * Updates the position of the Button as it is moving up and down.
      */
     public void updatePositions() {
-        super.obstacle.y = super.y;
+        super.setObstacleY(super.getY());
     }
 
     /**
@@ -109,11 +77,11 @@ public class Button extends Obstacle {
     /**
      * Returns the MovingPlatform that the Button is controlling.
      *
-     * @return a Platform representing a MovingPlatform that the Button is
-     * controlling
+     * @return an array of MovingPlatforms representing the MovingPlatform(s)
+     * that the Button can control
      */
-    public MovingPlatform getMovingPlatform() {
-        return this.movingPlatform;
+    public MovingPlatform[] getMovingPlatforms() {
+        return this.movingPlatforms;
     }
 
     /**
@@ -137,5 +105,15 @@ public class Button extends Obstacle {
     public void pressed(Fireboy fireboy, Watergirl watergirl) {
         this.isPressed = (super.collidesWith(fireboy) || super.collidesWith(watergirl))
                 || (super.collidesWith(fireboy) && super.collidesWith(watergirl));
+    }
+
+    /**
+     * Draws the Button on the screen using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the Button on the screen
+     */
+    @Override
+    public void draw(SpriteBatch batch) {
+        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }
