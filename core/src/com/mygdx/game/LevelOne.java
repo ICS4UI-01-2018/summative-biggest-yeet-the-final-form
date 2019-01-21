@@ -14,7 +14,8 @@ public class LevelOne extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-
+        super.highScore = new Files ("scores");
+        
         // initialize the Characters
         super.fireboy = new Fireboy(15, 18);
         super.watergirl = new Watergirl(15, 12);

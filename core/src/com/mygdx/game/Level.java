@@ -30,6 +30,7 @@ public class Level extends Screen {
     WaterGem[] waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
+    Files highScore;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -43,6 +44,7 @@ public class Level extends Screen {
         
         // variable to determine if the Level has been won yet
         this.levelWon = false;
+  
     }
 
     /**
@@ -211,6 +213,7 @@ public class Level extends Screen {
                 && this.waterDoor.collision(this.watergirl)) {
             super.setScreenOn(false);
             this.levelWon = true;
+            //super.hi
         }
 
         // determines if the Buttons are pressed
