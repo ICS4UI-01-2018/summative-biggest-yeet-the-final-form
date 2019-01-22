@@ -13,7 +13,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         // new LwjglApplication(new LevelOne(), config);
         // new LwjglApplication(new testFalling(), config);
-        // new LwjglApplication(new LevelTwo(), config);
+         new LwjglApplication(new LevelTwo(), config);
         
         // create a MainMenu screen
         MainMenu mainMenu = new MainMenu();
