@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  */
 public abstract class Screen extends ApplicationAdapter {
 
-    private boolean screenOn;
+    private boolean display;
     private OrthographicCamera camera;
     private FitViewport viewport;
     private ShapeRenderer shapeBatch;
@@ -41,7 +41,7 @@ public abstract class Screen extends ApplicationAdapter {
         this.camera.update();
 
         // variable to determine if screen should be displayed to user
-        this.screenOn = false;
+        this.display = false;
     }
 
     @Override
@@ -68,22 +68,23 @@ public abstract class Screen extends ApplicationAdapter {
     }
 
     /**
-     * Returns whether if the Screen should be displayed.
+     * Returns whether if the Screen should be displayed to the user.
      *
      * @return a boolean representing whether if the Screen should be displayed
+     * to the user
      */
-    public boolean getScreenOn() {
-        return this.screenOn;
+    public boolean getDisplay() {
+        return this.display;
     }
 
     /**
-     * Sets the Screen to the specified boolean.
+     * Sets the display to the specified boolean.
      *
-     * @param b a boolean representing whether if the Screen should be displayed
-     * or not
+     * @param display a boolean representing whether if the Screen should be
+     * displayed to the user
      */
-    public void setScreenOn(boolean b) {
-        this.screenOn = b;
+    public void setDisplay(boolean display) {
+        this.display = display;
     }
 
     /**
