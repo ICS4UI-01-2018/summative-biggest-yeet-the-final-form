@@ -18,6 +18,9 @@ public class MainMenu extends Screen {
 
     private Texture mainMenuScreen;
 
+    /**
+     * Create the MainMenu of the game and allow it to be displayed first.
+     */
     @Override
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
@@ -41,6 +44,7 @@ public class MainMenu extends Screen {
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 // set the display to be off
                 super.setDisplay(false);
+                System.out.println("yeet");
             }
         }
 
