@@ -63,26 +63,23 @@ public class Level extends Screen {
         for (Button b : this.buttons) {
             b.updatePositions();
         }
-
+        
         // Characters can only move if the level hasn't been won yet
-        if (!super.getDisplay()) {
+        if (super.getDisplay()) {
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
                 // make the Fireboy move left
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     this.fireboy.moveLeft();
-                    System.out.println("left");
                 }
                 // make the Watergirl move right
                 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     this.fireboy.moveRight();
-                    System.out.println("right");
                 }
                 // make the Watergirl jump
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
-                    System.out.println("jump");
                 }
                 //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
@@ -91,7 +88,6 @@ public class Level extends Screen {
                     this.fireboy.onGround = true;
                     //   movingPlatforms[0].wasOnTop = false;
                 } else if (this.fireboy.onTop(movingPlatforms)) {
-                    System.out.println("here");
                     this.fireboy.onGround = true;
                     movingPlatforms[0].wasOnTop = true;
                     //   this.fireboy.setY(   movingPlatforms[0].getTop());

@@ -35,7 +35,7 @@ public class LevelOne extends Level {
         super.platforms[10] = new Platform(16, 9, 2, 3);
         super.platforms[11] = new Platform(18, 9, 8, 2);
         super.platforms[12] = new Platform(26, 9, 4, 1);
-        super.platforms[13] = new Platform(30, 9, 6, 2);
+        super.platforms[13] = new Platform(29, 9, 7, 2);
         super.platforms[14] = new Platform(38, 13, 3, 4);
         super.platforms[15] = new Platform(35, 14, 3, 3);
         super.platforms[16] = new Platform(21, 15, 14, 2);
@@ -63,7 +63,7 @@ public class LevelOne extends Level {
         super.water = new Water[1];
         super.water[0] = new Water(27, 1, 4, 1);
         super.mud = new Mud[1];
-        super.mud[0] = new Mud(26, 10, 4, 1);
+        super.mud[0] = new Mud(26, 10, 3, 1);
         super.buttons = new Button[2];
         super.buttons[0] = new Button(10.5f, 18, new MovingPlatform[]{this.movingPlatforms[0]});
         super.buttons[1] = new Button(10.5f, 12, new MovingPlatform[]{this.movingPlatforms[0]});

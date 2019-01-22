@@ -44,7 +44,6 @@ public class MainMenu extends Screen {
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 // set the display to be off
                 super.setDisplay(false);
-                System.out.println("yeet");
             }
         }
 

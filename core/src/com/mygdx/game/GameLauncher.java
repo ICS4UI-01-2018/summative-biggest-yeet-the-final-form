@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  */
 public class GameLauncher extends ApplicationAdapter {
 
-    private Screen current;
     private MainMenu mainMenu;
     private LevelOne levelOne;
     private LevelTwo levelTwo;
@@ -28,8 +27,6 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void create() {
-        this.current = new Screen() {
-        };
         this.mainMenu = new MainMenu();
         this.mainMenu.create();
         this.levelOne = new LevelOne();
@@ -50,66 +47,30 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void render() {
-//        // display the main menu
-//        if (this.mainMenu.getDisplay()) {
-//            this.current = this.mainMenu;
-//            this.current.render();
-//        } else {
-//            this.mainMenu.setDisplay(false);
-//            this.levelOne.setDisplay(true);
-//            // display level one
-//            if (this.levelOne.getDisplay()) {
-//                this.current = this.levelOne;
-//                this.current.render();
-//                System.out.println("hfdlkasjkl");
-//                // determine if level one has been won
-//                if (this.levelOne.isLevelWon()) {
-//                    this.levelOne.setDisplay(false);
-//                    this.levelTwo.setDisplay(true);
-//                    // display level two
-//                    if (this.levelTwo.getDisplay()) {
-//                        this.current = this.levelTwo;
-//                        this.current.render();
-//                    }
-//                }
-//            }
-//        }
-
-//        // display the main menu
-//        if (this.mainMenu.getDisplay()) {
-//            this.current = this.mainMenu;
-//            this.current.render();
-//        } else {
-//            // set level one to be displayed
-//            this.mainMenu.setDisplay(false);
-//            this.levelOne.setDisplay(true);
-//        }
-//        
-//        // display level one
-//        if (this.levelOne.getDisplay()) {
-//            System.out.println("hahahaha");
-//            this.current = this.levelOne;
-//            this.current.render();
-//            // determine if level one has been won
-//            if (this.levelOne.isLevelWon()) {
-//                // set level two to be displayed
-//                this.levelOne.setDisplay(false);
-//                this.levelTwo.setDisplay(true);
-//            }
-//        }
-//        
-//        // display level two
-//        if (this.levelTwo.getDisplay()) {
-//            this.current = this.levelOne;
-//            this.current.render();
-//            // determine if level two has been won
-//            if (this.levelTwo.isLevelWon()) {
-//                this.levelTwo.setDisplay(false);
-//            }
-//        }
-
-        this.current = this.levelOne;
-        this.current.render();
+        // display the main menu
+        if (this.mainMenu.getDisplay()) {
+            this.mainMenu.render();
+        } else {
+            // set level one to be displayed
+            this.mainMenu.setDisplay(false);
+            this.levelOne.setDisplay(true);
+        }
+        
+        // display level one
+        if (this.levelOne.getDisplay()) {
+            this.levelOne.render();
+            // determine if level one has been won
+            if (this.levelOne.isLevelWon()) {
+                // set level two to be displayed
+                this.levelOne.setDisplay(false);
+                this.levelTwo.setDisplay(true);
+            }
+        }
+        
+        // display level two
+        if (this.levelTwo.getDisplay()) {
+            this.levelTwo.render();
+        }
     }
 
     /**
