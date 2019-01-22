@@ -32,7 +32,7 @@ public abstract class Character {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.xSpeed = 2;
+        this.xSpeed = 3;
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
@@ -291,25 +291,32 @@ public abstract class Character {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                    this.onGround = true;
+                 //   this.onGround = true;
                     counter++;
+
                 }//character is on edge of platform
                 else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    this.onGround = true;
+                    //this.onGround = true;
                     counter++;
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                    this.onGround = true;
+                   // this.onGround = true;
                     counter++;
                 }
             }
         }
-
+        System.out.println(counter);
         if (counter == 0) {
-                        this.onGround = false;
-
+            // this.onGround = false;
             return false;
+        } else {
+            return true;
         }
-        return true;
+    }
+    
+    public void tieTo (Platform p){
+        if (this.isOnTop){
+        this.y = p.getTop();
+        }
     }
 
     /**
@@ -338,7 +345,5 @@ public abstract class Character {
     public void died() {
         this.isDead = true;
     }
-
-
 
 }

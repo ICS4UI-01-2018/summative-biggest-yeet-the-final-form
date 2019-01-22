@@ -16,7 +16,7 @@ public class LevelOne extends Level {
         super.create();
 
         // initialize the Characters
-        this.fireboy = new Fireboy(15, 18);
+        this.fireboy = new Fireboy(2, 18);
         this.watergirl = new Watergirl(15, 12);
 
         // initialize the Platforms

@@ -96,9 +96,9 @@ public class MovingPlatform extends Platform {
     }
 
     public void tieTo(Character c) {
-        if (this.wasOnTop) {
+   
             c.setY(super.getTop());
-        }
+        
     }
 
     @Override
