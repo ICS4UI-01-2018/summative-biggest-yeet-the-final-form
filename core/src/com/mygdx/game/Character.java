@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Character {
 
     private int gemsCollected;
-    private float x, y, gravity, ySpeed, height, width, xSpeed;
+    private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
 
@@ -36,7 +36,7 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.7f; //tweak
+        this.gravity = 0.3f; //tweak
         this.x = x * 16;
         this.y = y * 16;
         this.onGround = true;
@@ -45,6 +45,7 @@ public abstract class Character {
         this.hitSide = false;
         this.isOnTop = false;
         this.canJump = true;
+        this.maxYSpeed = 3;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -236,7 +237,7 @@ public abstract class Character {
         if (this.onGround && this.canJump) {
             this.isOnTop = false;
             this.isFalling = false;
-            ySpeed = -11;//height of jump
+            ySpeed = -7;//height of jump
             this.jump = true;
             this.onGround = false;
         }
@@ -249,7 +250,9 @@ public abstract class Character {
     public void jumpAction() {
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
+           if (ySpeed < maxYSpeed){
             ySpeed += gravity;
+           }
             this.y -= ySpeed;
             this.updatePositions();
         }

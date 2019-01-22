@@ -73,7 +73,7 @@ public class Level extends Screen {
                 // make the Fireboy move left
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     this.fireboy.moveLeft();
-                    System.out.println("left");
+
                 }
                 // make the Watergirl move right
                 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -86,26 +86,29 @@ public class Level extends Screen {
                 //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
+
                 if (this.fireboy.onTop(platforms)) {
                     this.fireboy.onGround = true;
-                         //   movingPlatforms[0].wasOnTop = false;
+                    //   movingPlatforms[0].wasOnTop = false;
                 } else if (this.fireboy.onTop(movingPlatforms)) {
+                    //        System.out.println("on top");
                     this.fireboy.onGround = true;
-                   movingPlatforms[0].wasOnTop = true;
-                //   this.fireboy.setY(   movingPlatforms[0].getTop());
+                    movingPlatforms[0].wasOnTop = true;
+                    //   this.fireboy.setY(   movingPlatforms[0].getTop());
                 } else {
                     this.fireboy.onGround = false;
-                       //     movingPlatforms[0].wasOnTop = false;
+                    //     movingPlatforms[0].wasOnTop = false;
                 }
                 movingPlatforms[0].tieTo(this.fireboy);
-              //  if (!this.movingPlatforms[0].tieTo(fireboy))){
-               //     
-              //  }
+                //  if (!this.movingPlatforms[0].tieTo(fireboy))){
+                //     
+                //  }
 
                 for (MovingPlatform p : this.movingPlatforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        System.out.println("h");
-                        p.whereIsPlayer(fireboy);
+                        System.out.println("where");
+                        int x  = p.whereIsPlayer(fireboy);
+                        System.out.println(x);
                     }
                 }
 
@@ -252,7 +255,6 @@ public class Level extends Screen {
         }
 
         // draws a level complete screen when the Level has been won using a ShapeRenderer
-
         // allows for the drawing of the game objects to end
         super.getShapeRenderer().end();
 

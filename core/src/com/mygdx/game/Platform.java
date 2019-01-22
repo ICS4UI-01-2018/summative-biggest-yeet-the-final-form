@@ -142,10 +142,10 @@ public class Platform {
      *
      * @param c Character being checked
      */
-    public void whereIsPlayer(Character c) {//square? also need to be implented for obstacles
+    public int whereIsPlayer(Character c) {//square? also need to be implented for obstacles
         //create a rectangle representing the overlap
         Intersector.intersectRectangles(c.getBounds(), this.getBounds(), this.overlap);
-
+int x = 0;
         //if height is less than width then player is at top or bottom
         if (this.overlap.height < this.overlap.width) {
             //if player is falling and their top is equal to/below the platforms top then player is hitting BOTTOM of platform
@@ -154,6 +154,7 @@ public class Platform {
                 c.setYSpeed(0);
                 // correct the position
                 c.setTop(this.y);
+                x= 1;
             }
             //if player is jumping and their top is (equal to/above the platforms top(subject to change)) then player is hitting TOP of platform
             if (c.getYSpeed() > 0 && c.getY() >= this.y) {
@@ -162,40 +163,26 @@ public class Platform {
                 //set player to be on the ground and no longer jumping
                 c.setOnGround(true);
                 c.setJumping(false);
+                x = 2;
             }
         } else {//if overlap height is greater than its width player is hitting a side
             //if players x is lesser then player is hitting LEFT side of PLATFORM
             if (c.getX() < this.getX()) {
                 //set player to be beside platform
                 c.setFarX(this.getX());
+                x = 3;
             } else {//if players x is greater then player is hitting RIGHT side of PLATFORM
                 //set player to be beside platform
                 c.setX(this.getFarX());
+                x = 4;
             }
         }
+        
         //update player position
         c.updatePositions();
+        return x;
     }
 
-    public int onTop(Character c) {
-        int counter = 0;
-        if (c.getY() == this.getTop()) {
-            //player is somewhere in the middle of the platform
-            if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
-                c.onGround = true;
-                counter++;
-            }//character is on edge of platform
-            else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
-                c.onGround = true;
-                counter++;
-            } else if (c.getFarX() > this.getFarX() && c.getX() <= this.getFarX()) {
-                c.onGround = true;
-                counter++;
-            }
-        }
-
-        return counter;
-    }
 
     /**
      * Draws the Platform using a Texture.

@@ -137,7 +137,7 @@ public class LevelTwo extends Level {
         // initialize the Doors
     }
 
-    /**
+        /**
      * Implement the basic game logic and draw all the game objects on the
      * screen.
      */
@@ -146,15 +146,17 @@ public class LevelTwo extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        // determine which MovingPlatforms that the Button controls
+        // determine which MovingPlatforms the Button controls
         MovingPlatform[] buttonPlatforms = buttons[0].getMovingPlatforms();
-        if (buttons[0].isPressed()) {
-            // MovingPlatforms will move down when the Button is pressed
+        // determine if any Buttons are pressed
+        if ((buttons[0].isPressed() || buttons[1].isPressed())
+                || (buttons[0].isPressed() && buttons[1].isPressed())) {
+            // MovingPlatform moves down if a Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {
                 mp.moveDown();
             }
         } else {
-            // MovingPlatforms will move up when the Button isn't pressed
+            // Moving Platform returns to its original state if the Button isn't pressed
             for (MovingPlatform mp : buttonPlatforms) {
                 mp.moveUp();
             }
