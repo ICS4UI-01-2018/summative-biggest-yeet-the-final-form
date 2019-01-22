@@ -64,13 +64,14 @@ public class Level extends Screen {
         }
 
         // Characters can only move if the level hasn't been won yet
-        if (!super.getScreenOn()) {
+        if (!super.getDisplay()) {
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
                 // make the Fireboy move left
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     this.fireboy.moveLeft();
+                    System.out.println("left");
                 }
                 // make the Watergirl move right
                 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -209,7 +210,7 @@ public class Level extends Screen {
         if (this.fireDoor.collision(
                 this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
-            super.setScreenOn(false);
+            super.setDisplay(false);
             this.levelWon = true;
         }
 
@@ -256,10 +257,6 @@ public class Level extends Screen {
         }
 
         // draws a level complete screen when the Level has been won using a ShapeRenderer
-        if (super.getScreenOn()) {
-            super.getShapeRenderer().setColor(Color.LIME);
-            super.getShapeRenderer().rect(0, 0, 672, 544);
-        }
 
         // allows for the drawing of the game objects to end
         super.getShapeRenderer().end();
@@ -306,9 +303,5 @@ public class Level extends Screen {
      */
     public boolean isLevelWon() {
         return this.levelWon;
-    }
-    
-    public void setLevelWon() {
-        this.levelWon = true;
     }
 }
