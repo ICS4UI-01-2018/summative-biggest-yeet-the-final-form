@@ -5,8 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a Watergirl as a subclass of Character to use in a game of Fireboy
@@ -23,19 +23,16 @@ public class Watergirl extends Character {
      * @param y an integer representing the y position of the Watergirl
      */
     public Watergirl(float x, float y) {
-        super(x, y);
+        super(new Texture("WaterGirlStanding.jpg"), x, y);
     }
 
     /**
-     * Draws a blue rectangle on the screen using a ShapeRenderer to represent a
-     * Watergirl.
+     * Draws the Watergirl using a SpriteBatch.
      *
-     * @param shapeBatch a ShapeRenderer used to draw the Watergirl with
+     * @param batch a SpriteBatch used to draw the Watergirl
      */
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the Watergirl to be blue
-        shapeBatch.setColor(Color.BLUE);
-        super.draw(shapeBatch);
+    public void draw(SpriteBatch batch) {
+        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }

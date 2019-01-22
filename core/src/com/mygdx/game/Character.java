@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -20,6 +22,7 @@ public abstract class Character {
     private float x, y, gravity, ySpeed, height, width, xSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
+    private final Texture characterPic;
 
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
@@ -28,7 +31,7 @@ public abstract class Character {
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(float x, float y) {
+    public Character(Texture characterPic, float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
@@ -39,6 +42,7 @@ public abstract class Character {
         this.gravity = 0.7f; //tweak
         this.x = x * 16;
         this.y = y * 16;
+        this.characterPic = characterPic;
         this.onGround = true;
         this.jump = false;
         this.hitBottom = false;
@@ -158,7 +162,7 @@ public abstract class Character {
     /**
      * Sets the x coordinate to specified float
      *
-     * @param f a float representing new coordinate
+     * @param b a float representing new coordinate
      */
     public void setJumping(boolean b) {
         this.jump = b;
@@ -292,7 +296,7 @@ public abstract class Character {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                 //   this.onGround = true;
+                    //   this.onGround = true;
                     counter++;
 
                 }//character is on edge of platform
@@ -300,7 +304,7 @@ public abstract class Character {
                     //this.onGround = true;
                     counter++;
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                   // this.onGround = true;
+                    // this.onGround = true;
                     counter++;
                 }
             }
@@ -312,18 +316,6 @@ public abstract class Character {
         } else {
             return true;
         }
-    }
-    
-
-
-    /**
-     * Draws the Character on the screen using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer used to draw the Character on the
-     * screen
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
     /**
@@ -343,4 +335,19 @@ public abstract class Character {
         this.isDead = true;
     }
 
+    /**
+     * Draws the Character on the screen using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the Character
+     */
+    public abstract void draw(SpriteBatch batch);
+
+    /**
+     * Returns the Texture representing the Character.
+     *
+     * @return a Texture representing the Character
+     */
+    public Texture getTexture() {
+        return this.characterPic;
+    }
 }

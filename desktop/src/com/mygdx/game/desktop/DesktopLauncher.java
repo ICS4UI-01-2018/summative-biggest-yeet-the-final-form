@@ -6,12 +6,15 @@ import com.mygdx.game.GameLauncher;
 import com.mygdx.game.LevelOne;
 import com.mygdx.game.LevelTwo;
 
+/**
+ * Launches the game.
+ *
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
+ */
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        LwjglApplication lwjglApplication = new LwjglApplication (new GameLauncher(), config);
-        new LwjglApplication(new LevelOne(), config);
-        //new LwjglApplication(new LevelTwo(), config);
+        LwjglApplication gameLauncher = new LwjglApplication(new GameLauncher(), config);
     }
 }
