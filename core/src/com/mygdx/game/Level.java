@@ -89,7 +89,6 @@ public class Level extends Screen {
                     this.fireboy.onGround = true;
                          //   movingPlatforms[0].wasOnTop = false;
                 } else if (this.fireboy.onTop(movingPlatforms)) {
-                                        System.out.println("here");
                     this.fireboy.onGround = true;
                    movingPlatforms[0].wasOnTop = true;
                 //   this.fireboy.setY(   movingPlatforms[0].getTop());
@@ -104,6 +103,7 @@ public class Level extends Screen {
 
                 for (MovingPlatform p : this.movingPlatforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
+                        System.out.println("h");
                         p.whereIsPlayer(fireboy);
                     }
                 }

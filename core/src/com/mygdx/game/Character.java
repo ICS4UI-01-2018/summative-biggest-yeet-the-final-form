@@ -305,7 +305,6 @@ public abstract class Character {
                 }
             }
         }
-        System.out.println(counter);
         if (counter == 0) {
             // this.onGround = false;
             return false;
