@@ -19,7 +19,7 @@ public class LevelTwo extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-        
+
         // initialize the Characters
         super.fireboy = new Fireboy(38.5f, 2);
         super.watergirl = new Watergirl(2, 2);
@@ -134,10 +134,13 @@ public class LevelTwo extends Level {
         super.waterGems[6] = new WaterGem(23, 15);
         super.waterGems[7] = new WaterGem(24, 15);
 
+        super.fireDoor = new FireDoor(1.5f, 9);
+        super.waterDoor = new WaterDoor(38.5f, 9);
+
         // initialize the Doors
     }
 
-        /**
+    /**
      * Implement the basic game logic and draw all the game objects on the
      * screen.
      */
@@ -146,22 +149,19 @@ public class LevelTwo extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        // determine which MovingPlatforms the Button controls
+        // determine which MovingPlatforms that the Button controls
         MovingPlatform[] buttonPlatforms = buttons[0].getMovingPlatforms();
-        // determine if any Buttons are pressed
-        if ((buttons[0].isPressed() || buttons[1].isPressed())
-                || (buttons[0].isPressed() && buttons[1].isPressed())) {
-            // MovingPlatform moves down if a Button is pressed
+        if (buttons[0].isPressed()) {
+            // MovingPlatforms will move down when the Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {
                 mp.moveDown();
             }
         } else {
-            // Moving Platform returns to its original state if the Button isn't pressed
+            // MovingPlatforms will move up when the Button isn't pressed
             for (MovingPlatform mp : buttonPlatforms) {
                 mp.moveUp();
             }
         }
-
         // draw the game elements
         super.draw();
     }

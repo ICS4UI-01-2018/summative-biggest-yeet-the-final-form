@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.awt.Graphics;
 
 /**
  * Draws the objects of the games on the screen.
@@ -86,9 +87,9 @@ public class Level extends Screen {
                 //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
-
                 if (this.fireboy.onTop(platforms)) {
                     this.fireboy.onGround = true;
+
                     //   movingPlatforms[0].wasOnTop = false;
                 } else if (this.fireboy.onTop(movingPlatforms)) {
                     //        System.out.println("on top");
@@ -107,7 +108,7 @@ public class Level extends Screen {
                 for (MovingPlatform p : this.movingPlatforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         System.out.println("where");
-                        int x  = p.whereIsPlayer(fireboy);
+                        int x = p.whereIsPlayer(fireboy);
                         System.out.println(x);
                     }
                 }
@@ -117,6 +118,7 @@ public class Level extends Screen {
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
+                        p.breakBlock();
                     }
                 }
 
@@ -141,6 +143,7 @@ public class Level extends Screen {
                 this.watergirl.jumpAction();
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(watergirl.getBounds())) {
+
                     }
                 }
 
@@ -219,6 +222,7 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
+        //  g.drawString("hello", 0, 0);
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -245,7 +249,7 @@ public class Level extends Screen {
             this.fireboy.draw(super.getShapeRenderer());
         } else {
             System.out.println("here");
-            this.highScore.saveFile("playerScores", fireboy, watergirl);
+ //           this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
         // do not draw the Watergirl on the screen if the Watergirl has died
         if (!this.watergirl.isDead()) {
@@ -264,7 +268,9 @@ public class Level extends Screen {
 
         // draw the Platforms
         for (Platform p : this.platforms) {
-            p.draw(super.getSpriteBatch());
+            if (!p.getBroken()) {
+                p.draw(super.getSpriteBatch());
+            }
         }
 
         // draw the Gems

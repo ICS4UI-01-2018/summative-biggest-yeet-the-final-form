@@ -250,9 +250,9 @@ public abstract class Character {
     public void jumpAction() {
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
-           if (ySpeed < maxYSpeed){
-            ySpeed += gravity;
-           }
+            if (ySpeed < maxYSpeed) {
+                ySpeed += gravity;
+            }
             this.y -= ySpeed;
             this.updatePositions();
         }
@@ -295,28 +295,24 @@ public abstract class Character {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                 //   this.onGround = true;
                     counter++;
-
+                    System.out.println(p.timer());
                 }//character is on edge of platform
                 else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    //this.onGround = true;
                     counter++;
+                    System.out.println(p.timer());
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                   // this.onGround = true;
                     counter++;
+                    System.out.println(p.timer());
                 }
             }
         }
         if (counter == 0) {
-            // this.onGround = false;
             return false;
         } else {
             return true;
         }
     }
-    
-
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.
