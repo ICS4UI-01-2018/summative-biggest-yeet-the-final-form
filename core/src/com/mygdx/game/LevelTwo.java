@@ -135,8 +135,6 @@ public class LevelTwo extends Level {
         super.waterGems[7] = new WaterGem(24, 15);
 
         // initialize the Doors
-        super.fireDoor = new FireDoor(1.5f, 9);
-        super.waterDoor = new WaterDoor(38.5f, 9);
     }
 
     /**

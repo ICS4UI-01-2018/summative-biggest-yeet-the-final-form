@@ -64,6 +64,8 @@ public class MovingPlatform extends Platform {
             super.setY(super.getY() - this.speed);
             this.isMovingDown = true;
             this.isMovingUp = false;
+        } else {
+            this.isMovingDown = false;
         }
     }
 
@@ -77,6 +79,8 @@ public class MovingPlatform extends Platform {
             super.setY(super.getY() + this.speed);
             this.isMovingDown = false;
             this.isMovingUp = true;
+        } else {
+            this.isMovingUp = false;
         }
     }
 
@@ -127,7 +131,8 @@ public class MovingPlatform extends Platform {
 
     public void tieTo(Character character) {
         if (this.wasOnTop) {
-            character.setY(super.getTop());
+          //  character.setY(super.getTop());
+          //  character.canJump = true;
         }
     }
 
