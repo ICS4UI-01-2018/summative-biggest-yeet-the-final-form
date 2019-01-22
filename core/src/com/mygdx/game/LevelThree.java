@@ -21,8 +21,21 @@ public class LevelThree extends Level {
         super.create();
 
         // initialize the Characters
+        super.fireboy = new Fireboy(22.5f, 28);
+        super.watergirl = new Watergirl(18, 28);
+        
         // initialize the Platforms
+        // super.platforms = new Platform[];
+        
         // initialize the MovingPlatforms
+        super.movingPlatforms = new MovingPlatform[6];
+        movingPlatforms[0] = new MovingPlatform(true, 17, 11, 1, 3, 14);
+        movingPlatforms[1] = new MovingPlatform(true, 17, 16, 1, 4, 20);
+        movingPlatforms[2] = new MovingPlatform(true, 17, 23, 1, 3, 26);
+        movingPlatforms[3] = new MovingPlatform(true, 24, 11, 1, 3, 14);
+        movingPlatforms[4] = new MovingPlatform(true, 24, 16, 1, 4, 20);
+        movingPlatforms[5] = new MovingPlatform(true, 24, 23, 1, 3, 26);
+       
         // initialize the Obstacles
         // initialize the Gems
         // initialize the Doors

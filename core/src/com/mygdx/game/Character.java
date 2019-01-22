@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected;
     private float x, y, gravity, ySpeed, height, width, xSpeed;
-    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop;
+    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
 
     /**
@@ -44,6 +44,7 @@ public abstract class Character {
         this.hitBottom = false;
         this.hitSide = false;
         this.isOnTop = false;
+        this.canJump = true;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -232,7 +233,7 @@ public abstract class Character {
      * Sets the Character to a jumping state
      */
     public void jump() {
-        if (this.onGround) {
+        if (this.onGround && this.canJump) {
             this.isOnTop = false;
             this.isFalling = false;
             ySpeed = -11;//height of jump
@@ -313,11 +314,7 @@ public abstract class Character {
         }
     }
     
-    public void tieTo (Platform p){
-        if (this.isOnTop){
-        this.y = p.getTop();
-        }
-    }
+
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.

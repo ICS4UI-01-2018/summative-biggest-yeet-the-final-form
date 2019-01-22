@@ -34,6 +34,6 @@ public class WaterGem extends Gem {
      * @return a boolean representing if the Watergirl collected the WaterGem
      */
     public boolean collision(Watergirl watergirl) {
-        return super.gem.overlaps(watergirl.getBounds());
+        return super.getBounds().overlaps(watergirl.getBounds());
     }
 }

@@ -34,6 +34,6 @@ public class FireGem extends Gem {
      * FireGem yet
      */
     public boolean collision(Fireboy fireboy) {
-        return super.gem.overlaps(fireboy.getBounds());
+        return super.getBounds().overlaps(fireboy.getBounds());
     }
 }

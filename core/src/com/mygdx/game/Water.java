@@ -5,10 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Creates Water to use in a Fireboy and Watergirl game. The water kills the
@@ -44,19 +42,14 @@ public class Water extends Obstacle {
         float textureX = super.getX();
 
         // determine if you can draw the whole Texture
-        while (copy - 1 > 1) {
+        while (copy - 1 >= 0) {
             // draw the Texture
             batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
-            copy -= 1;
+            
             // determine where to place the Texture next
             textureX += 16;
-        }
-
-        // determine if the Water needs to be drawn a little bit more
-        if (copy == 0.5) {
-            // draw the Texture
-            batch.draw(super.getTexture(), textureX, super.getY(), 8, 16);
-            copy = 0;
+            
+            copy -= 1;
         }
     }
 }

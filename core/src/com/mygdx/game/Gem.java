@@ -19,8 +19,8 @@ public abstract class Gem {
     private final float x, y;
     private final int width, height;
     private boolean collected;
-    Rectangle gem;
-    private Texture texture;
+    private final Rectangle gem;
+    private final Texture texture;
 
     /**
      * Initializes a Gem using the x and y coordinates of it on the screen.
@@ -94,7 +94,7 @@ public abstract class Gem {
     public void draw(SpriteBatch batch) {
         // determine if the Gem has been collected by their corresponding Character yet
         if (!this.collected) {
-           batch.draw(this.texture, this.x, this.y, this.width, this.height);
+            batch.draw(this.texture, this.x, this.y, this.width, this.height);
         }
     }
 
@@ -112,5 +112,14 @@ public abstract class Gem {
      */
     public Texture getTexture() {
         return this.texture;
+    }
+
+    /**
+     * Returns the Rectangle representing the Gem.
+     *
+     * @return a Rectangle representing the Gem
+     */
+    public Rectangle getBounds() {
+        return this.gem;
     }
 }

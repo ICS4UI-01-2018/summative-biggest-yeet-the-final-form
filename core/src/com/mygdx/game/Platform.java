@@ -5,7 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Intersector;
 
@@ -17,10 +18,10 @@ import com.badlogic.gdx.math.Intersector;
  */
 public class Platform {
 
-    Rectangle platform, overlap;
-    private float width, height;
-    private float x;
-    float y;
+    private final Rectangle platform, overlap;
+    private final float width, height;
+    private float x, y;
+    private final Texture platformPic;
 
     /**
      * Creates a Platform using the xRect, y, width, and height.
@@ -36,10 +37,14 @@ public class Platform {
         this.width = width * 16;
         this.height = height * 16;
 
-        //initalize an empty rectangle to be used for collisions
+        // initialize an new Rectangle to be used for collisions
         this.overlap = new Rectangle(0, 0, 0, 0);
+
         // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
+
+        // initialize the Texture for the Platform
+        this.platformPic = new Texture("Block.jpg");
     }
 
     /**
@@ -61,12 +66,12 @@ public class Platform {
     }
 
     /**
-     * Sets the y-coordinate to the specified float
+     * Sets the y position of the Platform to the float that's passed in.
      *
-     * @param f a float representing the new y-coordinate
+     * @param y a float representing the new y position of the Platform
      */
-    public void setY(float f) {
-        this.y = f;
+    public void setY(float y) {
+        this.y = y;
     }
 
     /**
@@ -112,6 +117,15 @@ public class Platform {
      */
     public float getWidth() {
         return this.width;
+    }
+
+    /**
+     * Returns the height of the Platform.
+     *
+     * @return a float representing the height of the Platform
+     */
+    public float getHeight() {
+        return this.height;
     }
 
     /**
@@ -168,7 +182,7 @@ public class Platform {
         if (c.getY() == this.getTop()) {
             //player is somewhere in the middle of the platform
             if ((c.getX() >= this.getX() && c.getFarX() <= this.getFarX())) {
-                c.onGround = true;                
+                c.onGround = true;
                 counter++;
             }//character is on edge of platform
             else if (c.getX() < this.getX() && c.getFarX() >= this.getX()) {
@@ -184,13 +198,60 @@ public class Platform {
     }
 
     /**
-     * Draws the Platform on the screen.
+     * Draws the Platform using a Texture.
      *
-     * @param shapeBatch a ShapeRenderer that will draw the Platform on the
-     * screenF
+     * @param batch a SpriteBatch that will draw the Texture representing the
+     * Platform
      */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(platform.x, platform.y, platform.width, platform.height);
+    public void draw(SpriteBatch batch) {
+        // determine how many columns of Textures you need to draw
+        float column = this.width / 16;
+        // determine how many rows of Textures you need to draw
+        float row = this.height / 16;
+
+        // determine the starting x and y positions to draw the Texture
+        float xDraw = this.x;
+        float yDraw = this.y;
+
+        // determine if you can draw a new column of Textures
+        while (column - 1 >= 0) {
+            // draw a Texture
+            batch.draw(platformPic, xDraw, yDraw, 16, 16);
+
+            // determine if more Textures need to be drawn vertically
+            while (row - 1 > 0) {
+                // adjust the yDraw variable
+                yDraw += 16;
+
+                // draw the Texture
+                batch.draw(platformPic, xDraw, yDraw, 16, 16);
+
+                row--;
+            }
+
+            // reset the variables
+            column--;
+            row = this.height / 16;
+            xDraw += 16;
+            yDraw = this.y;
+        }
     }
 
+    /**
+     * Returns the y position of the Platform.
+     *
+     * @return a float representing the y position of the Platform
+     */
+    public float getPlatformY() {
+        return this.platform.y;
+    }
+
+    /**
+     * Sets the y position of the Platform to be the specified float.
+     *
+     * @param platformY a float representing the new y position of the Platform
+     */
+    public void setPlatformY(float platformY) {
+        this.platform.y = platformY;
+    }
 }
