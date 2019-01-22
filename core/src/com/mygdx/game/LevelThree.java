@@ -37,6 +37,13 @@ public class LevelThree extends Level {
         movingPlatforms[5] = new MovingPlatform(true, 24, 23, 1, 3, 26);
        
         // initialize the Obstacles
+        super.fire = new Fire[1];
+        fire[0] = new Fire(1, 11, 7, 1);
+        super.water = new Water[1];
+        water[0] = new Water(34, 11, 7, 1);
+        super.mud = new Mud[1];
+        mud[0] = new Mud(1, 2, 40, 1);
+        
         // initialize the Gems
         // initialize the Doors
     }

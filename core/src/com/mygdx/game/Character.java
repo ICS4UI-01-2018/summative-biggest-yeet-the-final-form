@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -20,6 +22,7 @@ public abstract class Character {
     private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
+    private final Texture characterPic;
 
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
@@ -28,7 +31,7 @@ public abstract class Character {
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(float x, float y) {
+    public Character(Texture characterPic, float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
@@ -39,6 +42,7 @@ public abstract class Character {
         this.gravity = 0.3f; //tweak
         this.x = x * 16;
         this.y = y * 16;
+        this.characterPic = characterPic;
         this.onGround = true;
         this.jump = false;
         this.hitBottom = false;
@@ -159,7 +163,7 @@ public abstract class Character {
     /**
      * Sets the x coordinate to specified float
      *
-     * @param f a float representing new coordinate
+     * @param b a float representing new coordinate
      */
     public void setJumping(boolean b) {
         this.jump = b;
@@ -341,4 +345,19 @@ public abstract class Character {
         this.isDead = true;
     }
 
+    /**
+     * Draws the Character on the screen using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the Character
+     */
+    public abstract void draw(SpriteBatch batch);
+
+    /**
+     * Returns the Texture representing the Character.
+     *
+     * @return a Texture representing the Character
+     */
+    public Texture getTexture() {
+        return this.characterPic;
+    }
 }

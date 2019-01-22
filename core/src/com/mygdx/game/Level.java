@@ -45,7 +45,6 @@ public class Level extends Screen {
 
         // variable to determine if the Level has been won yet
         this.levelWon = false;
-
     }
 
     /**
@@ -65,16 +64,15 @@ public class Level extends Screen {
         for (Button b : this.buttons) {
             b.updatePositions();
         }
-
+        
         // Characters can only move if the level hasn't been won yet
-        if (!super.getDisplay()) {
+        if (super.getDisplay()) {
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
                 // make the Fireboy move left
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     this.fireboy.moveLeft();
-
                 }
                 // make the Watergirl move right
                 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -89,10 +87,8 @@ public class Level extends Screen {
                 this.fireboy.jumpAction();
                 if (this.fireboy.onTop(platforms)) {
                     this.fireboy.onGround = true;
-
                     //   movingPlatforms[0].wasOnTop = false;
                 } else if (this.fireboy.onTop(movingPlatforms)) {
-                    //        System.out.println("on top");
                     this.fireboy.onGround = true;
                     movingPlatforms[0].wasOnTop = true;
                     //   this.fireboy.setY(   movingPlatforms[0].getTop());
@@ -204,8 +200,7 @@ public class Level extends Screen {
         }
 
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
-        if (this.fireDoor.collision(
-                this.fireboy)
+        if (this.fireDoor.collision(this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
             super.setDisplay(false);
             this.levelWon = true;
@@ -235,13 +230,7 @@ public class Level extends Screen {
         for (MovingPlatform p : this.movingPlatforms) {
             p.draw(super.getShapeRenderer());
         }
-
-        // set the FireDoor to be magneta
-        this.fireDoor.draw(super.getShapeRenderer());
-
-        // set the WaterDoor to be cyan
-        this.waterDoor.draw(super.getShapeRenderer());
-
+      
         // do not draw the Fireboy on the screen if the Fireboy has died
         if (!this.fireboy.isDead()) {
             // set the color of the Fireboy to be red
@@ -295,6 +284,22 @@ public class Level extends Screen {
             m.draw(super.getSpriteBatch());
         }
 
+        // draw the Doors
+        this.fireDoor.draw(super.getSpriteBatch());
+        this.waterDoor.draw(super.getSpriteBatch());
+        
+        // draw the Characters if they haven't died yet
+        if (!this.fireboy.isDead()) {
+            this.fireboy.draw(super.getSpriteBatch());
+        } else {
+            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+        }
+        if (!this.watergirl.isDead()) {
+            this.watergirl.draw(super.getSpriteBatch());
+        } else {
+            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+        }
+
         // end the drawing of Textures
         super.getSpriteBatch().end();
     }
@@ -306,9 +311,5 @@ public class Level extends Screen {
      */
     public boolean isLevelWon() {
         return this.levelWon;
-    }
-
-    public void setLevelWon() {
-        this.levelWon = true;
     }
 }

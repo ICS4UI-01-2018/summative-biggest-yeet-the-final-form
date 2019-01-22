@@ -5,8 +5,7 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
 
 /**
  * Creates a WaterDoor as a subclass of Door in a game of Fireboy and Watergirl.
@@ -24,7 +23,7 @@ public class WaterDoor extends Door {
      * @param y a float representing the y position of the WaterDoor
      */
     public WaterDoor(float x, float y) {
-        super(x, y);
+        super(new Texture("WaterDoor.jpg"), x, y);
     }
 
     /**
@@ -37,19 +36,5 @@ public class WaterDoor extends Door {
      */
     public boolean collision(Watergirl watergirl) {
         return super.getBounds().overlaps(watergirl.getBounds());
-    }
-
-    /**
-     * Draw the WaterDoor using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer used to draw the WaterDoor
-     */
-    @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the WaterDoor to be cyan
-        shapeBatch.setColor(Color.CYAN);
-
-        // draw the WaterDoor
-        shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }

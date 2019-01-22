@@ -18,6 +18,9 @@ public class MainMenu extends Screen {
 
     private Texture mainMenuScreen;
 
+    /**
+     * Create the MainMenu of the game and allow it to be displayed first.
+     */
     @Override
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport

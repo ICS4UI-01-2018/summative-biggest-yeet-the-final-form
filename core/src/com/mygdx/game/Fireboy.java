@@ -5,8 +5,8 @@
  */
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a Fireboy as a subclass of Character to use in a game of Fireboy and
@@ -23,21 +23,16 @@ public class Fireboy extends Character {
      * @param y an integer representing the y position of the Fireboy
      */
     public Fireboy(float x, float y) {
-        super(x, y);
+        super(new Texture("FireBoyStanding.jpg"), x, y);
     }
 
     /**
-     * Draws a red rectangle on the screen using a ShapeRenderer to represent a
-     * Fireboy.
+     * Draws the Fireboy in the screen using a SpriteBatch.
      *
-     * @param shapeBatch a ShapeRenderer used to draw with
+     * @param batch a SpriteBatch used to draw the Fireboy
      */
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
-        // set the Fireboy to be red
-        shapeBatch.setColor(Color.RED);
-        
-        // draw the Fireboy on the screen
-        super.draw(shapeBatch);
+    public void draw(SpriteBatch batch) {
+        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }
 }
