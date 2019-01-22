@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.awt.Graphics;
 
 /**
  * Draws the objects of the games on the screen.
@@ -102,7 +103,9 @@ public class Level extends Screen {
 
                 for (MovingPlatform p : this.movingPlatforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        p.whereIsPlayer(fireboy);
+                        System.out.println("where");
+                        int x = p.whereIsPlayer(fireboy);
+                        System.out.println(x);
                     }
                 }
 
@@ -111,6 +114,7 @@ public class Level extends Screen {
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
+                        p.breakBlock();
                     }
                 }
 
@@ -135,6 +139,7 @@ public class Level extends Screen {
                 this.watergirl.jumpAction();
                 for (Platform p : this.platforms) {
                     if (p.getBounds().overlaps(watergirl.getBounds())) {
+
                     }
                 }
 
@@ -212,6 +217,7 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
+        //  g.drawString("hello", 0, 0);
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -224,6 +230,22 @@ public class Level extends Screen {
         for (MovingPlatform p : this.movingPlatforms) {
             p.draw(super.getShapeRenderer());
         }
+      
+        // do not draw the Fireboy on the screen if the Fireboy has died
+        if (!this.fireboy.isDead()) {
+            // set the color of the Fireboy to be red
+            super.getShapeRenderer().setColor(Color.RED);
+            this.fireboy.draw(super.getShapeRenderer());
+        } else {
+            System.out.println("here");
+ //           this.highScore.saveFile("playerScores", fireboy, watergirl);
+        }
+        // do not draw the Watergirl on the screen if the Watergirl has died
+        if (!this.watergirl.isDead()) {
+            // set the color of the Watergirl to be blue
+            super.getShapeRenderer().setColor(Color.BLUE);
+            this.watergirl.draw(super.getShapeRenderer());
+        }
 
         // draws a level complete screen when the Level has been won using a ShapeRenderer
         // allows for the drawing of the game objects to end
@@ -235,7 +257,9 @@ public class Level extends Screen {
 
         // draw the Platforms
         for (Platform p : this.platforms) {
-            p.draw(super.getSpriteBatch());
+            if (!p.getBroken()) {
+                p.draw(super.getSpriteBatch());
+            }
         }
 
         // draw the Gems

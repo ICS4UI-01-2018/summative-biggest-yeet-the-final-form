@@ -19,7 +19,7 @@ public class LevelTwo extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-        
+
         // initialize the Characters
         super.fireboy = new Fireboy(38.5f, 2);
         super.watergirl = new Watergirl(2, 2);
@@ -134,6 +134,9 @@ public class LevelTwo extends Level {
         super.waterGems[6] = new WaterGem(23, 15);
         super.waterGems[7] = new WaterGem(24, 15);
 
+        super.fireDoor = new FireDoor(1.5f, 9);
+        super.waterDoor = new WaterDoor(38.5f, 9);
+
         // initialize the Doors
         //water door
         super.waterDoor = new WaterDoor(1.5f,9);
@@ -163,7 +166,6 @@ public class LevelTwo extends Level {
                 mp.moveUp();
             }
         }
-
         // draw the game elements
         super.draw();
     }

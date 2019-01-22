@@ -55,7 +55,7 @@ public class LevelOne extends Level {
 
         // initialize the moving Platforms
         this.movingPlatforms = new MovingPlatform[1];
-        this.movingPlatforms[0] = new MovingPlatform(false, 1, 17.5f, 5, 0.5f, 12);
+        this.movingPlatforms[0] = new MovingPlatform(false, 1, 17f, 5, 1f, 12);
 
         // initialize the Obstacles
         super.fire = new Fire[1];

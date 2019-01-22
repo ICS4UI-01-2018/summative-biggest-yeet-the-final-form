@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class Character {
 
     private int gemsCollected;
-    private float x, y, gravity, ySpeed, height, width, xSpeed;
+    private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
     private final Texture characterPic;
@@ -39,7 +39,7 @@ public abstract class Character {
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.7f; //tweak
+        this.gravity = 0.3f; //tweak
         this.x = x * 16;
         this.y = y * 16;
         this.characterPic = characterPic;
@@ -49,6 +49,7 @@ public abstract class Character {
         this.hitSide = false;
         this.isOnTop = false;
         this.canJump = true;
+        this.maxYSpeed = 3;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -240,7 +241,7 @@ public abstract class Character {
         if (this.onGround && this.canJump) {
             this.isOnTop = false;
             this.isFalling = false;
-            ySpeed = -11;//height of jump
+            ySpeed = -7;//height of jump
             this.jump = true;
             this.onGround = false;
         }
@@ -253,7 +254,9 @@ public abstract class Character {
     public void jumpAction() {
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
-            ySpeed += gravity;
+            if (ySpeed < maxYSpeed) {
+                ySpeed += gravity;
+            }
             this.y -= ySpeed;
             this.updatePositions();
         }
@@ -296,26 +299,33 @@ public abstract class Character {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                    //   this.onGround = true;
                     counter++;
-
+                    System.out.println(p.timer());
                 }//character is on edge of platform
                 else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    //this.onGround = true;
                     counter++;
+                    System.out.println(p.timer());
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                    // this.onGround = true;
                     counter++;
+                    System.out.println(p.timer());
                 }
             }
         }
-        System.out.println(counter);
         if (counter == 0) {
-            // this.onGround = false;
             return false;
         } else {
             return true;
         }
+    }
+
+    /**
+     * Draws the Character on the screen using a ShapeRenderer.
+     *
+     * @param shapeBatch a ShapeRenderer used to draw the Character on the
+     * screen
+     */
+    public void draw(ShapeRenderer shapeBatch) {
+        shapeBatch.rect(character.x, character.y, character.width, character.height);
     }
 
     /**
