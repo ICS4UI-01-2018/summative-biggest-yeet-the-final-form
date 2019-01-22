@@ -18,7 +18,7 @@ public abstract class Character {
 
     private int gemsCollected;
     private float x, y, gravity, ySpeed, height, width, xSpeed;
-    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop;
+    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
 
     /**
@@ -32,7 +32,7 @@ public abstract class Character {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
-        this.xSpeed = 2;
+        this.xSpeed = 3;
         this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
@@ -44,6 +44,7 @@ public abstract class Character {
         this.hitBottom = false;
         this.hitSide = false;
         this.isOnTop = false;
+        this.canJump = true;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -232,7 +233,7 @@ public abstract class Character {
      * Sets the Character to a jumping state
      */
     public void jump() {
-        if (this.onGround) {
+        if (this.onGround && this.canJump) {
             this.isOnTop = false;
             this.isFalling = false;
             ySpeed = -11;//height of jump
@@ -291,26 +292,29 @@ public abstract class Character {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                    this.onGround = true;
+                 //   this.onGround = true;
                     counter++;
+
                 }//character is on edge of platform
                 else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    this.onGround = true;
+                    //this.onGround = true;
                     counter++;
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                    this.onGround = true;
+                   // this.onGround = true;
                     counter++;
                 }
             }
         }
-
+        System.out.println(counter);
         if (counter == 0) {
-                        this.onGround = false;
-
+            // this.onGround = false;
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
+    
+
 
     /**
      * Draws the Character on the screen using a ShapeRenderer.
@@ -338,7 +342,5 @@ public abstract class Character {
     public void died() {
         this.isDead = true;
     }
-
-
 
 }

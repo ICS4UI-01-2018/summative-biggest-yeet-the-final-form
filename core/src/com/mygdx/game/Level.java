@@ -30,6 +30,7 @@ public class Level extends Screen {
     WaterGem[] waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
+    Files highScore;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -40,9 +41,10 @@ public class Level extends Screen {
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
-        
+
         // variable to determine if the Level has been won yet
         this.levelWon = false;
+
     }
 
     /**
@@ -84,48 +86,37 @@ public class Level extends Screen {
                 //     block.updatePos(fireboy, platforms); 
                 //make fireboy jump
                 this.fireboy.jumpAction();
-                int counter = 0;
-                if (this.movingPlatforms instanceof Platform[]) {
-                    Platform[] temp = (Platform[]) this.movingPlatforms;
-                    if (temp[0].getBounds().overlaps(fireboy.getBounds())) {
-                        System.out.println("true");
-                    }
-                    //boolean onMoving = fireboy.onTop(temp);
-
-                    System.out.println(counter);
-
+                if (this.fireboy.onTop(platforms)) {
+                    this.fireboy.onGround = true;
+                         //   movingPlatforms[0].wasOnTop = false;
+                } else if (this.fireboy.onTop(movingPlatforms)) {
+                                        System.out.println("here");
+                    this.fireboy.onGround = true;
+                   movingPlatforms[0].wasOnTop = true;
+                //   this.fireboy.setY(   movingPlatforms[0].getTop());
+                } else {
+                    this.fireboy.onGround = false;
+                       //     movingPlatforms[0].wasOnTop = false;
                 }
+                movingPlatforms[0].tieTo(this.fireboy);
+              //  if (!this.movingPlatforms[0].tieTo(fireboy))){
+               //     
+              //  }
 
                 for (MovingPlatform p : this.movingPlatforms) {
-                    int hm = (p.onTop(fireboy));
-                    counter += hm;
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
                     }
-
-                    if (counter != 0) {
-                        p.wasOnTop = true;
-                        fireboy.setOnGround(true);
-                    }
-
-                    if (fireboy.jump) {
-                        p.wasOnTop = false;
-                    }
-                    p.tieTo(fireboy);
                 }
 
                 //check if he is on the ground
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
-                    int hm = (p.onTop(fireboy));
-                    counter += hm;
                     if (p.getBounds().overlaps(fireboy.getBounds())) {
                         p.whereIsPlayer(fireboy);
                     }
                 }
-                if (counter != 0) {
-                    fireboy.setOnGround(true);
-                }
+
             }
 
             // Watergirl keyboard listeners
@@ -212,6 +203,7 @@ public class Level extends Screen {
                 && this.waterDoor.collision(this.watergirl)) {
             super.setDisplay(false);
             this.levelWon = true;
+            this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
 
         // determines if the Buttons are pressed
@@ -248,6 +240,9 @@ public class Level extends Screen {
             // set the color of the Fireboy to be red
             super.getShapeRenderer().setColor(Color.RED);
             this.fireboy.draw(super.getShapeRenderer());
+        } else {
+            System.out.println("here");
+            this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
         // do not draw the Watergirl on the screen if the Watergirl has died
         if (!this.watergirl.isDead()) {
@@ -295,13 +290,17 @@ public class Level extends Screen {
         // end the drawing of Textures
         super.getSpriteBatch().end();
     }
-    
+
     /**
      * Returns whether or not if the Level has been won yet.
-     * 
-     * @return a boolean representing whether or not the Level has been won yet 
+     *
+     * @return a boolean representing whether or not the Level has been won yet
      */
     public boolean isLevelWon() {
         return this.levelWon;
+    }
+
+    public void setLevelWon() {
+        this.levelWon = true;
     }
 }
