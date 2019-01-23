@@ -56,14 +56,17 @@ public class Level extends Screen {
     public void render() {
         // clear the background
         super.render();
-        if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
-            System.out.println(this.fireboy.getY());
-        }
+
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
         for (MovingPlatform p : this.movingPlatforms) {
             p.updatePositions();
+            if (p.isMovingDown){
+            System.out.println(p.getY());
+            
+            }
+            System.out.println();
         }
         for (Button b : this.buttons) {
             b.updatePositions();
@@ -122,7 +125,6 @@ public class Level extends Screen {
             // Watergirl keyboard listeners
             // only move the Watergirl is she hasn't died yet
             if (!this.watergirl.isDead()) {
-//                watergirl.onTop(this.platforms, this.movingPlatforms);
                 // make the Watergirl move left
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                     this.watergirl.moveLeft();

@@ -107,6 +107,7 @@ public class Platform {
      */
     public void setY(float y) {
         this.y = y;
+        this.platform.y = this.y;
     }
 
     /**
@@ -116,6 +117,7 @@ public class Platform {
      */
     public void setX(float f) {
         this.x = f;
+        this.platform.x = this.x;
     }
 
     /**
@@ -299,6 +301,7 @@ public class Platform {
      * @param platformY a float representing the new y position of the Platform
      */
     public void setPlatformY(float platformY) {
+        this.y = platformY;
         this.platform.y = platformY;
     }
 }

@@ -39,7 +39,7 @@ public class MovingPlatform extends Platform {
     public MovingPlatform(boolean b, float x, float y, float width, float height, float movingY) {
         super(x, y, width, height);
 
-        this.speed = 0.01f;
+        this.speed = 0.05f;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
@@ -53,11 +53,6 @@ public class MovingPlatform extends Platform {
         }
     }
 
-    
-    public void setO (boolean b){
-        this.wasOnTop = b;
-    }
-
     /**
      * Moves the MovingPlatform down if it can.
      */
@@ -66,6 +61,8 @@ public class MovingPlatform extends Platform {
         if (super.getY() > this.minimumY) {
             // move the MovingPlatform down
             super.setY(super.getY() - this.speed);
+            updatePositions();
+            //  System.out.println(super.getY());
             this.isMovingDown = true;
             this.isMovingUp = false;
         } else {
@@ -81,6 +78,7 @@ public class MovingPlatform extends Platform {
         if (super.getY() < this.maximumY) {
             // move the MovingPlatform up
             super.setY(super.getY() + this.speed);
+            updatePositions();
             this.isMovingDown = false;
             this.isMovingUp = true;
         } else {
@@ -134,19 +132,14 @@ public class MovingPlatform extends Platform {
     }
 
     public void tieTo(Character character) {
-        
         if (this.wasOnTop && !character.jump && (this.isMovingDown || this.isMovingUp)) {
-         //   System.out.println(" tie to");
-          character.setY(super.getTop());
-          character.onGround = true;
-          //  character.canJump = true;
-        }else{
+            //   System.out.println(" tie to");
+            character.setY(super.getTop());
+            character.onGround = true;
+        } else {
             this.wasOnTop = false;
         }
     }
-
-    
- 
 
     /**
      * Draws a MovingPlatform using a ShapeRenderer.

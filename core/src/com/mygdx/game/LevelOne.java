@@ -110,6 +110,8 @@ public class LevelOne extends Level {
             // MovingPlatform moves down if a Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
                 mp.moveDown();
+                mp.updatePositions();
+                          //  System.out.println("button updated" + mp.getY());
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
