@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelThree extends Level {
+    
+      private long time = System.currentTimeMillis();
 
     /**
      * Initializes the different game objects in the Level.
@@ -73,6 +75,15 @@ public class LevelThree extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
+        
+        
+        //calculated display times
+    long timePassed = System.currentTimeMillis() - time;
+    long secondsPassed = timePassed/1000;
+    long secondsDisplayed = secondsPassed % 60;
+    long minutesDisplayed = secondsPassed/60;
+        
+        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
 
         // draw the game elements
         super.draw();

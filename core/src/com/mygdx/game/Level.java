@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class Level extends Screen {
 
+    long time = System.currentTimeMillis();
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter parameter;
     private BitmapFont font;
@@ -50,6 +51,9 @@ public class Level extends Screen {
      */
     @Override
     public void create() {
+        
+        
+        
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
         this.temp = new ArrayList<Platform>();
@@ -76,8 +80,28 @@ public class Level extends Screen {
      */
     @Override
     public void render() {
+        
         // clear the background
         super.render();
+        
+    
+        //calculated display times
+    long timePassed = System.currentTimeMillis() - time;
+    long secondsPassed = timePassed/1000;
+    long secondsDisplayed = secondsPassed % 60;
+    long minutesDisplayed = secondsPassed/60;
+    
+        if(this.levelWon){
+            secondsDisplayed = 0;
+            minutesDisplayed = 0;
+            System.out.println(minutesDisplayed+":"+secondsDisplayed);
+        }
+        
+        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
+        
+        
+        
+     
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
             System.out.println(this.fireboy.getY());
         }
