@@ -47,7 +47,7 @@ public class MainMenu extends Screen {
                 super.setDisplay(false);
                 return true;
             }
-        } 
+        }
         return false;
     }
 //    @Override

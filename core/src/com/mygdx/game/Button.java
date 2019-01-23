@@ -47,8 +47,8 @@ public class Button extends Obstacle {
         // set the Button to not be in a pressed state
         this.isPressed = false;
     }
-    
-    public void addMovingPlatform (MovingPlatform mp){
+
+    public void addMovingPlatform(MovingPlatform mp) {
         this.movingPlatforms.add(mp);
     }
 
@@ -85,7 +85,7 @@ public class Button extends Obstacle {
      * @return an array of MovingPlatforms representing the MovingPlatform(s)
      * that the Button can control
      */
-    public ArrayList<MovingPlatform>  getMovingPlatforms() {
+    public ArrayList<MovingPlatform> getMovingPlatforms() {
         return this.movingPlatforms;
     }
 

@@ -29,7 +29,7 @@ public class Fire extends Obstacle {
     public Fire(float x, float y, int width, int height) {
         super(new Texture("Fire.jpg"), x, y, width, height);
     }
-    
+
     /**
      * Draws the Fire on the screen using a SpriteBatch.
      *
@@ -46,10 +46,10 @@ public class Fire extends Obstacle {
         while (copy - 1 >= 0) {
             // draw the Texture
             batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
-            
+
             // determine where to place the Texture next
             textureX += 16;
-            
+
             copy -= 1;
         }
     }
