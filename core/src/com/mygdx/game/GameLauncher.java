@@ -19,6 +19,7 @@ public class GameLauncher extends ApplicationAdapter {
     private MainMenu mainMenu;
     private LevelOne levelOne;
     private LevelTwo levelTwo;
+    private LevelThree levelThree;
     private FitViewport viewport;
     private OrthographicCamera camera;
 
@@ -33,6 +34,8 @@ public class GameLauncher extends ApplicationAdapter {
         this.levelOne.create();
         this.levelTwo = new LevelTwo();
         this.levelTwo.create();
+        this.levelThree = new LevelThree();
+        this.levelThree.create();
 
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -50,27 +53,31 @@ public class GameLauncher extends ApplicationAdapter {
         // display the main menu
         if (this.mainMenu.getDisplay()) {
             this.mainMenu.render();
-        } else {
-            // set level one to be displayed
-            this.mainMenu.setDisplay(false);
+        }
+
+        // if spacebar is pressed next level
+        if (this.mainMenu.goNext()) {
             this.levelOne.setDisplay(true);
         }
-        
         // display level one
         if (this.levelOne.getDisplay()) {
             this.levelOne.render();
-            // determine if level one has been won
-            if (this.levelOne.isLevelWon()) {
-                // set level two to be displayed
-                this.levelOne.setDisplay(false);
-                this.levelTwo.setDisplay(true);
-            }
         }
-        
-      //   display level two
+
+        // set level two to be displayed if level is pressed
+        if (this.levelOne.nextLevel) {
+            this.levelOne.setDisplay(false);
+            this.levelTwo.setDisplay(true);
+        }
+        // display level two
         if (this.levelTwo.getDisplay()) {
             this.levelTwo.render();
         }
+
+        // set level three to be displayed
+        this.levelThree.setDisplay(true);
+
+        // display level three
     }
 
     /**
