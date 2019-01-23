@@ -23,16 +23,6 @@ public class Watergirl extends Character {
      * @param y an integer representing the y position of the Watergirl
      */
     public Watergirl(float x, float y) {
-        super(new Texture("WaterGirlStanding.jpg"), x, y);
-    }
-
-    /**
-     * Draws the Watergirl using a SpriteBatch.
-     *
-     * @param batch a SpriteBatch used to draw the Watergirl
-     */
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        super(new Texture("WaterGirlStanding.jpg"), new Texture("WaterGirlWalkingLeft.jpg"), new Texture("WaterGirlWalkingRight.jpg"), x, y);
     }
 }

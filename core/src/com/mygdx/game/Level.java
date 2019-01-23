@@ -56,9 +56,9 @@ public class Level extends Screen {
     public void render() {
         // clear the background
         super.render();
-         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
-             System.out.println(this.fireboy.getY());           
-         }
+        if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
+            System.out.println(this.fireboy.getY());
+        }
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
@@ -276,14 +276,26 @@ public class Level extends Screen {
 
         // draw the Characters if they haven't died yet
         if (!this.fireboy.isDead()) {
-            this.fireboy.draw(super.getSpriteBatch());
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                this.fireboy.drawLeft(super.getSpriteBatch());
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                this.fireboy.drawRight(super.getSpriteBatch());
+            } else {
+                this.fireboy.draw(super.getSpriteBatch());
+            }
         } else {
             this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
         }
         if (!this.watergirl.isDead()) {
-            this.watergirl.draw(super.getSpriteBatch());
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                this.watergirl.drawLeft(super.getSpriteBatch());
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                this.watergirl.drawRight(super.getSpriteBatch());
+            } else {
+                this.watergirl.draw(super.getSpriteBatch());
+            }
         } else {
-//            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
         }
 
         // end the drawing of Textures

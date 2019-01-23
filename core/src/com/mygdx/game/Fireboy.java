@@ -23,16 +23,6 @@ public class Fireboy extends Character {
      * @param y an integer representing the y position of the Fireboy
      */
     public Fireboy(float x, float y) {
-        super(new Texture("FireBoyStanding.jpg"), x, y);
-    }
-
-    /**
-     * Draws the Fireboy in the screen using a SpriteBatch.
-     *
-     * @param batch a SpriteBatch used to draw the Fireboy
-     */
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(super.getTexture(), super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        super(new Texture("FireBoyStanding.jpg"), new Texture("FireBoyWalkingLeft.jpg"), new Texture("FireBoyWalkingRight.jpg"), x, y);
     }
 }

@@ -23,16 +23,21 @@ public abstract class Character {
     private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
     private Rectangle character;
-    private final Texture characterPic;
+    private final Texture straightPic, leftPic, rightPic;
 
     /**
      * Create a Character by determining if it's a Fireboy or a Watergirl, and
      * it's x and y position on the screen.
      *
+     * @param straightPic a Texture used to represent the front side of the
+     * Character
+     * @param leftPic a Texture used to represent the left side of the Character
+     * @param rightPic a Texture used to represent the right side of the
+     * Character
      * @param x a float representing it's x position on the screen
      * @param y a float representing it's y position on the screen
      */
-    public Character(Texture characterPic, float x, float y) {
+    public Character(Texture straightPic, Texture leftPic, Texture rightPic, float x, float y) {
         this.height = 30;
         this.width = 24;
         this.gemsCollected = 0;
@@ -43,7 +48,9 @@ public abstract class Character {
         this.gravity = 0.3f; //tweak
         this.x = x * 16;
         this.y = y * 16;
-        this.characterPic = characterPic;
+        this.straightPic = straightPic;
+        this.leftPic = leftPic;
+        this.rightPic = rightPic;
         this.onGround = true;
         this.jump = false;
         this.hitBottom = false;
@@ -294,7 +301,7 @@ public abstract class Character {
      *
      * @param platforms array of platforms
      */
-    public Platform onTop( ArrayList<Platform>  platforms) {
+    public Platform onTop(ArrayList<Platform> platforms) {
         Platform current = null;
         for (Platform p : platforms) {
             if (this.y == p.getTop()) {
@@ -351,18 +358,56 @@ public abstract class Character {
     }
 
     /**
-     * Draws the Character on the screen using a SpriteBatch.
+     * Returns the Texture representing the front side of the Character.
+     *
+     * @return a Texture representing the front side of the Character
+     */
+    public Texture getStraightPic() {
+        return this.straightPic;
+    }
+
+    /**
+     * Returns the Texture representing the left side of the Character.
+     *
+     * @return a Texture representing the left side of the Character
+     */
+    public Texture getLeftPic() {
+        return this.leftPic;
+    }
+
+    /**
+     * Returns the Texture representing the right side of the Character
+     *
+     * @return a Texture representing the right side of the Character
+     */
+    public Texture getRightPic() {
+        return this.rightPic;
+    }
+
+    /**
+     * Draws the Character using a SpriteBatch.
      *
      * @param batch a SpriteBatch used to draw the Character
      */
-    public abstract void draw(SpriteBatch batch);
+    public void draw(SpriteBatch batch) {
+        batch.draw(this.straightPic, this.x, this.y, this.width, this.height);
+    }
 
     /**
-     * Returns the Texture representing the Character.
+     * Draws the left side of Character using a SpriteBatch.
      *
-     * @return a Texture representing the Character
+     * @param batch a SpriteBatch used to draw the left side of the Character
      */
-    public Texture getTexture() {
-        return this.characterPic;
+    public void drawLeft(SpriteBatch batch) {
+        batch.draw(this.leftPic, this.x, this.y, this.width, this.height);
+    }
+
+    /**
+     * Draws the right side of Character using a SpriteBatch.
+     *
+     * @param batch a SpriteBatch used to draw the right side of Character
+     */
+    public void drawRight(SpriteBatch batch) {
+        batch.draw(this.rightPic, this.x, this.y, this.width, this.height);
     }
 }
