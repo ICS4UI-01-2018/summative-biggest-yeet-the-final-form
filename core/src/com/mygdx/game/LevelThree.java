@@ -30,6 +30,8 @@ public class LevelThree extends Level {
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
+        
+        super.platforms.add(new Platform(1, 2, 1, 31));
 
         // initialize the MovingPlatforms
         super.movingPlatforms = new ArrayList<MovingPlatform>();
