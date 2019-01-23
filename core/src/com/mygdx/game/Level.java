@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class Level extends Screen {
 
+    long time = System.currentTimeMillis();
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter parameter;
     private BitmapFont font;
