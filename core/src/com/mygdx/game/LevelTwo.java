@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelTwo extends Level {
-    
-      private long time = System.currentTimeMillis();
+
+    private long time = System.currentTimeMillis();
 
     /**
      * Initializes the different game objects in the Level.
@@ -35,8 +35,7 @@ public class LevelTwo extends Level {
         super.platforms.add(new Platform(6, 2, 3, 2));
         super.platforms.add(new Platform(6, 4, 5, 1));
         super.platforms.add(new Platform(9, 0, 7, 1));
-        super.platforms.add(new Platform(16, 0, 1, 4)
-        );
+        super.platforms.add(new Platform(16, 0, 1, 4));
         super.platforms.add(new Platform(15, 4, 3, 1));
         super.platforms.add(new Platform(17, 0, 3, 1));
         super.platforms.add(new Platform(20, 0, 2, 8));
@@ -96,8 +95,7 @@ public class LevelTwo extends Level {
         super.platforms.add(new Platform(1, 33, 40, 1));
         super.platforms.add(new Platform(37, 10, 1, 1));
         super.platforms.add(new Platform(19, 7, 1, 1));
-        super.platforms.add(new Platform(22, 7, 1, 1)
-        );
+        super.platforms.add(new Platform(22, 7, 1, 1));
 
         // initialize the moving Platforms
         super.movingPlatforms = new ArrayList<MovingPlatform>();
@@ -115,7 +113,7 @@ public class LevelTwo extends Level {
         super.water.add(new Water(1, 28, 4, 1));
         super.water.add(new Water(13, 17, 7, 1));
 
-                super.mud= new ArrayList<Mud>();
+        super.mud = new ArrayList<Mud>();
         super.mud.add(new Mud(9, 1, 7, 1));
         super.mud.add(new Mud(17, 1, 3, 1));
         super.mud.add(new Mud(22, 1, 3, 1));
@@ -148,8 +146,6 @@ public class LevelTwo extends Level {
         super.waterGems.add(new WaterGem(24, 15)
         );
 
-        
-
         // initialize the Doors
         //water door
         super.fireDoor = (new FireDoor(1.5f, 9));
@@ -165,16 +161,15 @@ public class LevelTwo extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-        
-        
+
         //calculated display times
-    long timePassed = System.currentTimeMillis() - time;
-    long secondsPassed = timePassed/1000;
-    long secondsDisplayed = secondsPassed % 60;
-    long minutesDisplayed = secondsPassed/60;
-        
-        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
-        
+        long timePassed = System.currentTimeMillis() - time;
+        long secondsPassed = timePassed / 1000;
+        long secondsDisplayed = secondsPassed % 60;
+        long minutesDisplayed = secondsPassed / 60;
+
+        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
+
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
         // determine which MovingPlatforms that the Button controls

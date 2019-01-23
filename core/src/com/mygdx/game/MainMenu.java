@@ -34,25 +34,27 @@ public class MainMenu extends Screen {
         this.mainMenuScreen = new Texture("MainMenu.jpg");
     }
 
-    public void ihatelife(LevelOne l) {
-        l.setDisplay(true);
-        System.out.println("yeet");
-    }
-
-//    @Override
-    public void render(LevelOne l) {
-        // clear the background
-        super.render();
+    public boolean goNext() {
 
         // determine if the screen is being displayed
         if (super.getDisplay()) {
+            System.out.println("her");
             // determine if the space bar is pressed
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
                 // set the display to be off
-                System.out.println("h");
+                System.out.println("gdd");
                 super.setDisplay(false);
+                return true;
             }
         }
+        return false;
+    }
+//    @Override
+
+    public void render() {
+        // clear the background
+        super.render();
 
         // allow the drawing of the main menu screen
         super.getSpriteBatch().begin();

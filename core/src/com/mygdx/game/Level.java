@@ -43,6 +43,8 @@ public class Level extends Screen {
     WaterDoor waterDoor;
     Files highScore;
     ArrayList<Platform> temp;
+    ArrayList<Gem> tempGem;
+    boolean nextLevel;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -54,6 +56,7 @@ public class Level extends Screen {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
         this.temp = new ArrayList<Platform>();
+        this.tempGem = new ArrayList<Gem>();
 
         // level complete variables
         this.levelWon = false;
@@ -70,6 +73,7 @@ public class Level extends Screen {
         this.parameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.font = generator.generateFont(this.parameter);
         this.generator.dispose();
+        this.nextLevel = false;
     }
 
     /**
@@ -80,8 +84,37 @@ public class Level extends Screen {
         // clear the background
         super.render();
 
+        //calculated display times
+        long timePassed = System.currentTimeMillis() - this.timer;
+        long secondsPassed = timePassed / 1000;
+        long secondsDisplayed = secondsPassed % 60;
+        long minutesDisplayed = secondsPassed / 60;
+
+        if (this.levelWon) {
+            secondsDisplayed = 0;
+            minutesDisplayed = 0;
+            System.out.println(minutesDisplayed + ":" + secondsDisplayed);
+        }
+
+        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
+
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
             System.out.println(this.fireboy.getY());
+        }
+
+        // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
+        this.fireboy.updatePositions();
+        this.watergirl.updatePositions();
+        for (MovingPlatform p : this.movingPlatforms) {
+            p.updatePositions();
+            if (p.isMovingDown) {
+                System.out.println(p.getY());
+
+            }
+            System.out.println();
+        }
+        for (Button b : this.buttons) {
+            b.updatePositions();
         }
 
         // Characters can only move if the level hasn't been won yet
@@ -137,7 +170,6 @@ public class Level extends Screen {
             // Watergirl keyboard listeners
             // only move the Watergirl is she hasn't died yet
             if (!this.watergirl.isDead()) {
-//                watergirl.onTop(this.platforms, this.movingPlatforms);
                 // make the Watergirl move left
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                     this.watergirl.moveLeft();
@@ -166,13 +198,17 @@ public class Level extends Screen {
             for (FireGem fireGem : this.fireGems) {
                 // determine if the Fireboy has collected the FireGem
                 if (fireGem.collision(this.fireboy)) {
-                    // don't draw the FireGem on the screen
-                    System.out.println("hello");
+                                        this.fireboy.addGem();
+                                        this.fireboy.getGemsCollected();
+                    this.tempGem.add(fireGem);
                     fireGem.collected();
-                    // add to the Fireboy's FireGem count
-                    this.fireboy.addGem();
                 }
+                
+                // don't draw the FireGem on the screen
+                // add to the Fireboy's FireGem count
             }
+                            this.fireGems.removeAll(tempGem);
+
 
             // allow the Watergirl to collect the WaterGems
             for (WaterGem waterGem : this.waterGems) {
@@ -221,7 +257,7 @@ public class Level extends Screen {
         if (this.fireDoor.collision(this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
             this.levelWon = true;
-            this.highScore.saveFile("playerScores", fireboy, watergirl);
+            //   this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
 
         // pause button
@@ -244,6 +280,7 @@ public class Level extends Screen {
 
         // advance to the next level
         if (levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            this.nextLevel = true;
             super.setDisplay(false);
         }
     }

@@ -286,6 +286,7 @@ public abstract class Character {
      * collected
      */
     public int getGemsCollected() {
+        System.out.println(this.gemsCollected);
         return this.gemsCollected;
     }
 

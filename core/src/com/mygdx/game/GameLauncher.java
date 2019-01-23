@@ -50,42 +50,34 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void render() {
-//        // display the main menu
-//                int counter = 0; 
-//
-//        if (this.mainMenu.getDisplay()) {
-//            this.mainMenu.render();
-//           counter++;
-//            System.out.println(counter);
-//                    if (counter > 1){
-//                        this.mainMenu.ihatelife(levelOne);
-//                    }            System.out.println("main");
-//        }
-//        
-//        // set level one to be displayed
-//  //  if (mainMenu.x = false){    this.levelOne.setDisplay(true);
-//    
-//        // display level one
-//        if (this.levelOne.getDisplay()) {
-//            this.levelOne.render();
-// 
-//            System.out.println("level");
-//        }
-//        
-//        // set level two to be displayed
-//        //this.levelTwo.setDisplay(true);
-//        
-//        // display level two
-//        if (this.levelTwo.getDisplay()) {
-//            this.levelTwo.render();
-//        }
-//        
-//        // set level three to be displayed
-//        this.levelThree.setDisplay(true);
-//        
-//        // display level three
+        // display the main menu
+        if (this.mainMenu.getDisplay()) {
+            this.mainMenu.render();
+        }
 
-        this.levelOne.render();
+        // if spacebar is pressed next level
+        if (this.mainMenu.goNext()) {
+            this.levelOne.setDisplay(true);
+        }
+        // display level one
+        if (this.levelOne.getDisplay()) {
+            this.levelOne.render();
+        }
+
+        // set level two to be displayed if level is pressed
+        if (this.levelOne.nextLevel) {
+            this.levelOne.setDisplay(false);
+            this.levelTwo.setDisplay(true);
+        }
+        // display level two
+        if (this.levelTwo.getDisplay()) {
+            this.levelTwo.render();
+        }
+
+        // set level three to be displayed
+        this.levelThree.setDisplay(true);
+
+        // display level three
     }
 
     /**
