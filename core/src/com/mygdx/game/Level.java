@@ -43,6 +43,7 @@ public class Level extends Screen {
     WaterDoor waterDoor;
     Files highScore;
     ArrayList<Platform> temp;
+    ArrayList<Gem> tempGem;
     boolean nextLevel;
 
     /**
@@ -56,6 +57,7 @@ public class Level extends Screen {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
         this.temp = new ArrayList<Platform>();
+        this.tempGem = new ArrayList<Gem>();
 
         // level complete variables
         this.levelWon = false;
@@ -198,12 +200,17 @@ public class Level extends Screen {
             for (FireGem fireGem : this.fireGems) {
                 // determine if the Fireboy has collected the FireGem
                 if (fireGem.collision(this.fireboy)) {
-                    // don't draw the FireGem on the screen
+                                        this.fireboy.addGem();
+                                        this.fireboy.getGemsCollected();
+                    this.tempGem.add(fireGem);
                     fireGem.collected();
-                    // add to the Fireboy's FireGem count
-                    this.fireboy.addGem();
                 }
+                
+                // don't draw the FireGem on the screen
+                // add to the Fireboy's FireGem count
             }
+                            this.fireGems.removeAll(tempGem);
+
 
             // allow the Watergirl to collect the WaterGems
             for (WaterGem waterGem : this.waterGems) {

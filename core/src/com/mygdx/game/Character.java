@@ -286,6 +286,7 @@ public abstract class Character {
      * collected
      */
     public int getGemsCollected() {
+        System.out.println(this.gemsCollected);
         return this.gemsCollected;
     }
 
@@ -293,6 +294,7 @@ public abstract class Character {
      * Adds a Gem to the Gem count.
      */
     public void addGem() {
+        System.out.println("hello");
         this.gemsCollected++;
     }
 
