@@ -17,7 +17,11 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Level extends Screen {
-
+    
+  
+    private long time = System.currentTimeMillis();
+    
+    
     private boolean levelWon;
     Fireboy fireboy;
     Watergirl watergirl;
@@ -41,6 +45,9 @@ public class Level extends Screen {
      */
     @Override
     public void create() {
+        
+        
+        
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
         temp = new ArrayList<Platform>();
@@ -54,8 +61,28 @@ public class Level extends Screen {
      */
     @Override
     public void render() {
+        
         // clear the background
         super.render();
+        
+    
+        //calculated display times
+    long timePassed = System.currentTimeMillis() - time;
+    long secondsPassed = timePassed/1000;
+    long secondsDisplayed = secondsPassed % 60;
+    long minutesDisplayed = secondsPassed/60;
+    
+        if(this.levelWon){
+            secondsDisplayed = 0;
+            minutesDisplayed = 0;
+            System.out.println(minutesDisplayed+":"+secondsDisplayed);
+        }
+        
+        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
+        
+        
+        
+     
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
             System.out.println(this.fireboy.getY());
         }

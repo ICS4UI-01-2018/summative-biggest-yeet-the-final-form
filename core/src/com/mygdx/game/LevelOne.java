@@ -9,6 +9,9 @@ import java.util.ArrayList;
  */
 public class LevelOne extends Level {
 
+    
+      private long time = System.currentTimeMillis();
+      
     /**
      * Initialize the different game objects in the Level.
      */
@@ -99,6 +102,16 @@ public class LevelOne extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
+        
+          //calculated display times
+    long timePassed = System.currentTimeMillis() - time;
+    long secondsPassed = timePassed/1000;
+    long secondsDisplayed = secondsPassed % 60;
+    long minutesDisplayed = secondsPassed/60;
+        
+        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
+        
+        
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(1).addMovingPlatform(this.movingPlatforms.get(0));
 
