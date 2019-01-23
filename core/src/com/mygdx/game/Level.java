@@ -58,16 +58,19 @@ public class Level extends Screen {
         super.create();
         this.temp = new ArrayList<Platform>();
 
-        // variable to determine if the Level has been won yet
+        // level complete variables
         this.levelWon = false;
+        this.levelCompleteScreen = new Texture("LevelComplete.jpg");
 
+        // pause variables
+        this.pause = false;
         this.pauseButton = new Texture("pause button.jpg");
 
         // initialize the font
         this.generator = new FreeTypeFontGenerator(Gdx.files.internal("data-unifon.ttf"));
         this.parameter = new FreeTypeFontParameter();
-        this.parameter.size = 100;
-        this.parameter.characters = "abcdefghijklmnopqrstuvwxyz";
+        this.parameter.size = 30;
+        this.parameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.font = generator.generateFont(this.parameter);
         this.generator.dispose();
     }
@@ -250,12 +253,19 @@ public class Level extends Screen {
                 && (click.x >= 620 && click.x <= 670)
                 && (click.y >= 2 && click.y <= 30)
                 && !this.pause) {
+            // pause the game
             this.pause = true;
         } else if (Gdx.input.justTouched()
                 && (click.x >= 620 && click.x <= 670)
                 && (click.y >= 2 && click.y <= 30)
                 && this.pause) {
+            // unpause the game
             this.pause = false;
+        }
+        
+        // advance to the next level
+        if (levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            super.setDisplay(false);
         }
     }
 
@@ -362,8 +372,13 @@ public class Level extends Screen {
         // draw pause button
         super.getSpriteBatch().draw(this.pauseButton, 642, 2, 28, 28);
 
-        this.font.setColor(Color.WHITE);
-        this.font.draw(super.getSpriteBatch(), "AHAHAHAH", 50, 50);
+        // this.font.setColor(Color.BLUE);
+        // this.font.draw(super.getSpriteBatch(), "yeet", 50, 50);
+        
+        // draw the level complete screen
+        if (levelWon) {
+            super.getSpriteBatch().draw(this.levelCompleteScreen, 221, 136, 230, 272);
+        }
         
         // end the drawing of Textures
         super.getSpriteBatch().end();
