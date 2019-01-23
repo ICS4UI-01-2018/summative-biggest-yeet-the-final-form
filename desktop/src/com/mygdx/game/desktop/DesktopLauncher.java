@@ -10,7 +10,7 @@ import com.mygdx.game.GameLauncher;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class DesktopLauncher {
-
+ 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         LwjglApplication gameLauncher = new LwjglApplication(new GameLauncher(), config);

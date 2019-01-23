@@ -148,14 +148,13 @@ public class LevelTwo extends Level {
         super.waterGems.add(new WaterGem(24, 15)
         );
 
-        super.fireDoor = (new FireDoor(1.5f, 9));
-        super.waterDoor = (new WaterDoor(38.5f, 9));
+        
 
         // initialize the Doors
         //water door
-        super.waterDoor = (new WaterDoor(1.5f, 9));
+        super.fireDoor = (new FireDoor(1.5f, 9));
         //fire door
-        super.fireDoor = (new FireDoor(38.5f, 9));
+        super.waterDoor = (new WaterDoor(38.5f, 9));
     }
 
     /**

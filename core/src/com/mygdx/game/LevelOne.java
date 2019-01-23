@@ -22,8 +22,8 @@ public class LevelOne extends Level {
         super.highScore = new Files("playerScores", fireboy, watergirl);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(15, 18);
-        super.watergirl = new Watergirl(15, 12);
+        super.fireboy = new Fireboy(33, 30);
+        super.watergirl = new Watergirl(34, 30);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
