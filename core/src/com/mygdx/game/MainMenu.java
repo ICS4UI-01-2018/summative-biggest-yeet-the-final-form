@@ -15,7 +15,8 @@ import com.badlogic.gdx.graphics.Texture;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class MainMenu extends Screen {
- boolean x;
+
+    boolean x;
     private Texture mainMenuScreen;
 
     /**
@@ -28,11 +29,12 @@ public class MainMenu extends Screen {
 
         // set the MainMenu screen to be on first
         super.setDisplay(true);
-x = true;
+        x = true;
         // initialize the main menu screen
         this.mainMenuScreen = new Texture("MainMenu.jpg");
     }
-    public void ihatelife(LevelOne l){
+
+    public void ihatelife(LevelOne l) {
         l.setDisplay(true);
         System.out.println("yeet");
     }

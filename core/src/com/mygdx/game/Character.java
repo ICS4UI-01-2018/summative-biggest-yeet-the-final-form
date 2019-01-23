@@ -293,6 +293,7 @@ public abstract class Character {
      * Adds a Gem to the Gem count.
      */
     public void addGem() {
+        System.out.println(this.gemsCollected);
         this.gemsCollected++;
     }
 
