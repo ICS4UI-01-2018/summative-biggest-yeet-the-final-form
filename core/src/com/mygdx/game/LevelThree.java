@@ -39,17 +39,29 @@ public class LevelThree extends Level {
         super.movingPlatforms.add(new MovingPlatform(true, 24, 23, 1, 3, 26));
 
         // initialize the Obstacles
-//        super.fire = new Fire[1];
-//        fire[0] = ;
-//        super.water = new Water[1];
-//        water[0] = new Water(34, 11, 7, 1);
-//        super.mud = new Mud[1];
-//        mud[0] = new Mud(1, 2, 40, 1);
         super.fire = new ArrayList<Fire>();
         super.fire.add(new Fire(1, 11, 7, 1));
-        
+        super.water = new ArrayList<Water>();
+        super.water.add(new Water(34, 11, 7, 1));
+        super.mud = new ArrayList<Mud>();
+        super.mud.add(new Mud(1, 2, 40, 1));
 
         // initialize the Gems
+        super.fireGems = new ArrayList<FireGem>();
+        super.fireGems.add(new FireGem(20, 18));
+        super.fireGems.add(new FireGem(22, 18));
+        super.fireGems.add(new FireGem(19, 12));
+        super.fireGems.add(new FireGem(21, 12));
+        super.fireGems.add(new FireGem(20, 11));
+        super.fireGems.add(new FireGem(22, 11));
+        super.waterGems = new ArrayList<WaterGem>();
+        super.waterGems.add(new WaterGem(19, 18));
+        super.waterGems.add(new WaterGem(21, 18));
+        super.waterGems.add(new WaterGem(20, 12));
+        super.waterGems.add(new WaterGem(22, 12));
+        super.waterGems.add(new WaterGem(19, 11));
+        super.waterGems.add(new WaterGem(21, 11));
+        
         // initialize the Doors
     }
 

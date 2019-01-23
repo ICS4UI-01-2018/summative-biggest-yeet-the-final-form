@@ -8,7 +8,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +23,11 @@ import java.util.ArrayList;
  */
 public class Level extends Screen {
 
-    private boolean levelWon;
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontParameter parameter;
+    private BitmapFont font;
+    private Texture pauseButton, levelCompleteScreen;
+    private boolean levelWon, pause;
     Fireboy fireboy;
     Watergirl watergirl;
     ArrayList<Platform> platforms;
@@ -43,10 +52,20 @@ public class Level extends Screen {
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
-        temp = new ArrayList<Platform>();
+        this.temp = new ArrayList<Platform>();
 
         // variable to determine if the Level has been won yet
         this.levelWon = false;
+
+        this.pauseButton = new Texture("pause button.jpg");
+
+        // initialize the font
+        this.generator = new FreeTypeFontGenerator(Gdx.files.internal("data-unifon.ttf"));
+        this.parameter = new FreeTypeFontParameter();
+        this.parameter.size = 100;
+        this.parameter.characters = "abcdefghijklmnopqrstuvwxyz";
+        this.font = generator.generateFont(this.parameter);
+        this.generator.dispose();
     }
 
     /**
@@ -59,18 +78,9 @@ public class Level extends Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
             System.out.println(this.fireboy.getY());
         }
-        // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
-        this.fireboy.updatePositions();
-        this.watergirl.updatePositions();
-        for (MovingPlatform p : this.movingPlatforms) {
-            p.updatePositions();
-        }
-        for (Button b : this.buttons) {
-            b.updatePositions();
-        }
 
         // Characters can only move if the level hasn't been won yet
-        if (super.getDisplay()) {
+        if (!this.levelWon && !this.pause) {
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
@@ -108,7 +118,7 @@ public class Level extends Screen {
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
                     if (p.breakBlock()) {
-                        temp.add(p);
+                        this.temp.add(p);
                         p.breakable = false;
                     }
                     if (p.getBounds().overlaps(c.getBounds())) {
@@ -136,67 +146,92 @@ public class Level extends Screen {
                     this.watergirl.jump();
                 }
             }
-        }
 
-        // allow the Fireboy to collect the FireGems
-        for (FireGem fireGem : this.fireGems) {
-            // determine if the Fireboy has collected the FireGem
-            if (fireGem.collision(this.fireboy)) {
-                // don't draw the FireGem on the screen
-                fireGem.collected();
-                // add to the Fireboy's FireGem count
-                this.fireboy.addGem();
+            // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
+            this.fireboy.updatePositions();
+            this.watergirl.updatePositions();
+            for (MovingPlatform p : this.movingPlatforms) {
+                p.updatePositions();
             }
-        }
-
-        // allow the Watergirl to collect the WaterGems
-        for (WaterGem waterGem : this.waterGems) {
-            // determine if the Watergirl has collected the WaterGem
-            if (waterGem.collision(this.watergirl)) {
-                // don't draw the WaterGem on the screen
-                waterGem.collected();
-                // add to the Watergirl's WaterGem count
-                this.watergirl.addGem();
-            }
-        }
-
-        // allow the Watergirl to die when it comes into contact with Fire
-        for (Fire f : this.fire) {
-            if (f.collidesWith(this.watergirl)) {
-                this.watergirl.died();
-            }
-        }
-
-        // allow the Fireboy to die when it comes into contact with Water
-        for (Water w : this.water) {
-            if (w.collidesWith(this.fireboy)) {
-                this.fireboy.died();
-            }
-        }
-
-        for (Mud m : this.mud) {
-            // allow the Fireboy to die when it comes into contact with Mud
-            if (m.collidesWith(this.fireboy)) {
-                this.fireboy.died();
+            for (Button b : this.buttons) {
+                b.updatePositions();
             }
 
-            // allow the Watergirl to die when it comes into contact with Mud
-            if (m.collidesWith(this.watergirl)) {
-                this.watergirl.died();
+            // allow the Fireboy to collect the FireGems
+            for (FireGem fireGem : this.fireGems) {
+                // determine if the Fireboy has collected the FireGem
+                if (fireGem.collision(this.fireboy)) {
+                    // don't draw the FireGem on the screen
+                    fireGem.collected();
+                    // add to the Fireboy's FireGem count
+                    this.fireboy.addGem();
+                }
+            }
+
+            // allow the Watergirl to collect the WaterGems
+            for (WaterGem waterGem : this.waterGems) {
+                // determine if the Watergirl has collected the WaterGem
+                if (waterGem.collision(this.watergirl)) {
+                    // don't draw the WaterGem on the screen
+                    waterGem.collected();
+                    // add to the Watergirl's WaterGem count
+                    this.watergirl.addGem();
+                }
+            }
+
+            // allow the Watergirl to die when it comes into contact with Fire
+            for (Fire f : this.fire) {
+                if (f.collidesWith(this.watergirl)) {
+                    this.watergirl.died();
+                }
+            }
+
+            // allow the Fireboy to die when it comes into contact with Water
+            for (Water w : this.water) {
+                if (w.collidesWith(this.fireboy)) {
+                    this.fireboy.died();
+                }
+            }
+
+            for (Mud m : this.mud) {
+                // allow the Fireboy to die when it comes into contact with Mud
+                if (m.collidesWith(this.fireboy)) {
+                    this.fireboy.died();
+                }
+
+                // allow the Watergirl to die when it comes into contact with Mud
+                if (m.collidesWith(this.watergirl)) {
+                    this.watergirl.died();
+                }
+            }
+
+            // determines if the Buttons are pressed
+            for (Button b : this.buttons) {
+                b.pressed(this.fireboy, this.watergirl);
             }
         }
 
         // win the game if Fireboy and Watergirl stand in front of their respected Doors
         if (this.fireDoor.collision(this.fireboy)
                 && this.waterDoor.collision(this.watergirl)) {
-            super.setDisplay(false);
             this.levelWon = true;
             this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
 
-        // determines if the Buttons are pressed
-        for (Button b : this.buttons) {
-            b.pressed(this.fireboy, this.watergirl);
+        // pause button
+        Vector3 click = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        super.getCamera().unproject(click);
+        // determine if the pause button is clicked
+        if (Gdx.input.justTouched()
+                && (click.x >= 620 && click.x <= 670)
+                && (click.y >= 2 && click.y <= 30)
+                && !this.pause) {
+            this.pause = true;
+        } else if (Gdx.input.justTouched()
+                && (click.x >= 620 && click.x <= 670)
+                && (click.y >= 2 && click.y <= 30)
+                && this.pause) {
+            this.pause = false;
         }
     }
 
@@ -204,7 +239,7 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
-        //  g.drawString("hello", 0, 0);
+        // g.drawString("hello", 0, 0);
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -274,30 +309,38 @@ public class Level extends Screen {
         this.fireDoor.draw(super.getSpriteBatch());
         this.waterDoor.draw(super.getSpriteBatch());
 
-        // draw the Characters if they haven't died yet
-        if (!this.fireboy.isDead()) {
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                this.fireboy.drawLeft(super.getSpriteBatch());
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                this.fireboy.drawRight(super.getSpriteBatch());
+        if (!pause) {
+            // draw the Characters if they haven't died yet
+            if (!this.fireboy.isDead()) {
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    this.fireboy.drawLeft(super.getSpriteBatch());
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    this.fireboy.drawRight(super.getSpriteBatch());
+                } else {
+                    this.fireboy.draw(super.getSpriteBatch());
+                }
             } else {
-                this.fireboy.draw(super.getSpriteBatch());
+                this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
             }
-        } else {
-            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
-        }
-        if (!this.watergirl.isDead()) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                this.watergirl.drawLeft(super.getSpriteBatch());
-            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                this.watergirl.drawRight(super.getSpriteBatch());
+            if (!this.watergirl.isDead()) {
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    this.watergirl.drawLeft(super.getSpriteBatch());
+                } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    this.watergirl.drawRight(super.getSpriteBatch());
+                } else {
+                    this.watergirl.draw(super.getSpriteBatch());
+                }
             } else {
-                this.watergirl.draw(super.getSpriteBatch());
+                this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
             }
-        } else {
-            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
         }
 
+        // draw pause button
+        super.getSpriteBatch().draw(this.pauseButton, 642, 2, 28, 28);
+
+        this.font.setColor(Color.WHITE);
+        this.font.draw(super.getSpriteBatch(), "AHAHAHAH", 50, 50);
+        
         // end the drawing of Textures
         super.getSpriteBatch().end();
     }
