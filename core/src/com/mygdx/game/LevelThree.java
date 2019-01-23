@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelThree extends Level {
-    
-      private long time = System.currentTimeMillis();
+
+    private long time = System.currentTimeMillis();
 
     /**
      * Initializes the different game objects in the Level.
@@ -30,7 +30,7 @@ public class LevelThree extends Level {
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
-        
+
         // initialize the MovingPlatforms
         super.movingPlatforms = new ArrayList<MovingPlatform>();
         super.movingPlatforms.add(new MovingPlatform(true, 17, 11, 1, 3, 14));
@@ -63,7 +63,7 @@ public class LevelThree extends Level {
         super.waterGems.add(new WaterGem(22, 12));
         super.waterGems.add(new WaterGem(19, 11));
         super.waterGems.add(new WaterGem(21, 11));
-        
+
         // initialize the Doors
     }
 
@@ -75,15 +75,14 @@ public class LevelThree extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-        
-        
+
         //calculated display times
-    long timePassed = System.currentTimeMillis() - time;
-    long secondsPassed = timePassed/1000;
-    long secondsDisplayed = secondsPassed % 60;
-    long minutesDisplayed = secondsPassed/60;
-        
-        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
+        long timePassed = System.currentTimeMillis() - time;
+        long secondsPassed = timePassed / 1000;
+        long secondsDisplayed = secondsPassed % 60;
+        long minutesDisplayed = secondsPassed / 60;
+
+        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
 
         // draw the game elements
         super.draw();
