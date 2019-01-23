@@ -67,7 +67,7 @@ public class GameLauncher extends ApplicationAdapter {
             }
         }
         
-        // display level two
+      //   display level two
         if (this.levelTwo.getDisplay()) {
             this.levelTwo.render();
         }

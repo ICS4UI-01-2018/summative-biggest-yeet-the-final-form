@@ -7,6 +7,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.util.ArrayList;
 
 /**
  * Creates a Button as a subclass of Obstacle to use in a game of Fireboy and
@@ -17,7 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class Button extends Obstacle {
 
-    private final MovingPlatform[] movingPlatforms;
+    private final ArrayList<MovingPlatform> movingPlatforms;
     private final float speed, maximumY, minimumY;
     private boolean isPressed;
 
@@ -30,11 +31,11 @@ public class Button extends Obstacle {
      * @param movingPlatforms an array of MovingPlatforms representing the
      * MovingPlatforms that the Button controls
      */
-    public Button(float x, float y, MovingPlatform[] movingPlatforms) {
+    public Button(float x, float y) {
         // initialize the x and y position, and the width and height of the Button
         super(new Texture("Button.jpg"), x, y, 1, 0.5f);
 
-        this.movingPlatforms = movingPlatforms;
+        this.movingPlatforms = new ArrayList<MovingPlatform>();;
         this.speed = 0.1f;
 
         // Button cannot move higher than this y position
@@ -45,6 +46,10 @@ public class Button extends Obstacle {
 
         // set the Button to not be in a pressed state
         this.isPressed = false;
+    }
+    
+    public void addMovingPlatform (MovingPlatform mp){
+        this.movingPlatforms.add(mp);
     }
 
     /**
@@ -80,7 +85,7 @@ public class Button extends Obstacle {
      * @return an array of MovingPlatforms representing the MovingPlatform(s)
      * that the Button can control
      */
-    public MovingPlatform[] getMovingPlatforms() {
+    public ArrayList<MovingPlatform>  getMovingPlatforms() {
         return this.movingPlatforms;
     }
 

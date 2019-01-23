@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
 
 /**
  * Creates a Character to use in a game of Fireboy and Watergirl. Allows for the
@@ -205,7 +206,7 @@ public abstract class Character {
             this.xSpeed = 3;
         }
         if (!this.jump) {
-            this.xSpeed = 2;
+            this.xSpeed = 3;
         }
         // do not let the Character move off of the left-side of the screen
         if (this.x > 16) {
@@ -224,7 +225,7 @@ public abstract class Character {
             this.xSpeed = 3;
         }
         if (!this.jump) {
-            this.xSpeed = 2;
+            this.xSpeed = 3;
         }
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {
@@ -293,28 +294,32 @@ public abstract class Character {
      *
      * @param platforms array of platforms
      */
-    public boolean onTop(Platform[] platforms) {
-        int counter = 0;
+    public Platform onTop( ArrayList<Platform>  platforms) {
+        Platform current = null;
         for (Platform p : platforms) {
             if (this.y == p.getTop()) {
                 //player is somewhere in the middle of the platform
                 if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                    counter++;
-                    System.out.println(p.timer());
+                    current = p;
+                    p.timer();
                 }//character is on edge of platform
                 else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    counter++;
-                    System.out.println(p.timer());
+                    current = p;
+                    p.timer();
+
                 } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                    counter++;
-                    System.out.println(p.timer());
+                    current = p;
+                    p.timer();
                 }
             }
         }
-        if (counter == 0) {
-            return false;
-        } else {
-            return true;
+        return current;
+    }
+
+    public void setThat(boolean b, MovingPlatform mp) {
+        this.onGround = b;
+        if (mp != null) {
+            mp.wasOnTop = true;
         }
     }
 

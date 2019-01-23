@@ -19,7 +19,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class MovingPlatform extends Platform {
 
     private final float speed, maximumY, minimumY;
-    boolean isMovingUp, isMovingDown, wasOnTop;
+    boolean isMovingUp, isMovingDown, wasOnTop, breakable;
     private static final boolean UP = true;
     private static final boolean DOWN = false;
 
@@ -39,11 +39,10 @@ public class MovingPlatform extends Platform {
     public MovingPlatform(boolean b, float x, float y, float width, float height, float movingY) {
         super(x, y, width, height);
 
-        this.speed = 0.5f;
+        this.speed = 0.01f;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
-
         // set the minimum and maximum y variables based on whether if the MovingPlatform will move up or down
         if (!b) {
             this.maximumY = y * 16;
@@ -52,6 +51,11 @@ public class MovingPlatform extends Platform {
             this.maximumY = movingY * 16;
             this.minimumY = y * 16;
         }
+    }
+
+    
+    public void setO (boolean b){
+        this.wasOnTop = b;
     }
 
     /**
