@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelTwo extends Level {
+    
+      private long time = System.currentTimeMillis();
 
     /**
      * Initializes the different game objects in the Level.
@@ -146,14 +148,13 @@ public class LevelTwo extends Level {
         super.waterGems.add(new WaterGem(24, 15)
         );
 
-        super.fireDoor = (new FireDoor(1.5f, 9));
-        super.waterDoor = (new WaterDoor(38.5f, 9));
+        
 
         // initialize the Doors
         //water door
-        super.waterDoor = (new WaterDoor(1.5f, 9));
+        super.fireDoor = (new FireDoor(1.5f, 9));
         //fire door
-        super.fireDoor = (new FireDoor(38.5f, 9));
+        super.waterDoor = (new WaterDoor(38.5f, 9));
     }
 
     /**
@@ -164,6 +165,15 @@ public class LevelTwo extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
+        
+        
+        //calculated display times
+    long timePassed = System.currentTimeMillis() - time;
+    long secondsPassed = timePassed/1000;
+    long secondsDisplayed = secondsPassed % 60;
+    long minutesDisplayed = secondsPassed/60;
+        
+        System.out.println(minutesDisplayed +":"+ secondsDisplayed);
         
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
