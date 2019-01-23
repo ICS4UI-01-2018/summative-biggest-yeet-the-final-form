@@ -19,6 +19,7 @@ public class GameLauncher extends ApplicationAdapter {
     private MainMenu mainMenu;
     private LevelOne levelOne;
     private LevelTwo levelTwo;
+    private LevelThree levelThree;
     private FitViewport viewport;
     private OrthographicCamera camera;
 
@@ -33,6 +34,8 @@ public class GameLauncher extends ApplicationAdapter {
         this.levelOne.create();
         this.levelTwo = new LevelTwo();
         this.levelTwo.create();
+        this.levelThree = new LevelThree();
+        this.levelThree.create();
 
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -48,29 +51,39 @@ public class GameLauncher extends ApplicationAdapter {
     @Override
     public void render() {
         // display the main menu
+                int counter = 0; 
+
         if (this.mainMenu.getDisplay()) {
             this.mainMenu.render();
-        } else {
-            // set level one to be displayed
-            this.mainMenu.setDisplay(false);
-            this.levelOne.setDisplay(true);
+           counter++;
+            System.out.println(counter);
+                    if (counter > 1){
+                        this.mainMenu.ihatelife(levelOne);
+                    }            System.out.println("main");
         }
         
+        // set level one to be displayed
+  //  if (mainMenu.x = false){    this.levelOne.setDisplay(true);
+    
         // display level one
         if (this.levelOne.getDisplay()) {
             this.levelOne.render();
-            // determine if level one has been won
-            if (this.levelOne.isLevelWon()) {
-                // set level two to be displayed
-                this.levelOne.setDisplay(false);
-                this.levelTwo.setDisplay(true);
-            }
+ 
+            System.out.println("level");
         }
         
-      //   display level two
+        // set level two to be displayed
+        //this.levelTwo.setDisplay(true);
+        
+        // display level two
         if (this.levelTwo.getDisplay()) {
             this.levelTwo.render();
         }
+        
+        // set level three to be displayed
+        this.levelThree.setDisplay(true);
+        
+        // display level three
     }
 
     /**
