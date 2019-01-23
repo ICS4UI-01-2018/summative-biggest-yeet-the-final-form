@@ -19,10 +19,10 @@ import com.badlogic.gdx.math.Intersector;
 public class Platform {
 
     private final Rectangle platform, overlap;
-    private float width, height, timer;
+    private float width, height, timer, timeLimit;
     private float x, y;
     private final Texture platformPic;
-    private boolean broken;
+     boolean broken, breakable;
 
     /**
      * Creates a Platform using the xRect, y, width, and height.
@@ -37,7 +37,34 @@ public class Platform {
         this.y = y * 16;
         this.width = width * 16;
         this.height = height * 16;
+        // initialize an new Rectangle to be used for collisions
+        this.overlap = new Rectangle(0, 0, 0, 0);
         this.timer = 0;
+        // initialize a new Rectangle to represent the Platform
+        this.platform = new Rectangle(this.x, this.y, this.width, this.height);
+
+        // initialize the Texture for the Platform
+        this.platformPic = new Texture("Block.jpg");
+
+        this.broken = false;
+    }
+
+    /**
+     * Creates a Platform using the xRect, y, width, and height.
+     *
+     * @param x an integer representing the xRect-coordinate of the platform
+     * @param y an integer representing the y-coordinate of the platform
+     * @param width an integer representing the width of the platform
+     * @param height an integer representing the height of the platform
+     */
+    public Platform(float x, float y, float width, float height, float timeLimit) {
+        this.x = x * 16;
+        this.y = y * 16;
+        this.width = width * 16;
+        this.height = height * 16;
+        this.timer = 0;
+        this.breakable = true;
+        this.timeLimit = timeLimit;
         // initialize an new Rectangle to be used for collisions
         this.overlap = new Rectangle(0, 0, 0, 0);
 
@@ -46,11 +73,12 @@ public class Platform {
 
         // initialize the Texture for the Platform
         this.platformPic = new Texture("Block.jpg");
-        
+
         this.broken = false;
+        this.timer = 0;
     }
-    
-    public boolean getBroken(){
+
+    public boolean getBroken() {
         return this.broken;
     }
 
@@ -144,20 +172,31 @@ public class Platform {
         return this.platform;
     }
 
-    public float timer() {
-        this.timer = this.timer + 1;
+    public float timer() {//give each block a limit
+        if (breakable) {
+            System.out.println(this.timer);
+            this.timer++;
+        }
         return this.timer;
     }
-    
-    public void breakBlock(){
-        System.out.println();
-        System.out.println(this.timer);
-        System.out.println();
-    if (this.timer >= 10){
-        System.out.println("here");
-        this.broken = true;
+
+    public void dissapear() {//try to acc remove
+        this.width = 0;
+        this.height = 0;
+        this.x = 0;
+        this.y = 0;
     }
-}
+
+    public boolean breakBlock() {
+        if (this.breakable) {
+            if (this.timer > this.timeLimit) {
+                this.broken = true;
+                  return true;
+            }
+          
+        } 
+            return this.broken;
+    }
 
     /**
      * Stops character from jumping if on platform

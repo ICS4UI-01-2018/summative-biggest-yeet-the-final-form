@@ -9,7 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import java.awt.Graphics;
+import java.util.ArrayList;
 
 /**
  * Draws the objects of the games on the screen.
@@ -21,17 +21,18 @@ public class Level extends Screen {
     private boolean levelWon;
     Fireboy fireboy;
     Watergirl watergirl;
-    Platform[] platforms;
-    MovingPlatform[] movingPlatforms;
-    Fire[] fire;
-    Water[] water;
-    Mud[] mud;
-    Button[] buttons;
-    FireGem[] fireGems;
-    WaterGem[] waterGems;
+    ArrayList<Platform> platforms;
+    ArrayList<MovingPlatform> movingPlatforms;
+    ArrayList<Fire> fire;
+    ArrayList<Water> water;
+    ArrayList<Mud> mud;
+    ArrayList<Button> buttons;
+    ArrayList<FireGem> fireGems;
+    ArrayList<WaterGem> waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
     Files highScore;
+    ArrayList<Platform> temp;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -42,6 +43,7 @@ public class Level extends Screen {
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
+        temp = new ArrayList<Platform>();
 
         // variable to determine if the Level has been won yet
         this.levelWon = false;
@@ -54,7 +56,9 @@ public class Level extends Screen {
     public void render() {
         // clear the background
         super.render();
-
+         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
+             System.out.println(this.fireboy.getY());           
+         }
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
@@ -64,7 +68,7 @@ public class Level extends Screen {
         for (Button b : this.buttons) {
             b.updatePositions();
         }
-        
+
         // Characters can only move if the level hasn't been won yet
         if (super.getDisplay()) {
             // Fireboy keyboard listeners
@@ -82,42 +86,37 @@ public class Level extends Screen {
                 if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     this.fireboy.jump();
                 }
-                //     block.updatePos(fireboy, platforms); 
-                //make fireboy jump
-                this.fireboy.jumpAction();
-                if (this.fireboy.onTop(platforms)) {
-                    this.fireboy.onGround = true;
-                    //   movingPlatforms[0].wasOnTop = false;
-                } else if (this.fireboy.onTop(movingPlatforms)) {
-                    this.fireboy.onGround = true;
-                    movingPlatforms[0].wasOnTop = true;
-                    //   this.fireboy.setY(   movingPlatforms[0].getTop());
-                } else {
-                    this.fireboy.onGround = false;
-                    //     movingPlatforms[0].wasOnTop = false;
-                }
-                movingPlatforms[0].tieTo(this.fireboy);
-                //  if (!this.movingPlatforms[0].tieTo(fireboy))){
-                //     
-                //  }
+            }
+            //make fireboy jump
 
-                for (MovingPlatform p : this.movingPlatforms) {
-                    if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        System.out.println("where");
-                        int x = p.whereIsPlayer(fireboy);
-                        System.out.println(x);
+            Character c = this.fireboy;
+            for (int i = 0; i < 2; i++) {
+                c.jumpAction();
+
+                if (c.onTop(platforms) != null || c.onTop(platforms) != null) {
+                    c.setThat(true, null);
+                } else {
+                    c.setThat(false, null);
+                }
+                for (MovingPlatform mp : this.movingPlatforms) {
+                    mp.tieTo(c);
+                    if (mp.getBounds().overlaps(c.getBounds())) {
+                        mp.whereIsPlayer(c);
                     }
                 }
-
                 //check if he is on the ground
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
-                    if (p.getBounds().overlaps(fireboy.getBounds())) {
-                        p.whereIsPlayer(fireboy);
-                        p.breakBlock();
+                    if (p.breakBlock()) {
+                        temp.add(p);
+                        p.breakable = false;
+                    }
+                    if (p.getBounds().overlaps(c.getBounds())) {
+                        p.whereIsPlayer(c);
                     }
                 }
-
+                this.platforms.removeAll(temp);
+                c = this.watergirl;
             }
 
             // Watergirl keyboard listeners
@@ -135,18 +134,6 @@ public class Level extends Screen {
                 // make the Watergirl jump
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                     this.watergirl.jump();
-                }
-                this.watergirl.jumpAction();
-                for (Platform p : this.platforms) {
-                    if (p.getBounds().overlaps(watergirl.getBounds())) {
-
-                    }
-                }
-
-                for (Platform p : this.movingPlatforms) {
-                    if (p.getBounds().overlaps(watergirl.getBounds())) {
-                        // watergirl.whereIsPlayer(p);
-                    }
                 }
             }
         }
@@ -230,15 +217,14 @@ public class Level extends Screen {
         for (MovingPlatform p : this.movingPlatforms) {
             p.draw(super.getShapeRenderer());
         }
-      
+
         // do not draw the Fireboy on the screen if the Fireboy has died
         if (!this.fireboy.isDead()) {
             // set the color of the Fireboy to be red
             super.getShapeRenderer().setColor(Color.RED);
             this.fireboy.draw(super.getShapeRenderer());
         } else {
-            System.out.println("here");
- //           this.highScore.saveFile("playerScores", fireboy, watergirl);
+            //           this.highScore.saveFile("playerScores", fireboy, watergirl);
         }
         // do not draw the Watergirl on the screen if the Watergirl has died
         if (!this.watergirl.isDead()) {
@@ -287,7 +273,7 @@ public class Level extends Screen {
         // draw the Doors
         this.fireDoor.draw(super.getSpriteBatch());
         this.waterDoor.draw(super.getSpriteBatch());
-        
+
         // draw the Characters if they haven't died yet
         if (!this.fireboy.isDead()) {
             this.fireboy.draw(super.getSpriteBatch());
@@ -297,7 +283,7 @@ public class Level extends Screen {
         if (!this.watergirl.isDead()) {
             this.watergirl.draw(super.getSpriteBatch());
         } else {
-            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+//            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
         }
 
         // end the drawing of Textures
