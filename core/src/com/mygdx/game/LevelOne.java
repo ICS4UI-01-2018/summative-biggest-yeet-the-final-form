@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelOne extends Level {
-    
+
     /**
      * Initialize the different game objects in the Level.
      */
@@ -16,7 +16,7 @@ public class LevelOne extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-        
+
         // initialize the Characters
         super.fireboy = new Fireboy(35, 29);
         super.watergirl = new Watergirl(35, 29);
@@ -95,7 +95,7 @@ public class LevelOne extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-        
+
         // get the MovingPlatforms
         super.buttons.get(0).addMovingPlatform(super.movingPlatforms.get(0));
         super.buttons.get(1).addMovingPlatform(super.movingPlatforms.get(0));
@@ -126,10 +126,10 @@ public class LevelOne extends Level {
             super.fireboy.setY(32);
             super.watergirl.setX(32);
             super.watergirl.setY(112);
-            
+
             super.setReset(false);
         }
-        
+
         // draw the game elements
         super.draw();
     }

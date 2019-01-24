@@ -166,15 +166,19 @@ public class LevelTwo extends Level {
         ArrayList<MovingPlatform> buttonPlatforms = buttons.get(0).getMovingPlatforms();
         if (buttons.get(0).isPressed()) {
             // MovingPlatforms will move down when the Button is pressed
-            for (MovingPlatform movingPlatform : buttonPlatforms) {
-                movingPlatform.moveDown();
+              for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
             }
         } else {
-            // MovingPlatforms will move up when the Button isn't pressed
-            for (MovingPlatform movingPlatform : buttonPlatforms) {
-                movingPlatform.moveUp();
+            // Moving Platform returns to its original state if the Button isn't pressed
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
             }
         }
+        
         
         // reset the Level
         if (super.reset()) {
