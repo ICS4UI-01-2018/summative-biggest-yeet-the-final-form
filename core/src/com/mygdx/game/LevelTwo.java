@@ -168,8 +168,6 @@ public class LevelTwo extends Level {
         long secondsDisplayed = secondsPassed % 60;
         long minutesDisplayed = secondsPassed / 60;
 
-        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
-
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
         // determine which MovingPlatforms that the Button controls

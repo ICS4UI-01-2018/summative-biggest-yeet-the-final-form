@@ -38,7 +38,6 @@ public class MainMenu extends Screen {
 
         // determine if the screen is being displayed
         if (super.getDisplay()) {
-            System.out.println("her");
             // determine if the space bar is pressed
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 

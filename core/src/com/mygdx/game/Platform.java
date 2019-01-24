@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Intersector;
+import java.util.ArrayList;
 
 /**
  * Creates a Platform to use in a game of Fireboy and Watergirl. The Characters
@@ -22,7 +23,7 @@ public class Platform {
     private float width, height, timer, timeLimit;
     private float x, y;
     private final Texture platformPic;
-     boolean broken, breakable;
+    boolean broken, breakable;
 
     /**
      * Creates a Platform using the xRect, y, width, and height.
@@ -50,12 +51,13 @@ public class Platform {
     }
 
     /**
-     * Creates a Platform using the xRect, y, width, and height.
+     * Creates a Platform using the xRect, y, width, height, and a time limit for the time a character can stand on it .
      *
      * @param x an integer representing the xRect-coordinate of the platform
      * @param y an integer representing the y-coordinate of the platform
      * @param width an integer representing the width of the platform
      * @param height an integer representing the height of the platform
+     * @param timeLimit a float representing the length of time a player can stand on the platform
      */
     public Platform(float x, float y, float width, float height, float timeLimit) {
         this.x = x * 16;
@@ -174,7 +176,12 @@ public class Platform {
         return this.platform;
     }
 
-    public float timer() {//give each block a limit
+    /**
+     * Increases the time that has been spent on a breakable platform
+     * 
+     * @return a float representing how long the character has been on the platform
+     */
+    public float timer() {//might switch to actual timer
         if (breakable) {
             System.out.println(this.timer);
             this.timer++;
@@ -182,33 +189,27 @@ public class Platform {
         return this.timer;
     }
 
-    public void dissapear() {//try to acc remove
-        this.width = 0;
-        this.height = 0;
-        this.x = 0;
-        this.y = 0;
-    }
-
-    public boolean breakBlock() {
-        if (this.breakable) {
-            if (this.timer > this.timeLimit) {
+    
+    /**
+     * Checks whether a platform's time limit has been exceeded
+     * 
+     * @return whether or not the platform is broken
+     */
+    public boolean isPlatformBroken() {
+        if (this.breakable && this.timer > this.timeLimit) {
                 this.broken = true;
-                  return true;
-            }
-          
-        } 
-            return this.broken;
+            }      
+        return this.broken;
     }
 
     /**
-     * Stops character from jumping if on platform
+     * Sets character position according to it's location in the platform
      *
-     * @param c Character being checked
+     * @param c Character being moved
      */
-    public int whereIsPlayer(Character c) {//square? also need to be implented for obstacles
+    public void hitPlatform(Character c) {
         //create a rectangle representing the overlap
         Intersector.intersectRectangles(c.getBounds(), this.getBounds(), this.overlap);
-        int x = 0;
         //if height is less than width then player is at top or bottom
         if (this.overlap.height < this.overlap.width) {
             //if player is falling and their top is equal to/below the platforms top then player is hitting BOTTOM of platform
@@ -217,7 +218,6 @@ public class Platform {
                 c.setYSpeed(0);
                 // correct the position
                 c.setTop(this.y);
-                x = 1;
             }
             //if player is jumping and their top is (equal to/above the platforms top(subject to change)) then player is hitting TOP of platform
             if (c.getYSpeed() > 0 && c.getY() >= this.y) {
@@ -226,24 +226,20 @@ public class Platform {
                 //set player to be on the ground and no longer jumping
                 c.setOnGround(true);
                 c.setJumping(false);
-                x = 2;
             }
         } else {//if overlap height is greater than its width player is hitting a side
             //if players x is lesser then player is hitting LEFT side of PLATFORM
             if (c.getX() < this.getX()) {
                 //set player to be beside platform
                 c.setFarX(this.getX());
-                x = 3;
             } else {//if players x is greater then player is hitting RIGHT side of PLATFORM
                 //set player to be beside platform
                 c.setX(this.getFarX());
-                x = 4;
             }
         }
 
         //update player position
         c.updatePositions();
-        return x;
     }
 
     /**

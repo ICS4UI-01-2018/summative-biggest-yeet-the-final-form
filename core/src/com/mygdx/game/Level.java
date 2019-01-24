@@ -23,7 +23,8 @@ import java.util.ArrayList;
  */
 public class Level extends Screen {
 
-    long time = System.currentTimeMillis();
+    long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
+    //should all instance variable be private?
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter parameter;
     private BitmapFont font;
@@ -75,6 +76,31 @@ public class Level extends Screen {
         this.font = generator.generateFont(this.parameter);
         this.generator.dispose();
         this.nextLevel = false;
+
+        this.time = System.currentTimeMillis();
+
+    }
+
+    public void resetTimer() {
+        time = System.currentTimeMillis();
+    }
+
+    public String timer() {
+        this.timePassed = System.currentTimeMillis() - time;
+        this.secondsPassed = timePassed / 1000;
+        this.secondsDisplayed = secondsPassed % 60;
+        this.minutesDisplayed = secondsPassed / 60;
+
+        return (minutesDisplayed + ":" + secondsDisplayed);
+    }
+
+    public void pauseTimer(boolean b) {//pause timer
+        if (b) {
+            long timePassedTemp = this.timePassed;
+            long secondsPassedtemp = this.secondsPassed;
+        } else {
+            timer();
+        }
     }
 
     /**
@@ -86,34 +112,19 @@ public class Level extends Screen {
         // clear the background
         super.render();
 
-        //calculated display times
-        long timePassed = System.currentTimeMillis() - time;
-        long secondsPassed = timePassed / 1000;
-        long secondsDisplayed = secondsPassed % 60;
-        long minutesDisplayed = secondsPassed / 60;
-
-        if (this.levelWon) {
-            secondsDisplayed = 0;
-            minutesDisplayed = 0;
-            System.out.println(minutesDisplayed + ":" + secondsDisplayed);
-        }
-
-        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
-
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
             System.out.println(this.fireboy.getY());
+            resetTimer();
         }
 
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
         for (MovingPlatform p : this.movingPlatforms) {
+            p.moveDown();
+            p.moveUp();
             p.updatePositions();
-            if (p.isMovingDown) {
-                System.out.println(p.getY());
 
-            }
-            System.out.println();
         }
         for (Button b : this.buttons) {
             b.updatePositions();
@@ -121,6 +132,9 @@ public class Level extends Screen {
 
         // Characters can only move if the level hasn't been won yet
         if (!this.levelWon && !this.pause) {
+
+            String time = timer();
+            // System.out.println(time);
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
             if (!this.fireboy.isDead()) {
@@ -137,36 +151,38 @@ public class Level extends Screen {
                     this.fireboy.jump();
                 }
             }
-            //make fireboy jump
 
-            Character c = this.fireboy;
+            //the character being checked 
+            Character character = this.fireboy;
+            //run through actions with fireboy and watergirl
             for (int i = 0; i < 2; i++) {
-                c.jumpAction();
+                character.jumpAction();
 
-                if (c.onTop(platforms) != null || c.onTop(platforms) != null) {
-                    c.setThat(true, null);
-                } else {
-                    c.setThat(false, null);
-                }
                 for (MovingPlatform mp : this.movingPlatforms) {
-                    mp.tieTo(c);
-                    if (mp.getBounds().overlaps(c.getBounds())) {
-                        mp.whereIsPlayer(c);
+                    character.tieTo(mp);
+                    if (mp.getBounds().overlaps(character.getBounds())) {
+                        mp.hitPlatform(character);
                     }
                 }
-                //check if he is on the ground
+
+                character.needsToBeRenamed(platforms, movingPlatforms);
+
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
-                    if (p.breakBlock()) {
+                    //if platform is broken add it to the temp array and set it as unbroken
+                    if (p.isPlatformBroken()) {
                         this.temp.add(p);
                         p.breakable = false;
                     }
-                    if (p.getBounds().overlaps(c.getBounds())) {
-                        p.whereIsPlayer(c);
+                    if (p.getBounds().overlaps(character.getBounds())) {
+                        p.hitPlatform(character);
                     }
                 }
+                //remove all broken platforms from platform array
                 this.platforms.removeAll(temp);
-                c = this.watergirl;
+
+                //repeat actions with watergirl
+                character = this.watergirl;
             }
 
             // Watergirl keyboard listeners
@@ -186,31 +202,20 @@ public class Level extends Screen {
                 }
             }
 
-            // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
-            this.fireboy.updatePositions();
-            this.watergirl.updatePositions();
-            for (MovingPlatform p : this.movingPlatforms) {
-                p.updatePositions();
-            }
-            for (Button b : this.buttons) {
-                b.updatePositions();
-            }
-
             // allow the Fireboy to collect the FireGems
             for (FireGem fireGem : this.fireGems) {
                 // determine if the Fireboy has collected the FireGem
                 if (fireGem.collision(this.fireboy)) {
-                                        this.fireboy.addGem();
-                                        this.fireboy.getGemsCollected();
+                    this.fireboy.addGem();
+                    this.fireboy.getGemsCollected();
                     this.tempGem.add(fireGem);
                     fireGem.collected();
                 }
-                
+
                 // don't draw the FireGem on the screen
                 // add to the Fireboy's FireGem count
             }
-                            this.fireGems.removeAll(tempGem);
-
+            this.fireGems.removeAll(tempGem);
 
             // allow the Watergirl to collect the WaterGems
             for (WaterGem waterGem : this.waterGems) {
@@ -291,7 +296,6 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
-        // g.drawString("hello", 0, 0);
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -327,6 +331,8 @@ public class Level extends Screen {
         // allows for the drawing of Textures
         super.getSpriteBatch().setProjectionMatrix(super.getCamera().combined);
         super.getSpriteBatch().begin();
+
+        this.font.draw(super.getSpriteBatch(), timer(), 10, 6);
 
         // draw the Platforms
         for (Platform p : this.platforms) {
@@ -396,10 +402,11 @@ public class Level extends Screen {
         if (levelWon) {
             super.getSpriteBatch().draw(this.levelCompleteScreen, 221, 136, 230, 272);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
 
-        this.font.setColor(Color.WHITE);
-        this.font.draw(super.getSpriteBatch(), "AHAHAHAH", 50, 50);
-
+            this.font.setColor(Color.WHITE);
+            this.font.draw(super.getSpriteBatch(), "AHAHAHAH", 50, 50);
+        }
         // end the drawing of Textures
         super.getSpriteBatch().end();
     }

@@ -21,8 +21,8 @@ public class LevelOne extends Level {
         super.highScore = new Files("playerScores", fireboy, watergirl);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(33, 30);
-        super.watergirl = new Watergirl(34, 30);
+        super.fireboy = new Fireboy(5, 18);
+        super.watergirl = new Watergirl(4, 18);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -102,13 +102,7 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        //calculated display times
-        long timePassed = System.currentTimeMillis() - time;
-        long secondsPassed = timePassed / 1000;
-        long secondsDisplayed = secondsPassed % 60;
-        long minutesDisplayed = secondsPassed / 60;
-
-        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
+  
 
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(1).addMovingPlatform(this.movingPlatforms.get(0));
@@ -120,14 +114,16 @@ public class LevelOne extends Level {
                 || (buttons.get(0).isPressed() && buttons.get(1).isPressed())) {
             // MovingPlatform moves down if a Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
-                mp.moveDown();
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
                 mp.updatePositions();
                 //  System.out.println("button updated" + mp.getY());
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
             for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveUp();
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
             }
         }
 

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public abstract class Character {
 
     private int gemsCollected;
-    private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
-    boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
+    private float x, y, gravity, ySpeed, height, width, xSpeed;
+    boolean isDead, jump, onGround, isOnTopMP;
     private Rectangle character;
     private final Texture straightPic, leftPic, rightPic;
 
@@ -42,10 +42,9 @@ public abstract class Character {
         this.width = 24;
         this.gemsCollected = 0;
         this.xSpeed = 3;
-        this.isFalling = false;
         this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.3f; //tweak
+        this.gravity = 0.5f; //tweak
         this.x = x * 16;
         this.y = y * 16;
         this.straightPic = straightPic;
@@ -53,11 +52,7 @@ public abstract class Character {
         this.rightPic = rightPic;
         this.onGround = true;
         this.jump = false;
-        this.hitBottom = false;
-        this.hitSide = false;
-        this.isOnTop = false;
-        this.canJump = true;
-        this.maxYSpeed = 3;
+        this.isOnTopMP = false;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
@@ -209,12 +204,6 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveLeft() {
-        if (this.jump) {
-            this.xSpeed = 3;
-        }
-        if (!this.jump) {
-            this.xSpeed = 3;
-        }
         // do not let the Character move off of the left-side of the screen
         if (this.x > 16) {
             // make the Character move towards the left of the screen
@@ -228,12 +217,6 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
-        if (this.jump) {
-            this.xSpeed = 3;
-        }
-        if (!this.jump) {
-            this.xSpeed = 3;
-        }
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {
             // make the Character move towards the right of the screen
@@ -246,9 +229,7 @@ public abstract class Character {
      * Sets the Character to a jumping state
      */
     public void jump() {
-        if (this.onGround && this.canJump) {
-            this.isOnTop = false;
-            this.isFalling = false;
+        if (this.onGround) {
             ySpeed = -7;//height of jump
             this.jump = true;
             this.onGround = false;
@@ -262,9 +243,8 @@ public abstract class Character {
     public void jumpAction() {
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
-            if (ySpeed < maxYSpeed) {
-                ySpeed += gravity;
-            }
+            ySpeed += gravity;
+            //move player up or down according to this y speed
             this.y -= ySpeed;
             this.updatePositions();
         }
@@ -286,7 +266,6 @@ public abstract class Character {
      * collected
      */
     public int getGemsCollected() {
-        System.out.println(this.gemsCollected);
         return this.gemsCollected;
     }
 
@@ -294,41 +273,78 @@ public abstract class Character {
      * Adds a Gem to the Gem count.
      */
     public void addGem() {
-        System.out.println("hello");
         this.gemsCollected++;
     }
 
     /**
      * Checks if character is standing on a platform
      *
-     * @param platforms array of platforms
+     * @param p the platform being checked
+     * @return whether or not the character is on top of this platform
      */
-    public Platform onTop(ArrayList<Platform> platforms) {
-        Platform current = null;
-        for (Platform p : platforms) {
-            if (this.y == p.getTop()) {
-                //player is somewhere in the middle of the platform
-                if ((this.x >= p.getX() && this.getFarX() <= p.getFarX())) {
-                    current = p;
-                    p.timer();
-                }//character is on edge of platform
-                else if (this.x < p.getX() && this.getFarX() >= p.getX()) {
-                    current = p;
-                    p.timer();
-
-                } else if (this.getFarX() > p.getFarX() && this.x <= p.getFarX()) {
-                    current = p;
-                    p.timer();
-                }
+    public boolean isOnTop(Platform p) {
+        boolean onTop = false;
+        if (this.y == p.getTop()) {
+            //player is somewhere in the middle of the platform
+            if ((this.x >= p.getX()
+                    && this.getFarX() <= p.getFarX())) {
+                p.timer();
+                onTop = true;
+            }//character is on edge of platform
+            else if (this.x < p.getX()
+                    && this.getFarX() >= p.getX()) {
+                p.timer();
+                onTop = true;
+            } else if (this.getFarX() > p.getFarX()
+                    && this.x <= p.getFarX()) {
+                p.timer();
+                onTop = true;
             }
         }
-        return current;
+        return onTop;
     }
 
-    public void setThat(boolean b, MovingPlatform mp) {
+    /**
+     * Sets the character to be standing on the ground/tied to a moving platform 
+     *
+     * @param platforms array of platforms being checked
+     * @param mP array of moving platforms being checked
+     * @return the platform or moving platform the character is standing on; null means the character is not on any (moving)platform
+     */
+    public Object needsToBeRenamed(ArrayList<Platform> platforms, ArrayList<MovingPlatform> mP) {
+        Object current = null;
+        boolean b = false;
+        for (Platform p : platforms) {
+            if (isOnTop(p)) {
+                b = true;
+                current = p;
+            }
+        }
+        for (MovingPlatform mp : mP) {
+            if (isOnTop(mp)) {
+                this.isOnTopMP = true;
+                b = true;
+                current = mp;
+            } else {
+                this.isOnTopMP = false;
+            }
+        }
         this.onGround = b;
-        if (mp != null) {
-            mp.wasOnTop = true;
+
+        return current;
+    }
+    
+    /**
+     * Sets the character's y to the y of the moving platform
+     * @param mp the moving platform the character is on top of
+     */
+       public void tieTo(MovingPlatform mp) {
+           // only tie to platform if you're on top and not jumping
+        if (this.isOnTopMP && !this.jump) {
+            this.y = mp.getTop();
+            this.onGround = true;
+        } else {
+            this.isOnTopMP = false;
         }
     }
 
