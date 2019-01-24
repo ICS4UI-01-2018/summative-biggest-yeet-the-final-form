@@ -403,7 +403,7 @@ public class Level extends Screen {
 
         // draw the timer
         this.timerFont.setColor(Color.WHITE);
-        this.timerFont.draw(super.getSpriteBatch(), timeDisplayed, 298, 517);
+        this.timerFont.draw(super.getSpriteBatch(), timeDisplayed, 298, 537);
 
         // draw the Gems
         for (FireGem fireGem : this.fireGems) {
