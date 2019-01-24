@@ -240,7 +240,7 @@ public abstract class Character {
      */
     public void jump() {
         if (this.onGround) {
-            ySpeed = -9;//height of jump
+            ySpeed = -9.5f;//height of jump
             this.jump = true;
             // Character will not be on the ground
             this.onGround = false;

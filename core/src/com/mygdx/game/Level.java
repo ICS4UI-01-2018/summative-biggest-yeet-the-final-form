@@ -165,6 +165,7 @@ public class Level extends Screen {
         super.render();
 
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
+            System.out.println(fireboy.getY());
             resetTimer();
         } else {
             // pausetimer = false;
