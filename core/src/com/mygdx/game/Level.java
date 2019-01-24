@@ -350,7 +350,7 @@ public class Level extends Screen {
             this.nextLevel = true;
             this.resetTimer();
             this.fireboy.clearGems();
-
+//j
             super.setDisplay(false);
         }
 
