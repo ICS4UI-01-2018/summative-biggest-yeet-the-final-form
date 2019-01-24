@@ -11,43 +11,47 @@ import java.util.ArrayList;
 
 /**
  * Creates a Button as a subclass of Obstacle to use in a game of Fireboy and
- * Watergirl. The Fireboy and Watergirl can push the button to move Platforms to
- * help each other win the Levels.
+ * Watergirl. The Fireboy and Watergirl can push the button to move
+ * MovingPlatforms to help each other win each Levels.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Button extends Obstacle {
 
     private final ArrayList<MovingPlatform> movingPlatforms;
-    private final float speed, maximumY, minimumY;
+    private final float maximumY, minimumY;
     private boolean isPressed;
 
     /**
      * Initializes a Button to use in a game of Fireboy and Watergirl using it's
-     * x and y position on the screen, and the Platform the Button controls.
+     * x and y position on the screen.
      *
      * @param x a float representing the x coordinate of the Button
      * @param y a float representing the y coordinate of the Button
      */
     public Button(float x, float y) {
-        // initialize the x and y position, and the width and height of the Button
+        // initialize the Texture, x and y position, and the width and height of the Button
         super(new Texture("Button.jpg"), x, y, 1, 0.5f);
 
-        this.movingPlatforms = new ArrayList<MovingPlatform>();;
-        this.speed = 0.1f;
+        // initialize an ArrayList of MovingPlatforms that the Button controls
+        this.movingPlatforms = new ArrayList<MovingPlatform>();
 
         // Button cannot move higher than this y position
         this.maximumY = y;
-
         // Button cannot move lower than this y position
         this.minimumY = y - 4;
 
-        // set the Button to not be in a pressed state
+        // initialize the Button to not be in a pressed state
         this.isPressed = false;
     }
 
-    public void addMovingPlatform(MovingPlatform mp) {
-        this.movingPlatforms.add(mp);
+    /**
+     * Adds a MovingPlatform that the Button controls to the ArrayList.
+     *
+     * @param movingPlatform a MovingPlatform that the Button controls
+     */
+    public void addMovingPlatform(MovingPlatform movingPlatform) {
+        this.movingPlatforms.add(movingPlatform);
     }
 
     /**
@@ -80,8 +84,8 @@ public class Button extends Obstacle {
     /**
      * Returns the MovingPlatform that the Button is controlling.
      *
-     * @return an array of MovingPlatforms representing the MovingPlatform(s)
-     * that the Button can control
+     * @return an ArrayList of MovingPlatforms representing the
+     * MovingPlatform(s) that the Button can control
      */
     public ArrayList<MovingPlatform> getMovingPlatforms() {
         return this.movingPlatforms;
