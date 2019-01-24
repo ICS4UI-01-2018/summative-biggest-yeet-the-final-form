@@ -411,6 +411,21 @@ public class Level extends Screen {
         // draw the timer
         this.timerFont.setColor(Color.WHITE);
         this.timerFont.draw(super.getSpriteBatch(), timeDisplayed, 298, 517);
+        
+        //insturctions
+         this.timerFont.setColor(Color.BLACK);
+        this.timerFont.draw(super.getSpriteBatch(), "press w to jump", 60, 60);
+        
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+         this.timerFont.setColor(Color.WHITE);
+        this.timerFont.draw(super.getSpriteBatch(), "press w to jump", 60, 60);
+        }
+        
+      
+        
+        
+        
+       
 
         // draw the Gems
         for (FireGem fireGem : this.fireGems) {
