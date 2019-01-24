@@ -187,6 +187,17 @@ public class LevelThree extends Level {
             }
         }
 
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(360);
+            super.fireboy.setY(448);
+            super.watergirl.setX(288);
+            super.watergirl.setY(448);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }

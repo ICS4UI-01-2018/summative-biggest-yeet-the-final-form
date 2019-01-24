@@ -160,21 +160,34 @@ public class LevelTwo extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
+        // determine which MovingPlatforms the Button controls
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
         // determine which MovingPlatforms that the Button controls
         ArrayList<MovingPlatform> buttonPlatforms = buttons.get(0).getMovingPlatforms();
         if (buttons.get(0).isPressed()) {
             // MovingPlatforms will move down when the Button is pressed
-            for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveDown();
+            for (MovingPlatform movingPlatform : buttonPlatforms) {
+                movingPlatform.moveDown();
             }
         } else {
             // MovingPlatforms will move up when the Button isn't pressed
-            for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveUp();
+            for (MovingPlatform movingPlatform : buttonPlatforms) {
+                movingPlatform.moveUp();
             }
         }
+        
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(616);
+            super.fireboy.setY(32);
+            super.watergirl.setX(32);
+            super.watergirl.setY(32);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }
