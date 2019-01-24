@@ -60,6 +60,10 @@ public abstract class Character {
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
     }
+    
+    public void clearGems(){
+        this.gemsCollected = 0;
+    }
 
     /**
      * Returns the x position of the Character.

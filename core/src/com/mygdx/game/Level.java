@@ -349,6 +349,7 @@ public class Level extends Screen {
         if (levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.nextLevel = true;
             this.resetTimer();
+            this.fireboy.clearGems();
 
             super.setDisplay(false);
         }
@@ -357,7 +358,7 @@ public class Level extends Screen {
         if (((this.fireboy.isDead() || this.watergirl.isDead())
                 || this.fireboy.isDead() && this.watergirl.isDead())
                 && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-
+            this.fireboy.clearGems();
             this.reset = true;
             // set the Characters to not be dead
             this.fireboy.setDead(false);
