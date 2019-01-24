@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class LevelOne extends Level {
-
+    
     /**
      * Initialize the different game objects in the Level.
      */
@@ -16,6 +16,7 @@ public class LevelOne extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
+        
         super.highScore = new Files("playerScores", super.fireboy, super.watergirl);
 
         // initialize the Characters
@@ -96,7 +97,7 @@ public class LevelOne extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-
+        
         // get the MovingPlatforms
         super.buttons.get(0).addMovingPlatform(super.movingPlatforms.get(0));
         super.buttons.get(1).addMovingPlatform(super.movingPlatforms.get(0));
@@ -110,7 +111,6 @@ public class LevelOne extends Level {
             for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
                 mp.moveDown();
                 mp.updatePositions();
-                //  System.out.println("button updated" + mp.getY());
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
