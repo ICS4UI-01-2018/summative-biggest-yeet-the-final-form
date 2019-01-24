@@ -27,8 +27,7 @@ public class Level extends Screen {
     private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
     //should all instance variable be private?
     private FreeTypeFontGenerator generator;
-    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter, inFontParameter;
-
+    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter;
     private BitmapFont timerFont, gemCountFont, highScoreFont;
     private Texture pauseButton, levelCompleteScreen, deathScreen;
     private boolean levelWon, pause, nextLevel, reset;
@@ -88,13 +87,7 @@ public class Level extends Screen {
         this.timerFontParameter.size = 30;
         this.timerFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.timerFont = this.generator.generateFont(this.timerFontParameter);
-
-        //the instuctions font 
-        this.inFontParameter = new FreeTypeFontParameter();
-        this.inFontParameter.size = 10;
-        this.inFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
-        this.timerFont = this.generator.generateFont(this.timerFontParameter);
-
+        
         // initialize the gem count font
         this.gemCountParameter = new FreeTypeFontParameter();
         this.gemCountParameter.size = 16;
