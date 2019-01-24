@@ -314,19 +314,6 @@ public class Level extends Screen {
             p.draw(super.getShapeRenderer());
         }
 
-        // do not draw the Fireboy on the screen if the Fireboy has died
-        if (!this.fireboy.isDead()) {
-            // set the color of the Fireboy to be red
-            super.getShapeRenderer().setColor(Color.RED);
-            this.fireboy.draw(super.getShapeRenderer());
-        }
-        // do not draw the Watergirl on the screen if the Watergirl has died
-        if (!this.watergirl.isDead()) {
-            // set the color of the Watergirl to be blue
-            super.getShapeRenderer().setColor(Color.BLUE);
-            this.watergirl.draw(super.getShapeRenderer());
-        }
-
         // allows for the drawing of the game objects to end
         super.getShapeRenderer().end();
 
