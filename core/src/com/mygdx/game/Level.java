@@ -98,18 +98,17 @@ public class Level extends Screen {
         this.highScoreParameter = new FreeTypeFontParameter();
         this.highScoreParameter.size = 40;
         this.highScoreParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
-        this.highScoreFont = this.generator.generateFont(this.gemCountParameter);
+        this.highScoreFont = this.generator.generateFont(this.highScoreParameter);
 
         this.generator.dispose();
         this.nextLevel = false;
-        scores = new ArrayList();
-        Scores hello = null;
+        this.scores = new ArrayList();
+        this.hello = null;
         this.time = System.currentTimeMillis();
-        resetTimer = false;
-        pausetimer = false;
-        int co = 0;
-        long timeee = 0;
-
+        this.resetTimer = false;
+        this.pausetimer = false;
+        this.co = 0;
+        this.timeee = 0;
     }
 
     public void resetTimer() {
