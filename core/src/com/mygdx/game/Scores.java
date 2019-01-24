@@ -29,8 +29,7 @@ public class Scores {
     ArrayList<Scores> time = new ArrayList();
     ArrayList<Long> temp = new ArrayList();
     ArrayList<Scores> temps = new ArrayList();
-
-
+String file;
     /**
      * Creates a container for the scores.
      *
@@ -46,6 +45,7 @@ public class Scores {
     }
 
     public String points(int numGems) {
+        String Highscore = "";
         for (Scores h : this.scores) {
             if (h.gems == numGems) {
                 time.add(h);
@@ -67,25 +67,22 @@ public class Scores {
                 temps.add(f);
             }
         }
+
         time.removeAll(temps);
-        String Highscore = "The fastest time was " + time.get(0).minutes + ":" + time.get(0).seconds + " on " + time.get(0).date;
+        if (time.get(0).seconds < 10) {
+            Highscore = "The fastest time was 0" + time.get(0).minutes + ":0" + time.get(0).seconds + " on " + time.get(0).date;
+        } else {
+            Highscore = "The fastest time was 0" + time.get(0).minutes + ":" + time.get(0).seconds + " on " + time.get(0).date;
+        }
         return Highscore;
     }
 
-    public int howMany(ArrayList<Float> h, long num) {
-        int counter = 0;
-        for (Float f : h) {
-            if (f == num) {
-                counter++;
-            }
-        }
-        return counter;
-    }
+ 
 
-    public void saved() {
+    public void saved(String file) {
         String line = "";
         try {
-            Scanner input = new Scanner(new File("playerScores"));
+            Scanner input = new Scanner(new File(file));
             // scores.add(s);
             //while there are still customers
             while (input.hasNext()) {
@@ -95,20 +92,20 @@ public class Scores {
                 long minutesPassed = Long.parseLong(scoreInfo[1].trim());
                 int gems = Integer.parseInt(scoreInfo[2].trim());
                 LocalDate date = LocalDate.parse(scoreInfo[3].trim());
-                Scores haha = new Scores(date, gems, secondsPassed, minutesPassed);
+                Scores haha = new Scores(date, gems, secondsPassed, minutesPassed) ;
                 this.scores.add(haha);
             }
             int g = scores.size();
-            save();
+            save(file);
         } catch (IOException ex) {
             Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
     }
 
-    public void save() {
+    public void save(String file) {
         try {
-            PrintWriter output = new PrintWriter(new File("playerScores"));
+            PrintWriter output = new PrintWriter(new File(file));
             for (Scores s : this.scores) {
                 long secondsPassed = s.seconds;
                 long minutesPassed = s.minutes;
@@ -123,9 +120,9 @@ public class Scores {
         }
     }
 
-    public void add(Scores s) {
+    public void add(Scores s, String f) {
         this.scores.add(s);
-        saved();
+        saved(f);
     }
 
     public void swap(ArrayList<Long> n, int pos1, int pos2) {

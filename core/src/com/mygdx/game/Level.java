@@ -56,7 +56,7 @@ public class Level extends Screen {
     String timeDisplayed;
     ArrayList<String> scores;
     Scores hello;
-    boolean ihatethis, pausetimer;
+    boolean resetTimer, pausetimer;
     long timeee;
     int co;
 
@@ -112,7 +112,7 @@ public class Level extends Screen {
         scores = new ArrayList();
         Scores hello = null;
         this.time = System.currentTimeMillis();
-        ihatethis = false;
+        resetTimer = false;
         pausetimer = false;
         int co = 0;
         long timeee = 0;
@@ -120,18 +120,15 @@ public class Level extends Screen {
     }
 
     public void resetTimer() {
-        this.ihatethis = true;
+        this.resetTimer = true;
         timer();
     }
 
     public String timer() {
         long prebv = 0;
-        if (ihatethis) {
-            System.out.println("here");
+        if (resetTimer) {
             time = System.currentTimeMillis();
-            ihatethis = false;
-
-            return "hello";
+            resetTimer = false;
         }
 //        
 //        if (pausetimer){
@@ -145,13 +142,22 @@ public class Level extends Screen {
 //            System.out.println(time);
 //            return "PAUSED";
 //        }
-        //  ihatethis = false;
+        //  resetTimer = false;
 
         this.timePassed = System.currentTimeMillis() - (time + prebv);
         this.secondsPassed = timePassed / 1000;
         this.secondsDisplayed = secondsPassed % 60;
         this.minutesDisplayed = secondsPassed / 60;
-        return (minutesDisplayed + ":" + secondsDisplayed);
+        if (secondsDisplayed < 10) {
+            if (minutesDisplayed < 10) {
+                return ("0" + minutesDisplayed + ":0" + secondsDisplayed);
+            }
+            return (minutesDisplayed + ":0" + secondsDisplayed);
+        } else if (minutesDisplayed < 10) {
+            return ("0" + minutesDisplayed + ":" + secondsDisplayed);
+        } else {
+            return ("0" + minutesDisplayed + ":" + secondsDisplayed);
+        }
     }
 
     public void pauseTimer() {//pause timer
@@ -316,9 +322,8 @@ public class Level extends Screen {
                 this.resetTimer();
 
                 int hm = fireboy.getGemsCollected() + fireboy.getGemsCollected();
-                hello = new Scores(java.time.LocalDate.now(), 8, this.secondsDisplayed, this.minutesDisplayed);
-                hello.add(hello);
-                //   this.highScore.saveFile("playerScores", fireboy, watergirl);
+                hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
+                hello.add(hello, "scoresL1");
             }
         }
 
@@ -462,17 +467,16 @@ public class Level extends Screen {
 
         // draw the level complete screen
         if (levelWon) {
-            super.getSpriteBatch().draw(this.levelCompleteScreen, 0, 0, 500, 500);
+            super.getSpriteBatch().draw(this.levelCompleteScreen, 100, 20, 500, 500);
             // display the FireGem count
             this.gemCountFont.setColor(Color.RED);
-            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 207);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 165);
             // display the WaterGem count
             this.gemCountFont.setColor(Color.BLUE);
-            //   this.gemCountFont.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "dgf", 320, 192);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "", 320, 138);
             this.resetTimer();
             this.gemCountFont.setColor(Color.VIOLET);
-            this.gemCountFont.draw(super.getSpriteBatch(), hello.points(8) + "", 100, 300);
-
+            this.gemCountFont.draw(super.getSpriteBatch(), hello.points((fireGems.size() + waterGems.size())) + "", 210, 320);
         }
 
         // draw the character death screen
