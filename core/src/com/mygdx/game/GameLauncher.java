@@ -50,44 +50,42 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void render() {
-//        // display the MainMenu
-//        if (this.mainMenu.getDisplay()) {
-//            this.mainMenu.render();
-//        }
-//
-//        // if spacebar is pressed, then proceed to LevelOne
-//        if (this.mainMenu.goNext()) {
-//            this.levelOne.setDisplay(true);
-//        }
-//        
-//        // display LevelOne
-//        if (this.levelOne.getDisplay()) {
-//            this.levelOne.render();
-//        }
-//
-//        // set LevelTwo to be displayed
-//        if (this.levelOne.getNextLevel()) {
-//            this.levelOne.setDisplay(false);
-//            this.levelTwo.setDisplay(true);
-//        }
-//        
-//        // display LevelTwo
-//        if (this.levelTwo.getDisplay()) {
-//            this.levelTwo.render();
-//        }
-//
-//        // set LevelThree to be displayed
-//        if (this.levelTwo.getNextLevel()) {
-//            this.levelTwo.setDisplay(false);
-//            this.levelThree.setDisplay(true);
-//        }
-//        
-//        // display LevelThree
-//        if (this.levelThree.getDisplay()) {
-//            this.levelThree.render();
-//        }
+        // display the MainMenu
+        if (this.mainMenu.getDisplay()) {
+            this.mainMenu.render();
+        }
+
+        // if spacebar is pressed, then proceed to LevelOne
+        if (this.mainMenu.goNext()) {
+            this.levelOne.setDisplay(true);
+        }
         
-        this.levelThree.render();
+        // display LevelOne
+        if (this.levelOne.getDisplay()) {
+            this.levelOne.render();
+        }
+
+        // set LevelTwo to be displayed
+        if (this.levelOne.getNextLevel()) {
+            this.levelOne.setDisplay(false);
+            this.levelTwo.setDisplay(true);
+        }
+        
+        // display LevelTwo
+        if (this.levelTwo.getDisplay()) {
+            this.levelTwo.render();
+        }
+
+        // set LevelThree to be displayed
+        if (this.levelTwo.getNextLevel()) {
+            this.levelTwo.setDisplay(false);
+            this.levelThree.setDisplay(true);
+        }
+        
+        // display LevelThree
+        if (this.levelThree.getDisplay()) {
+            this.levelThree.render();
+        }
     }
 
     /**

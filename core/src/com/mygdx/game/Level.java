@@ -378,17 +378,16 @@ public class Level extends Screen {
 
         // draw pause button
         super.getSpriteBatch().draw(this.pauseButton, 642, 2, 28, 28);
-
-        // this.font.setColor(Color.BLUE);
-        // this.font.draw(super.getSpriteBatch(), "yeet", 50, 50);
+        
         // draw the level complete screen
         if (levelWon) {
             super.getSpriteBatch().draw(this.levelCompleteScreen, 221, 136, 230, 272);
             // display the FireGem count
             this.font.setColor(Color.RED);
-            this.font.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 200, 200);
+            this.font.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 207);
             // display the WaterGem count
             this.font.setColor(Color.BLUE);
+            this.font.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "", 320, 192);
         }
 
         // end the drawing of Textures
