@@ -346,11 +346,10 @@ public class Level extends Screen {
         }
 
         // advance to the next level
-        if (levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (this.levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.nextLevel = true;
-            this.resetTimer();
+            resetTimer();
             this.fireboy.clearGems();
-//j
             super.setDisplay(false);
         }
 
