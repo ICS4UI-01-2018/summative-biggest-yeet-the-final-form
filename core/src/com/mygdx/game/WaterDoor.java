@@ -30,9 +30,9 @@ public class WaterDoor extends Door {
      * Determines whether if the Watergirl is standing in front of the
      * Waterdoor.
      *
-     * @param watergirl a Watergirl which represents the Watergirl on the screen
+     * @param watergirl a Character representing the Watergirl
      * @return a boolean representing whether the Watergirl is in front of the
-     * WaterDoor
+     * WaterDoor or not
      */
     public boolean collision(Watergirl watergirl) {
         return super.getBounds().overlaps(watergirl.getBounds());

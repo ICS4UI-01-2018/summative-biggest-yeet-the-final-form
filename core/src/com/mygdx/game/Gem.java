@@ -23,7 +23,7 @@ public abstract class Gem {
     private final Texture texture;
 
     /**
-     * Initializes a Gem using the x and y coordinates of it on the screen.
+     * Initializes a Gem using its Texture, and its x and y position.
      *
      * @param texture a Texture representing the Gem
      * @param x a float representing the x coordinate of the Gem
@@ -35,44 +35,8 @@ public abstract class Gem {
         this.width = 16;
         this.height = 16;
         this.collected = false;
-        this.gem = new Rectangle(this.x, this.y, this.width, this.height);
         this.texture = texture;
-    }
-
-    /**
-     * Returns the x coordinate of the Gem.
-     *
-     * @return a float representing the Gem's x position on the screen
-     */
-    public float getX() {
-        return this.x;
-    }
-
-    /**
-     * Returns the y coordinate of the Gem.
-     *
-     * @return a float representing the Gem's y position on the screen
-     */
-    public float getY() {
-        return this.y;
-    }
-
-    /**
-     * Returns the width of the Gem.
-     *
-     * @return a float representing the width of the Gem.
-     */
-    public float getWidth() {
-        return this.width;
-    }
-
-    /**
-     * Returns the height of the Gem.
-     *
-     * @return a float representing the height of the Gem.
-     */
-    public float getHeight() {
-        return this.height;
+        this.gem = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**

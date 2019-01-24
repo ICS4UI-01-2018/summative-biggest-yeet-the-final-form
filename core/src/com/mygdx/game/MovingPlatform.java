@@ -43,6 +43,7 @@ public class MovingPlatform extends Platform {
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
+        
         // set the minimum and maximum y variables based on whether if the MovingPlatform will move up or down
         if (!b) {
             this.maximumY = y * 16;
@@ -131,6 +132,10 @@ public class MovingPlatform extends Platform {
         return this.isMovingDown;
     }
 
+    /**
+     * 
+     * @param character 
+     */
     public void tieTo(Character character) {
         if (this.wasOnTop && !character.jump && (this.isMovingDown || this.isMovingUp)) {
             //   System.out.println(" tie to");
@@ -149,7 +154,6 @@ public class MovingPlatform extends Platform {
     public void draw(ShapeRenderer shapeBatch) {
         // set the MovingPlatforms to be purple
         shapeBatch.setColor(Color.PURPLE);
-
         // draw the MovingPlatform
         shapeBatch.rect(super.getX(), super.getY(), super.getWidth(), super.getHeight());
     }

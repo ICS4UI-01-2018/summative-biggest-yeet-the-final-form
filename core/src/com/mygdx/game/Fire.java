@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates Fire as a subclass of Obstacle to use in a game of Fireboy and
- * Watergirl. Allows for the creation of a pool of fire which will kill a
+ * Watergirl. Allows for the creation of a pool of Fire which will kill a
  * Watergirl.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
@@ -18,15 +18,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Fire extends Obstacle {
 
     /**
-     * Initializes a Fire using it's x and y coordinates on the screen, and it's
+     * Initializes a Fire using its Texture file, its x and y position, and its
      * width and height.
      *
-     * @param x a float representing the Fire's x coordinate on the screen
-     * @param y a float representing the Fire's y coordinate on the screen
-     * @param width an integer representing the width of the Fire
-     * @param height an integer representing the height of the Fire
+     * @param x a float representing the x position of the Fire on the screen
+     * @param y a float representing the y position of the Fire on the screen
+     * @param width a float representing the width of the Fire
+     * @param height a float representing the height of the Fire
      */
-    public Fire(float x, float y, int width, int height) {
+    public Fire(float x, float y, float width, float height) {
         super(new Texture("Fire.jpg"), x, y, width, height);
     }
 

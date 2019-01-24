@@ -17,18 +17,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Water extends Obstacle {
 
     /**
-     * Initializes the Water as a subclass of Obstacle using it's x and y
-     * coordinates, and it's width and height.
+     * Initializes the Water using its Texture, its x and y positions, and its
+     * width and height.
      *
-     * @param x a float representing the x coordinate of the Water
-     * @param y a float representing the y coordinate of the Water
-     * @param width an integer representing the width of the Water
-     * @param height an integer representing the height of the Water
+     * @param x a float representing the x position of the Water
+     * @param y a float representing the y position of the Water
+     * @param width a float representing the width of the Water
+     * @param height a float representing the height of the Water
      */
-    public Water(float x, float y, int width, int height) {
+    public Water(float x, float y, float width, float height) {
         super(new Texture("Water.jpg"), x, y, width, height);
     }
-    
+
     /**
      * Draws the Water on the screen using a SpriteBatch.
      *
@@ -45,10 +45,10 @@ public class Water extends Obstacle {
         while (copy - 1 >= 0) {
             // draw the Texture
             batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
-            
+
             // determine where to place the Texture next
             textureX += 16;
-            
+
             copy -= 1;
         }
     }

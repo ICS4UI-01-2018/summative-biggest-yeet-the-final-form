@@ -22,24 +22,25 @@ public class Platform {
     private float width, height, timer, timeLimit;
     private float x, y;
     private final Texture platformPic;
-     boolean broken, breakable;
+    boolean broken, breakable;
 
     /**
-     * Creates a Platform using the xRect, y, width, and height.
+     * Creates a Platform using its x and y position, and its width and height.
      *
-     * @param x an integer representing the xRect-coordinate of the platform
-     * @param y an integer representing the y-coordinate of the platform
-     * @param width an integer representing the width of the platform
-     * @param height an integer representing the height of the platform
+     * @param x a float representing the x position of the Platform
+     * @param y a float representing the y position of the Platform
+     * @param width a float representing the width of the Platform
+     * @param height a float representing the height of the Platform
      */
     public Platform(float x, float y, float width, float height) {
         this.x = x * 16;
         this.y = y * 16;
         this.width = width * 16;
         this.height = height * 16;
+
         // initialize an new Rectangle to be used for collisions
         this.overlap = new Rectangle(0, 0, 0, 0);
-        this.timer = 0;
+
         // initialize a new Rectangle to represent the Platform
         this.platform = new Rectangle(this.x, this.y, this.width, this.height);
 
@@ -47,24 +48,25 @@ public class Platform {
         this.platformPic = new Texture("Block.jpg");
 
         this.broken = false;
+        this.timer = 0;
     }
 
     /**
-     * Creates a Platform using the xRect, y, width, and height.
+     * Creates a Platform using its x and y position, its width and height, and
+     * its time limit.
      *
-     * @param x an integer representing the xRect-coordinate of the platform
-     * @param y an integer representing the y-coordinate of the platform
-     * @param width an integer representing the width of the platform
-     * @param height an integer representing the height of the platform
+     * @param x a float representing the x position of the Platform
+     * @param y a float representing the y position of the Platform
+     * @param width a float representing the width of the Platform
+     * @param height a float representing the height of the Platform
+     * @param timeLimit a float representing
      */
     public Platform(float x, float y, float width, float height, float timeLimit) {
         this.x = x * 16;
         this.y = y * 16;
         this.width = width * 16;
         this.height = height * 16;
-        this.timer = 0;
-        this.breakable = true;
-        this.timeLimit = timeLimit;
+
         // initialize an new Rectangle to be used for collisions
         this.overlap = new Rectangle(0, 0, 0, 0);
 
@@ -76,72 +78,87 @@ public class Platform {
 
         this.broken = false;
         this.timer = 0;
+        this.timer = 0;
+        this.breakable = true;
+        this.timeLimit = timeLimit;
     }
 
+    /**
+     * Returns whether if the Platform has been broken or not.
+     *
+     * @return a boolean representing whether if the Platform has been broken or
+     * not
+     */
     public boolean getBroken() {
         return this.broken;
     }
 
     /**
-     * Gets the xRect-coordinate of the Platform.
+     * Returns the x position of the Platform.
      *
-     * @return a float representing the xRect-coordinate of the Platform
+     * @return a float representing the x position of the Platform
      */
     public float getX() {
         return this.x;
     }
 
     /**
-     * Returns the y-coordinate of the Platform.
+     * Returns the y position of the Platform.
      *
-     * @return a float representing the y-coordinate of the Platform
+     * @return a float representing the y position of the Platform
      */
     public float getY() {
         return this.y;
     }
 
     /**
-     * Sets the y position of the Platform to the float that's passed in.
+     * Sets the x position of the Platform to the specified float.
+     *
+     * @param x a float representing the new x position of the Platform
+     */
+    public void setX(float x) {
+        this.x = x;
+        // update the x position of the Platform
+        this.platform.x = this.x;
+    }
+
+    /**
+     * Sets the y position of the Platform to specified float.
      *
      * @param y a float representing the new y position of the Platform
      */
     public void setY(float y) {
         this.y = y;
+        // update the y position of the Platform
         this.platform.y = this.y;
     }
 
     /**
-     * Sets the xRect-coordinate to the specified float
+     * Sets the x position of the Platform using the specified float.
      *
-     * @param f a float representing the new xRect-coordinate
+     * @param x a float representing the right-side of the Platform to use to
+     * calculate the new x position of the Platform
      */
-    public void setX(float f) {
-        this.x = f;
+    public void setFarX(float x) {
+        this.x = x - this.width;
+        // update the x position of the Platform
         this.platform.x = this.x;
     }
 
     /**
-     * Sets the far xRect-coordinate to the specified float
+     * Returns the y position of the top of the Platform.
      *
-     * @param f a float representing the new far xRect-coordinate
-     */
-    public void setFarX(float f) {
-        this.x = f - this.width;
-    }
-
-    /**
-     * Returns the top y-coordinate of the platform.
-     *
-     * @return a float representing the top y-coordinate of the platform.
+     * @return a float representing the y position of the top of the Platform
      */
     public float getTop() {
         return (this.height + this.y);
     }
 
     /**
-     * Returns the X-coordinate of the edge of the platform
+     * Returns the x position of the right-side of the Platform.
      *
-     * @return the X-coordinate of the edge of the platform
+     * @return a float representing the x position of the right-side of the
+     * Platform
      */
     public float getFarX() {
         return (this.width + this.x);
@@ -174,36 +191,38 @@ public class Platform {
         return this.platform;
     }
 
+    /**
+     * 
+     * @return a float representing 
+     */
     public float timer() {//give each block a limit
-        if (breakable) {
-            System.out.println(this.timer);
+        // determine if the block is breakable
+        if (this.breakable) {
             this.timer++;
         }
         return this.timer;
     }
 
-    public void dissapear() {//try to acc remove
-        this.width = 0;
-        this.height = 0;
-        this.x = 0;
-        this.y = 0;
-    }
-
+    /**
+     * 
+     * @return a boolean representing
+     */
     public boolean breakBlock() {
+        // determine if the Platform is breakable
         if (this.breakable) {
             if (this.timer > this.timeLimit) {
                 this.broken = true;
-                  return true;
+                return true;
             }
-          
-        } 
-            return this.broken;
+        }
+        return this.broken;
     }
 
     /**
-     * Stops character from jumping if on platform
+     * Stops Character from jumping if on a Platform.
      *
-     * @param c Character being checked
+     * @param c a Character in the game
+     * @return an integer representing...
      */
     public int whereIsPlayer(Character c) {//square? also need to be implented for obstacles
         //create a rectangle representing the overlap
@@ -240,7 +259,6 @@ public class Platform {
                 x = 4;
             }
         }
-
         //update player position
         c.updatePositions();
         return x;
@@ -302,6 +320,7 @@ public class Platform {
      */
     public void setPlatformY(float platformY) {
         this.y = platformY;
+        // update the y position of the Platform
         this.platform.y = platformY;
     }
 }

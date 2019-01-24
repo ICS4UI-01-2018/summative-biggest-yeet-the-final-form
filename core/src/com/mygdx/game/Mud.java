@@ -17,13 +17,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Mud extends Obstacle {
 
     /**
-     * Initializes Mud as a subclass of Obstacle using the Mud's x and y
-     * coordinates, and it's width and height.
+     * Initializes Mud using its Texture, its x and y position, and its width
+     * and height.
      *
-     * @param x a float representing the x coordinate of the Mud
-     * @param y a float representing the y coordinate of the Mud
-     * @param width an integer representing the width of the Mud
-     * @param height an integer representing the height of the Mud
+     * @param x a float representing the x position of the Mud
+     * @param y a float representing the y position of the Mud
+     * @param width a float representing the width of the Mud
+     * @param height a float representing the height of the Mud
      */
     public Mud(float x, float y, int width, int height) {
         super(new Texture("Mud.jpg"), x, y, width, height);
@@ -45,10 +45,10 @@ public class Mud extends Obstacle {
         while (copy - 1 >= 0) {
             // draw the Texture
             batch.draw(super.getTexture(), textureX, super.getY(), 16, 16);
-            
+
             // determine where to place the Texture next
             textureX += 16;
-            
+
             copy -= 1;
         }
     }

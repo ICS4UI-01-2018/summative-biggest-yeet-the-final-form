@@ -7,7 +7,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -19,8 +18,7 @@ public abstract class Obstacle {
 
     private final Texture texture;
     private final Rectangle obstacle;
-    private final float height;
-    private final float width;
+    private final float width, height;
     private final float x, y;
 
     /**
@@ -40,14 +38,14 @@ public abstract class Obstacle {
         this.width = width * 16;
         this.height = height * 16;
 
+        // create a Rectangle for collision
         this.obstacle = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     /**
      * Returns whether or not the Obstacle collides with a Character.
      *
-     * @param character a Character that's being played in a game of Fireboy and
-     * Watergirl
+     * @param character a Character representing a Character in the game
      * @return a boolean representing whether the Obstacle has collided with a
      * Character
      */
@@ -56,18 +54,18 @@ public abstract class Obstacle {
     }
 
     /**
-     * Returns the x coordinate of the Obstacle.
+     * Returns the x position of the Obstacle.
      *
-     * @return a float representing the x coordinate of an Obstacle
+     * @return a float representing the x position of an Obstacle
      */
     public float getX() {
         return this.x;
     }
 
     /**
-     * Returns the y coordinate of the Obstacle.
+     * Returns the y position of the Obstacle.
      *
-     * @return a float representing the y coordinate of an Obstacle
+     * @return a float representing the y position of an Obstacle
      */
     public float getY() {
         return this.y;
@@ -79,49 +77,40 @@ public abstract class Obstacle {
      * @return a Rectangle that represents the Obstacle
      */
     public Rectangle getBounds() {
-        return obstacle;
-    }
-
-    /**
-     * Draws the Obstacle on the screen.
-     *
-     * @param shapeBatch a ShapeRenderer which draws the Obstacle on the screen
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        return this.obstacle;
     }
 
     /**
      * Returns the width of the Obstacle.
      *
-     * @return an integer representing the width of the Obstacle
+     * @return a float representing the width of the Obstacle
      */
     public float getWidth() {
         return this.width;
     }
 
     /**
-     * Returns the height of the Obstacle
+     * Returns the height of the Obstacle.
      *
-     * @return an integer representing the height of the Obstacle
+     * @return a float representing the height of the Obstacle
      */
     public float getHeight() {
         return this.height;
     }
 
     /**
-     * Returns the x-coordinate of the edge of the Obstacle.
+     * Returns the x position of the edge of the Obstacle.
      *
-     * @return a float representing the X-coordinate of the edge of the Obstacle
+     * @return a float representing the x position of the edge of the Obstacle
      */
     public float getLength() {
         return (this.width + this.x);
     }
 
     /**
-     * Returns the y-coordinate of the top of the Obstacle.
+     * Returns the y position of the top of the Obstacle.
      *
-     * @return a float representing the y-coordinate of the top of the Obstacle
+     * @return a float representing the y position of the top of the Obstacle
      */
     public float getTop() {
         return (this.height + this.y);

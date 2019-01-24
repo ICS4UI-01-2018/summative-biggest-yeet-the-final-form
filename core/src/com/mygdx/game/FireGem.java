@@ -6,7 +6,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a FireGem as a subclass of Gem to use in a Fireboy and Watergirl
@@ -17,7 +16,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class FireGem extends Gem {
 
     /**
-     * Initializes fire gem as subclass of Gem using its x and y coordinate.
+     * Initializes a FireGem as subclass of Gem using its Texture, and its x and
+     * y position.
      *
      * @param x a float representing the x coordinate of the FireGem
      * @param y a float representing the y coordinate of the FireGem
@@ -29,8 +29,8 @@ public class FireGem extends Gem {
     /**
      * Determines whether a Fireboy has collected the FireGem.
      *
-     * @param fireboy a Fireboy used in a game of Fireboy and Watergirl
-     * @return a boolean representing whether if a Fireboy has collected a
+     * @param fireboy a Character representing a Fireboy
+     * @return a boolean representing whether if a Fireboy has collected the
      * FireGem yet
      */
     public boolean collision(Fireboy fireboy) {

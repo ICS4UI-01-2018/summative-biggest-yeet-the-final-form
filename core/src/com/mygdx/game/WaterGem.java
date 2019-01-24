@@ -6,7 +6,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a WaterGem as a subclass of Gem to use in a game of Fireboy and
@@ -17,8 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class WaterGem extends Gem {
 
     /**
-     * Initializes WaterGem as subclass of Gem using the x and y coordinates of
-     * the WaterGem.
+     * Initializes WaterGem using its Texture, and its x and y positions.
      *
      * @param x a float representing the x coordinate of the WaterGem
      * @param y a float representing the y coordinate of the WaterGem
@@ -30,8 +28,9 @@ public class WaterGem extends Gem {
     /**
      * Determines if the Watergirl collected the WaterGem.
      *
-     * @param watergirl a Watergirl in the game
-     * @return a boolean representing if the Watergirl collected the WaterGem
+     * @param watergirl a Character representing a Watergirl
+     * @return a boolean representing if the Watergirl collected the WaterGem or
+     * not
      */
     public boolean collision(Watergirl watergirl) {
         return super.getBounds().overlaps(watergirl.getBounds());

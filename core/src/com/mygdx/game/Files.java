@@ -14,26 +14,31 @@ import java.util.Scanner;
 
 /**
  *
- * @author camet2651
+ * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class Files {
 
     private ArrayList<Scores> scores;
 
-    public Files(String file, Character f, Character w) {
+    /**
+     *
+     * @param file
+     * @param fireboy a Character representing a Fireboy
+     * @param watergirl a Character representing a Watergirl
+     */
+    public Files(String file, Fireboy fireboy, Watergirl watergirl) {
         this.scores = new ArrayList<Scores>();
         try {
             Scanner input = new Scanner(new File(file));
             //while there are still customers
             while (input.hasNext()) {
-                System.out.println("hello");
                 String line = input.nextLine();
                 String[] customerInfo = line.split(",");
                 LocalDate date = LocalDate.parse(customerInfo[0].trim());
                 int gemsCollected = Integer.parseInt(customerInfo[1].trim());
                 //if last customers account number is not one less than the current one there is a deleted customer  between them --> account number shouldn't be used
                 //add customer to array
-                Scores s = new Scores(date, f, w);
+                Scores s = new Scores(date, fireboy, watergirl);
                 this.scores.add(s);
             }
         } catch (FileNotFoundException ex) {
@@ -41,7 +46,11 @@ public class Files {
         }
     }
 
-    public void saveFile(String file, Character f, Character w) {
+    /**
+     *
+     * @param file
+     */
+    public void saveFile(String file) {
         try {
             for (Scores c : this.scores) {
                 PrintWriter output = new PrintWriter(new File(file));
@@ -59,5 +68,4 @@ public class Files {
 
         }
     }
-
 }

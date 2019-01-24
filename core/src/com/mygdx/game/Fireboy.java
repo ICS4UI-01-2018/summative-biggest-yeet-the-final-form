@@ -6,7 +6,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Creates a Fireboy as a subclass of Character to use in a game of Fireboy and
@@ -17,7 +16,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Fireboy extends Character {
 
     /**
-     * Creates a Fireboy using it's x and y position on the screen.
+     * Creates a Fireboy using its front-side Texture, its left-side Texture,
+     * its right-side Texture, and its x and y position on the screen.
      *
      * @param x an integer representing the x position of the Fireboy
      * @param y an integer representing the y position of the Fireboy

@@ -368,7 +368,7 @@ public class Level extends Screen {
                 this.fireboy.draw(super.getSpriteBatch());
             }
         } else {
-            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+            this.highScore.saveFile("playerScores");
         }
         if (!this.watergirl.isDead()) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) && !this.pause) {
@@ -379,7 +379,7 @@ public class Level extends Screen {
                 this.watergirl.draw(super.getSpriteBatch());
             }
         } else {
-            this.highScore.saveFile("playerScores", this.fireboy, this.watergirl);
+            this.highScore.saveFile("playerScores");
         }
 
         // draw pause button
