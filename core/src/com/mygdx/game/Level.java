@@ -54,11 +54,13 @@ public class Level extends Screen {
     public void create() {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
+
         this.temp = new ArrayList<Platform>();
         this.tempGem = new ArrayList<Gem>();
 
-        // level complete variables
+        // level completion variables
         this.levelWon = false;
+        this.nextLevel = false;
         this.levelCompleteScreen = new Texture("LevelComplete.jpg");
 
         // pause variables
@@ -68,11 +70,10 @@ public class Level extends Screen {
         // initialize the font
         this.generator = new FreeTypeFontGenerator(Gdx.files.internal("data-unifon.ttf"));
         this.parameter = new FreeTypeFontParameter();
-        this.parameter.size = 16;
+        this.parameter.size = 30;
         this.parameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.font = generator.generateFont(this.parameter);
         this.generator.dispose();
-        this.nextLevel = false;
     }
 
     /**
@@ -83,7 +84,7 @@ public class Level extends Screen {
         // clear the background
         super.render();
 
-        //calculated display times
+        // calculated display times
         long timePassed = System.currentTimeMillis() - this.timer;
         long secondsPassed = timePassed / 1000;
         long secondsDisplayed = secondsPassed % 60;
@@ -96,10 +97,6 @@ public class Level extends Screen {
         }
 
         System.out.println(minutesDisplayed + ":" + secondsDisplayed);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
-            System.out.println(this.fireboy.getY());
-        }
 
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
@@ -129,8 +126,8 @@ public class Level extends Screen {
                     this.fireboy.jump();
                 }
             }
+            
             //make fireboy jump
-
             Character c = this.fireboy;
             for (int i = 0; i < 2; i++) {
                 c.jumpAction();
@@ -176,16 +173,6 @@ public class Level extends Screen {
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                     this.watergirl.jump();
                 }
-            }
-
-            // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
-            this.fireboy.updatePositions();
-            this.watergirl.updatePositions();
-            for (MovingPlatform p : this.movingPlatforms) {
-                p.updatePositions();
-            }
-            for (Button b : this.buttons) {
-                b.updatePositions();
             }
 
             // allow the Fireboy to collect the FireGems
@@ -282,7 +269,6 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
-        // g.drawString("hello", 0, 0);
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -311,14 +297,13 @@ public class Level extends Screen {
             this.watergirl.draw(super.getShapeRenderer());
         }
 
-        // draws a level complete screen when the Level has been won using a ShapeRenderer
         // allows for the drawing of the game objects to end
         super.getShapeRenderer().end();
 
         // allows for the drawing of Textures
         super.getSpriteBatch().setProjectionMatrix(super.getCamera().combined);
         super.getSpriteBatch().begin();
-
+        
         // draw the Platforms
         for (Platform p : this.platforms) {
             if (!p.getBroken()) {
@@ -326,6 +311,10 @@ public class Level extends Screen {
             }
         }
 
+        // draw the timer
+        this.font.setColor(Color.WHITE);
+        this.font.draw(super.getSpriteBatch(), "timer", 298, 517);
+        
         // draw the Gems
         for (FireGem fireGem : this.fireGems) {
             fireGem.draw(super.getSpriteBatch());
@@ -378,11 +367,12 @@ public class Level extends Screen {
 
         // draw pause button
         super.getSpriteBatch().draw(this.pauseButton, 642, 2, 28, 28);
-        
+
         // draw the level complete screen
         if (levelWon) {
             super.getSpriteBatch().draw(this.levelCompleteScreen, 221, 136, 230, 272);
             // display the FireGem count
+            this.parameter.size = 16;
             this.font.setColor(Color.RED);
             this.font.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 207);
             // display the WaterGem count

@@ -8,7 +8,7 @@ import com.mygdx.game.GameLauncher;
  * Launches the game in order.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
- */
+ */ 
 public class DesktopLauncher {
  
     public static void main(String[] arg) {
