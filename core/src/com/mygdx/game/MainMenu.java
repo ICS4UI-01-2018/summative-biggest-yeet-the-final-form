@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class MainMenu extends Screen {
 
-    boolean x;
     private Texture mainMenuScreen;
 
     /**
@@ -30,26 +29,9 @@ public class MainMenu extends Screen {
         // set the MainMenu screen to be on first
         super.setDisplay(true);
 
-        // initialize the main menu screen
+        // initialize the MainMenu Screen
         this.mainMenuScreen = new Texture("MainMenu.jpg");
     }
-
-    public boolean goNext() {
-
-        // determine if the screen is being displayed
-        if (super.getDisplay()) {
-            // determine if the space bar is pressed
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-
-                // set the display to be off
-                System.out.println("gdd");
-                super.setDisplay(false);
-                return true;
-            }
-        }
-        return false;
-    }
-//    @Override
 
     public void render() {
         // clear the background
@@ -61,5 +43,24 @@ public class MainMenu extends Screen {
         super.getSpriteBatch().draw(this.mainMenuScreen, 0, 0, 672, 544);
         // end of Texture drawing
         super.getSpriteBatch().end();
+    }
+
+    /**
+     * Determine if the next Screen can be displayed.
+     *
+     * @return a boolean representing whether if the next Screen can be
+     * displayed
+     */
+    public boolean goNext() {
+        // determine if the screen is being displayed
+        if (super.getDisplay()) {
+            // determine if the space bar is pressed
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                // set the display to be off
+                super.setDisplay(false);
+                return true;
+            }
+        }
+        return false;
     }
 }

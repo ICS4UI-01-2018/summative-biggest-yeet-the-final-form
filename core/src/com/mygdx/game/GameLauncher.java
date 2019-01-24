@@ -20,6 +20,7 @@ public class GameLauncher extends ApplicationAdapter {
     private LevelOne levelOne;
     private LevelTwo levelTwo;
     private LevelThree levelThree;
+    private GameComplete gameComplete;
     private FitViewport viewport;
     private OrthographicCamera camera;
 
@@ -36,6 +37,8 @@ public class GameLauncher extends ApplicationAdapter {
         this.levelTwo.create();
         this.levelThree = new LevelThree();
         this.levelThree.create();
+        this.gameComplete = new GameComplete();
+        this.gameComplete.create();
 
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -50,34 +53,53 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        // display the main menu
+        // display the MainMenu
         if (this.mainMenu.getDisplay()) {
             this.mainMenu.render();
         }
 
-        // if spacebar is pressed next level
+        // if spacebar is pressed, then proceed to LevelOne
         if (this.mainMenu.goNext()) {
             this.levelOne.setDisplay(true);
         }
-        // display level one
+
+        // display LevelOne
         if (this.levelOne.getDisplay()) {
             this.levelOne.render();
         }
 
-        // set level two to be displayed if level is pressed
-        if (this.levelOne.nextLevel) {
+        // set LevelTwo to be displayed
+        if (this.levelOne.getNextLevel()) {
             this.levelOne.setDisplay(false);
             this.levelTwo.setDisplay(true);
         }
-        // display level two
+
+        // display LevelTwo
         if (this.levelTwo.getDisplay()) {
             this.levelTwo.render();
         }
 
-        // set level three to be displayed
-        this.levelThree.setDisplay(true);
+        // set LevelThree to be displayed
+        if (this.levelTwo.getNextLevel()) {
+            this.levelTwo.setDisplay(false);
+            this.levelThree.setDisplay(true);
+        }
 
-        // display level three
+        // display LevelThree
+        if (this.levelThree.getDisplay()) {
+            this.levelThree.render();
+        }
+
+        // set the GameComplete Screen to be displayed
+        if (this.levelThree.getNextLevel()) {
+            this.levelThree.setDisplay(false);
+            this.gameComplete.setDisplay(true);
+        }
+
+        // display the GameComplete Screen
+        if (this.gameComplete.getDisplay()) {
+            this.gameComplete.render();
+        }
     }
 
     /**

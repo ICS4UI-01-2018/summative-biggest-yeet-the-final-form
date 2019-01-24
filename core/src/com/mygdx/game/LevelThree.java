@@ -14,8 +14,6 @@ import java.util.ArrayList;
  */
 public class LevelThree extends Level {
 
-    private long time = System.currentTimeMillis();
-
     /**
      * Initializes the different game objects in the Level.
      */
@@ -30,9 +28,60 @@ public class LevelThree extends Level {
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
-
-        super.platforms.add(new Platform(0, 0, 9, 2));
-        super.platforms.add(new Platform(1, 2, 1, 31));
+        super.platforms.add(new Platform(0, 0, 42, 2));
+        super.platforms.add(new Platform(0, 2, 1, 31));
+        super.platforms.add(new Platform(41, 2, 1, 31));
+        super.platforms.add(new Platform(0, 33, 42, 1));
+        super.platforms.add(new Platform(18, 32, 6, 1));
+        super.platforms.add(new Platform(17, 8, 8, 1));
+        super.platforms.add(new Platform(17, 9, 1, 2));
+        super.platforms.add(new Platform(42, 9, 1, 2));
+        super.platforms.add(new Platform(16, 14, 10, 1));
+        super.platforms.add(new Platform(17, 15, 8, 1));
+        super.platforms.add(new Platform(17, 20, 1, 1));
+        super.platforms.add(new Platform(24, 20, 1, 1));
+        super.platforms.add(new Platform(17, 21, 2, 1));
+        super.platforms.add(new Platform(23, 21, 2, 1));
+        super.platforms.add(new Platform(17, 22, 8, 1));
+        super.platforms.add(new Platform(18, 26, 6, 1));
+        super.platforms.add(new Platform(17, 27, 8, 1));
+        super.platforms.add(new Platform(6, 29, 2, 1));
+        super.platforms.add(new Platform(7, 28, 1, 1));
+        super.platforms.add(new Platform(10, 29, 1, 1));
+        super.platforms.add(new Platform(9, 28, 2, 1));
+        super.platforms.add(new Platform(13, 29, 2, 1));
+        super.platforms.add(new Platform(14, 28, 1, 1));
+        super.platforms.add(new Platform(11, 27, 2, 1));
+        super.platforms.add(new Platform(12, 26, 1, 1));
+        super.platforms.add(new Platform(9, 24, 1, 1));
+        super.platforms.add(new Platform(10, 20, 2, 2));
+        super.platforms.add(new Platform(12, 20, 1, 1));
+        super.platforms.add(new Platform(13, 17, 1, 1));
+        super.platforms.add(new Platform(7, 17, 1, 3));
+        super.platforms.add(new Platform(3.5f, 12, 2, 1));
+        super.platforms.add(new Platform(8, 11, 1, 3));
+        super.platforms.add(new Platform(1, 10, 8, 1));
+        super.platforms.add(new Platform(11, 11, 3, 1));
+        super.platforms.add(new Platform(28, 11, 3, 1));
+        super.platforms.add(new Platform(33, 10, 8, 1));
+        super.platforms.add(new Platform(33, 11, 1, 3));
+        super.platforms.add(new Platform(36.5f, 12, 2, 1));
+        super.platforms.add(new Platform(28, 17, 1, 1));
+        super.platforms.add(new Platform(34, 17, 1, 3));
+        super.platforms.add(new Platform(29, 20, 1, 1));
+        super.platforms.add(new Platform(30, 20, 2, 2));
+        super.platforms.add(new Platform(32, 24, 1, 1));
+        super.platforms.add(new Platform(27, 29, 2, 1));
+        super.platforms.add(new Platform(27, 28, 1, 1));
+        super.platforms.add(new Platform(31, 29, 1, 1));
+        super.platforms.add(new Platform(31, 28, 2, 1));
+        super.platforms.add(new Platform(34, 29, 2, 1));
+        super.platforms.add(new Platform(34, 28, 1, 1));
+        super.platforms.add(new Platform(29, 27, 2, 1));
+        super.platforms.add(new Platform(29, 26, 1, 1));
+        super.platforms.add(new Platform(1, 23, 6, 1));
+        super.platforms.add(new Platform(35, 23, 6, 1));
+        super.platforms.add(new Platform(24, 9, 1, 2));
 
         // initialize the MovingPlatforms
         super.movingPlatforms = new ArrayList<MovingPlatform>();
@@ -50,6 +99,11 @@ public class LevelThree extends Level {
         super.water.add(new Water(34, 11, 7, 1));
         super.mud = new ArrayList<Mud>();
         super.mud.add(new Mud(1, 2, 40, 1));
+        super.buttons = new ArrayList<Button>();
+        super.buttons.add(new Button(4, 13));
+        super.buttons.add(new Button(37, 13));
+        super.buttons.add(new Button(20.5f, 9));
+        super.buttons.add(new Button(20.5f, 16));
 
         // initialize the Gems
         super.fireGems = new ArrayList<FireGem>();
@@ -68,6 +122,8 @@ public class LevelThree extends Level {
         super.waterGems.add(new WaterGem(21, 11));
 
         // initialize the Doors
+        super.fireDoor = new FireDoor(21.5f, 23);
+        super.waterDoor = new WaterDoor(18.5f, 23);
     }
 
     /**
@@ -78,15 +134,70 @@ public class LevelThree extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
+        
+        // determine if the Button is being pressed
+        if (super.buttons.get(0).isPressed()) {
+            // move the MovingPlatform of the Button up
+            super.movingPlatforms.get(1).moveUp();
+        } else {
+            // move the MovingPlatform of the Button down
+            super.movingPlatforms.get(1).moveDown();
+        }
 
-        //calculated display times
-        long timePassed = System.currentTimeMillis() - time;
-        long secondsPassed = timePassed / 1000;
-        long secondsDisplayed = secondsPassed % 60;
-        long minutesDisplayed = secondsPassed / 60;
+        // determine if the Button is being pressed
+        if (super.buttons.get(1).isPressed()) {
+            // move the MovingPlatform of the Button up
+            super.movingPlatforms.get(4).moveUp();
+        } else {
+            // move the MovingPlatform of the Button down
+            super.movingPlatforms.get(4).moveDown();
+        }
+        
+        // determine which MovingPlatforms the Button controls
+        super.buttons.get(2).addMovingPlatform(super.movingPlatforms.get(2));
+        super.buttons.get(2).addMovingPlatform(super.movingPlatforms.get(5));
+        ArrayList<MovingPlatform> button2Platforms = buttons.get(2).getMovingPlatforms();
+        // determine if the Button is pressed
+        if (super.buttons.get(2).isPressed()) {
+            // move each MovingPlatform that belongs to the Button up
+            for (MovingPlatform movingPlatform : button2Platforms) {
+                movingPlatform.moveUp();
+            }
+        } else {
+            // move each MovingPlatform that belongs to the Button down
+            for (MovingPlatform movingPlatform : button2Platforms) {
+                movingPlatform.moveDown();
+            }
+        }
+        
+        // determine which MovingPlatforms the Button controls
+        super.buttons.get(3).addMovingPlatform(super.movingPlatforms.get(0));
+        super.buttons.get(3).addMovingPlatform(super.movingPlatforms.get(3));
+        ArrayList<MovingPlatform> button3Platforms = buttons.get(3).getMovingPlatforms();
+        // determine if the Button is pressed
+        if (super.buttons.get(3).isPressed()) {
+            // move each MovingPlatform that belongs to the Button up
+            for (MovingPlatform movingPlatform : button3Platforms) {
+                movingPlatform.moveUp();
+            }
+        } else {
+            // move each MovingPlatform that belongs to the Button down
+            for (MovingPlatform movingPlatform : button3Platforms) {
+                movingPlatform.moveDown();
+            }
+        }
 
-        System.out.println(minutesDisplayed + ":" + secondsDisplayed);
-
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(360);
+            super.fireboy.setY(448);
+            super.watergirl.setX(288);
+            super.watergirl.setY(448);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }

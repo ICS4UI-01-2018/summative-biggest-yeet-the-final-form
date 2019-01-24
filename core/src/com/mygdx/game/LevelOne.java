@@ -9,8 +9,6 @@ import java.util.ArrayList;
  */
 public class LevelOne extends Level {
 
-    private long time = System.currentTimeMillis();
-
     /**
      * Initialize the different game objects in the Level.
      */
@@ -18,11 +16,11 @@ public class LevelOne extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-        super.highScore = new Files("playerScores", fireboy, watergirl);
+//        super.highScore = new Files("playerScores", super.fireboy, super.watergirl);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(5, 18);
-        super.watergirl = new Watergirl(4, 18);
+        super.fireboy = new Fireboy(35, 29);
+        super.watergirl = new Watergirl(35, 29);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -64,13 +62,10 @@ public class LevelOne extends Level {
         // initialize the Obstacles
         super.fire = new ArrayList<Fire>();
         super.fire.add(new Fire(21, 1, 4, 1));
-
         super.water = new ArrayList<Water>();
         super.water.add(new Water(27, 1, 4, 1));
-
         super.mud = new ArrayList<Mud>();
         super.mud.add(new Mud(26, 10, 3, 1));
-
         this.buttons = new ArrayList<Button>();
         this.buttons.add(new Button(10.5f, 18));
         this.buttons.add(new Button(10.5f, 12));
@@ -102,16 +97,15 @@ public class LevelOne extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-  
-
-        buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
-        buttons.get(1).addMovingPlatform(this.movingPlatforms.get(0));
+        // get the MovingPlatforms
+        super.buttons.get(0).addMovingPlatform(super.movingPlatforms.get(0));
+        super.buttons.get(1).addMovingPlatform(super.movingPlatforms.get(0));
 
         // determine which MovingPlatforms the Button controls
-        ArrayList<MovingPlatform> buttonPlatforms = buttons.get(0).getMovingPlatforms();
+        ArrayList<MovingPlatform> buttonPlatforms = super.buttons.get(0).getMovingPlatforms();
         // determine if any Buttons are pressed
-        if ((buttons.get(0).isPressed() || buttons.get(1).isPressed())
-                || (buttons.get(0).isPressed() && buttons.get(1).isPressed())) {
+        if ((super.buttons.get(0).isPressed() || super.buttons.get(1).isPressed())
+                || (super.buttons.get(0).isPressed() && super.buttons.get(1).isPressed())) {
             // MovingPlatform moves down if a Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
                 mp.isMovingDown = true;
@@ -127,6 +121,17 @@ public class LevelOne extends Level {
             }
         }
 
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(32);
+            super.fireboy.setY(32);
+            super.watergirl.setX(32);
+            super.watergirl.setY(112);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }

@@ -16,8 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class FireDoor extends Door {
 
     /**
-     * Creates a FireDoor using the x and y position, which only lets Fireboys
-     * pass through.
+     * Creates a FireDoor using its Texture, and its x and y position.
      *
      * @param x a float representing the x position of the FireDoor
      * @param y a float representing the y position of the FireDoor
@@ -29,7 +28,7 @@ public class FireDoor extends Door {
     /**
      * Determines whether the Fireboy is standing in front of the FireDoor.
      *
-     * @param fireboy the Fireboy in the game
+     * @param fireboy a Character representing a Fireboy
      * @return a boolean representing whether if the Fireboy is standing in
      * front of the FireDoor
      */

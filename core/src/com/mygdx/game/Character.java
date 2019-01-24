@@ -7,7 +7,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
@@ -34,12 +33,20 @@ public abstract class Character {
      * @param leftPic a Texture used to represent the left side of the Character
      * @param rightPic a Texture used to represent the right side of the
      * Character
-     * @param x a float representing it's x position on the screen
-     * @param y a float representing it's y position on the screen
+     * @param x a float representing the x position of the Character
+     * @param y a float representing the y position of the Character
      */
     public Character(Texture straightPic, Texture leftPic, Texture rightPic, float x, float y) {
-        this.height = 30;
+        // initialize the Textures to represent the Character throughout the game
+        this.straightPic = straightPic;
+        this.leftPic = leftPic;
+        this.rightPic = rightPic;
+
+        this.x = x * 16;
+        this.y = y * 16;
         this.width = 24;
+        this.height = 30;
+
         this.gemsCollected = 0;
         this.xSpeed = 3;
         this.isDead = false;
@@ -47,9 +54,6 @@ public abstract class Character {
         this.gravity = 0.5f; //tweak
         this.x = x * 16;
         this.y = y * 16;
-        this.straightPic = straightPic;
-        this.leftPic = leftPic;
-        this.rightPic = rightPic;
         this.onGround = true;
         this.jump = false;
         this.isOnTopMP = false;
@@ -76,124 +80,128 @@ public abstract class Character {
     }
 
     /**
-     * Returns far X coordinate
+     * Sets the x position of the Character to the specified float.
      *
-     * @return coordinate
+     * @param x a float representing the new x position of the Character
+     */
+    public void setX(float x) {
+        this.x = x;
+        // update the position of the Character
+        updatePositions();
+    }
+
+    /**
+     * Sets the y position of the Character to the specified float.
+     *
+     * @param y a float representing the new y position of the Character
+     */
+    public void setY(float y) {
+        this.y = y;
+        // update the position of the Character
+        updatePositions();
+    }
+
+    /**
+     * Returns x position of the right side of the Character.
+     *
+     * @return a float representing the x position of the right side of the
+     * Character
      */
     public float getFarX() {
         return (this.x + this.width);
     }
 
     /**
-     * Returns top Y coordinate
+     * Returns the y position of the top of the Character.
      *
-     * @return top y coordinate
+     * @return a float representing the y position of the top of the Character
      */
     public float getTop() {
         return (this.y + this.height);
     }
 
     /**
-     * Returns y Speed
+     * Returns the y speed of the Character.
      *
-     * @return y Speed
+     * @return a float representing the y speed of the Character
      */
     public float getYSpeed() {
         return this.ySpeed;
     }
 
     /**
-     * Sets the x coordinate to specified float
+     * Sets the x position of the Character using the specified float.
      *
-     * @param f a float representing new coordinate
+     * @param x a float to use to calculate the new x position of the Character
      */
-    public void setX(float f) {
-        this.x = f;
-        this.updatePositions();
-    }
-
-    /**
-     * Sets the y coordinate to specified float
-     *
-     * @param f a float representing new coordinate
-     */
-    public void setY(float f) {
-        this.y = f;
-        this.updatePositions();
+    public void setFarX(float x) {
+        this.x = x - this.width;
+        // update the position of the Character
+        updatePositions();
     }
 
     /**
      * Sets the x coordinate to specified float
      *
-     * @param f a float representing new coordinate
+     * @param y a float representing new coordinate
      */
-    public void setFarX(float f) {
-        this.x = f - this.width;
-        this.updatePositions();
-
+    public void setTop(float y) {
+        this.y = y - this.height;
+        // update the position of the Character
+        updatePositions();
     }
 
     /**
-     * Sets the x coordinate to specified float
+     * Sets the y speed of the Character to the specified float.
      *
-     * @param f a float representing new coordinate
+     * @param ySpeed a float representing the new y speed of the Character
      */
-    public void setTop(float f) {
-        this.y = f - this.height;
-        this.updatePositions();
-
+    public void setYSpeed(float ySpeed) {
+        this.ySpeed = ySpeed;
     }
 
     /**
-     * Sets the ySpeeed to specified float
+     * Sets the Character to be on or off of a Platform.
      *
-     * @param f a float representing new speed
+     * @param onGround a boolean representing whether or not the Character is on
+     * the platform
      */
-    public void setYSpeed(float f) {
-        this.ySpeed = f;
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
     }
 
     /**
-     * Sets the player to on/off ground(platform)
+     * Sets the jumping variable of the Character.
      *
-     * @param b a boolean representing whether or not the player is on the
-     * platform
+     * @param jump a boolean representing whether or not the Character is
+     * jumping or not
      */
-    public void setOnGround(boolean b) {
-        this.onGround = b;
-    }
-
-    /**
-     * Sets the x coordinate to specified float
-     *
-     * @param b a float representing new coordinate
-     */
-    public void setJumping(boolean b) {
-        this.jump = b;
+    public void setJumping(boolean jump) {
+        this.jump = jump;
     }
 
     /**
      * Returns the Rectangle representing the Character.
      *
-     * @return a Rectangle representing the Character.
+     * @return a Rectangle representing the Character
      */
     public Rectangle getBounds() {
         return this.character;
     }
 
     /**
-     * Returns the height of the character
+     * Returns the height of the Character.
      *
-     * @return an integer representing the height of the character
+     * @return a float representing the height of the Character
      */
     public float getHeight() {
         return this.height;
     }
 
     /**
-     * Returns the width of the character
+     * Returns the width of the Character.
      *
-     * @return an integer representing the width of the character
+     * @return a float representing the width of the Character
      */
     public float getWidth() {
         return this.width;
@@ -207,8 +215,9 @@ public abstract class Character {
         // do not let the Character move off of the left-side of the screen
         if (this.x > 16) {
             // make the Character move towards the left of the screen
-            this.x = this.x - this.xSpeed;
-            this.updatePositions();
+            this.x -= this.xSpeed;
+            // update the position of the Character
+            updatePositions();
         }
     }
 
@@ -220,27 +229,29 @@ public abstract class Character {
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {
             // make the Character move towards the right of the screen
-            this.x = this.x + this.xSpeed;
-            this.updatePositions();
+            this.x += this.xSpeed;
+            // update the position of the Character
+            updatePositions();
         }
     }
 
     /**
-     * Sets the Character to a jumping state
+     * Sets the Character to a jumping state.
      */
     public void jump() {
         if (this.onGround) {
             ySpeed = -7;//height of jump
             this.jump = true;
+            // Character will not be on the ground
             this.onGround = false;
         }
     }
 
     /**
-     * Allows the character to jump and fall
-     *
+     * Allows the Character to jump and fall.
      */
     public void jumpAction() {
+        // determine if the Character ins't on the ground
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
             ySpeed += gravity;
@@ -272,12 +283,15 @@ public abstract class Character {
     /**
      * Adds a Gem to the Gem count.
      */
-    public void addGem() {
+    public void addGem(Gem g) {
+        System.out.println(gemsCollected);
+        if (!g.isCollected()){
         this.gemsCollected++;
+        }
     }
 
     /**
-     * Checks if character is standing on a platform
+     * Returns a Platform that the Character is standing on top of.
      *
      * @param p the platform being checked
      * @return whether or not the character is on top of this platform
@@ -349,30 +363,22 @@ public abstract class Character {
     }
 
     /**
-     * Draws the Character on the screen using a ShapeRenderer.
-     *
-     * @param shapeBatch a ShapeRenderer used to draw the Character on the
-     * screen
-     */
-    public void draw(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(character.x, character.y, character.width, character.height);
-    }
-
-    /**
-     * Stores the current position of the Character on the screen into the
+     * Updates the current position of the Character on the screen in the
      * Character class.
      */
     public void updatePositions() {
-
         this.character.x = this.x;
         this.character.y = this.y;
     }
 
     /**
-     * Sets the Character to be dead.
+     * Sets the state of life of the Character to be the specified boolean.
+     *
+     * @param isDead a boolean representing whether the Character is alive or
+     * not
      */
-    public void died() {
-        this.isDead = true;
+    public void setDead(boolean isDead) {
+        this.isDead = isDead;
     }
 
     /**

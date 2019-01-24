@@ -14,8 +14,6 @@ import java.util.ArrayList;
  */
 public class LevelTwo extends Level {
 
-    private long time = System.currentTimeMillis();
-
     /**
      * Initializes the different game objects in the Level.
      */
@@ -174,15 +172,27 @@ public class LevelTwo extends Level {
         ArrayList<MovingPlatform> buttonPlatforms = buttons.get(0).getMovingPlatforms();
         if (buttons.get(0).isPressed()) {
             // MovingPlatforms will move down when the Button is pressed
-            for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveDown();
+            for (MovingPlatform movingPlatform : buttonPlatforms) {
+                movingPlatform.moveDown();
             }
         } else {
             // MovingPlatforms will move up when the Button isn't pressed
-            for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveUp();
+            for (MovingPlatform movingPlatform : buttonPlatforms) {
+                movingPlatform.moveUp();
             }
         }
+        
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(616);
+            super.fireboy.setY(32);
+            super.watergirl.setX(32);
+            super.watergirl.setY(32);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }

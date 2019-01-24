@@ -5,10 +5,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.GameLauncher;
 
 /**
- * Launches the game.
+ * Launches the game in order.
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
- */
+ */ 
 public class DesktopLauncher {
  
     public static void main(String[] arg) {

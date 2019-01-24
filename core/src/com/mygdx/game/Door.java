@@ -18,14 +18,14 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public abstract class Door {
 
-    private final int width, height;
     private final float x, y;
+    private final int width, height;
     private final Rectangle door;
     private final Texture doorPic;
 
     /**
-     * Create a Character using the Character-type allowed through the door, and
-     * the x and y position of the Door.
+     * Create a Character using a Texture to represent the Door, and its x and y
+     * position.
      *
      * @param doorPic a Texture representing the appearance of the Door
      * @param x a float representing the x position of the Door
@@ -57,24 +57,6 @@ public abstract class Door {
      */
     public float getY() {
         return this.y;
-    }
-
-    /**
-     * Returns the Door's height.
-     *
-     * @return an integer representing the Door's height
-     */
-    public int getHeight() {
-        return this.height;
-    }
-
-    /**
-     * Returns the Door's width.
-     *
-     * @return an integer representing the Door's width
-     */
-    public int getWidth() {
-        return this.width;
     }
 
     /**
