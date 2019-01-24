@@ -28,7 +28,7 @@ public class Level extends Screen {
     private FreeTypeFontParameter parameter;
     private BitmapFont font;
     private Texture pauseButton, levelCompleteScreen;
-    private boolean levelWon, pause;
+    private boolean levelWon, pause, nextLevel;
     Fireboy fireboy;
     Watergirl watergirl;
     ArrayList<Platform> platforms;
@@ -44,7 +44,6 @@ public class Level extends Screen {
     Files highScore;
     ArrayList<Platform> temp;
     ArrayList<Gem> tempGem;
-    boolean nextLevel;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -105,16 +104,11 @@ public class Level extends Screen {
         // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
         this.fireboy.updatePositions();
         this.watergirl.updatePositions();
-        for (MovingPlatform p : this.movingPlatforms) {
-            p.updatePositions();
-            if (p.isMovingDown) {
-                System.out.println(p.getY());
-
-            }
-            System.out.println();
+        for (MovingPlatform movingPlatform : this.movingPlatforms) {
+            movingPlatform.updatePositions();
         }
-        for (Button b : this.buttons) {
-            b.updatePositions();
+        for (Button button : this.buttons) {
+            button.updatePositions();
         }
 
         // Characters can only move if the level hasn't been won yet
@@ -198,17 +192,16 @@ public class Level extends Screen {
             for (FireGem fireGem : this.fireGems) {
                 // determine if the Fireboy has collected the FireGem
                 if (fireGem.collision(this.fireboy)) {
-                                        this.fireboy.addGem();
-                                        this.fireboy.getGemsCollected();
+                    this.fireboy.addGem();
+                    this.fireboy.getGemsCollected();
                     this.tempGem.add(fireGem);
                     fireGem.collected();
                 }
-                
+
                 // don't draw the FireGem on the screen
                 // add to the Fireboy's FireGem count
             }
-                            this.fireGems.removeAll(tempGem);
-
+            this.fireGems.removeAll(tempGem);
 
             // allow the Watergirl to collect the WaterGems
             for (WaterGem waterGem : this.waterGems) {
@@ -409,5 +402,15 @@ public class Level extends Screen {
      */
     public boolean isLevelWon() {
         return this.levelWon;
+    }
+
+    /**
+     * Returns whether or not the next Level should be displayed on the screen.
+     *
+     * @return a boolean representing whether or not the next Level should be
+     * displayed
+     */
+    public boolean getNextLevel() {
+        return this.nextLevel;
     }
 }

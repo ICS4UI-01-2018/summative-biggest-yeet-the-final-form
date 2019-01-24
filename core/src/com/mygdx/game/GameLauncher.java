@@ -50,34 +50,44 @@ public class GameLauncher extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        // display the main menu
-        if (this.mainMenu.getDisplay()) {
-            this.mainMenu.render();
-        }
-
-        // if spacebar is pressed next level
-        if (this.mainMenu.goNext()) {
-            this.levelOne.setDisplay(true);
-        }
-        // display level one
-        if (this.levelOne.getDisplay()) {
-            this.levelOne.render();
-        }
-
-        // set level two to be displayed if level is pressed
-        if (this.levelOne.nextLevel) {
-            this.levelOne.setDisplay(false);
-            this.levelTwo.setDisplay(true);
-        }
-        // display level two
-        if (this.levelTwo.getDisplay()) {
-            this.levelTwo.render();
-        }
-
-        // set level three to be displayed
-        this.levelThree.setDisplay(true);
-
-        // display level three
+//        // display the MainMenu
+//        if (this.mainMenu.getDisplay()) {
+//            this.mainMenu.render();
+//        }
+//
+//        // if spacebar is pressed, then proceed to LevelOne
+//        if (this.mainMenu.goNext()) {
+//            this.levelOne.setDisplay(true);
+//        }
+//        
+//        // display LevelOne
+//        if (this.levelOne.getDisplay()) {
+//            this.levelOne.render();
+//        }
+//
+//        // set LevelTwo to be displayed
+//        if (this.levelOne.getNextLevel()) {
+//            this.levelOne.setDisplay(false);
+//            this.levelTwo.setDisplay(true);
+//        }
+//        
+//        // display LevelTwo
+//        if (this.levelTwo.getDisplay()) {
+//            this.levelTwo.render();
+//        }
+//
+//        // set LevelThree to be displayed
+//        if (this.levelTwo.getNextLevel()) {
+//            this.levelTwo.setDisplay(false);
+//            this.levelThree.setDisplay(true);
+//        }
+//        
+//        // display LevelThree
+//        if (this.levelThree.getDisplay()) {
+//            this.levelThree.render();
+//        }
+        
+        this.levelThree.render();
     }
 
     /**
