@@ -27,8 +27,8 @@ public class Level extends Screen {
     private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
     //should all instance variable be private?
     private FreeTypeFontGenerator generator;
-    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter,inFontParameter ;
-     
+    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter, inFontParameter;
+
     private BitmapFont timerFont, gemCountFont, highScoreFont;
     private Texture pauseButton, levelCompleteScreen, deathScreen;
     private boolean levelWon, pause, nextLevel, reset;
@@ -88,7 +88,7 @@ public class Level extends Screen {
         this.timerFontParameter.size = 30;
         this.timerFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.timerFont = this.generator.generateFont(this.timerFontParameter);
-        
+
         //the instuctions font 
         this.inFontParameter = new FreeTypeFontParameter();
         this.inFontParameter.size = 10;
@@ -410,22 +410,7 @@ public class Level extends Screen {
 
         // draw the timer
         this.timerFont.setColor(Color.WHITE);
-        this.timerFont.draw(super.getSpriteBatch(), timeDisplayed, 298, 517);
-        
-        //insturctions
-         this.timerFont.setColor(Color.BLACK);
-        this.timerFont.draw(super.getSpriteBatch(), "press up to jump", 60, 60);
-        
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-         this.timerFont.setColor(Color.WHITE);
-        this.timerFont.draw(super.getSpriteBatch(), "press up to jump", 60, 60);
-        }
-        
-      
-        
-        
-        
-       
+        this.timerFont.draw(super.getSpriteBatch(), timeDisplayed, 298, 537);
 
         // draw the Gems
         for (FireGem fireGem : this.fireGems) {
@@ -500,9 +485,10 @@ public class Level extends Screen {
             super.getSpriteBatch().draw(this.deathScreen, 221, 136, 230, 272);
             // display the FireGem count
             this.gemCountFont.setColor(Color.RED);
-            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 207);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 217);
             // display the WaterGem count
             this.gemCountFont.setColor(Color.BLUE);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "", 320, 202);
         }
 
         // end the drawing of Textures
