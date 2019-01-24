@@ -99,10 +99,14 @@ public abstract class Gem {
     }
 
     /**
-     * Sets the Gem to be collected.
+     * Sets the Gem to be collected, or not collected based on the specified
+     * boolean.
+     *
+     * @param collected a boolean representing whether the Gem has been
+     * collected or not
      */
-    public void collected() {
-        this.collected = true;
+    public void setCollected(boolean collected) {
+        this.collected = collected;
     }
 
     /**

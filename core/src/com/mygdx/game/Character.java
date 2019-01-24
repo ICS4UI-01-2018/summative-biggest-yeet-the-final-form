@@ -20,9 +20,10 @@ import java.util.ArrayList;
 public abstract class Character {
 
     private int gemsCollected;
-    private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
+    private float x, y, ySpeed, xSpeed;
+    private final float gravity, height, width, maxYSpeed;
     boolean isFalling, isDead, jump, onGround, hitBottom, hitSide, isOnTop, canJump;
-    private Rectangle character;
+    private final Rectangle character;
     private final Texture straightPic, leftPic, rightPic;
 
     /**
@@ -353,10 +354,13 @@ public abstract class Character {
     }
 
     /**
-     * Sets the Character to be dead.
+     * Sets the Character's state of life to be the specified boolean.
+     *
+     * @param isDead a boolean representing whether the Character is alive or
+     * not
      */
-    public void died() {
-        this.isDead = true;
+    public void setDead(boolean isDead) {
+        this.isDead = isDead;
     }
 
     /**

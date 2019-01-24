@@ -19,8 +19,8 @@ public class LevelOne extends Level {
         super.highScore = new Files("playerScores", super.fireboy, super.watergirl);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(33, 30);
-        super.watergirl = new Watergirl(34, 30);
+        super.fireboy = new Fireboy(2, 2);
+        super.watergirl = new Watergirl(2, 7);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -119,6 +119,17 @@ public class LevelOne extends Level {
             }
         }
 
+        // reset the Level
+        if (super.reset()) {
+            // reset the Characters
+            super.fireboy.setX(32);
+            super.fireboy.setY(32);
+            super.watergirl.setX(32);
+            super.watergirl.setY(112);
+            
+            super.setReset(false);
+        }
+        
         // draw the game elements
         super.draw();
     }
