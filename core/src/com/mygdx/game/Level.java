@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -14,15 +15,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
  * Draws the objects of the games on the screen.
@@ -31,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class Level extends Screen {
 
-    long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
+    private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
     //should all instance variable be private?
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter;
@@ -50,15 +43,15 @@ public class Level extends Screen {
     ArrayList<WaterGem> waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
-    // Files highScore;
-    ArrayList<Platform> temp;
-    ArrayList<Gem> tempGem;
-    String timeDisplayed;
-    ArrayList<String> scores;
-    Scores hello;
-    boolean resetTimer, pausetimer;
-    long timeee;
-    int co;
+    private Files highScore;
+    private ArrayList<Platform> temp;
+    private ArrayList<Gem> tempGem;
+    private String timeDisplayed;
+    private ArrayList<String> scores;
+    private Scores hello;
+    private boolean resetTimer, pausetimer;
+    private long timeee;
+    private int co;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -323,8 +316,8 @@ public class Level extends Screen {
                 this.resetTimer();
 
                 int hm = fireboy.getGemsCollected() + fireboy.getGemsCollected();
-                hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
-                hello.add(hello, "scoresL1");
+                this.hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
+                this.hello.add(this.hello, "scoresL1");
             }
         }
 
