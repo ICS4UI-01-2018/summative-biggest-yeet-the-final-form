@@ -478,9 +478,10 @@ public class Level extends Screen {
             super.getSpriteBatch().draw(this.deathScreen, 221, 136, 230, 272);
             // display the FireGem count
             this.gemCountFont.setColor(Color.RED);
-            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 207);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.fireboy.getGemsCollected() + "", 320, 217);
             // display the WaterGem count
             this.gemCountFont.setColor(Color.BLUE);
+            this.gemCountFont.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "", 320, 202);
         }
 
         // end the drawing of Textures
