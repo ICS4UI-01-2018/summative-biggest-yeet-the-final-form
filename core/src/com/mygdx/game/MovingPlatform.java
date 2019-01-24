@@ -39,7 +39,7 @@ public class MovingPlatform extends Platform {
     public MovingPlatform(boolean b, float x, float y, float width, float height, float movingY) {
         super(x, y, width, height);
 
-        this.speed = 0.05f;
+        this.speed = 0.5f;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
@@ -59,7 +59,7 @@ public class MovingPlatform extends Platform {
      */
     public void moveDown() {
         // determine if the MovingPlatform can move down
-        if (super.getY() > this.minimumY) {
+        if (super.getY() > this.minimumY && this.isMovingDown) {
             // move the MovingPlatform down
             super.setY(super.getY() - this.speed);
             updatePositions();
@@ -76,7 +76,7 @@ public class MovingPlatform extends Platform {
      */
     public void moveUp() {
         // determine if the MovingPlatform can move up
-        if (super.getY() < this.maximumY) {
+        if (super.getY() < this.maximumY && this.isMovingUp) {
             // move the MovingPlatform up
             super.setY(super.getY() + this.speed);
             updatePositions();
@@ -130,20 +130,6 @@ public class MovingPlatform extends Platform {
      */
     public boolean getIsMovingDown() {
         return this.isMovingDown;
-    }
-
-    /**
-     * 
-     * @param character 
-     */
-    public void tieTo(Character character) {
-        if (this.wasOnTop && !character.jump && (this.isMovingDown || this.isMovingUp)) {
-            //   System.out.println(" tie to");
-            character.setY(super.getTop());
-            character.onGround = true;
-        } else {
-            this.wasOnTop = false;
-        }
     }
 
     /**

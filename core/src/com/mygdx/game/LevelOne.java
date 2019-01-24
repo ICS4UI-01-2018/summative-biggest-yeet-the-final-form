@@ -17,8 +17,6 @@ public class LevelOne extends Level {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
         
-        super.highScore = new Files("playerScores", super.fireboy, super.watergirl);
-
         // initialize the Characters
         super.fireboy = new Fireboy(2, 2);
         super.watergirl = new Watergirl(2, 7);
@@ -41,7 +39,7 @@ public class LevelOne extends Level {
         super.platforms.add(new Platform(29, 9, 7, 2));
         super.platforms.add(new Platform(38, 13, 3, 4));
         super.platforms.add(new Platform(35, 14, 3, 3));
-        super.platforms.add(new Platform(21, 15, 14, 2, 500));
+        super.platforms.add(new Platform(21, 15, 14, 2));
         super.platforms.add(new Platform(19, 15, 2, 3));
         super.platforms.add(new Platform(6, 16, 13, 2));
         super.platforms.add(new Platform(1, 21, 4, 6));
@@ -109,13 +107,15 @@ public class LevelOne extends Level {
                 || (super.buttons.get(0).isPressed() && super.buttons.get(1).isPressed())) {
             // MovingPlatform moves down if a Button is pressed
             for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
-                mp.moveDown();
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
                 mp.updatePositions();
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
             for (MovingPlatform mp : buttonPlatforms) {
-                mp.moveUp();
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
             }
         }
 

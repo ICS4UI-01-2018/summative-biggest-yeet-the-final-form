@@ -160,7 +160,6 @@ public class LevelTwo extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        // determine which MovingPlatforms the Button controls
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
         // determine which MovingPlatforms that the Button controls

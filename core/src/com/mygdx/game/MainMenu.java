@@ -33,10 +33,6 @@ public class MainMenu extends Screen {
         this.mainMenuScreen = new Texture("MainMenu.jpg");
     }
 
-    /**
-     * Clear the background of the Screen, and draw the MainMenu.
-     */
-    @Override
     public void render() {
         // clear the background
         super.render();
@@ -48,7 +44,7 @@ public class MainMenu extends Screen {
         // end of Texture drawing
         super.getSpriteBatch().end();
     }
-    
+
     /**
      * Determine if the next Screen can be displayed.
      *
