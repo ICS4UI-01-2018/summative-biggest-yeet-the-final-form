@@ -5,6 +5,7 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -14,15 +15,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
  * Draws the objects of the games on the screen.
@@ -31,10 +24,11 @@ import java.util.logging.Logger;
  */
 public class Level extends Screen {
 
-    long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
+    private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
     //should all instance variable be private?
     private FreeTypeFontGenerator generator;
-    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter;
+    private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter,inFontParameter ;
+     
     private BitmapFont timerFont, gemCountFont, highScoreFont;
     private Texture pauseButton, levelCompleteScreen, deathScreen;
     private boolean levelWon, pause, nextLevel, reset;
@@ -50,15 +44,15 @@ public class Level extends Screen {
     ArrayList<WaterGem> waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
-    // Files highScore;
-    ArrayList<Platform> temp;
-    ArrayList<Gem> tempGem;
-    String timeDisplayed;
-    ArrayList<String> scores;
-    Scores hello;
-    boolean resetTimer, pausetimer;
-    long timeee;
-    int co;
+    private Files highScore;
+    private ArrayList<Platform> temp;
+    private ArrayList<Gem> tempGem;
+    private String timeDisplayed;
+    private ArrayList<String> scores;
+    private Scores hello;
+    private boolean resetTimer, pausetimer;
+    private long timeee;
+    private int co;
 
     /**
      * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
@@ -94,6 +88,12 @@ public class Level extends Screen {
         this.timerFontParameter.size = 30;
         this.timerFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.timerFont = this.generator.generateFont(this.timerFontParameter);
+        
+        //the instuctions font 
+        this.inFontParameter = new FreeTypeFontParameter();
+        this.inFontParameter.size = 10;
+        this.inFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
+        this.timerFont = this.generator.generateFont(this.timerFontParameter);
 
         // initialize the gem count font
         this.gemCountParameter = new FreeTypeFontParameter();
@@ -105,18 +105,17 @@ public class Level extends Screen {
         this.highScoreParameter = new FreeTypeFontParameter();
         this.highScoreParameter.size = 40;
         this.highScoreParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
-        this.highScoreFont = this.generator.generateFont(this.gemCountParameter);
+        this.highScoreFont = this.generator.generateFont(this.highScoreParameter);
 
         this.generator.dispose();
         this.nextLevel = false;
-        scores = new ArrayList();
-        Scores hello = null;
+        this.scores = new ArrayList();
+        this.hello = null;
         this.time = System.currentTimeMillis();
-        resetTimer = false;
-        pausetimer = false;
-        int co = 0;
-        long timeee = 0;
-
+        this.resetTimer = false;
+        this.pausetimer = false;
+        this.co = 0;
+        this.timeee = 0;
     }
 
     public void resetTimer() {
@@ -173,6 +172,7 @@ public class Level extends Screen {
         super.render();
 
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
+            System.out.println(fireboy.getY());
             resetTimer();
         } else {
             // pausetimer = false;
@@ -322,8 +322,8 @@ public class Level extends Screen {
                 this.resetTimer();
 
                 int hm = fireboy.getGemsCollected() + fireboy.getGemsCollected();
-                hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
-                hello.add(hello, "scoresL1");
+                this.hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
+                this.hello.add(this.hello, "scoresL1");
             }
         }
 
@@ -414,11 +414,11 @@ public class Level extends Screen {
         
         //insturctions
          this.timerFont.setColor(Color.BLACK);
-        this.timerFont.draw(super.getSpriteBatch(), "press w to jump", 60, 60);
+        this.timerFont.draw(super.getSpriteBatch(), "press up to jump", 60, 60);
         
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
          this.timerFont.setColor(Color.WHITE);
-        this.timerFont.draw(super.getSpriteBatch(), "press w to jump", 60, 60);
+        this.timerFont.draw(super.getSpriteBatch(), "press up to jump", 60, 60);
         }
         
       
