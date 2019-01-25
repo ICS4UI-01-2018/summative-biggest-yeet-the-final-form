@@ -39,7 +39,7 @@ public class MovingPlatform extends Platform {
     public MovingPlatform(boolean b, float x, float y, float width, float height, float movingY) {
         super(x, y, width, height);
 
-        this.speed = 0.5f;
+        this.speed = 0.8f;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.wasOnTop = false;
