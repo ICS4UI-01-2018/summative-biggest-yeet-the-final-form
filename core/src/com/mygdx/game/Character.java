@@ -20,7 +20,7 @@ public abstract class Character {
 
     private int gemsCollected;
     private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
-    boolean isDead, jump, onGround, isOnTopMP;
+    private boolean isDead, jump, onGround, isOnTopMP;
     private Rectangle character;
     private final Texture straightPic, leftPic, rightPic;
 
@@ -49,21 +49,17 @@ public abstract class Character {
 
         this.gemsCollected = 0;
         this.xSpeed = 3;
-        this.isDead = false;
         this.ySpeed = 0;
-        this.gravity = 0.5f; //tweak
-        this.x = x * 16;
-        this.y = y * 16;
+        this.gravity = 0.5f;
+        this.maxYSpeed = 5;
+
+        this.isDead = false;
         this.onGround = true;
         this.jump = false;
         this.isOnTopMP = false;
-        this.maxYSpeed = 5;
+
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
-    }
-    
-    public void clearGems(){
-        this.gemsCollected = 0;
     }
 
     /**
@@ -259,8 +255,8 @@ public abstract class Character {
         // determine if the Character ins't on the ground
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
-            if (ySpeed < maxYSpeed){
-            ySpeed += gravity;
+            if (ySpeed < maxYSpeed) {
+                ySpeed += gravity;
             }
             //move player up or down according to this y speed
             this.y -= ySpeed;
@@ -289,12 +285,21 @@ public abstract class Character {
 
     /**
      * Adds a Gem to the Gem count.
+     *
+     * @param g the gem being added
      */
     public void addGem(Gem g) {
-        System.out.println(gemsCollected);
-        if (!g.isCollected()){
-        this.gemsCollected++;
+        //only add the gem if it hasn't been collected
+        if (!g.isCollected()) {
+            this.gemsCollected++;
         }
+    }
+
+    /**
+     * Resets number of gems collected to 0
+     */
+    public void clearGems() {
+        this.gemsCollected = 0;
     }
 
     /**
@@ -326,13 +331,14 @@ public abstract class Character {
     }
 
     /**
-     * Sets the character to be standing on the ground/tied to a moving platform 
+     * Sets the character to be standing on the ground/tied to a moving platform
      *
      * @param platforms array of platforms being checked
      * @param mP array of moving platforms being checked
-     * @return the platform or moving platform the character is standing on; null means the character is not on any (moving)platform
+     * @return the platform or moving platform the character is standing on;
+     * null means the character is not on any (moving)platform
      */
-    public Object needsToBeRenamed(ArrayList<Platform> platforms, ArrayList<MovingPlatform> mP) {
+    public Object getPlatformOn(ArrayList<Platform> platforms, ArrayList<MovingPlatform> mP) {
         Object current = null;
         boolean b = false;
         for (Platform p : platforms) {
@@ -354,13 +360,14 @@ public abstract class Character {
 
         return current;
     }
-    
+
     /**
      * Sets the character's y to the y of the moving platform
+     *
      * @param mp the moving platform the character is on top of
      */
-       public void tieTo(MovingPlatform mp) {
-           // only tie to platform if you're on top and not jumping
+    public void tieTo(MovingPlatform mp) {
+        // only tie to platform if you're on top and not jumping
         if (this.isOnTopMP && !this.jump) {
             this.y = mp.getTop();
             this.onGround = true;

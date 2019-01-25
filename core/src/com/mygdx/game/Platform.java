@@ -23,7 +23,7 @@ public class Platform {
     private float width, height, timer, timeLimit;
     private float x, y;
     private final Texture platformPic;
-    boolean broken, breakable;
+    private boolean broken, breakable;
 
     /**
      * Creates a Platform using its x and y position, and its width and height.
@@ -91,6 +91,14 @@ public class Platform {
      */
     public boolean getBroken() {
         return this.broken;
+    }
+
+/**
+ * Sets platform to not being broken and resets timer
+ */
+    public void notBroken() {
+         this.broken = false;
+         this.timer = 0;
     }
 
     /**
@@ -196,13 +204,14 @@ public class Platform {
      * 
      * @return a float representing how long the character has been on the platform
      */
-    public float timer() {//might switch to actual timer
+    public float timer() {
         if (breakable) {
-            System.out.println(this.timer);
             this.timer++;
         }
         return this.timer;
     }
+    
+   
 
     
     /**
@@ -218,7 +227,7 @@ public class Platform {
     }
 
     /**
-     * Sets character position according to it's location in the platform
+     * Sets character position according to its location in the platform
      *
      * @param c Character being moved
      */
@@ -296,14 +305,7 @@ public class Platform {
         }
     }
 
-    /**
-     * Returns the y position of the Platform.
-     *
-     * @return a float representing the y position of the Platform
-     */
-    public float getPlatformY() {
-        return this.platform.y;
-    }
+ 
 
     /**
      * Sets the y position of the Platform to be the specified float.

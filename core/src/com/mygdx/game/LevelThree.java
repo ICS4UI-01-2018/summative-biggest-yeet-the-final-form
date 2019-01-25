@@ -20,7 +20,7 @@ public class LevelThree extends Level {
     @Override
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
-        super.create();
+        super.create(3);
 
         // initialize the Characters
         super.fireboy = new Fireboy(22.5f, 28);
@@ -61,8 +61,8 @@ public class LevelThree extends Level {
         super.platforms.add(new Platform(3.5f, 12, 2, 1));
         super.platforms.add(new Platform(8, 11, 1, 3));
         super.platforms.add(new Platform(1, 10, 8, 1));
-        super.platforms.add(new Platform(11, 11, 3, 1));
-        super.platforms.add(new Platform(28, 11, 3, 1));
+        super.platforms.add(new Platform(11, 7, 3, 1));
+        super.platforms.add(new Platform(28, 7, 3, 1));
         super.platforms.add(new Platform(33, 10, 8, 1));
         super.platforms.add(new Platform(33, 11, 1, 3));
         super.platforms.add(new Platform(36.5f, 12, 2, 1));
@@ -104,6 +104,7 @@ public class LevelThree extends Level {
         super.buttons.add(new Button(37, 13));
         super.buttons.add(new Button(20.5f, 9));
         super.buttons.add(new Button(20.5f, 16));
+        super.buttons.add(new Button(20.5f, 23));
 
         // initialize the Gems
         super.fireGems = new ArrayList<FireGem>();
@@ -134,44 +135,55 @@ public class LevelThree extends Level {
     public void render() {
         // clear the screen and implement the basic game logic
         super.render();
-        
-        // determine if the Button is being pressed
-        if (super.buttons.get(0).isPressed()) {
-            // move the MovingPlatform of the Button up
-            super.movingPlatforms.get(1).moveUp();
-        } else {
-            // move the MovingPlatform of the Button down
-            super.movingPlatforms.get(1).moveDown();
-        }
 
         // determine if the Button is being pressed
-        if (super.buttons.get(1).isPressed()) {
-            // move the MovingPlatform of the Button up
-            super.movingPlatforms.get(4).moveUp();
+        if (super.buttons.get(0).isPressed()||super.buttons.get(4).isPressed()) {
+            // move each MovingPlatform that belongs to the Button up
+            //is it getting faster going down?
+            super.movingPlatforms.get(1).isMovingDown = false;
+            super.movingPlatforms.get(1).isMovingUp = true;
+            super.movingPlatforms.get(1).updatePositions();
         } else {
-            // move the MovingPlatform of the Button down
-            super.movingPlatforms.get(4).moveDown();
+            super.movingPlatforms.get(1).isMovingDown = true;
+            super.movingPlatforms.get(1).isMovingUp = false;
+            super.movingPlatforms.get(1).updatePositions();
+
         }
-        
+        // determine if the Button is being pressed
+        if (super.buttons.get(1).isPressed() || super.buttons.get(4).isPressed()) {
+            // move the MovingPlatform of the Button up
+            super.movingPlatforms.get(4).isMovingDown = false;
+            super.movingPlatforms.get(4).isMovingUp = true;
+            super.movingPlatforms.get(4).updatePositions();
+        } else {
+            super.movingPlatforms.get(4).isMovingDown = true;
+            super.movingPlatforms.get(4).isMovingUp = false;
+            // move the MovingPlatform of the Button down
+
+            super.movingPlatforms.get(4).updatePositions();
+        }
+
         // determine which MovingPlatforms the Button controls
         super.buttons.get(2).addMovingPlatform(super.movingPlatforms.get(2));
         super.buttons.get(2).addMovingPlatform(super.movingPlatforms.get(5));
         ArrayList<MovingPlatform> button2Platforms = buttons.get(2).getMovingPlatforms();
         // determine if the Button is pressed
-        if (super.buttons.get(2).isPressed()) {
+        if (super.buttons.get(2).isPressed() || super.buttons.get(4).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
-           for (MovingPlatform mp : button2Platforms) {//is it getting faster going down?
-                mp.isMovingDown = true;
-                mp.isMovingUp = false;
+            for (MovingPlatform mp : button2Platforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
                 mp.updatePositions();
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
             for (MovingPlatform mp : button2Platforms) {
-                mp.isMovingDown = false;
-                mp.isMovingUp = true;
-            }        }
-        
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
+            }
+        }
+
         // determine which MovingPlatforms the Button controls
         super.buttons.get(3).addMovingPlatform(super.movingPlatforms.get(0));
         super.buttons.get(3).addMovingPlatform(super.movingPlatforms.get(3));
@@ -179,18 +191,20 @@ public class LevelThree extends Level {
         // determine if the Button is pressed
         if (super.buttons.get(3).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
-           for (MovingPlatform mp : button3Platforms) {//is it getting faster going down?
-                mp.isMovingDown = true;
-                mp.isMovingUp = false;
+            for (MovingPlatform mp : button3Platforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
                 mp.updatePositions();
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
             for (MovingPlatform mp : button3Platforms) {
-                mp.isMovingDown = false;
-                mp.isMovingUp = true;
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
+
             }
-     
+
         }
 
         // reset the Level
@@ -200,10 +214,10 @@ public class LevelThree extends Level {
             super.fireboy.setY(448);
             super.watergirl.setX(288);
             super.watergirl.setY(448);
-            
+
             super.setReset(false);
         }
-        
+
         // draw the game elements
         super.draw();
     }

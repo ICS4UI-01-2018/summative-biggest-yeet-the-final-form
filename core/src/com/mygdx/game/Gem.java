@@ -49,6 +49,35 @@ public abstract class Gem {
     }
 
     /**
+     * Sets the Gem to be collected, or not collected based on the specified
+     * boolean.
+     *
+     * @param collected a boolean representing whether the Gem has been
+     * collected or not
+     */
+    public void setCollected(boolean collected) {
+        this.collected = collected;
+    }
+
+    /**
+     * Returns the Rectangle representing the Gem.
+     *
+     * @return a Rectangle representing the Gem
+     */
+    public Rectangle getBounds() {
+        return this.gem;
+    }
+
+    /**
+     * Returns the Texture of the Gem.
+     *
+     * @return a Texture representing the Gem
+     */
+    public Texture getTexture() {
+        return this.texture;
+    }
+
+    /**
      * Used to draw the Gems on the screen if they haven't been collected by
      * their corresponding Characters yet.
      *
@@ -62,32 +91,4 @@ public abstract class Gem {
         }
     }
 
-    /**
-     * Sets the Gem to be collected, or not collected based on the specified
-     * boolean.
-     *
-     * @param collected a boolean representing whether the Gem has been
-     * collected or not
-     */
-    public void setCollected(boolean collected) {
-        this.collected = collected;
-    }
-
-    /**
-     * Returns the Texture of the Gem.
-     *
-     * @return a Texture representing the Gem
-     */
-    public Texture getTexture() {
-        return this.texture;
-    }
-
-    /**
-     * Returns the Rectangle representing the Gem.
-     *
-     * @return a Rectangle representing the Gem
-     */
-    public Rectangle getBounds() {
-        return this.gem;
-    }
 }

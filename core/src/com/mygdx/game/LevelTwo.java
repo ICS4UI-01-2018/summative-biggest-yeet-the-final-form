@@ -20,11 +20,11 @@ public class LevelTwo extends Level {
     @Override
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
-        super.create();
+        super.create(2);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(1.5f, 9);
-        super.watergirl = new Watergirl(38.5f, 9);
+        super.fireboy = new Fireboy(2f, 10);
+        super.watergirl = new Watergirl(32f, 32);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -34,11 +34,11 @@ public class LevelTwo extends Level {
         super.platforms.add(new Platform(6, 4, 5, 1));
         super.platforms.add(new Platform(9, 0, 7, 1));
         super.platforms.add(new Platform(16, 0, 1, 4));
-        super.platforms.add(new Platform(15, 4, 3, 1));
+        super.platforms.add(new Platform(15, 4, 3, 1, 25));
         super.platforms.add(new Platform(17, 0, 3, 1));
         super.platforms.add(new Platform(20, 0, 2, 8));
         super.platforms.add(new Platform(22, 0, 3, 1));
-        super.platforms.add(new Platform(24, 4, 3, 1));
+        super.platforms.add(new Platform(24, 4, 3, 1,25));
         super.platforms.add(new Platform(25, 0, 1, 4));
         super.platforms.add(new Platform(26, 0, 7, 1));
         super.platforms.add(new Platform(31, 4, 5, 1));
@@ -48,35 +48,35 @@ public class LevelTwo extends Level {
         super.platforms.add(new Platform(33, 7, 8, 2));
         super.platforms.add(new Platform(33, 9, 5, 1));
         super.platforms.add(new Platform(33, 10, 1, 20));
-        super.platforms.add(new Platform(35, 12, 1, 1));
-        super.platforms.add(new Platform(31, 12, 2, 1));
+        super.platforms.add(new Platform(35, 12, 1, 1,15));
+        super.platforms.add(new Platform(31, 12, 2, 1,15));
         super.platforms.add(new Platform(30.5f, 15, 1, 1));
         super.platforms.add(new Platform(36, 20, 5, 1));
         super.platforms.add(new Platform(34, 24, 5, 1));
         super.platforms.add(new Platform(36, 28, 5, 1));
-        super.platforms.add(new Platform(36, 29, 1, 1));
-        super.platforms.add(new Platform(26, 9, 3, 1));
-        super.platforms.add(new Platform(13, 9, 3, 1));
+        super.platforms.add(new Platform(36, 29, 1, 1,8));
+        super.platforms.add(new Platform(26, 9, 3, 1,25));
+        super.platforms.add(new Platform(13, 9, 3, 1,20));
         super.platforms.add(new Platform(1, 7, 8, 2));
         super.platforms.add(new Platform(0, 2, 1, 32));
         super.platforms.add(new Platform(4, 9, 5, 1));
         super.platforms.add(new Platform(4, 10, 1, 1));
-        super.platforms.add(new Platform(6, 12, 1, 1));
+        super.platforms.add(new Platform(6, 12, 1, 1,15));
         super.platforms.add(new Platform(8, 10, 1, 20));
-        super.platforms.add(new Platform(9, 12, 2, 1));
+        super.platforms.add(new Platform(9, 12, 2, 1,15));
         super.platforms.add(new Platform(10.5f, 15, 1, 1));
         super.platforms.add(new Platform(1, 19, 5, 1));
         super.platforms.add(new Platform(3, 23, 5, 1));
         super.platforms.add(new Platform(1, 27, 5, 1));
         super.platforms.add(new Platform(5, 28, 1, 1));
-        super.platforms.add(new Platform(10, 29, 1, 1));
-        super.platforms.add(new Platform(12, 29, 1, 1));
-        super.platforms.add(new Platform(14, 29, 1, 1));
-        super.platforms.add(new Platform(16, 29, 1, 1));
-        super.platforms.add(new Platform(25, 29, 1, 1));
-        super.platforms.add(new Platform(27, 29, 1, 1));
-        super.platforms.add(new Platform(29, 29, 1, 1));
-        super.platforms.add(new Platform(31, 29, 1, 1));
+        super.platforms.add(new Platform(10, 29, 1, 1,8));
+        super.platforms.add(new Platform(12, 29, 1, 1,8));
+        super.platforms.add(new Platform(14, 29, 1, 1,8));
+        super.platforms.add(new Platform(16, 29, 1, 1,8));
+        super.platforms.add(new Platform(25, 29, 1, 1,8));
+        super.platforms.add(new Platform(27, 29, 1, 1,8));
+        super.platforms.add(new Platform(29, 29, 1, 1,8));
+        super.platforms.add(new Platform(31, 29, 1, 1,8));
         super.platforms.add(new Platform(20, 17, 2, 15));
         super.platforms.add(new Platform(18, 26, 2, 1));
         super.platforms.add(new Platform(14, 23, 2, 1));
@@ -182,6 +182,7 @@ public class LevelTwo extends Level {
         
         // reset the Level
         if (super.reset()) {
+           
             // reset the Characters
             super.fireboy.setX(616);
             super.fireboy.setY(32);

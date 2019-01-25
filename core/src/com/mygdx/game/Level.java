@@ -24,13 +24,13 @@ import java.util.ArrayList;
  */
 public class Level extends Screen {
 
-    private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
+    private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed, previousMinutes, previousSeconds;
     //should all instance variable be private?
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter;
     private BitmapFont timerFont, gemCountFont, highScoreFont;
     private Texture pauseButton, levelCompleteScreen, deathScreen;
-    private boolean levelWon, pause, nextLevel, reset;
+    boolean levelWon, pause, nextLevel, reset;
     Fireboy fireboy;
     Watergirl watergirl;
     ArrayList<Platform> platforms;
@@ -43,28 +43,22 @@ public class Level extends Screen {
     ArrayList<WaterGem> waterGems;
     FireDoor fireDoor;
     WaterDoor waterDoor;
-    private Files highScore;
     private ArrayList<Platform> temp;
-    private ArrayList<Gem> tempGem;
     private String timeDisplayed;
-    private ArrayList<String> scores;
-    private Scores hello;
-    private boolean resetTimer, pausetimer;
-    private long timeee;
-    private int co;
+    private TimeTaken playersScore;
+    private int currentLevel;
+    private boolean startTimer;
 
     /**
-     * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera,
+     * Initializes the SpriteBatch, ShapeRenderer, OrthographicCamera, fonts,
      * FitViewport, a variable for height for jumping, and a variable to
      * determine whether if the Fireboy and Watergirl have beat the Level.
      */
-    @Override
-    public void create() {
+    public void create(int num) {
         // initialize the SpriteBatch, ShapeRenderer, Camera, and FitViewport
         super.create();
-
+        this.currentLevel = num;
         this.temp = new ArrayList<Platform>();
-        this.tempGem = new ArrayList<Gem>();
 
         // level completion variables
         this.levelWon = false;
@@ -87,7 +81,7 @@ public class Level extends Screen {
         this.timerFontParameter.size = 30;
         this.timerFontParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
         this.timerFont = this.generator.generateFont(this.timerFontParameter);
-        
+
         // initialize the gem count font
         this.gemCountParameter = new FreeTypeFontParameter();
         this.gemCountParameter.size = 16;
@@ -96,64 +90,55 @@ public class Level extends Screen {
 
         // initialize the high score count font
         this.highScoreParameter = new FreeTypeFontParameter();
-        this.highScoreParameter.size = 40;
-        this.highScoreParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789.:";
+        this.highScoreParameter.size = 20;
+        this.highScoreParameter.characters = "abcdefghijklmnopqrstuvwxyz0123456789H.:";
         this.highScoreFont = this.generator.generateFont(this.highScoreParameter);
 
         this.generator.dispose();
         this.nextLevel = false;
-        this.scores = new ArrayList();
-        this.hello = null;
+        this.playersScore = null;
+        this.startTimer = true;
+        this.previousSeconds = 0;
+        this.previousMinutes = 0;
+    }
+
+    /**
+     * Starts timer at 0
+     */
+    public void startTimer() {
         this.time = System.currentTimeMillis();
-        this.resetTimer = false;
-        this.pausetimer = false;
-        this.co = 0;
-        this.timeee = 0;
     }
 
-    public void resetTimer() {
-        this.resetTimer = true;
-        timer();
-    }
-
+    /**
+     * Keeps track of how much time has passed
+     *
+     * @return a string representing the minutes and seconds that have passed
+     */
     public String timer() {
-        long prebv = 0;
-        if (resetTimer) {
-            time = System.currentTimeMillis();
-            resetTimer = false;
-        }
-//        
-//        if (pausetimer){
-//            if (co == 0){
-//             timeee = System.currentTimeMillis();
-//             co = 3;
-//            }
-//        prebv = System.currentTimeMillis() - timeee;
-//            System.out.println(prebv);
-//            time += prebv;
-//            System.out.println(time);
-//            return "PAUSED";
-//        }
-        //  resetTimer = false;
-
-        this.timePassed = System.currentTimeMillis() - (time + prebv);
-        this.secondsPassed = timePassed / 1000;
-        this.secondsDisplayed = secondsPassed % 60;
-        this.minutesDisplayed = secondsPassed / 60;
+        this.timePassed = System.currentTimeMillis() - this.time;
+        this.secondsPassed = this.timePassed / 1000;
+        this.secondsDisplayed = (this.secondsPassed % 60) + this.previousSeconds;
+        this.minutesDisplayed = (this.secondsPassed / 60) + this.previousMinutes;
+        //decide how to display time
         if (secondsDisplayed < 10) {
             if (minutesDisplayed < 10) {
                 return ("0" + minutesDisplayed + ":0" + secondsDisplayed);
+            } else {
+                return (minutesDisplayed + ":0" + secondsDisplayed);
             }
-            return (minutesDisplayed + ":0" + secondsDisplayed);
         } else if (minutesDisplayed < 10) {
             return ("0" + minutesDisplayed + ":" + secondsDisplayed);
         } else {
-            return ("0" + minutesDisplayed + ":" + secondsDisplayed);
+            return (minutesDisplayed + ":" + secondsDisplayed);
         }
     }
 
-    public void pauseTimer() {//pause timer
-        pausetimer = true;
+    /**
+     * Pauses timer
+     */
+    public void pauseTimer() {
+        this.previousSeconds = this.secondsDisplayed;
+        this.previousMinutes = this.minutesDisplayed;
     }
 
     /**
@@ -163,18 +148,20 @@ public class Level extends Screen {
     public void render() {
         // clear the background
         super.render();
+        //start timer from 0 once game has started
 
         if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
-            System.out.println(fireboy.getY());
-            resetTimer();
-        } else {
-            // pausetimer = false;
+            System.out.println(fireboy.getY() + ", " + fireboy.getX());
         }
 
         // Characters can only move if the level hasn't been won yet
         if (!this.levelWon && !this.pause) {
-
+            if (startTimer) {
+                startTimer();
+                startTimer = false;
+            }
             this.timeDisplayed = timer();
+
             // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
             this.fireboy.updatePositions();
             this.watergirl.updatePositions();
@@ -185,7 +172,6 @@ public class Level extends Screen {
                 p.moveDown();
                 p.moveUp();
                 p.updatePositions();
-
             }
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
@@ -209,7 +195,6 @@ public class Level extends Screen {
             //run through actions with fireboy and watergirl
             for (int i = 0; i < 2; i++) {
                 character.jumpAction();
-
                 for (MovingPlatform mp : this.movingPlatforms) {
                     character.tieTo(mp);
                     if (mp.getBounds().overlaps(character.getBounds())) {
@@ -217,21 +202,22 @@ public class Level extends Screen {
                     }
                 }
 
-                character.needsToBeRenamed(platforms, movingPlatforms);
+                character.getPlatformOn(platforms, movingPlatforms);
 
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
                     //if platform is broken add it to the temp array and set it as unbroken
                     if (p.isPlatformBroken()) {
                         this.temp.add(p);
-                        p.breakable = false;
+                        System.out.println("adding");
+                        p.notBroken();
                     }
                     if (p.getBounds().overlaps(character.getBounds())) {
                         p.hitPlatform(character);
                     }
                 }
                 //remove all broken platforms from platform array
-                this.platforms.removeAll(temp);
+                this.platforms.removeAll(this.temp);
 
                 //repeat actions with watergirl
                 character = this.watergirl;
@@ -312,45 +298,50 @@ public class Level extends Screen {
             if (this.fireDoor.collision(this.fireboy)
                     && this.waterDoor.collision(this.watergirl)) {
                 this.levelWon = true;
-                this.resetTimer();
-
-                int hm = fireboy.getGemsCollected() + fireboy.getGemsCollected();
-                this.hello = new Scores(java.time.LocalDate.now(), hm, this.secondsDisplayed, this.minutesDisplayed);
-                this.hello.add(this.hello, "scoresL1");
+                this.playersScore = new TimeTaken(this.minutesDisplayed, this.secondsDisplayed, this.currentLevel, (fireboy.getGemsCollected() + watergirl.getGemsCollected()));
+                this.playersScore.importScores();
+                this.playersScore.add(this.playersScore);
             }
         }
 
         // pause button
         Vector3 click = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+
         super.getCamera().unproject(click);
         // determine if the pause button is clicked
         if (Gdx.input.justTouched()
                 && (click.x >= 620 && click.x <= 670)
                 && (click.y >= 2 && click.y <= 30)
                 && !this.pause) {
-            // pause the game
+            // pause the game and timer
+            pauseTimer();
             this.pause = true;
         } else if (Gdx.input.justTouched()
                 && (click.x >= 620 && click.x <= 670)
                 && (click.y >= 2 && click.y <= 30)
                 && this.pause) {
-            // unpause the game
+            // unpause the game and timer
             this.pause = false;
+            this.startTimer = true;
         }
 
         // advance to the next level
-        if (this.levelWon && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (this.levelWon
+                && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.nextLevel = true;
-            resetTimer();
             this.fireboy.clearGems();
+            this.watergirl.clearGems();
+            this.startTimer = true;
             super.setDisplay(false);
         }
 
         // determine if you need to reset the Level
-        if (((this.fireboy.isDead() || this.watergirl.isDead())
+        if (((this.fireboy.isDead()
+                || this.watergirl.isDead())
                 || this.fireboy.isDead() && this.watergirl.isDead())
                 && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             this.fireboy.clearGems();
+            this.watergirl.clearGems();
             this.reset = true;
             // set the Characters to not be dead
             this.fireboy.setDead(false);
@@ -362,8 +353,12 @@ public class Level extends Screen {
             for (WaterGem waterGem : this.waterGems) {
                 waterGem.setCollected(false);
             }
+            
+            //adds back broken platforms
+            this.platforms.addAll(this.temp);
+            this.temp.clear();         
             // reset the timer
-            this.resetTimer();
+            this.startTimer = true;
         }
     }
 
@@ -374,6 +369,7 @@ public class Level extends Screen {
      * Allows for the drawing of the game objects.
      */
     public void draw() {
+
         // allows for the drawing of game objects to begin
         super.getShapeRenderer().setProjectionMatrix(super.getCamera().combined);
         super.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
@@ -394,6 +390,10 @@ public class Level extends Screen {
         super.getSpriteBatch().setProjectionMatrix(super.getCamera().combined);
         super.getSpriteBatch().begin();
 
+         // draw the Doors
+        this.fireDoor.draw(super.getSpriteBatch());
+        this.waterDoor.draw(super.getSpriteBatch());
+        
         // draw the Platforms
         for (Platform p : this.platforms) {
             if (!p.getBroken()) {
@@ -427,9 +427,7 @@ public class Level extends Screen {
             m.draw(super.getSpriteBatch());
         }
 
-        // draw the Doors
-        this.fireDoor.draw(super.getSpriteBatch());
-        this.waterDoor.draw(super.getSpriteBatch());
+       
 
         // draw the Characters if they haven't died yet
         if (!this.fireboy.isDead()) {
@@ -440,8 +438,6 @@ public class Level extends Screen {
             } else {
                 this.fireboy.draw(super.getSpriteBatch());
             }
-        } else {
-//            this.highScore.saveFile("playerScores");
         }
         if (!this.watergirl.isDead()) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) && !this.pause) {
@@ -451,8 +447,6 @@ public class Level extends Screen {
             } else {
                 this.watergirl.draw(super.getSpriteBatch());
             }
-        } else {
-            // this.highScore.saveFile("playerScores");
         }
 
         // draw pause button
@@ -467,14 +461,15 @@ public class Level extends Screen {
             // display the WaterGem count
             this.gemCountFont.setColor(Color.BLUE);
             this.gemCountFont.draw(super.getSpriteBatch(), this.watergirl.getGemsCollected() + "", 320, 138);
-            this.resetTimer();
-            this.gemCountFont.setColor(Color.VIOLET);
-            this.gemCountFont.draw(super.getSpriteBatch(), hello.points((fireGems.size() + waterGems.size())) + "", 210, 320);
+            //  time = System.currentTimeMillis();
+            this.highScoreFont.setColor(Color.VIOLET);
+            this.highScoreFont.draw(super.getSpriteBatch(), playersScore.getHighScore() + "", 260, 320);
         }
 
         // draw the character death screen
         if ((this.fireboy.isDead() || this.watergirl.isDead())
                 || (this.fireboy.isDead() && this.watergirl.isDead())) {
+            time = System.currentTimeMillis();
             super.getSpriteBatch().draw(this.deathScreen, 221, 136, 230, 272);
             // display the FireGem count
             this.gemCountFont.setColor(Color.RED);

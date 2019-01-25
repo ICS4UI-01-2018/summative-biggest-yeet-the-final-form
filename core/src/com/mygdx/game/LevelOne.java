@@ -15,7 +15,7 @@ public class LevelOne extends Level {
     @Override
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
-        super.create();
+        super.create(1);
 
         // initialize the Characters
         super.fireboy = new Fireboy(35, 29);
