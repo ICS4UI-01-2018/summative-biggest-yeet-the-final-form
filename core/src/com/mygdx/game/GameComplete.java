@@ -5,6 +5,8 @@
  */
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -42,5 +44,24 @@ public class GameComplete extends Screen {
         super.getSpriteBatch().draw(this.gameCompleteScreen, 0, 0, 672, 544);
         // end of Texture drawing
         super.getSpriteBatch().end();
+    }
+    
+    /**
+     * Determine if the next Screen can be displayed.
+     *
+     * @return a boolean representing whether if the next Screen can be
+     * displayed
+     */
+    public boolean goNext() {
+        // determine if the screen is being displayed
+        if (super.getDisplay()) {
+            // determine if the space bar is pressed
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                // set the display to be off
+                super.setDisplay(false);
+                return true;
+            }
+        }
+        return false;
     }
 }
