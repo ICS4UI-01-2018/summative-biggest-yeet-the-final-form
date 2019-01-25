@@ -23,7 +23,7 @@ public class LevelThree extends Level {
         super.create(3);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(22.5f, 28);
+        super.fireboy = new Fireboy(21.5f, 28);
         super.watergirl = new Watergirl(18, 28);
 
         // initialize the Platforms
@@ -137,7 +137,7 @@ public class LevelThree extends Level {
         super.render();
 
         // determine if the Button is being pressed
-        if (super.buttons.get(0).isPressed()||super.buttons.get(4).isPressed()) {
+        if (super.buttons.get(0).isPressed()||super.buttons.get(2).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
             //is it getting faster going down?
             super.movingPlatforms.get(1).isMovingDown = false;
@@ -150,7 +150,7 @@ public class LevelThree extends Level {
 
         }
         // determine if the Button is being pressed
-        if (super.buttons.get(1).isPressed() || super.buttons.get(4).isPressed()) {
+        if (super.buttons.get(1).isPressed() || super.buttons.get(2).isPressed()) {
             // move the MovingPlatform of the Button up
             super.movingPlatforms.get(4).isMovingDown = false;
             super.movingPlatforms.get(4).isMovingUp = true;
@@ -159,7 +159,6 @@ public class LevelThree extends Level {
             super.movingPlatforms.get(4).isMovingDown = true;
             super.movingPlatforms.get(4).isMovingUp = false;
             // move the MovingPlatform of the Button down
-
             super.movingPlatforms.get(4).updatePositions();
         }
 

@@ -150,9 +150,6 @@ public class Level extends Screen {
         super.render();
         //start timer from 0 once game has started
 
-        if (Gdx.input.isKeyPressed(Input.Keys.Y)) {
-            System.out.println(fireboy.getY() + ", " + fireboy.getX());
-        }
 
         // Characters can only move if the level hasn't been won yet
         if (!this.levelWon && !this.pause) {

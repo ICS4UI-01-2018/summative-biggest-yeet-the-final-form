@@ -23,8 +23,8 @@ public class LevelTwo extends Level {
         super.create(2);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(2f, 10);
-        super.watergirl = new Watergirl(32f, 32);
+        super.fireboy = new Fireboy(38.5f, 2);
+        super.watergirl = new Watergirl(2, 2);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();

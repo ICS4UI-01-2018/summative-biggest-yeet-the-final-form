@@ -255,7 +255,7 @@ public class Platform {
             //if players x is lesser then player is hitting LEFT side of PLATFORM
             if (c.getX() < this.getX()) {
                 //set player to be beside platform
-                c.setFarX(this.getX());
+                c.setFarX(this.getX() - 3);
             } else {//if players x is greater then player is hitting RIGHT side of PLATFORM
                 //set player to be beside platform
                 c.setX(this.getFarX());

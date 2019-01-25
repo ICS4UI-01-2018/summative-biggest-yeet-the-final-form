@@ -51,7 +51,7 @@ public abstract class Character {
         this.xSpeed = 3;
         this.ySpeed = 0;
         this.gravity = 0.5f;
-        this.maxYSpeed = 5;
+        this.maxYSpeed = 18;
 
         this.isDead = false;
         this.onGround = true;
@@ -254,6 +254,7 @@ public abstract class Character {
     public void jumpAction() {
         // determine if the Character ins't on the ground
         if (!this.onGround) {
+            System.out.println(ySpeed);
             //sets the y coordinate to a gradually increasing/decreasing new value
             if (ySpeed < maxYSpeed) {
                 ySpeed += gravity;
@@ -261,6 +262,8 @@ public abstract class Character {
             //move player up or down according to this y speed
             this.y -= ySpeed;
             this.updatePositions();
+        }else{
+            this.ySpeed = 0;
         }
     }
 
@@ -327,6 +330,7 @@ public abstract class Character {
                 onTop = true;
             }
         }
+        
         return onTop;
     }
 
