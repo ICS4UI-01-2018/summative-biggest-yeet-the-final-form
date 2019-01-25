@@ -21,6 +21,7 @@ public class GameLauncher extends ApplicationAdapter {
     private LevelTwo levelTwo;
     private LevelThree levelThree;
     private GameComplete gameComplete;
+    private BigBrainMeme bigBrainMeme;
     private FitViewport viewport;
     private OrthographicCamera camera;
 
@@ -39,6 +40,8 @@ public class GameLauncher extends ApplicationAdapter {
         this.levelThree.create();
         this.gameComplete = new GameComplete();
         this.gameComplete.create();
+        this.bigBrainMeme = new BigBrainMeme();
+        this.bigBrainMeme.create();
 
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(672, 544, this.camera);
@@ -97,6 +100,17 @@ public class GameLauncher extends ApplicationAdapter {
         }
 
         // display the GameComplete Screen
+        if (this.gameComplete.getDisplay()) {
+            this.gameComplete.render();
+        }
+
+        // set the BigBrainMeme Screen to be displayed
+        if (this.gameComplete.goNext()) {
+            this.gameComplete.setDisplay(false);
+            this.bigBrainMeme.setDisplay(true);
+        }
+
+        // display the BigBrainMeme Screen
         if (this.gameComplete.getDisplay()) {
             this.gameComplete.render();
         }

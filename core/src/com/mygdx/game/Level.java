@@ -153,7 +153,7 @@ public class Level extends Screen {
     }
 
     public void pauseTimer() {//pause timer
-        pausetimer = true;
+        this.pausetimer = true;
     }
 
     /**
@@ -173,7 +173,6 @@ public class Level extends Screen {
 
         // Characters can only move if the level hasn't been won yet
         if (!this.levelWon && !this.pause) {
-
             this.timeDisplayed = timer();
             // constantly update the x and y positions of the Characters, the moving Platforms, and the Buttons
             this.fireboy.updatePositions();
@@ -185,7 +184,6 @@ public class Level extends Screen {
                 p.moveDown();
                 p.moveUp();
                 p.updatePositions();
-
             }
             // Fireboy keyboard listeners
             // only move the Fireboy if he hasn't died yet
@@ -217,7 +215,7 @@ public class Level extends Screen {
                     }
                 }
 
-                character.needsToBeRenamed(platforms, movingPlatforms);
+                character.needsToBeRenamed(this.platforms, this.movingPlatforms);
 
                 //check if he is hitting a platform or a moving platform
                 for (Platform p : this.platforms) {
