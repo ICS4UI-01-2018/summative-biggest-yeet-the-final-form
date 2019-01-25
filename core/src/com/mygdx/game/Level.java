@@ -206,7 +206,6 @@ public class Level extends Screen {
                     //if platform is broken add it to the temp array and set it as unbroken
                     if (p.isPlatformBroken()) {
                         this.temp.add(p);
-                        System.out.println("adding");
                         p.notBroken();
                     }
                     if (p.getBounds().overlaps(character.getBounds())) {

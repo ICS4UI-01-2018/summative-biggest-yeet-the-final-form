@@ -254,7 +254,6 @@ public abstract class Character {
     public void jumpAction() {
         // determine if the Character ins't on the ground
         if (!this.onGround) {
-            System.out.println(ySpeed);
             //sets the y coordinate to a gradually increasing/decreasing new value
             if (ySpeed < maxYSpeed) {
                 ySpeed += gravity;
