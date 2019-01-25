@@ -69,10 +69,10 @@ String file;
         }
 
         time.removeAll(temps);
-        System.out.println(time.get(0).minutes);
+//        System.out.println(time.get(0).minutes);
         //   Highscore = "The fastest time was 0" + time.get(0).minutes + ":" + time.get(0).seconds + " on " + time.get(0).date;
         
-        return Highscore;
+        return "s";
     }
 
  
