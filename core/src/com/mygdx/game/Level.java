@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class Level extends Screen {
 
     private long time, timePassed, secondsPassed, secondsDisplayed, minutesDisplayed;
-    //should all instance variable be private?
     private FreeTypeFontGenerator generator;
     private FreeTypeFontParameter timerFontParameter, gemCountParameter, highScoreParameter;
     private BitmapFont timerFont, gemCountFont, highScoreFont;
