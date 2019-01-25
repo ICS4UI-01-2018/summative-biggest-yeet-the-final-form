@@ -10,14 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * The final screen in the greatest Walmart version of Fireboy and Watergirl out
  * there. Since we started with a meme, we thought we'd end on a wholesome meme.
- * On behalf of the biGgEsT yEeT: tHe fiNaL fOrM, thank you :)
+ * On behalf of the biGgEsT yEeT: tHe fiNaL fOrM, thank you for all of our
+ * radical programming sKiLLZ *insert guy with cool sunglasses here* :)
  *
  * @author biGgEsT yEeT: tHe fiNaL fOrM
  */
 public class BigBrainMeme extends Screen {
 
     private Texture bigBrainMeme;
-    
+
     /**
      * Initialize the super class, and the big brain meme.
      */
@@ -25,11 +26,11 @@ public class BigBrainMeme extends Screen {
     public void create() {
         // initialize the super class
         super.create();
-        
+
         // initialize the BigBrain meme Texture
         this.bigBrainMeme = new Texture("BigBrain.jpg");
     }
-    
+
     /**
      * Draw the big brain meme on the Screen.
      */
