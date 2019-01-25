@@ -69,20 +69,18 @@ String file;
         }
 
         time.removeAll(temps);
-        if (time.get(0).seconds < 10) {
-            Highscore = "The fastest time was 0" + time.get(0).minutes + ":0" + time.get(0).seconds + " on " + time.get(0).date;
-        } else {
-            Highscore = "The fastest time was 0" + time.get(0).minutes + ":" + time.get(0).seconds + " on " + time.get(0).date;
-        }
-        return Highscore;
+//        System.out.println(time.get(0).minutes);
+        //   Highscore = "The fastest time was 0" + time.get(0).minutes + ":" + time.get(0).seconds + " on " + time.get(0).date;
+        
+        return "s";
     }
 
  
 
-    public void saved(String file) {
+    public void saved() {
         String line = "";
         try {
-            Scanner input = new Scanner(new File(file));
+            Scanner input = new Scanner(new File("scoresL1"));
             // scores.add(s);
             //while there are still customers
             while (input.hasNext()) {
@@ -96,7 +94,7 @@ String file;
                 this.scores.add(haha);
             }
             int g = scores.size();
-            save(file);
+            save("scoresL1");
         } catch (IOException ex) {
             Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -122,7 +120,7 @@ String file;
 
     public void add(Scores s, String f) {
         this.scores.add(s);
-        saved(f);
+        saved();
     }
 
     public void swap(ArrayList<Long> n, int pos1, int pos2) {

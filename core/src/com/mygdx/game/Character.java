@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public abstract class Character {
 
     private int gemsCollected;
-    private float x, y, gravity, ySpeed, height, width, xSpeed;
+    private float x, y, gravity, ySpeed, height, width, xSpeed, maxYSpeed;
     boolean isDead, jump, onGround, isOnTopMP;
     private Rectangle character;
     private final Texture straightPic, leftPic, rightPic;
@@ -57,8 +57,13 @@ public abstract class Character {
         this.onGround = true;
         this.jump = false;
         this.isOnTopMP = false;
+        this.maxYSpeed = 5;
         // create a Rectangle to represent the Character
         this.character = new Rectangle(this.x, this.y, this.width, this.height);
+    }
+    
+    public void clearGems(){
+        this.gemsCollected = 0;
     }
 
     /**
@@ -254,7 +259,9 @@ public abstract class Character {
         // determine if the Character ins't on the ground
         if (!this.onGround) {
             //sets the y coordinate to a gradually increasing/decreasing new value
+            if (ySpeed < maxYSpeed){
             ySpeed += gravity;
+            }
             //move player up or down according to this y speed
             this.y -= ySpeed;
             this.updatePositions();

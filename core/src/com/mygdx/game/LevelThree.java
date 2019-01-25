@@ -160,15 +160,17 @@ public class LevelThree extends Level {
         // determine if the Button is pressed
         if (super.buttons.get(2).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
-            for (MovingPlatform movingPlatform : button2Platforms) {
-                movingPlatform.moveUp();
+           for (MovingPlatform mp : button2Platforms) {//is it getting faster going down?
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
             }
         } else {
-            // move each MovingPlatform that belongs to the Button down
-            for (MovingPlatform movingPlatform : button2Platforms) {
-                movingPlatform.moveDown();
-            }
-        }
+            // Moving Platform returns to its original state if the Button isn't pressed
+            for (MovingPlatform mp : button2Platforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
+            }        }
         
         // determine which MovingPlatforms the Button controls
         super.buttons.get(3).addMovingPlatform(super.movingPlatforms.get(0));
@@ -177,14 +179,18 @@ public class LevelThree extends Level {
         // determine if the Button is pressed
         if (super.buttons.get(3).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
-            for (MovingPlatform movingPlatform : button3Platforms) {
-                movingPlatform.moveUp();
+           for (MovingPlatform mp : button3Platforms) {//is it getting faster going down?
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
             }
         } else {
-            // move each MovingPlatform that belongs to the Button down
-            for (MovingPlatform movingPlatform : button3Platforms) {
-                movingPlatform.moveDown();
+            // Moving Platform returns to its original state if the Button isn't pressed
+            for (MovingPlatform mp : button3Platforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
             }
+     
         }
 
         // reset the Level

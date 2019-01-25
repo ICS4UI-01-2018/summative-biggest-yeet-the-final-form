@@ -16,11 +16,10 @@ public class LevelOne extends Level {
     public void create() {
         // initialize SpriteBatch, ShapeRenderer, OrthographicCamera, FitViewport
         super.create();
-//        super.highScore = new Files("playerScores", super.fireboy, super.watergirl);
 
         // initialize the Characters
-        super.fireboy = new Fireboy(2, 2);
-        super.watergirl = new Watergirl(2, 2);
+        super.fireboy = new Fireboy(35, 29);
+        super.watergirl = new Watergirl(35, 29);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -111,7 +110,6 @@ public class LevelOne extends Level {
                 mp.isMovingDown = true;
                 mp.isMovingUp = false;
                 mp.updatePositions();
-                //  System.out.println("button updated" + mp.getY());
             }
         } else {
             // Moving Platform returns to its original state if the Button isn't pressed
@@ -128,10 +126,10 @@ public class LevelOne extends Level {
             super.fireboy.setY(32);
             super.watergirl.setX(32);
             super.watergirl.setY(112);
-            
+
             super.setReset(false);
         }
-        
+
         // draw the game elements
         super.draw();
     }

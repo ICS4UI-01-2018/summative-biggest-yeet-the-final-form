@@ -23,8 +23,8 @@ public class LevelTwo extends Level {
         super.create();
 
         // initialize the Characters
-        super.fireboy = new Fireboy(38.5f, 2);
-        super.watergirl = new Watergirl(2, 2);
+        super.fireboy = new Fireboy(1.5f, 9);
+        super.watergirl = new Watergirl(38.5f, 9);
 
         // initialize the Platforms
         super.platforms = new ArrayList<Platform>();
@@ -160,27 +160,25 @@ public class LevelTwo extends Level {
         // clear the screen and implement the basic game logic
         super.render();
 
-        //calculated display times
-        long timePassed = System.currentTimeMillis() - time;
-        long secondsPassed = timePassed / 1000;
-        long secondsDisplayed = secondsPassed % 60;
-        long minutesDisplayed = secondsPassed / 60;
-
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(0));
         buttons.get(0).addMovingPlatform(this.movingPlatforms.get(1));
         // determine which MovingPlatforms that the Button controls
         ArrayList<MovingPlatform> buttonPlatforms = buttons.get(0).getMovingPlatforms();
         if (buttons.get(0).isPressed()) {
             // MovingPlatforms will move down when the Button is pressed
-            for (MovingPlatform movingPlatform : buttonPlatforms) {
-                movingPlatform.moveDown();
+              for (MovingPlatform mp : buttonPlatforms) {//is it getting faster going down?
+                mp.isMovingDown = true;
+                mp.isMovingUp = false;
+                mp.updatePositions();
             }
         } else {
-            // MovingPlatforms will move up when the Button isn't pressed
-            for (MovingPlatform movingPlatform : buttonPlatforms) {
-                movingPlatform.moveUp();
+            // Moving Platform returns to its original state if the Button isn't pressed
+            for (MovingPlatform mp : buttonPlatforms) {
+                mp.isMovingDown = false;
+                mp.isMovingUp = true;
             }
         }
+        
         
         // reset the Level
         if (super.reset()) {
