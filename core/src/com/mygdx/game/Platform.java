@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Intersector;
-import java.util.ArrayList;
 
 /**
  * Creates a Platform to use in a game of Fireboy and Watergirl. The Characters
@@ -255,7 +254,7 @@ public class Platform {
             //if players x is lesser then player is hitting LEFT side of PLATFORM
             if (c.getX() < this.getX()) {
                 //set player to be beside platform
-                c.setFarX(this.getX() - 3);
+                c.setFarX(this.getX());
             } else {//if players x is greater then player is hitting RIGHT side of PLATFORM
                 //set player to be beside platform
                 c.setX(this.getFarX());

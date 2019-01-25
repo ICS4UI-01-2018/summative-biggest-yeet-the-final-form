@@ -48,7 +48,7 @@ public abstract class Character {
         this.height = 30;
 
         this.gemsCollected = 0;
-        this.xSpeed = 3;
+        this.xSpeed = 2.5f;
         this.ySpeed = 0;
         this.gravity = 0.5f;
         this.maxYSpeed = 18;
@@ -227,6 +227,7 @@ public abstract class Character {
      * it going off of the screen.
      */
     public void moveRight() {
+        System.out.println(this.xSpeed);
         // do not let the Character move off of the right-side of the screen
         if (this.x < 632) {
             // make the Character move towards the right of the screen
@@ -241,7 +242,7 @@ public abstract class Character {
      */
     public void jump() {
         if (this.onGround) {
-            ySpeed = -9.5f;//height of jump
+            ySpeed = -9.25f;//height of jump
             this.jump = true;
             // Character will not be on the ground
             this.onGround = false;
@@ -254,14 +255,14 @@ public abstract class Character {
     public void jumpAction() {
         // determine if the Character ins't on the ground
         if (!this.onGround) {
-            //sets the y coordinate to a gradually increasing/decreasing new value
+            //sets the y coordinate to a gradually increasing/decreasing new value if it has not reached terminal velocity
             if (ySpeed < maxYSpeed) {
                 ySpeed += gravity;
             }
             //move player up or down according to this y speed
             this.y -= ySpeed;
             this.updatePositions();
-        }else{
+        } else {
             this.ySpeed = 0;
         }
     }
@@ -305,9 +306,9 @@ public abstract class Character {
     }
 
     /**
-     * Returns a Platform that the Character is standing on top of.
+     * Returns whether or not the character is on a platform
      *
-     * @param p the platform being checked
+     ** @param p the platform being checked
      * @return whether or not the character is on top of this platform
      */
     public boolean isOnTop(Platform p) {
@@ -318,50 +319,33 @@ public abstract class Character {
                     && this.getFarX() <= p.getFarX())) {
                 p.timer();
                 onTop = true;
-            }//character is on edge of platform
-            else if (this.x < p.getX()
-                    && this.getFarX() >= p.getX()) {
-                p.timer();
-                onTop = true;
-            } else if (this.getFarX() > p.getFarX()
-                    && this.x <= p.getFarX()) {
-                p.timer();
-                onTop = true;
             }
         }
-        
         return onTop;
     }
 
     /**
-     * Sets the character to be standing on the ground/tied to a moving platform
+     * Sets a character to be on a platform or not
      *
      * @param platforms array of platforms being checked
      * @param mP array of moving platforms being checked
-     * @return the platform or moving platform the character is standing on;
-     * null means the character is not on any (moving)platform
      */
-    public Object getPlatformOn(ArrayList<Platform> platforms, ArrayList<MovingPlatform> mP) {
-        Object current = null;
+    public void getPlatformOn(ArrayList<Platform> platforms, ArrayList<MovingPlatform> mP) {
         boolean b = false;
         for (Platform p : platforms) {
             if (isOnTop(p)) {
                 b = true;
-                current = p;
             }
         }
         for (MovingPlatform mp : mP) {
             if (isOnTop(mp)) {
                 this.isOnTopMP = true;
                 b = true;
-                current = mp;
             } else {
                 this.isOnTopMP = false;
             }
         }
         this.onGround = b;
-
-        return current;
     }
 
     /**

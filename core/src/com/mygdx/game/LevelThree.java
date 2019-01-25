@@ -33,9 +33,9 @@ public class LevelThree extends Level {
         super.platforms.add(new Platform(41, 2, 1, 31));
         super.platforms.add(new Platform(0, 33, 42, 1));
         super.platforms.add(new Platform(18, 32, 6, 1));
-        super.platforms.add(new Platform(17, 8, 8, 1));
-        super.platforms.add(new Platform(17, 9, 1, 2));
-        super.platforms.add(new Platform(42, 9, 1, 2));
+        super.platforms.add(new Platform(18, 8, 6, 1));
+        super.platforms.add(new Platform(17, 8, 1, 3));
+        super.platforms.add(new Platform(42, 8, 1, 3));
         super.platforms.add(new Platform(16, 14, 10, 1));
         super.platforms.add(new Platform(17, 15, 8, 1));
         super.platforms.add(new Platform(17, 20, 1, 1));
@@ -59,12 +59,12 @@ public class LevelThree extends Level {
         super.platforms.add(new Platform(13, 17, 1, 1));
         super.platforms.add(new Platform(7, 17, 1, 3));
         super.platforms.add(new Platform(3.5f, 12, 2, 1));
-        super.platforms.add(new Platform(8, 11, 1, 3));
-        super.platforms.add(new Platform(1, 10, 8, 1));
+        super.platforms.add(new Platform(8, 10, 1, 4));
+        super.platforms.add(new Platform(1, 10, 7, 1));
         super.platforms.add(new Platform(11, 7, 3, 1));
         super.platforms.add(new Platform(28, 7, 3, 1));
-        super.platforms.add(new Platform(33, 10, 8, 1));
-        super.platforms.add(new Platform(33, 11, 1, 3));
+        super.platforms.add(new Platform(34, 10, 7, 1));
+        super.platforms.add(new Platform(33, 10, 1, 4));
         super.platforms.add(new Platform(36.5f, 12, 2, 1));
         super.platforms.add(new Platform(28, 17, 1, 1));
         super.platforms.add(new Platform(34, 17, 1, 3));
@@ -81,7 +81,13 @@ public class LevelThree extends Level {
         super.platforms.add(new Platform(29, 26, 1, 1));
         super.platforms.add(new Platform(1, 23, 6, 1));
         super.platforms.add(new Platform(35, 23, 6, 1));
-        super.platforms.add(new Platform(24, 9, 1, 2));
+        super.platforms.add(new Platform(24, 8, 1, 3));
+        super.platforms.add(new Platform(16, 20, 1, 1));
+        super.platforms.add(new Platform(25, 20, 1, 1));
+        super.platforms.add(new Platform(24, 26, 1, 1));
+        super.platforms.add(new Platform(17, 26, 1, 1));
+        super.platforms.add(new Platform(25, 8, 1, 1));
+        super.platforms.add(new Platform(16, 8, 1, 1));
 
         // initialize the MovingPlatforms
         super.movingPlatforms = new ArrayList<MovingPlatform>();
@@ -137,7 +143,7 @@ public class LevelThree extends Level {
         super.render();
 
         // determine if the Button is being pressed
-        if (super.buttons.get(0).isPressed()||super.buttons.get(2).isPressed()) {
+        if (super.buttons.get(0).isPressed() || super.buttons.get(2).isPressed()) {
             // move each MovingPlatform that belongs to the Button up
             //is it getting faster going down?
             super.movingPlatforms.get(1).isMovingDown = false;
